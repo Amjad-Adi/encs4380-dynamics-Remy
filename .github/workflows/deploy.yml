@@ -21,6 +21,7 @@ jobs:
 
     env:
       REPOSITORY_NAME: encs4380-dynamics-Remy
+      VITE_GITHUB_REPOSITORY_URL: https://github.com/Amjad-Adi/encs4380-dynamics-Remy
 
     steps:
       - name: Checkout repository
