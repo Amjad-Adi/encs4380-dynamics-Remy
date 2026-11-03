@@ -19,6 +19,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      REPOSITORY_NAME: encs4380-dynamics-Remy
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
