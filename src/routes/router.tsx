@@ -1,7 +1,8 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { AppLayout } from '@/app/app-layout';
-import FirstOrderTimePage from '@/features/first-order-time/components/page/first-order-time-page';
+import FirstOrderTimePage from '@/features/first-order-time/pages/first-order-time-page';
+import FirstOrderFrequencyPage from '@/features/first-order-frequency/pages/first-order-frequency-page';
 
 export const router = createBrowserRouter(
     [
@@ -11,7 +12,15 @@ export const router = createBrowserRouter(
             children: [
                 {
                     index: true,
+                    element: <Navigate to="time-response" replace />,
+                },
+                {
+                    path: 'time-response',
                     element: <FirstOrderTimePage />,
+                },
+                {
+                    path: 'frequency-response',
+                    element: <FirstOrderFrequencyPage />,
                 },
             ],
         },

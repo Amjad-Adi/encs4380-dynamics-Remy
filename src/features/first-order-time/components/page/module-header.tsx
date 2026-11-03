@@ -2,6 +2,7 @@ import { Activity, RotateCcw } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import {Link} from "react-router-dom";
 
 interface ModuleHeaderProps {
     onReset: () => void;
@@ -49,6 +50,12 @@ export function ModuleHeader({ onReset }: ModuleHeaderProps) {
                         response speed, steady-state behavior, and
                         tracking error.
                     </p>
+                    <Link
+                        to="/frequency-response"
+                        className="inline-flex text-xs font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                        Continue to Module 02: Frequency Response →
+                    </Link>
                 </div>
 
                 <Button

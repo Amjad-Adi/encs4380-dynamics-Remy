@@ -1,4 +1,6 @@
 
+import type { ReactNode } from 'react';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -10,7 +12,7 @@ interface ParameterControlProps {
     max: number;
     step: number;
     unit: string;
-    description?: string;
+    description?: ReactNode;
     onChange: (value: number) => void;
 }
 
@@ -33,9 +35,7 @@ export function ParameterControl({
     function updateValue(nextValue: number) {
         if (!Number.isFinite(nextValue)) return;
 
-        onChange(
-            Math.min(max, Math.max(min, nextValue)),
-        );
+        onChange(Math.min(max, Math.max(min, nextValue)));
     }
 
     return (
@@ -80,10 +80,16 @@ export function ParameterControl({
                 aria-label={label}
             />
 
-            <div className="flex justify-between text-xs text-muted-foreground">
+            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 text-xs text-muted-foreground">
                 <span>{min.toFixed(decimals)}</span>
-                {description && <span>{description}</span>}
-                <span>{max.toFixed(decimals)} {unit}</span>
+
+                <span className="text-center">
+                    {description}
+                </span>
+
+                <span className="text-right">
+                    {max.toFixed(decimals)} {unit}
+                </span>
             </div>
         </div>
     );
