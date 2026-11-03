@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Characteristics Toolkit | ENCS4380</title>
+
+    <meta
+            name="description"
+            content="An interactive engineering toolkit for exploring first-order and second-order dynamic systems, time responses, frequency responses, and system behavior."
+    />
+
+    <meta name="author" content="ENCS4380 Engineering Project" />
+    <meta
+            name="application-name"
+            content="Dynamic Characteristics Toolkit"
+    />
+
+    <meta name="theme-color" content="#f4f6f9" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta
+            property="og:title"
+            content="Dynamic Characteristics Toolkit | ENCS4380"
+    />
+    <meta
+            property="og:description"
+            content="Explore and experiment with dynamic system characteristics through interactive engineering simulations."
+    />
+
+    <!-- Theme initialization: prevent incorrect theme flash -->
+    <script>
+        (() => {
+            const root = document.documentElement;
+
+            try {
+                const savedTheme = localStorage.getItem(
+                    'dynamics-toolkit-theme'
+                );
+
+                const systemPrefersDark = window.matchMedia(
+                    '(prefers-color-scheme: dark)'
+                ).matches;
+
+                const theme =
+                    savedTheme === Theme.LIGHT || savedTheme === Theme.DARK
+                        ? savedTheme
+                        : systemPrefersDark
+                            ? Theme.DARK
+                            : Theme.LIGHT;
+
+                root.classList.toggle(Theme.DARK, theme === Theme.DARK);
+            } catch {
+                root.classList.remove(Theme.DARK);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

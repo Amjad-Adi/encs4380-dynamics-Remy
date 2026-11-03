@@ -1,0 +1,90 @@
+
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+interface ParameterControlProps {
+    id: string;
+    label: string;
+    value: number;
+    min: number;
+    max: number;
+    step: number;
+    unit: string;
+    description?: string;
+    onChange: (value: number) => void;
+}
+
+export function ParameterControl({
+                                     id,
+                                     label,
+                                     value,
+                                     min,
+                                     max,
+                                     step,
+                                     unit,
+                                     description,
+                                     onChange,
+                                 }: ParameterControlProps) {
+    const decimals = Math.max(
+        0,
+        (step.toString().split('.')[1] ?? '').length,
+    );
+
+    function updateValue(nextValue: number) {
+        if (!Number.isFinite(nextValue)) return;
+
+        onChange(
+            Math.min(max, Math.max(min, nextValue)),
+        );
+    }
+
+    return (
+        <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+                <Label htmlFor={id} className="font-medium">
+                    {label}
+                </Label>
+
+                <div className="flex items-center gap-2">
+                    <Input
+                        id={`${id}-number`}
+                        type="number"
+                        value={value}
+                        min={min}
+                        max={max}
+                        step={step}
+                        onChange={(event) =>
+                            updateValue(Number(event.target.value))
+                        }
+                        className="h-8 w-24 text-right font-mono text-sm"
+                        aria-label={`${label} value`}
+                    />
+
+                    <span className="w-12 text-xs text-muted-foreground">
+                        {unit}
+                    </span>
+                </div>
+            </div>
+
+            <input
+                id={id}
+                type="range"
+                min={min}
+                max={max}
+                step={step}
+                value={value}
+                onChange={(event) =>
+                    updateValue(Number(event.target.value))
+                }
+                className="w-full cursor-pointer accent-brand"
+                aria-label={label}
+            />
+
+            <div className="flex justify-between text-xs text-muted-foreground">
+                <span>{min.toFixed(decimals)}</span>
+                {description && <span>{description}</span>}
+                <span>{max.toFixed(decimals)} {unit}</span>
+            </div>
+        </div>
+    );
+}
