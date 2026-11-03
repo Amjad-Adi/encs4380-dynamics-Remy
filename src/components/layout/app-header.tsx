@@ -6,6 +6,10 @@ import { useIsMobile } from '@/hooks/use-is-mobile';
 import remyImage from '@/assets/remy.jpg';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
+const GITHUB_REPOSITORY_URL =
+    import.meta.env.VITE_GITHUB_REPOSITORY_URL ||
+    'https://github.com/Amjad-Adi/encs4380-dynamics-Remy';
+
 export function AppHeader() {
     const isMobile = useIsMobile();
 

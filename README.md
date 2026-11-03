@@ -1,73 +1,364 @@
-# React + TypeScript + Vite
+# ENCS4380 Homework 1: Dynamic Characteristics Interactive Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive engineering toolkit for studying the dynamic characteristics of measurement systems through mathematical modeling, real-time simulation, and visual analysis.
 
-Currently, two official plugins are available:
+**Course:** ENCS4380 – Interfacing Techniques  
+**University:** Birzeit University  
+**Instructor:** Dr. Wasel Ghanem  
+**Released:** Thursday, 29 October 2026  
+**Due:** Thursday, 12 November 2026
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Application
 
-## React Compiler
+**[Launch the Dynamic Characteristics Toolkit](https://amjad-adi.github.io/encs4380-dynamics-Remy/)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Source Code:** [GitHub Repository](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Team and Contributions
 
-```js
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
+The project is developed collaboratively, with each team member responsible for a dedicated module and its integration into the overall toolkit.
 
-            // Remove tseslint.configs.recommended and replace with this
-            tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
-            tseslint.configs.strictTypeChecked,
-            // Optionally, add this for stylistic rules
-            tseslint.configs.stylisticTypeChecked,
+| Team Member | Module | Responsibility |
+|---|---|---|
+| Amjad Adi | Module 1 | First-Order Time Response |
+| Yazeed | Module 2 | First-Order Frequency Response |
+| Rahaf | Module 3 | Second-Order System Response |
+| Hanan | Module 4 | Guess the Sensor Challenge |
 
-            // Other configs...
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+---
+
+## Project Modules
+
+The application is organized into four interconnected modules, progressing from fundamental first-order system behavior to second-order dynamics and practical sensor identification.
+
+### Module 1 — First-Order Time Response
+
+**Developer: Amjad Adi**
+
+An interactive investigation of first-order measurement systems in the time domain, based on the transfer function:
+
+\[
+G(s)=\frac{K}{\tau s+1}
+\]
+
+The module provides adjustable gain and time-constant parameters, with selectable step and ramp inputs. Its visualizations connect the mathematical model to the transient and steady-state behavior of a measurement system.
+
+**Implemented features:**
+- Interactive first-order step-response simulation.
+- Dynamic visualization of the 63.2% response point at \(t=\tau\) and the 95% response point at \(t=3\tau\).
+- Ramp-response simulation with ideal and actual output comparison.
+- Calculation and visualization of ramp tracking lag and steady-state error.
+- Logarithmic error-fraction analysis demonstrating the relationship between response decay and the time constant.
+- Interactive parameter controls and dynamically updated plots.
+
+**Screenshots**
+
+![Module 1 – Screenshot 1](screenshots/screenshot1-1.png)
+
+![Module 1 – Screenshot 2](screenshots/screenshot1-2.png)
+
+![Module 1 – Screenshot 3](screenshots/screenshot1-3.png)
+
+![Module 1 – Screenshot 4](screenshots/screenshot1-4.png)
+
+![Module 1 – Screenshot 5](screenshots/screenshot1-5.png)
+
+![Module 1 – Screenshot 6](screenshots/screenshot1-6.png)
+
+![Module 1 – Screenshot 7](screenshots/screenshot1-7.png)
+
+![Module 1 – Screenshot 8](screenshots/screenshot1-8.png)
+
+![Module 1 – Screenshot 9](screenshots/screenshot1-9.png)
+
+![Module 1 – Screenshot 10](screenshots/screenshot1-10.jpg)
+
+![Module 1 – Screenshot 11](screenshots/screenshot1-11.jpg)
+
+
+### Module 2 — First-Order Frequency Response
+
+**Developer: Yazeed**
+
+An interactive analysis of first-order measurement systems in the frequency domain, examining how a sensor responds to sinusoidal inputs across different operating frequencies.
+
+The module connects the frequency-domain transfer function to observable changes in output amplitude and phase:
+
+\[
+M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
+\qquad
+\phi=-\tan^{-1}(\omega\tau)
+\]
+
+**Implemented features:**
+- Interactive sinusoidal input and output visualization.
+- Real-time amplitude-ratio and phase-lag calculations.
+- Frequency-response analysis with adjustable time constant and input frequency.
+- Bode magnitude and phase plots.
+- Cutoff-frequency identification at \(\omega_c=1/\tau\).
+- Dynamic-error calculation using \(\delta=M-1\).
+- Parameter-dependent visualizations and numerical results.
+
+**Screenshots**
+
+
+**Screenshots**
+
+
+### Module 3 — Second-Order System Response
+
+**Developer: Rahaf**
+
+An interactive study of second-order measurement systems, focusing on the influence of damping ratio and natural frequency on transient response.
+
+The module brings together time-domain response analysis and pole-based system interpretation, using the standard second-order transfer function:
+
+\[
+G(s)=\frac{K\omega_n^2}
+{s^2+2\zeta\omega_n s+\omega_n^2}
+\]
+
+**Implemented features:**
+- Interactive underdamped, critically damped, and overdamped response simulations.
+- Adjustable damping ratio and natural frequency.
+- Live rise-time, peak-time, percentage-overshoot, and settling-time measurements.
+- Pole visualization in the complex s-plane.
+- Mass-spring-damper state-space representation.
+- Live state-space matrix updates based on mass, damping, and stiffness.
+- Eigenvalue calculations and comparison with the system poles.
+- Phase-plane visualization of displacement and velocity trajectories.
+
+**Screenshots**
+
+
+### Module 4 — Guess the Sensor Challenge
+
+**Developer: Hanan**
+
+An interactive parameter-estimation challenge that puts the concepts from the preceding modules into practice. Users investigate an unknown sensor response and estimate its underlying dynamic parameters from the observed behavior.
+
+**Implemented features:**
+- Random generation of first-order and second-order sensor models.
+- Noisy response visualization.
+- Parameter estimation using response characteristics.
+- First-order estimation through the time constant and error-decay behavior.
+- Second-order estimation through overshoot and peak time.
+- Comparison of estimated and actual system responses.
+- Parameter-recovery scoring and session score tracking.
+- New-sensor generation and contextual hints.
+
+**Screenshots**
+
+
+---
+
+## Teaching Approach — Predict, Then Check
+
+The toolkit is designed around active exploration. Rather than presenting system responses as static results, it encourages students to form predictions, manipulate system parameters, and compare their expectations with the resulting mathematical calculations and visualizations.
+
+The following prompts connect the theoretical concepts to the interactive experiments:
+
+1. **Time constant:** Predict the percentage of the final value reached by a first-order system after one time constant. Verify the 63.2% response point.
+2. **Settling behavior:** Predict the percentage of the final value reached after three time constants. Compare your prediction with the 95% response marker.
+3. **Response speed:** Double the time constant while keeping the gain unchanged. Predict how the step response changes.
+4. **Ramp tracking:** Predict whether a first-order system can perfectly track a ramp input and determine its steady-state tracking error.
+5. **Time lag:** Increase the time constant and predict how the equivalent time lag changes.
+6. **Amplitude response:** For \(\tau=0.2\,s\) and an input frequency of \(2\,rad/s\), predict the output-to-input amplitude ratio.
+7. **Phase response:** Under the same conditions, predict the phase lag between the input and output.
+8. **Cutoff frequency:** Predict how the cutoff frequency changes when the time constant increases.
+9. **Damping behavior:** Reduce the damping ratio below one. Predict the resulting overshoot and oscillatory behavior.
+10. **Sensor identification:** Given an unknown response curve, identify the characteristics that distinguish first-order from second-order system behavior.
+
+---
+
+## Technology Stack
+
+The toolkit uses a modular React architecture, combining mathematical computation, interactive visualization, and reusable interface components.
+
+| Technology | Purpose |
+|---|---|
+| React | Component-based user interface |
+| TypeScript | Type-safe application logic |
+| Vite | Development server and production build |
+| Tailwind CSS | Responsive styling and design system |
+| shadcn-style components | Consistent, reusable interface elements |
+| Plotly | Interactive engineering visualizations |
+| KaTeX | Mathematical equation rendering |
+| React Router | Client-side navigation |
+| Lucide React / React Icons | Interface iconography |
+
+## Architecture and Development
+
+The application follows a consistent frontend architecture across all four modules. Shared interface components, navigation, styling conventions, and visualization patterns provide a unified experience, while each module maintains its own domain-specific calculations and interactions.
+
+Module 1 established the initial interactive structure and visual conventions. Module 2's existing Python implementation was subsequently integrated into the web application using the same overall structure, preserving consistency across the toolkit. The remaining modules extend the application to second-order system analysis and practical parameter estimation.
+
+The implementation emphasizes:
+- Separation of module-specific logic and shared interface components.
+- Reusable interactive controls and visualization patterns.
+- Responsive layouts for desktop and mobile devices.
+- Mathematical consistency with the course lecture material.
+- Immediate visual feedback when parameters change.
+
+---
+
+## AI-Assisted Development
+
+AI coding assistants were used as development tools throughout the project. Their role was to support technical reasoning, implementation, code review, and interface refinement. All team members remain responsible for understanding and explaining their respective implementations.
+
+### Amjad Adi — Module 1
+
+**AI tool:** ChatGPT (GPT-6)
+
+**What I asked:**
+
+I used ChatGPT throughout the development of Module 1 to support the implementation of the first-order time-response model, its interactive controls, mathematical calculations, and visualizations.
+
+I provided the technical requirements and explicitly specified the frontend technologies and libraries to be used, including React, TypeScript, Tailwind CSS, Plotly, and KaTeX. I also guided the component architecture and implementation structure to ensure consistency with the intended application design.
+
+My prompts covered:
+- Translating the first-order differential equation and transfer function into interactive response calculations.
+- Implementing step and ramp response models.
+- Calculating and displaying characteristic response points.
+- Deriving and visualizing ramp tracking lag and steady-state error.
+- Implementing the logarithmic error-fraction plot and interpreting its slope.
+- Reviewing React component structure, mathematical presentation, and responsive layouts.
+- Refining the interface to improve clarity and usability.
+
+**What I learned:**
+
+- How the time constant governs the transient behavior of a first-order measurement system.
+- How to connect analytical response equations to interactive visualizations.
+- How logarithmic error analysis reveals the exponential decay rate.
+- How to organize an engineering visualization application using reusable React components.
+- How to integrate Plotly and KaTeX into a TypeScript-based frontend.
+
+**How I used it:**
+
+I directed the implementation by defining the required libraries, frontend structure, mathematical behavior, and presentation requirements. My frontend development knowledge allowed me to evaluate the generated code critically, assess component composition and styling decisions, identify unsuitable suggestions, and request targeted revisions.
+
+I used the AI-generated assistance selectively, reviewing and adapting the resulting implementation rather than accepting suggestions without evaluation. I also checked the implemented calculations against the mathematical relationships and validation values specified in the assignment.
+
+### Yazeed — Module 2
+
+**AI tool:** [Tool and model]
+
+**What I asked:** [Describe the actual prompts and technical assistance used.]
+
+**What I learned:** [Describe the concepts and implementation knowledge gained.]
+
+**How I used it:** [Describe how the assistance contributed to the completed module.]
+
+### Rahaf — Module 3
+
+**AI tool:** [Tool and model]
+
+**What I asked:** [Describe the actual prompts and technical assistance used.]
+
+**What I learned:** [Describe the concepts and implementation knowledge gained.]
+
+**How I used it:** [Describe how the assistance contributed to the completed module.]
+
+### Hanan — Module 4
+
+**AI tool:** [Tool and model]
+
+**What I asked:** [Describe the actual prompts and technical assistance used.]
+
+**What I learned:** [Describe the concepts and implementation knowledge gained.]
+
+**How I used it:** [Describe how the assistance contributed to the completed module.]
+
+---
+
+## Validation
+
+The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
+
+| # | Validation case | Expected result |
+|---|---|---|
+| 1 | First-order step response at \(t=\tau\) | \(y(\tau)=0.632KA\) |
+| 2 | First-order step response at \(t=3\tau\) | \(y(3\tau)=0.95KA\) |
+| 3 | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\) | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
+| 4 | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\) |
+| 5 | Phase lag at 50 Hz using the maximum time constant | \(\approx9.3^\circ\) |
+| 6 | Second-order response with \(\zeta=0.5\) | Overshoot \(\approx16.3\%\) |
+| 7 | Second-order response with \(\zeta=1\) | No overshoot |
+| 8 | State-space model, \(m=1,\ b=2,\ k=4\) | Eigenvalues \(-1\pm j1.732\), matching the poles |
+
+The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
+
+---
+
+## GitHub Contributions
+
+**Repository:** [encs4380-dynamics-Remy](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
+
+The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
+
+| Team Member | GitHub Username | Contribution History |
+|---|---|---|
+| Amjad Adi | [Username] | [Commit history link] |
+| Yazeed | [Username] | [Commit history link] |
+| Rahaf | [Username] | [Commit history link] |
+| Hanan | [Username] | [Commit history link] |
+
+Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
+
+## Screenshots
+
+The project screenshots are maintained in the repository's `screenshots/` directory.
+
+```text
+screenshots/
+├── module-1-step-response.png
+├── module-1-ramp-response.png
+├── module-1-error-analysis.png
+├── module-2-frequency-response.png
+├── module-2-bode-analysis.png
+├── module-2-dynamic-error.png
+├── module-3-main.png
+├── module-3-state-space.png
+├── module-4-challenge.png
+└── module-4-results.png
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The screenshots above are referenced directly in the corresponding module sections.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+---
 
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
-            // Enable lint rules for React
-            reactX.configs['recommended-typescript'],
-            // Enable lint rules for React DOM
-            reactDom.configs.recommended,
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+## Running Locally
+
+```bash
+git clone https://github.com/Amjad-Adi/encs4380-dynamics-Remy.git
+
+cd encs4380-dynamics-Remy
+
+npm install
+
+npm run dev
 ```
+
+To generate a production build:
+
+```bash
+npm run build
+```
+
+## Deployment
+
+The application is deployed as a static website through GitHub Pages. GitHub Actions automates the production build and deployment process whenever changes are pushed to the `main` branch.
+
+**Live application:** https://amjad-adi.github.io/encs4380-dynamics-Remy/
+
+## Academic Information
+
+**Course:** ENCS4380 – Interfacing Techniques  
+**University:** Birzeit University  
+**Instructor:** Dr. Wasel Ghanem  
+**Assignment:** Homework 1 – Dynamic Characteristics Interactive Toolkit  
+**Released:** Thursday, 29 October 2026  
+**Due:** Thursday, 12 November 2026  
+**Final release:** v1.0
