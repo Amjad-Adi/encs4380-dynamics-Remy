@@ -18,6 +18,7 @@ import { ExperimentSection } from '../components/page/experiment-section';
 import { AnalysisSection } from '../components/page/analysis-section';
 import { ChallengeSection } from '../components/page/challenge-section';
 import { ModuleFooter } from '../components/page/module-footer';
+import {useIsMobile} from "@/hooks/use-is-mobile.ts";
 
 const DEFAULT_PARAMETERS: FirstOrderParameters = {
     gain: 1,
@@ -26,13 +27,14 @@ const DEFAULT_PARAMETERS: FirstOrderParameters = {
 };
 
 export default function FirstOrderTimePage() {
+    const isMobile = useIsMobile();
+
     const [parameters, setParameters] =
         useState<FirstOrderParameters>({ ...DEFAULT_PARAMETERS });
 
     const [inputType, setInputType] =
         useState<FirstOrderInputType>('step');
 
-    // Forces stateful child components to reset.
     const [resetKey, setResetKey] = useState(0);
 
     const validation = useMemo(
@@ -43,8 +45,7 @@ export default function FirstOrderTimePage() {
     const rampError = getRampSteadyStateError(parameters);
     const rampLag = getRampLag(parameters.tau);
 
-    const expectedStepOutput =
-        parameters.gain * parameters.amplitude;
+    const expectedStepOutput = parameters.gain * parameters.amplitude;
 
     function updateParameter(
         key: keyof FirstOrderParameters,
@@ -61,8 +62,6 @@ export default function FirstOrderTimePage() {
     function resetParameters() {
         setParameters({ ...DEFAULT_PARAMETERS });
         setInputType('step');
-
-        // Reset internal state in child components.
         setResetKey((current) => current + 1);
     }
 
@@ -75,9 +74,12 @@ export default function FirstOrderTimePage() {
                 <ModuleHeader onReset={resetParameters} />
             </Reveal>
 
-            <Reveal delay={75}>
-                <SectionNavigation />
-            </Reveal>
+            {/* Conditionally render SectionNavigation based on viewport width */}
+            {!isMobile && (
+                <Reveal delay={75}>
+                    <SectionNavigation />
+                </Reveal>
+            )}
 
             <Reveal delay={100}>
                 <ParameterSummary

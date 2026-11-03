@@ -178,32 +178,59 @@ function Sidebar({
       </div>
     )
   }
-
   if (isMobile) {
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-        <SheetContent
-          dir={dir}
-          data-sidebar="sidebar"
-          data-slot="sidebar"
-          data-mobile="true"
-          className="w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
-          style={
-            {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-            } as React.CSSProperties
-          }
-          side={side}
-        >
-          <SheetHeader className="sr-only">
-            <SheetTitle>Sidebar</SheetTitle>
-            <SheetDescription>Displays the mobile sidebar.</SheetDescription>
-          </SheetHeader>
-          <div className="flex h-full w-full flex-col">{children}</div>
-        </SheetContent>
-      </Sheet>
+        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+          <SheetContent
+              dir={dir}
+              data-sidebar="sidebar"
+              data-slot="sidebar"
+              data-mobile="true"
+              side={side}
+              className={cn(
+                  "flex w-(--sidebar-width) max-w-[calc(100vw-2rem)] flex-col gap-0 overflow-hidden border-sidebar-border bg-sidebar p-0 text-sidebar-foreground shadow-2xl",
+                  side === "left" ? "border-r" : "border-l",
+                  "[&>button]:hidden"
+              )}
+              style={
+                {
+                  "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+                } as React.CSSProperties
+              }
+          >
+            {/* Preserve the dialog's accessible title and description. */}
+            <SheetHeader className="sr-only">
+              <SheetTitle>Navigation</SheetTitle>
+              <SheetDescription>
+                Navigate between toolkit modules and sections.
+              </SheetDescription>
+            </SheetHeader>
+
+            <div className="flex min-h-0 w-full flex-1 flex-col">
+              <SidebarHeader className="flex-row items-center justify-between gap-3 border-b border-sidebar-border px-4 py-3">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold tracking-tight">
+                    Navigation
+                  </p>
+                  <p className="truncate text-xs text-sidebar-foreground/60">
+                    Dynamic Characteristics Toolkit
+                  </p>
+                </div>
+
+                <SidebarTrigger
+                    className="size-9"
+                    aria-label="Close navigation"
+                    title="Close navigation"
+                />
+              </SidebarHeader>
+
+              {children}
+            </div>
+          </SheetContent>
+        </Sheet>
     )
   }
+
 
   return (
     <div
@@ -252,30 +279,38 @@ function Sidebar({
 }
 
 function SidebarTrigger({
-  className,
-  onClick,
-  ...props
-}: React.ComponentProps<typeof Button>) {
+                          className,
+                          onClick,
+                          "aria-label": ariaLabel,
+                          ...props
+                        }: React.ComponentProps<typeof Button>) {
   const { toggleSidebar } = useSidebar()
 
   return (
-    <Button
-      data-sidebar="trigger"
-      data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon-sm"
-      className={cn(className)}
-      onClick={(event) => {
-        onClick?.(event)
-        toggleSidebar()
-      }}
-      {...props}
-    >
-      <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
-    </Button>
+      <Button
+          data-sidebar="trigger"
+          data-slot="sidebar-trigger"
+          variant="ghost"
+          size="icon-sm"
+          className={cn("size-9 shrink-0", className)}
+          aria-label={ariaLabel ?? "Toggle navigation"}
+          onClick={(event) => {
+            onClick?.(event)
+
+            if (!event.defaultPrevented) {
+              toggleSidebar()
+            }
+          }}
+          {...props}
+      >
+        <PanelLeftIcon className="size-4" />
+        <span className="sr-only">
+        {ariaLabel ?? "Toggle navigation"}
+      </span>
+      </Button>
   )
 }
+
 
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar()
