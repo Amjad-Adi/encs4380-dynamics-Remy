@@ -12,7 +12,7 @@ export const router = createBrowserRouter(
             children: [
                 {
                     index: true,
-                    element: <Navigate to="time-response" replace />,
+                    element: <Navigate to="/time-response" replace />,
                 },
                 {
                     path: 'time-response',
