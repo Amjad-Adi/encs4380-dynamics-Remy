@@ -1,24 +1,23 @@
 import { useMemo, useState } from 'react';
 
-import { Reveal } from '@/components/shared/reveal';
-
 import {
     getRampLag,
     getRampSteadyStateError,
     getStepValidation,
     type FirstOrderInputType,
-    type FirstOrderParameters,
-} from '../models/first-order-time';
+    type FirstOrderParameters, TIME_SECTIONS,
+} from '@/features/first-order-time/domain/first-order-time';
 
-import { ModuleHeader } from '../components/page/module-header';
-import { SectionNavigation } from '../components/page/section-navigation';
+import { ModuleHeader } from '@/components/modules/module-header.tsx';
 import { ParameterSummary } from '../components/page/parameter-summary';
 import { ModelOverview } from '../components/page/model-overview';
 import { ExperimentSection } from '../components/page/experiment-section';
 import { AnalysisSection } from '../components/page/analysis-section';
 import { ChallengeSection } from '../components/page/challenge-section';
-import { ModuleFooter } from '../components/page/module-footer';
-
+import {useIsMobile} from "@/hooks/use-is-mobile.ts";
+import {ModuleFooter} from "@/components/modules/module-footer.tsx";
+import {SectionNavigation} from "@/components/modules/section-navigation.tsx";
+import { Reveal } from "@/components/ui/reveal";
 const DEFAULT_PARAMETERS: FirstOrderParameters = {
     gain: 1,
     tau: 1,
@@ -26,13 +25,14 @@ const DEFAULT_PARAMETERS: FirstOrderParameters = {
 };
 
 export default function FirstOrderTimePage() {
+    const isMobile = useIsMobile();
+
     const [parameters, setParameters] =
         useState<FirstOrderParameters>({ ...DEFAULT_PARAMETERS });
 
     const [inputType, setInputType] =
         useState<FirstOrderInputType>('step');
 
-    // Forces stateful child components to reset.
     const [resetKey, setResetKey] = useState(0);
 
     const validation = useMemo(
@@ -43,8 +43,7 @@ export default function FirstOrderTimePage() {
     const rampError = getRampSteadyStateError(parameters);
     const rampLag = getRampLag(parameters.tau);
 
-    const expectedStepOutput =
-        parameters.gain * parameters.amplitude;
+    const expectedStepOutput = parameters.gain * parameters.amplitude;
 
     function updateParameter(
         key: keyof FirstOrderParameters,
@@ -58,11 +57,9 @@ export default function FirstOrderTimePage() {
         }));
     }
 
-    function resetParameters() {
+    function resetExperiment() {
         setParameters({ ...DEFAULT_PARAMETERS });
         setInputType('step');
-
-        // Reset internal state in child components.
         setResetKey((current) => current + 1);
     }
 
@@ -72,14 +69,27 @@ export default function FirstOrderTimePage() {
             className="mx-auto w-full max-w-[1600px] space-y-10 px-4 py-6 sm:px-6 lg:space-y-12 lg:px-8 lg:py-10"
         >
             <Reveal>
-                <ModuleHeader onReset={resetParameters} />
+                <ModuleHeader
+                    moduleNumber="01"
+                    systemType="First-order system"
+                    title="First-order time response"
+                    description="Investigate how a first-order sensor responds to sudden and continuously changing inputs. Adjust its parameters and observe their effects on response speed, steady-state behavior, and tracking error."
+                    nextModule={{
+                        to: '/frequency-response',
+                        label: 'Continue to Module 02: Frequency Response →',
+                    }}
+                    onReset={resetExperiment}
+                />
             </Reveal>
 
-            <Reveal delay={75}>
-                <SectionNavigation />
-            </Reveal>
+            {/* Conditionally render SectionNavigation based on viewport width */}
+            {!isMobile && (
+                <Reveal >
+                    <SectionNavigation sections={TIME_SECTIONS} />
+                </Reveal>
+            )}
 
-            <Reveal delay={100}>
+            <Reveal >
                 <ParameterSummary
                     parameters={parameters}
                     inputType={inputType}
@@ -100,7 +110,7 @@ export default function FirstOrderTimePage() {
                     rampLag={rampLag}
                     onParameterChange={updateParameter}
                     onInputTypeChange={setInputType}
-                    onReset={resetParameters}
+                    onReset={resetExperiment}
                 />
             </Reveal>
 
@@ -119,7 +129,9 @@ export default function FirstOrderTimePage() {
             </Reveal>
 
             <Reveal>
-                <ModuleFooter />
+                <ModuleFooter
+                    assumptions="Zero initial output, ideal first-order dynamics, and no measurement noise or saturation. The transfer function is defined under zero initial conditions."
+                />
             </Reveal>
         </main>
     );

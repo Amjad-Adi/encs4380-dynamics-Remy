@@ -1,22 +1,23 @@
 import { useState } from 'react';
 
-import { Reveal } from '@/components/shared/reveal';
 
 import {
+    FREQUENCY_SECTIONS,
     getFrequencyResponse,
-} from '../models/first-order-frequency';
+} from '@/features/first-order-frequency/domain/first-order-frequency';
 
-import { DynamicErrorCalculator } from '../components/dynamic-error-calculator.tsx';
-import { ModuleHeader } from '../components/page/module-header';
-import { SectionNavigation } from '../components/page/section-navigation';
+import { DynamicErrorCalculator } from '../components/analysis/dynamic-error-calculator.tsx';
 import { ParameterSummary } from '../components/page/parameter-summary';
 import { ModelOverview } from '../components/page/model-overview';
 import { ExperimentSection } from '../components/page/experiment-section';
 import { AnalysisSection } from '../components/page/analysis-section';
 import { ChallengeSection } from '../components/page/challenge-section';
-import { ModuleFooter } from '../components/page/module-footer';
-import { SectionHeading } from '../components/page/section-heading';
 import { Calculator } from 'lucide-react';
+import {ModuleHeader} from "@/components/modules/module-header.tsx";
+import {ModuleFooter} from "@/components/modules/module-footer.tsx";
+import {SectionHeading} from "@/components/modules/section-heading.tsx";
+import {SectionNavigation} from "@/components/modules/section-navigation.tsx";
+import {Reveal} from "@/components/ui/reveal.tsx";
 
 const DEFAULT_TAU = 1;
 const DEFAULT_OMEGA = 1;
@@ -40,14 +41,24 @@ export default function FirstOrderFrequencyPage() {
             className="mx-auto w-full max-w-[1600px] space-y-10 px-4 py-6 sm:px-6 lg:space-y-12 lg:px-8 lg:py-10"
         >
             <Reveal>
-                <ModuleHeader onReset={resetExperiment} />
+                <ModuleHeader
+                    moduleNumber="02"
+                    systemType="First-order system"
+                    title="First-order frequency response"
+                    description="Investigate how a first-order sensor responds to sinusoidal inputs. Observe amplitude attenuation and phase lag, locate the cutoff frequency, and evaluate dynamic error."
+                    nextModule={{
+                        to: '/time-response',
+                        label: '← Return to Module 01: Time Response',
+                    }}
+                    onReset={resetExperiment}
+                />
             </Reveal>
 
-            <Reveal delay={75}>
-                <SectionNavigation />
+            <Reveal >
+                <SectionNavigation sections={FREQUENCY_SECTIONS} />
             </Reveal>
 
-            <Reveal delay={100}>
+            <Reveal >
                 <ParameterSummary response={response} />
             </Reveal>
 
@@ -81,7 +92,9 @@ export default function FirstOrderFrequencyPage() {
             </Reveal>
 
             <Reveal>
-                <ModuleFooter />
+                <ModuleFooter
+                    assumptions="Zero initial output, ideal first-order dynamics, and no measurement noise or saturation. The transfer function is defined under zero initial conditions."
+                />
             </Reveal>
         </main>
     );

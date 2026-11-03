@@ -1,15 +1,10 @@
-import { BookOpen } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import {
-    Card,
-    CardContent,
-} from '@/components/ui/card';
 
-import { Equation } from '../equation';
-import type { FirstOrderInputType } from '../../models/first-order-time';
+import {  SharedModelOverview } from '@/components/modules/model-overview';
+import { Equation } from '@/components/modules/equation';
 
-import { SectionHeading } from './section-heading';
+import type { FirstOrderInputType } from '@/features/first-order-time/domain/first-order-time';
 
 interface ModelOverviewProps {
     inputType: FirstOrderInputType;
@@ -22,64 +17,34 @@ export function ModelOverview({ inputType }: ModelOverviewProps) {
             : String.raw`x(t)=At\,u(t)`;
 
     return (
-        <section
-            id="model"
-            className="scroll-mt-24 space-y-3"
-        >
-            <SectionHeading
-                title="Mathematical model"
-                icon={BookOpen}
-            />
-
-            <Card className="overflow-hidden border-border">
-                <CardContent className="grid gap-6 p-5 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center md:p-6">
-                    <div className="min-w-0 space-y-3">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            Governing differential equation
-                        </p>
-
+        <SharedModelOverview
+            items={[
+                {
+                    title: 'Governing differential equation',
+                    content: (
                         <Equation
                             expression={String.raw`\tau \frac{dy(t)}{dt}+y(t)=Kx(t)`}
                         />
-                    </div>
-
-                    <div className="hidden h-16 w-px bg-border md:block" />
-
-                    <div className="min-w-0 space-y-3">
-                        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            Transfer function
-                        </p>
-
+                    ),
+                },
+                {
+                    title: 'Transfer function',
+                    content: (
                         <Equation
                             expression={String.raw`G(s)=\frac{Y(s)}{X(s)}=\frac{K}{\tau s+1}`}
                         />
-
-                        <p className="text-xs text-muted-foreground">
-                            Assumes zero initial conditions.
-                        </p>
-                    </div>
-
-                    <div className="hidden h-16 w-px bg-border md:block" />
-
-                    <div className="min-w-0 space-y-3">
-                        <div className="flex items-center justify-between gap-2">
-                            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                Applied input
-                            </p>
-
-                            <Badge variant="outline" className="text-[10px]">
-                                {inputType.toUpperCase()}
-                            </Badge>
-                        </div>
-
+                    ),
+                    description: 'Assumes zero initial conditions.',
+                },
+                {
+                    title: 'Applied input',
+                    badge: inputType.toUpperCase(),
+                    content: (
                         <Equation expression={inputEquation} />
-
-                        <p className="text-xs text-muted-foreground">
-                            A = input amplitude
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
-        </section>
+                    ),
+                    description: 'A = input amplitude',
+                },
+            ]}
+        />
     );
 }
