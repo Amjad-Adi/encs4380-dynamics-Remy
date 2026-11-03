@@ -1,0 +1,292 @@
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@import '@fontsource-variable/geist';
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================
+   LIGHT THEME
+   Engineering Laboratory
+========================================================= */
+
+:root {
+    color-scheme: light;
+
+    /* Core surfaces */
+    --background: #f4f6f9;
+    --foreground: #172337;
+
+    --card: #ffffff;
+    --card-foreground: #172337;
+
+    --popover: #ffffff;
+    --popover-foreground: #172337;
+
+    /* Primary actions */
+    --primary: #234b72;
+    --primary-foreground: #ffffff;
+
+    /* Secondary surfaces */
+    --secondary: #e9eef4;
+    --secondary-foreground: #263b53;
+
+    --muted: #edf0f5;
+    --muted-foreground: #68778a;
+
+    --accent: #dff2f0;
+    --accent-foreground: #087f79;
+
+    /* Status */
+    --destructive: #dc4545;
+    --destructive-foreground: #ffffff;
+
+    --success: #16865b;
+    --success-foreground: #ffffff;
+
+    --warning: #c58a27;
+    --warning-foreground: #ffffff;
+
+    /* Borders and focus */
+    --border: #dce3ec;
+    --input: #d3dce7;
+    --ring: #159b98;
+
+    /* Brand */
+    --brand: #159b98;
+    --brand-foreground: #ffffff;
+
+    /* Scientific chart palette */
+    --chart-1: #3978c5;
+    --chart-2: #159b98;
+    --chart-3: #d69a35;
+    --chart-4: #d65d67;
+    --chart-5: #8a70c5;
+
+    /* Semantic chart colors */
+    --chart-grid: #e5eaf0;
+    --chart-axis: #8491a2;
+    --chart-reference: #d69a35;
+    --chart-input: #3978c5;
+    --chart-output: #159b98;
+    --chart-error: #d65d67;
+
+    /* Layout */
+    --radius: 0.625rem;
+
+    /* Sidebar */
+    --sidebar: #ffffff;
+    --sidebar-foreground: #172337;
+    --sidebar-primary: #234b72;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #e9f3f5;
+    --sidebar-accent-foreground: #087f79;
+    --sidebar-border: #dce3ec;
+    --sidebar-ring: #159b98;
+}
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+.dark {
+    color-scheme: dark;
+
+    /* Core surfaces */
+    --background: #111a28;
+    --foreground: #e8eef6;
+
+    --card: #192536;
+    --card-foreground: #e8eef6;
+
+    --popover: #202e41;
+    --popover-foreground: #e8eef6;
+
+    /* Primary actions */
+    --primary: #78aee3;
+    --primary-foreground: #102037;
+
+    /* Secondary surfaces */
+    --secondary: #26364a;
+    --secondary-foreground: #e0eaf5;
+
+    --muted: #202e41;
+    --muted-foreground: #9baabd;
+
+    --accent: #183c40;
+    --accent-foreground: #65d0c6;
+
+    /* Status */
+    --destructive: #f07878;
+    --destructive-foreground: #241313;
+
+    --success: #4ac18b;
+    --success-foreground: #10271c;
+
+    --warning: #e7b75d;
+    --warning-foreground: #2b200d;
+
+    /* Borders and focus */
+    --border: #304158;
+    --input: #394b62;
+    --ring: #55c5bd;
+
+    /* Brand */
+    --brand: #55c5bd;
+    --brand-foreground: #102a2b;
+
+    /* Scientific chart palette */
+    --chart-1: #75aef0;
+    --chart-2: #55c5bd;
+    --chart-3: #e7b75d;
+    --chart-4: #f07883;
+    --chart-5: #b39ae9;
+
+    /* Semantic chart colors */
+    --chart-grid: #2b3a4e;
+    --chart-axis: #9baabd;
+    --chart-reference: #e7b75d;
+    --chart-input: #75aef0;
+    --chart-output: #55c5bd;
+    --chart-error: #f07883;
+
+    /* Sidebar */
+    --sidebar: #162233;
+    --sidebar-foreground: #e8eef6;
+    --sidebar-primary: #78aee3;
+    --sidebar-primary-foreground: #102037;
+    --sidebar-accent: #183c40;
+    --sidebar-accent-foreground: #65d0c6;
+    --sidebar-border: #304158;
+    --sidebar-ring: #55c5bd;
+}
+
+/* =========================================================
+   TAILWIND THEME MAPPING
+========================================================= */
+
+@theme inline {
+    --font-sans: 'Geist Variable', sans-serif;
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-brand: var(--brand);
+    --color-brand-foreground: var(--brand-foreground);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+    --radius-3xl: calc(var(--radius) + 12px);
+}
+
+/* =========================================================
+   BASE STYLES
+========================================================= */
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    html {
+        min-height: 100%;
+        scroll-behavior: smooth;
+        scroll-padding-top: 4.5rem;
+        background: var(--background);
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: 'Geist Variable', sans-serif;
+        @apply antialiased;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+        font: inherit;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
+    }
+
+    input[type='range'] {
+        accent-color: var(--brand);
+    }
+
+    ::selection {
+        background: var(--brand);
+        color: var(--brand-foreground);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
