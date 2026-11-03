@@ -1,8 +1,7 @@
-import { SlidersHorizontal } from 'lucide-react';
+import { FrequencyControls } from '../controls/frequency-controls.tsx';
+import { FrequencyResponseAnalysis } from '../analysis/frequency-response-analysis.tsx';
 
-import { FrequencyControls } from '../frequency-controls';
-import { FrequencyResponseAnalysis } from '../frequency-response-analysis';
-import { SectionHeading } from './section-heading';
+import { SharedExperimentSection } from '@/components/modules/sections/experiment-section';
 
 interface ExperimentSectionProps {
     tau: number;
@@ -12,30 +11,31 @@ interface ExperimentSectionProps {
     onReset: () => void;
 }
 
-export function ExperimentSection(props: ExperimentSectionProps) {
-    const { tau, omega, onTauChange, onOmegaChange, onReset } = props;
-
+export function ExperimentSection({
+                                      tau,
+                                      omega,
+                                      onTauChange,
+                                      onOmegaChange,
+                                      onReset,
+                                  }: ExperimentSectionProps) {
     return (
-        <section id="experiment" className="scroll-mt-24 space-y-3">
-            <SectionHeading title="Interactive experiment" icon={SlidersHorizontal} />
-            <p className="text-sm leading-6 text-muted-foreground">
-                Adjust the sensor time constant and sinusoidal input frequency.
-                The time-domain signal and frequency-domain plots update immediately.
-            </p>
-            <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[320px_minmax(0,1fr)]">
-                <div className="min-w-0">
-                    <FrequencyControls
-                        tau={tau}
-                        omega={omega}
-                        onTauChange={onTauChange}
-                        onOmegaChange={onOmegaChange}
-                        onReset={onReset}
-                    />
-                </div>
-                <div className="min-w-0">
-                    <FrequencyResponseAnalysis tau={tau} omega={omega} />
-                </div>
-            </div>
-        </section>
+        <SharedExperimentSection
+            description="Adjust the sensor time constant and sinusoidal input frequency. The time-domain signal and frequency-domain plots update immediately."
+            controls={
+                <FrequencyControls
+                    tau={tau}
+                    omega={omega}
+                    onTauChange={onTauChange}
+                    onOmegaChange={onOmegaChange}
+                    onReset={onReset}
+                />
+            }
+            analysis={
+                <FrequencyResponseAnalysis
+                    tau={tau}
+                    omega={omega}
+                />
+            }
+        />
     );
 }

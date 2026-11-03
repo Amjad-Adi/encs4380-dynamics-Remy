@@ -1,17 +1,13 @@
-import { Gauge } from 'lucide-react';
+import { FrequencyPredictionExercise } from '../excercises/frequency-prediction-exercise.tsx';
 
-import { FrequencyPredictionExercise } from '../frequency-prediction-exercise';
-import { SectionHeading } from './section-heading';
+import {  SharedChallengeSection } from '@/components/modules/sections/challenge-section';
 
 export function ChallengeSection({ tau }: { tau: number }) {
     return (
-        <section id="challenge" className="scroll-mt-24 space-y-3">
-            <SectionHeading title="Test your understanding" icon={Gauge} />
-            <p className="text-sm leading-6 text-muted-foreground">
-                Predict how the sensor responds to faster-changing inputs before
-                revealing the comparison.
-            </p>
+        <SharedChallengeSection
+            description="Predict how the sensor responds to faster-changing inputs before revealing the comparison."
+        >
             <FrequencyPredictionExercise tau={tau} />
-        </section>
+        </SharedChallengeSection>
     );
 }

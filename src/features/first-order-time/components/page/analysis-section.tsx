@@ -3,19 +3,19 @@ import { Activity } from 'lucide-react';
 import type {
     FirstOrderInputType,
     FirstOrderParameters,
-} from '../../models/first-order-time';
+} from '@/features/first-order-time/domain/first-order-time';
 
-import { StepValidation } from '../step-validation';
-import { RampAnalysis } from '../ramp-analysis';
-import { ErrorFractionAnalysis } from '../error-fraction-analysis';
+import { StepValidation } from '../analysis/step-validation.tsx';
+import { RampAnalysis } from '../analysis/ramp-analysis.tsx';
+import { ErrorFractionAnalysis } from '../analysis/error-fraction-analysis.tsx';
 
-import { SectionHeading } from './section-heading';
+import { SharedAnalysisSection } from '@/components/modules/sections/analysis-section';
 
 interface AnalysisSectionProps {
     inputType: FirstOrderInputType;
     parameters: FirstOrderParameters;
     validation: ReturnType<
-        typeof import('../../models/first-order-time').getStepValidation
+        typeof import('@/features/first-order-time/domain/first-order-time').getStepValidation
     >;
     rampError: number;
     rampLag: number;
@@ -28,27 +28,20 @@ export function AnalysisSection({
                                     rampError,
                                     rampLag,
                                 }: AnalysisSectionProps) {
-    return (
-        <section
-            id="analysis"
-            className="scroll-mt-24 space-y-5"
-        >
-            <SectionHeading
-                title={
-                    inputType === 'step'
-                        ? 'Step response analysis'
-                        : 'Ramp response analysis'
-                }
-                icon={Activity}
-            />
+    const isStep = inputType === 'step';
 
-            {inputType === 'step' ? (
+    return (
+        <SharedAnalysisSection
+            title={isStep ? 'Step response analysis' : 'Ramp response analysis'}
+            description=""
+            icon={Activity}
+            className="space-y-5"
+        >
+            {isStep ? (
                 <div className="space-y-5">
                     <StepValidation results={validation} />
 
-                    <ErrorFractionAnalysis
-                        tau={parameters.tau}
-                    />
+                    <ErrorFractionAnalysis tau={parameters.tau} />
                 </div>
             ) : (
                 <RampAnalysis
@@ -56,6 +49,6 @@ export function AnalysisSection({
                     rampLag={rampLag}
                 />
             )}
-        </section>
+        </SharedAnalysisSection>
     );
 }
