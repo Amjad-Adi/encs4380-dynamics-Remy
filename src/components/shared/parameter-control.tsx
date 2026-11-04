@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react';
 
 import { Input } from '@/components/ui/input';
@@ -73,7 +72,8 @@ export function ParameterControl({
                 max={max}
                 step={step}
                 value={[value]}
-                onValueChange={(values) => updateValue(values[0])}
+                onValueChange={(values) =>updateValue(typeof values === 'number' ? values : values[0])
+                }
                 className="w-full cursor-pointer"
                 aria-label={label}
             />
