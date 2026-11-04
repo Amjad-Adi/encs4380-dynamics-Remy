@@ -1,12 +1,7 @@
+
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
-    Activity,
-    AudioWaveform,
-    Gauge,
-    ScanSearch,
-    BookOpen,
-    SlidersHorizontal,
     Check,
     ChevronRight,
 } from 'lucide-react';
@@ -18,72 +13,88 @@ import {
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
-    SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarSeparator,
     useSidebar,
 } from '@/components/ui/sidebar';
-import { MODULES } from '@/models/modules.ts';
 
+import { MODULES } from '@/models/modules';
 
-const SECTIONS = [
-    {
-        id: 'model',
-        label: 'Model',
-        description: 'Governing equations and system overview',
-        icon: BookOpen,
-    },
-    {
-        id: 'experiment',
-        label: 'Experiment',
-        description: 'Configure and run the simulation',
-        icon: SlidersHorizontal,
-    },
-    {
-        id: 'analysis',
-        label: 'Analysis',
-        description: 'Evaluate system performance',
-        icon: Activity,
-    },
-    {
-        id: 'challenge',
-        label: 'Challenge',
-        description: 'Test your understanding',
-        icon: Gauge,
-    },
-] as const;
+import { TIME_SECTIONS } from '@/features/first-order-time/domain/first-order-time';
+import { FREQUENCY_SECTIONS } from '@/features/first-order-frequency/domain/first-order-frequency';
+
+const MODULE_SECTIONS = {
+    '/': TIME_SECTIONS,
+    '/time-response': TIME_SECTIONS,
+    '/frequency-response': FREQUENCY_SECTIONS,
+};
+
+const ACTIVE_MODULE_BUTTON_CLASS = [
+    'mx-2 w-[calc(100%-1rem)] rounded-md border',
+    '!border-primary/25',
+    '!bg-primary/10',
+    '!text-primary',
+    'hover:!bg-primary/15',
+].join(' ');
+
+const INACTIVE_MODULE_BUTTON_CLASS =
+    'mx-2 w-[calc(100%-1rem)] rounded-md border border-transparent';
+
+const SECTION_BUTTON_CLASS = [
+    'mx-2 w-[calc(100%-1rem)] rounded-md',
+    'hover:bg-sidebar-accent',
+    'hover:text-sidebar-accent-foreground',
+    'data-active:bg-sidebar-accent',
+    'data-active:text-sidebar-accent-foreground',
+].join(' ');
 
 export function MobileNavigation() {
     const location = useLocation();
     const { setOpenMobile } = useSidebar();
 
-    const isTimeResponseModule = location.pathname === '/';
+    const sections =
+        MODULE_SECTIONS[
+            location.pathname as keyof typeof MODULE_SECTIONS
+            ] ?? [];
 
     const [activeSection, setActiveSection] = useState('model');
 
     useEffect(() => {
-        if (!isTimeResponseModule) return;
+        setActiveSection('model');
 
-        const sections = SECTIONS
+        if (sections.length === 0) return;
+
+        const sectionElements = sections
             .map(({ id }) => document.getElementById(id))
-            .filter((section): section is HTMLElement => section !== null);
+            .filter(
+                (section): section is HTMLElement => section !== null,
+            );
 
-        if (!sections.length) return;
+        if (sectionElements.length === 0) return;
 
         const observer = new IntersectionObserver(
-            (entries) => {
-                const visibleSections = entries
-                    .filter((entry) => entry.isIntersecting)
+            () => {
+                const visibleSections = sectionElements
+                    .filter((section) => {
+                        const rect = section.getBoundingClientRect();
+                        const activationTop = window.innerHeight * 0.15;
+                        const activationBottom = window.innerHeight * 0.30;
+
+                        return (
+                            rect.top < activationBottom &&
+                            rect.bottom > activationTop
+                        );
+                    })
                     .sort(
                         (a, b) =>
-                            a.boundingClientRect.top -
-                            b.boundingClientRect.top,
+                            a.getBoundingClientRect().top -
+                            b.getBoundingClientRect().top,
                     );
 
                 if (visibleSections.length > 0) {
-                    setActiveSection(visibleSections[0].target.id);
+                    setActiveSection(visibleSections[0].id);
                 }
             },
             {
@@ -92,10 +103,10 @@ export function MobileNavigation() {
             },
         );
 
-        sections.forEach((section) => observer.observe(section));
+        sectionElements.forEach((section) => observer.observe(section));
 
         return () => observer.disconnect();
-    }, [isTimeResponseModule]);
+    }, [location.pathname, sections]);
 
     function closeNavigation() {
         setOpenMobile(false);
@@ -107,16 +118,6 @@ export function MobileNavigation() {
             variant="sidebar"
             collapsible="offcanvas"
         >
-            <SidebarHeader className="border-b border-sidebar-border px-5 py-5">
-                <h2 className="text-base font-semibold">
-                    Navigation
-                </h2>
-
-                <p className="text-xs text-sidebar-foreground/60">
-                    Dynamic Characteristics Toolkit
-                </p>
-            </SidebarHeader>
-
             <SidebarContent className="gap-0">
                 {/* Modules */}
                 <SidebarGroup>
@@ -126,48 +127,53 @@ export function MobileNavigation() {
                         </SidebarGroupLabel>
 
                         <span className="px-2 text-[10px] text-sidebar-foreground/50">
-                            4 modules
+                            {MODULES.length} modules
                         </span>
                     </div>
 
                     <SidebarGroupContent>
-                        <SidebarMenu>
+                        <SidebarMenu className="gap-1">
                             {MODULES.map((module) => {
                                 const Icon = module.icon;
-                                const isActive =
-                                    location.pathname === module.path;
 
                                 return (
                                     <SidebarMenuItem key={module.number}>
                                         {module.available ? (
-                                            <SidebarMenuButton
-                                                render={
-                                                    <NavLink
-                                                        to={module.path}
-                                                        end={module.path === '/'}
-                                                        onClick={closeNavigation}
-                                                    />
-                                                }
-                                                isActive={isActive}
-                                                size="lg"
+                                            <NavLink
+                                                to={module.path}
+                                                end={module.path === '/'}
+                                                onClick={closeNavigation}
+                                                className="block"
                                             >
-                                                <Icon />
+                                                {({ isActive }) => (
+                                                    <SidebarMenuButton
+                                                        isActive={isActive}
+                                                        size="lg"
+                                                        className={
+                                                            isActive
+                                                                ? ACTIVE_MODULE_BUTTON_CLASS
+                                                                : INACTIVE_MODULE_BUTTON_CLASS
+                                                        }
+                                                    >
+                                                        <Icon />
 
-                                                <span className="flex-1">
-                                                    {module.number} · {module.label}
-                                                </span>
+                                                        <span className="flex-1">
+                                                            {module.number} · {module.label}
+                                                        </span>
 
-                                                {isActive ? (
-                                                    <Check className="ml-auto" />
-                                                ) : (
-                                                    <ChevronRight className="ml-auto opacity-50" />
+                                                        {isActive ? (
+                                                            <Check className="ml-auto" />
+                                                        ) : (
+                                                            <ChevronRight className="ml-auto opacity-50" />
+                                                        )}
+                                                    </SidebarMenuButton>
                                                 )}
-                                            </SidebarMenuButton>
+                                            </NavLink>
                                         ) : (
                                             <SidebarMenuButton
                                                 disabled
                                                 size="lg"
-                                                className="opacity-40"
+                                                className="mx-2 w-[calc(100%-1rem)] rounded-md opacity-40"
                                             >
                                                 <Icon />
 
@@ -175,9 +181,7 @@ export function MobileNavigation() {
                                                     {module.number} · {module.label}
                                                 </span>
 
-                                                <span className="text-[10px]">
-                                                    Soon
-                                                </span>
+                                                <span className="text-[10px]">Soon</span>
                                             </SidebarMenuButton>
                                         )}
                                     </SidebarMenuItem>
@@ -187,11 +191,11 @@ export function MobileNavigation() {
                     </SidebarGroupContent>
                 </SidebarGroup>
 
-                {isTimeResponseModule && (
+                {/* Module Sections */}
+                {sections.length > 0 && (
                     <>
                         <SidebarSeparator />
 
-                        {/* Module sections */}
                         <SidebarGroup>
                             <div className="mb-2 flex items-center justify-between">
                                 <SidebarGroupLabel>
@@ -200,55 +204,49 @@ export function MobileNavigation() {
 
                                 <span className="px-2 text-[10px] text-sidebar-foreground/50">
                                     {String(
-                                        SECTIONS.findIndex(
-                                            (section) =>
-                                                section.id === activeSection,
-                                        ) + 1,
+                                        Math.max(
+                                            0,
+                                            sections.findIndex(
+                                                (section) =>
+                                                    section.id === activeSection,
+                                            ) + 1,
+                                        ),
                                     ).padStart(2, '0')}
-                                    /04
+                                    /{String(sections.length).padStart(2, '0')}
                                 </span>
                             </div>
 
                             <SidebarGroupContent>
-                                <SidebarMenu>
-                                    {SECTIONS.map(
-                                        ({ id, label, description, icon: Icon }) => {
-                                            const isActive =
-                                                activeSection === id;
+                                <SidebarMenu className="gap-1">
+                                    {sections.map(({ id, label, icon: Icon }) => {
+                                        const isActive = activeSection === id;
 
-                                            return (
-                                                <SidebarMenuItem key={id}>
-                                                    <SidebarMenuButton
-                                                        render={
-                                                            <a
-                                                                href={`#${id}`}
-                                                                onClick={closeNavigation}
-                                                            />
-                                                        }
-                                                        isActive={isActive}
-                                                        size="lg"
-                                                        className="h-auto min-h-12 py-2"
-                                                    >
-                                                        <Icon />
+                                        return (
+                                            <SidebarMenuItem key={id}>
+                                                <SidebarMenuButton
+                                                    render={
+                                                        <a
+                                                            href={`#${id}`}
+                                                            onClick={closeNavigation}
+                                                        />
+                                                    }
+                                                    isActive={isActive}
+                                                    size="lg"
+                                                    className={SECTION_BUTTON_CLASS}
+                                                >
+                                                    <Icon />
 
-                                                        <span className="min-w-0 flex-1">
-                                                            <span className="block">
-                                                                {label}
-                                                            </span>
+                                                    <span className="min-w-0 flex-1">
+                                                        {label}
+                                                    </span>
 
-                                                            <span className="block truncate text-[11px] font-normal text-sidebar-foreground/60">
-                                                                {description}
-                                                            </span>
-                                                        </span>
-
-                                                        {isActive && (
-                                                            <Check className="ml-auto" />
-                                                        )}
-                                                    </SidebarMenuButton>
-                                                </SidebarMenuItem>
-                                            );
-                                        },
-                                    )}
+                                                    {isActive && (
+                                                        <Check className="ml-auto" />
+                                                    )}
+                                                </SidebarMenuButton>
+                                            </SidebarMenuItem>
+                                        );
+                                    })}
                                 </SidebarMenu>
                             </SidebarGroupContent>
                         </SidebarGroup>
