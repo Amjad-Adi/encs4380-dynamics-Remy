@@ -9,7 +9,7 @@ The project is a browser-based React application. Here is what the main technolo
 | Technology | What it does in this project |
 |---|---|
 | **HTML** | Provides the page entry point and document structure. React renders the application into that page. |
-| **React** | Builds the interface from small, reusable components. (The project uses **React**, not Reach.) |
+| **React** | Builds the interface from small, reusable components. |
 | **TypeScript** | Adds types to JavaScript so that data, component properties, and calculations are easier to understand and errors are easier to catch. |
 | **Tailwind CSS** | Provides utility classes for styling layouts, spacing, colors, and responsive behavior. This project uses Tailwind CSS 4. |
 | **CSS** | Holds the global styles and design foundations that complement Tailwind. |
