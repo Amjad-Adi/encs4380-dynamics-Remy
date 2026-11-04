@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 
 interface ParameterControlProps {
     id: string;
@@ -17,16 +18,16 @@ interface ParameterControlProps {
 }
 
 export function ParameterControl({
-                                     id,
-                                     label,
-                                     value,
-                                     min,
-                                     max,
-                                     step,
-                                     unit,
-                                     description,
-                                     onChange,
-                                 }: ParameterControlProps) {
+    id,
+    label,
+    value,
+    min,
+    max,
+    step,
+    unit,
+    description,
+    onChange,
+}: ParameterControlProps) {
     const decimals = Math.max(
         0,
         (step.toString().split('.')[1] ?? '').length,
@@ -66,17 +67,14 @@ export function ParameterControl({
                 </div>
             </div>
 
-            <input
+            <Slider
                 id={id}
-                type="range"
                 min={min}
                 max={max}
                 step={step}
-                value={value}
-                onChange={(event) =>
-                    updateValue(Number(event.target.value))
-                }
-                className="w-full cursor-pointer accent-brand"
+                value={[value]}
+                onValueChange={(values) => updateValue(values[0])}
+                className="w-full cursor-pointer"
                 aria-label={label}
             />
 
