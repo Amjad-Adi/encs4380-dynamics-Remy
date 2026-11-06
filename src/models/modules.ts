@@ -26,7 +26,7 @@ export const MODULES = [
         label: 'Second-order',
         path: 'second-order',
         icon: Gauge,
-        available: false,
+        available: true,
     },
     {
         number: '04',

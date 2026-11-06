@@ -24,11 +24,13 @@ import { MODULES } from '@/models/modules';
 
 import { TIME_SECTIONS } from '@/features/first-order-time/domain/first-order-time';
 import { FREQUENCY_SECTIONS } from '@/features/first-order-frequency/domain/first-order-frequency';
+import { SECOND_ORDER_SECTIONS } from '@/features/second-order/components/page/second-order-sections';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
     '/time-response': TIME_SECTIONS,
     '/frequency-response': FREQUENCY_SECTIONS,
+    '/second-order': SECOND_ORDER_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [

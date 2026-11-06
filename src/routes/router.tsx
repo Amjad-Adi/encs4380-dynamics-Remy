@@ -3,6 +3,7 @@ import {createBrowserRouter, Navigate} from 'react-router-dom';
 import { AppLayout } from '@/app/app-layout';
 import FirstOrderTimePage from '@/features/first-order-time/pages/first-order-time-page.tsx';
 import FirstOrderFrequencyPage from '@/features/first-order-frequency/pages/first-order-frequency-page';
+import SecondOrderPage from '@/features/second-order/pages/second-order-page';
 import NotFoundPage from "@/app/pages/not-found-page.tsx";
 
 export const router = createBrowserRouter(
@@ -22,6 +23,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'frequency-response',
                     element: <FirstOrderFrequencyPage />,
+                },
+                {
+                    path: 'second-order',
+                    element: <SecondOrderPage />,
                 },
                 {
                     path: '*',
