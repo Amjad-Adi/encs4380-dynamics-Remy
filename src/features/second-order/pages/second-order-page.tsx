@@ -27,7 +27,6 @@ const DEFAULT_PARAMETERS: PhysicalParameters = {
 export default function SecondOrderPage() {
     const [parameters, setParameters] =
         useState<PhysicalParameters>({ ...DEFAULT_PARAMETERS });
-    const [predictionSubmitted, setPredictionSubmitted] = useState(false);
     const [predictionAttemptKey, setPredictionAttemptKey] = useState(0);
 
     const dampingRatio = useMemo(
@@ -64,13 +63,11 @@ export default function SecondOrderPage() {
 
     function updateParameter(key: keyof PhysicalParameters, value: number) {
         if (!Number.isFinite(value)) return;
-        setPredictionSubmitted(false);
         setParameters((current) => ({ ...current, [key]: value }));
     }
 
     function resetExperiment() {
         setParameters({ ...DEFAULT_PARAMETERS });
-        setPredictionSubmitted(false);
         setPredictionAttemptKey((current) => current + 1);
     }
 
@@ -97,15 +94,13 @@ export default function SecondOrderPage() {
                 <SectionNavigation sections={SECOND_ORDER_SECTIONS} />
             </Reveal>
 
-            {predictionSubmitted && (
-                <Reveal>
-                    <ParameterSummary
-                        parameters={parameters}
-                        dampingRatio={dampingRatio}
-                        naturalFrequency={naturalFrequency}
-                    />
-                </Reveal>
-            )}
+            <Reveal>
+                <ParameterSummary
+                    parameters={parameters}
+                    dampingRatio={dampingRatio}
+                    naturalFrequency={naturalFrequency}
+                />
+            </Reveal>
 
             <Reveal>
                 <ModelOverview />
@@ -118,7 +113,6 @@ export default function SecondOrderPage() {
                     duration={duration}
                     dampingRatio={dampingRatio}
                     naturalFrequency={naturalFrequency}
-                    isPredictionSubmitted={predictionSubmitted}
                     onParameterChange={updateParameter}
                     onReset={resetExperiment}
                 />
@@ -129,7 +123,6 @@ export default function SecondOrderPage() {
                     key={`${parameters.m}:${parameters.b}:${parameters.k}:${predictionAttemptKey}`}
                     parameters={parameters}
                     metrics={metrics}
-                    onSubmissionChange={setPredictionSubmitted}
                 />
             </Reveal>
 
@@ -137,7 +130,6 @@ export default function SecondOrderPage() {
                 <AnalysisSection
                     parameters={parameters}
                     phasePlaneDuration={phasePlaneDuration}
-                    isPredictionSubmitted={predictionSubmitted}
                 />
             </Reveal>
 

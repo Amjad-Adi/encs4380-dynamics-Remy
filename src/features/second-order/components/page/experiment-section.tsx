@@ -1,11 +1,4 @@
 import { SharedExperimentSection } from '@/components/modules/sections/experiment-section';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 import type {
     PhysicalParameters,
     ResponseMetrics,
@@ -19,7 +12,6 @@ interface ExperimentSectionProps {
     duration: number;
     dampingRatio: number;
     naturalFrequency: number;
-    isPredictionSubmitted: boolean;
     onParameterChange: (key: keyof PhysicalParameters, value: number) => void;
     onReset: () => void;
 }
@@ -30,7 +22,6 @@ export function ExperimentSection({
     duration,
     dampingRatio,
     naturalFrequency,
-    isPredictionSubmitted,
     onParameterChange,
     onReset,
 }: ExperimentSectionProps) {
@@ -45,31 +36,13 @@ export function ExperimentSection({
                 />
             }
             analysis={
-                isPredictionSubmitted ? (
-                    <ResponseAnalysis
-                        parameters={parameters}
-                        metrics={metrics}
-                        duration={duration}
-                        dampingRatio={dampingRatio}
-                        naturalFrequency={naturalFrequency}
-                    />
-                ) : (
-                    <Card className="min-w-0">
-                        <CardHeader>
-                            <CardTitle className="text-base">
-                                Results are hidden until prediction
-                            </CardTitle>
-                            <CardDescription>
-                                Submit your damping-regime and overshoot predictions
-                                below to reveal the live response and analysis.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="text-sm text-muted-foreground">
-                            Adjust m, b, and k, make both predictions, then check
-                            them before reviewing the plots and metrics.
-                        </CardContent>
-                    </Card>
-                )
+                <ResponseAnalysis
+                    parameters={parameters}
+                    metrics={metrics}
+                    duration={duration}
+                    dampingRatio={dampingRatio}
+                    naturalFrequency={naturalFrequency}
+                />
             }
         />
     );

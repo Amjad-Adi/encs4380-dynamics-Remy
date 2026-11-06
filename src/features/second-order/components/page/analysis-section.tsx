@@ -25,7 +25,6 @@ import { PhasePlaneChart } from '../charts/phase-plane-chart';
 interface AnalysisSectionProps {
     parameters: PhysicalParameters;
     phasePlaneDuration: number;
-    isPredictionSubmitted: boolean;
 }
 
 interface FixedCheck {
@@ -102,7 +101,6 @@ function formatValidationValue(result: ValidationResult): string {
 export function AnalysisSection({
     parameters,
     phasePlaneDuration,
-    isPredictionSubmitted,
 }: AnalysisSectionProps) {
     const matrices = useMemo(
         () => getStateSpaceMatrices(parameters),
@@ -126,8 +124,6 @@ export function AnalysisSection({
             icon={Activity}
             className="space-y-5"
         >
-            {isPredictionSubmitted ? (
-                <>
                     <div className="grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
                         <Card className="min-w-0">
                             <CardHeader>
@@ -303,21 +299,6 @@ export function AnalysisSection({
                             ))}
                         </CardContent>
                     </Card>
-                </>
-            ) : (
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base">
-                            Analysis is hidden until prediction
-                        </CardTitle>
-                        <CardDescription>
-                            Submit your predictions above to reveal the state-space
-                            values, eigenvalues, phase-plane trajectory, and fixed
-                            benchmark checks.
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-            )}
         </SharedAnalysisSection>
     );
 }

@@ -36,13 +36,11 @@ const REGIME_LABELS: Record<DampingRegime, string> = {
 interface PredictionExerciseProps {
     parameters: PhysicalParameters;
     metrics: ResponseMetrics;
-    onSubmissionChange: (submitted: boolean) => void;
 }
 
 export function PredictionExercise({
     parameters,
     metrics,
-    onSubmissionChange,
 }: PredictionExerciseProps) {
     const [predictedRegime, setPredictedRegime] =
         useState<DampingRegime | null>(null);
@@ -52,21 +50,19 @@ export function PredictionExercise({
 
     const actualRegime = getDampingRegime(parameters);
     const actualOvershoot = metrics.percentageOvershoot > 0;
-    const correct =
-        predictedRegime === actualRegime &&
+    const regimeCorrect = predictedRegime === actualRegime;
+    const overshootCorrect =
         predictedOvershoot === (actualOvershoot ? 'yes' : 'no');
 
     function submitPrediction() {
         if (predictedRegime === null || predictedOvershoot === null) return;
         setSubmitted(true);
-        onSubmissionChange(true);
     }
 
     function resetPrediction() {
         setPredictedRegime(null);
         setPredictedOvershoot(null);
         setSubmitted(false);
-        onSubmissionChange(false);
     }
 
     return (
@@ -80,7 +76,7 @@ export function PredictionExercise({
                     <CardDescription>
                         Using the current m, b, and k values, predict the damping
                         regime and whether the step response overshoots. Submit both
-                        predictions to reveal the calculated result.
+                        predictions to check each answer against the live results.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
@@ -165,25 +161,43 @@ export function PredictionExercise({
                                 className="flex items-start gap-2 text-sm"
                                 role="status"
                             >
-                                <CheckCircle2
-                                    size={17}
-                                    className={
-                                        correct
-                                            ? 'mt-0.5 shrink-0 text-success'
-                                            : 'mt-0.5 shrink-0 text-muted-foreground'
-                                    }
-                                />
-                                <p>
-                                    {correct ? 'Correct.' : 'Not quite.'}{' '}
-                                    The system is{' '}
-                                    <strong>{REGIME_LABELS[actualRegime]}</strong>;
-                                    overshoot{' '}
-                                    <strong>
-                                        {actualOvershoot ? 'does occur' : 'does not occur'}
-                                    </strong>
-                                    . The calculated response and analysis are now
-                                    available below.
-                                </p>
+                                <div className="space-y-1">
+                                    <p>
+                                        <CheckCircle2
+                                            size={17}
+                                            className={`mr-1 inline ${regimeCorrect ? 'text-success' : 'text-muted-foreground'}`}
+                                        />
+                                        Damping-regime prediction:{' '}
+                                        <strong>{regimeCorrect ? 'Correct.' : 'Not quite.'}</strong>{' '}
+                                        You predicted{' '}
+                                        <strong>
+                                            {predictedRegime === null
+                                                ? 'no regime'
+                                                : REGIME_LABELS[predictedRegime]}
+                                        </strong>
+                                        ; the system is{' '}
+                                        <strong>{REGIME_LABELS[actualRegime]}</strong>.
+                                    </p>
+                                    <p>
+                                        <CheckCircle2
+                                            size={17}
+                                            className={`mr-1 inline ${overshootCorrect ? 'text-success' : 'text-muted-foreground'}`}
+                                        />
+                                        Overshoot prediction:{' '}
+                                        <strong>{overshootCorrect ? 'Correct.' : 'Not quite.'}</strong>{' '}
+                                        You predicted{' '}
+                                        <strong>
+                                            {predictedOvershoot === 'yes'
+                                                ? 'overshoot'
+                                                : 'no overshoot'}
+                                        </strong>
+                                        ; overshoot{' '}
+                                        <strong>
+                                            {actualOvershoot ? 'does occur' : 'does not occur'}
+                                        </strong>
+                                        .
+                                    </p>
+                                </div>
                             </div>
                         )}
                     </div>
