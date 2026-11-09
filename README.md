@@ -24,8 +24,8 @@ The project is developed collaboratively, with each team member responsible for 
 |---|---|---|
 | Amjad Adi | Module 1 | First-Order Time Response |
 | Yazeed | Module 2 | First-Order Frequency Response |
-| Rahaf | Module 3 | Second-Order System Response |
-| Hanan | Module 4 | Guess the Sensor Challenge |
+| Hanan | Module 3 | Second-Order System Response |
+| Rahaf | Module 4 | Guess the Sensor Challenge |
 
 ---
 
@@ -109,7 +109,7 @@ M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
 
 ### Module 3 — Second-Order System Response
 
-**Developer: Rahaf**
+**Developer: Hanan**
 
 An interactive study of second-order measurement systems, focusing on the influence of damping ratio and natural frequency on transient response.
 
@@ -135,7 +135,7 @@ G(s)=\frac{K\omega_n^2}
 
 ### Module 4 — Guess the Sensor Challenge
 
-**Developer: Hanan**
+**Developer: Rahaf**
 
 An interactive parameter-estimation challenge that puts the concepts from the preceding modules into practice. Users investigate an unknown sensor response and estimate its underlying dynamic parameters from the observed behavior.
 
@@ -263,15 +263,19 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 ### Rahaf — Module 4
 
-**AI tool:** [Tool and model]
+### — Module 4: Sensor Challenge
 
-**What I asked:** [Describe the actual prompts and technical assistance used.]
+**AI tool:**  
+ChatGPT (GPT-6) and GitHub Copilot.
 
-**What I learned:** [Describe the concepts and implementation knowledge gained.]
+**What I asked:**  
+I used ChatGPT to understand the Module 4 requirements, plan the implementation, and prepare technical prompts for GitHub Copilot. I asked for assistance with designing the sensor identification challenge, generating hidden first-order and second-order sensor parameters, adding measurement noise, calculating parameter estimates, and implementing the scoring and feedback system. I also used AI assistance to troubleshoot TypeScript build errors and integrate the module into the existing project structure.
 
-**How I used it:** [Describe how the assistance contributed to the completed module.]
+**What I learned:**  
+I learned how to identify first-order system parameters using the 63.2% response method and how to estimate second-order system parameters using percentage overshoot and peak time. I also improved my understanding of noisy sensor measurements, parameter estimation, error calculation, and comparing estimated values with actual system parameters. Additionally, I learned about React component integration, TypeScript error handling, and Git workflows.
 
----
+**How I used it:**  
+I used AI assistance to plan and implement the Sensor Challenge module within the existing React and TypeScript project. GitHub Copilot helped generate the implementation, including random sensor generation, noisy response visualization, parameter input fields, answer validation, accuracy calculations, hints, and score tracking. ChatGPT helped review the implementation process, resolve integration issues, and guide the build and testing steps. I then ran the project locally and successfully completed the production build.
 
 ## Validation
 
