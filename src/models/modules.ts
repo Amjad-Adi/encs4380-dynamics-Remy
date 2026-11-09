@@ -33,6 +33,6 @@ export const MODULES = [
         label: 'Guess the sensor',
         path: 'sensor-challenge',
         icon: ScanSearch,
-        available: false,
+        available: true,
     },
 ];
