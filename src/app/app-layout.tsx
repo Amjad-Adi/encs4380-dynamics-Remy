@@ -5,7 +5,7 @@ import { ModuleNavigation } from '@/components/layout/module-navigation';
 import { MobileNavigation } from '@/components/layout/mobile-navigation';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/use-is-mobile';
-import {AppFooter} from "@/components/layout/app-foorter.tsx";
+import {AppFooter} from "@/components/layout/app-footer.tsx";
 import {ScrollToTop} from "@/components/ScrollToTop.tsx";
 
 function ResponsiveNavigation() {

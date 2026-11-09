@@ -71,7 +71,7 @@ export default function NotFoundPage() {
                                 className="h-12 w-full gap-2 px-4"
                             >
                                 <Home className="size-4" />
-                                <span className="leading-none">Back to Time Response</span>
+                                <span className="leading-none">First-order time response</span>
                             </Button>
 
                             <Button
@@ -80,7 +80,7 @@ export default function NotFoundPage() {
                                 className="h-12 w-full gap-2 px-4"
                             >
                                 <Activity className="size-4" />
-                                <span className="leading-none">Frequency Response</span>
+                                <span className="leading-none">First-order frequency response</span>
                                 <ArrowRight className="size-4" />
                             </Button>
                         </div>

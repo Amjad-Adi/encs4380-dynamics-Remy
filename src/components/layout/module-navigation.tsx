@@ -1,10 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import {
-    Activity,
-    AudioWaveform,
-    Gauge,
-    ScanSearch,
-} from 'lucide-react';
 
 import { useIsMobile } from '@/hooks/use-is-mobile';
 import {

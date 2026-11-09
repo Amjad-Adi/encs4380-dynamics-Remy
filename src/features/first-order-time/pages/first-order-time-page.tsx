@@ -76,7 +76,7 @@ export default function FirstOrderTimePage() {
                     description="Investigate how a first-order sensor responds to sudden and continuously changing inputs. Adjust its parameters and observe their effects on response speed, steady-state behavior, and tracking error."
                     nextModule={{
                         to: '/frequency-response',
-                        label: 'Continue to Module 02: Frequency Response →',
+                        label: 'Continue to Module 02: First-order frequency response →',
                     }}
                     onReset={resetExperiment}
                 />
@@ -125,13 +125,14 @@ export default function FirstOrderTimePage() {
             </Reveal>
 
             <Reveal>
-                <ChallengeSection key={resetKey} />
+                <ChallengeSection
+                    key={`${inputType}-${resetKey}`}
+                    inputType={inputType}
+                />
             </Reveal>
 
             <Reveal>
-                <ModuleFooter
-                    assumptions="Zero initial output, ideal first-order dynamics, and no measurement noise or saturation. The transfer function is defined under zero initial conditions."
-                />
+                <ModuleFooter/>
             </Reveal>
         </main>
     );

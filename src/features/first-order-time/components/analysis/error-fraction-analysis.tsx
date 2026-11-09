@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card.tsx';
 import { Separator } from '@/components/ui/separator.tsx';
 
 import { Equation } from '../../../../components/modules/equation.tsx';
+import { generateErrorFractionData } from '@/features/first-order-time/domain/first-order-time.ts';
 import { ErrorFractionChart } from '../charts/error-fraction-chart.tsx';
 
 interface ErrorFractionAnalysisProps {
@@ -12,6 +13,17 @@ interface ErrorFractionAnalysisProps {
 export function ErrorFractionAnalysis({
                                           tau,
                                       }: ErrorFractionAnalysisProps) {
+    const naturalLogSlope = -1 / tau;
+    const log10Slope = naturalLogSlope / Math.LN10;
+
+    const plottedPoints = generateErrorFractionData(tau);
+    const firstPoint = plottedPoints[0];
+    const lastPoint = plottedPoints[plottedPoints.length - 1];
+
+    const calculatedSlope =
+        (lastPoint.logarithm - firstPoint.logarithm) /
+        (lastPoint.time - firstPoint.time);
+
     return (
         <section className="space-y-4">
             <div>
@@ -56,11 +68,27 @@ export function ErrorFractionAnalysis({
 
                         <div className="rounded-lg bg-accent p-3">
                             <p className="text-xs text-accent-foreground">
-                                Natural-log slope
+                                Theoretical slope, d ln(e_f)/dt
                             </p>
 
                             <p className="mt-1 font-mono text-xl font-semibold text-accent-foreground">
-                                {(-1 / tau).toFixed(4)} s⁻¹
+                                {naturalLogSlope.toFixed(4)} s⁻¹
+                            </p>
+
+                            <p className="mt-1 text-[11px] text-accent-foreground/80">
+                                Calculated from the plotted curve:{' '}
+                                <span className="font-mono">
+                                    {calculatedSlope.toFixed(4)} s⁻¹
+                                </span>
+                                .
+                            </p>
+
+                            <p className="mt-1 text-[11px] text-accent-foreground/80">
+                                On the logarithmic (base-10) axis this is{' '}
+                                <span className="font-mono">
+                                    {log10Slope.toFixed(3)} s⁻¹
+                                </span>
+                                .
                             </p>
                         </div>
                     </div>

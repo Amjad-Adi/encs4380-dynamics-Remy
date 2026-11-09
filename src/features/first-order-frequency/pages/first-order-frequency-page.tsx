@@ -47,8 +47,8 @@ export default function FirstOrderFrequencyPage() {
                     title="First-order frequency response"
                     description="Investigate how a first-order sensor responds to sinusoidal inputs. Observe amplitude attenuation and phase lag, locate the cutoff frequency, and evaluate dynamic error."
                     nextModule={{
-                        to: '/time-response',
-                        label: '← Return to Module 01: Time Response',
+                        to: '/second-order',
+                        label: 'Continue to Module 03: Second-order response →',
                     }}
                     onReset={resetExperiment}
                 />
@@ -92,9 +92,7 @@ export default function FirstOrderFrequencyPage() {
             </Reveal>
 
             <Reveal>
-                <ModuleFooter
-                    assumptions="Zero initial output, ideal first-order dynamics, and no measurement noise or saturation. The transfer function is defined under zero initial conditions."
-                />
+                <ModuleFooter/>
             </Reveal>
         </main>
     );

@@ -84,7 +84,7 @@ export default function SecondOrderPage() {
                     description="Explore how mass, damping, and stiffness shape a physical system’s step response, poles, state-space representation, and phase-plane trajectory."
                     nextModule={{
                         to: '/frequency-response',
-                        label: '← Return to Module 02: Frequency Response',
+                        label: '← Return to Module 02: First-order frequency response',
                     }}
                     onReset={resetExperiment}
                 />
@@ -134,9 +134,7 @@ export default function SecondOrderPage() {
             </Reveal>
 
             <Reveal>
-                <ModuleFooter
-                    assumptions="Linear mass–spring–damper system with positive mass and stiffness, nonnegative viscous damping, a 1 N force step, and zero initial displacement and velocity. The physical displacement settles to 1/k when damping is positive; the displayed normalized response is kx(t)."
-                />
+                <ModuleFooter />
             </Reveal>
         </main>
     );
