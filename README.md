@@ -261,9 +261,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Rahaf — Module 4
-
-### — Module 4: Sensor Challenge
+### Rahaf — Module 4: Sensor Challenge
 
 **AI tool:**  
 ChatGPT (GPT-6) and GitHub Copilot.
