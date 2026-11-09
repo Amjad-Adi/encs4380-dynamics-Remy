@@ -251,7 +251,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Rahaf — Module 3
+### Hanan — Module 3
 
 **AI tool:** [Tool and model]
 
@@ -261,7 +261,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Hanan — Module 4
+### Rahaf — Module 4
 
 **AI tool:** [Tool and model]
 
