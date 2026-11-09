@@ -13,12 +13,10 @@ import {
 import { Badge } from '@/components/ui/badge';
 import {
     getEigenvaluesOfA,
-    getRequiredValidationResults,
     getStateSpaceMatrices,
     getSystemPoles,
     getResponseMetrics,
     type PhysicalParameters,
-    type ValidationResult,
 } from '@/features/second-order/domain/second-order';
 import { PhasePlaneChart } from '../charts/phase-plane-chart';
 
@@ -91,13 +89,6 @@ function getFixedChecks(): FixedCheck[] {
     ];
 }
 
-function formatValidationValue(result: ValidationResult): string {
-    if (result.label.includes('imaginary')) {
-        return result.actual.toFixed(3);
-    }
-    return result.actual.toFixed(6);
-}
-
 export function AnalysisSection({
     parameters,
     phasePlaneDuration,
@@ -110,12 +101,8 @@ export function AnalysisSection({
         () => getEigenvaluesOfA(parameters),
         [parameters],
     );
-    const benchmarkResults = useMemo(
-        () => getRequiredValidationResults(),
-        [],
-    );
-    const benchmarkPassed = benchmarkResults.every((result) => result.passed);
     const fixedChecks = useMemo(() => getFixedChecks(), []);
+    const allChecksPassed = fixedChecks.every((check) => check.passed);
 
     return (
         <SharedAnalysisSection
@@ -224,13 +211,13 @@ export function AnalysisSection({
                                 <Badge
                                     variant="outline"
                                     className={
-                                        benchmarkPassed
+                                        allChecksPassed
                                             ? 'border-success/30 bg-success/5 text-success'
                                             : 'border-destructive/30 bg-destructive/5 text-destructive'
                                     }
                                 >
                                     <ClipboardCheck />
-                                    {benchmarkPassed ? 'PASS' : 'FAIL'}
+                                    {allChecksPassed ? 'PASS' : 'FAIL'}
                                 </Badge>
                             </div>
                         </CardHeader>
@@ -260,40 +247,6 @@ export function AnalysisSection({
                                         }
                                     >
                                         {check.passed ? 'PASS' : 'FAIL'}
-                                    </Badge>
-                                </div>
-                            ))}
-
-                            <p className="pt-2 text-xs font-medium text-muted-foreground">
-                                Additional fixed state-space and response checks
-                            </p>
-                            {benchmarkResults.map((result) => (
-                                <div
-                                    key={result.label}
-                                    className="flex flex-col justify-between gap-2 rounded-lg border border-border p-3 sm:flex-row sm:items-center"
-                                >
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-medium">
-                                            {result.label}
-                                        </p>
-                                        <p className="mt-1 text-xs text-muted-foreground">
-                                            Expected: {result.expected.toFixed(6)}{' '}
-                                            {result.unit}
-                                            {' · '}
-                                            Calculated:{' '}
-                                            {formatValidationValue(result)}{' '}
-                                            {result.unit}
-                                        </p>
-                                    </div>
-                                    <Badge
-                                        variant="outline"
-                                        className={
-                                            result.passed
-                                                ? 'w-fit border-success/30 bg-success/5 text-success'
-                                                : 'w-fit border-destructive/30 bg-destructive/5 text-destructive'
-                                        }
-                                    >
-                                        {result.passed ? 'PASS' : 'FAIL'}
                                     </Badge>
                                 </div>
                             ))}

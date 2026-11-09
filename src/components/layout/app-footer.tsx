@@ -1,5 +1,9 @@
 import { FaGithub } from 'react-icons/fa';
 
+const GITHUB_REPOSITORY_URL =
+    import.meta.env.VITE_GITHUB_REPOSITORY_URL ||
+    'https://github.com/Amjad-Adi/encs4380-dynamics-Remy';
+
 export function AppFooter() {
     return (
         <footer className="border-t bg-background">
@@ -10,7 +14,7 @@ export function AppFooter() {
                 </p>
 
                 <a
-                    href={import.meta.env.VITE_GITHUB_REPOSITORY_URL}
+                    href={GITHUB_REPOSITORY_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub repository"

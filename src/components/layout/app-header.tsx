@@ -1,5 +1,6 @@
 import { Menu } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import ThemeToggle from '@/components/ThemeToggle.tsx';
 import { useIsMobile } from '@/hooks/use-is-mobile';
@@ -26,8 +27,8 @@ export function AppHeader() {
                         </SidebarTrigger>
                     )}
 
-                    <a
-                        href="/"
+                    <Link
+                        to="/"
                         className="flex min-w-0 items-center gap-3"
                         aria-label="Dynamic Characteristics Toolkit home"
                     >
@@ -48,13 +49,13 @@ export function AppHeader() {
                                 ENCS4380 · Interfacing Techniques
                             </p>
                         </div>
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="flex shrink-0 items-center gap-2">
                     {!isMobile && (
                         <a
-                            href={import.meta.env.VITE_GITHUB_REPOSITORY_URL}
+                            href={GITHUB_REPOSITORY_URL}
                             target="_blank"
                             rel="noreferrer"
                             aria-label="GitHub"

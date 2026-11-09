@@ -42,7 +42,10 @@ export function ModelOverview({ inputType }: ModelOverviewProps) {
                     content: (
                         <Equation expression={inputEquation} />
                     ),
-                    description: 'A = input amplitude',
+                    description:
+                        inputType === 'step'
+                            ? 'A = step amplitude'
+                            : 'A = ramp slope',
                 },
             ]}
         />

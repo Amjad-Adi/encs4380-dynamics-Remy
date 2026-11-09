@@ -89,13 +89,7 @@ export function ResponseAnalysis({
                 </CardContent>
             </Card>
 
-            <div
-                className={`grid gap-3 ${
-                    isStep
-                        ? 'sm:grid-cols-3'
-                        : 'sm:grid-cols-3'
-                }`}
-            >
+            <div className="grid gap-3 sm:grid-cols-3">
                 <MetricCard
                     label="Time constant"
                     value={`${tau.toFixed(2)} s`}
@@ -106,9 +100,9 @@ export function ResponseAnalysis({
                 {isStep ? (
                     <>
                         <MetricCard
-                            label="95% response"
+                            label="95% response time"
                             value={`${(3 * tau).toFixed(2)} s`}
-                            detail="Approximately 3τ"
+                            detail="Reaches 95% of KA at 3τ"
                             icon={Activity}
                         />
 

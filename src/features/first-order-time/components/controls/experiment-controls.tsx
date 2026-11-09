@@ -95,6 +95,11 @@ export function ExperimentControls({
                     max={5}
                     step={0.1}
                     unit={inputType === 'step' ? 'units' : 'units/s'}
+                    description={
+                        inputType === 'step'
+                            ? 'Step magnitude'
+                            : 'Ramp slope'
+                    }
                     onChange={(value) =>
                         onParameterChange('amplitude', value)
                     }
@@ -106,16 +111,37 @@ export function ExperimentControls({
                     <p className="text-sm font-medium">Input type</p>
 
                     <div className="grid grid-cols-2 gap-2">
-                        {(['step', 'ramp'] as const).map((type) => (
+                        {[
+                            {
+                                type: 'step' as const,
+                                label: 'Step input',
+                                equation: 'x(t) = A u(t)',
+                            },
+                            {
+                                type: 'ramp' as const,
+                                label: 'Ramp input',
+                                equation: 'x(t) = A t u(t)',
+                            },
+                        ].map((option) => (
                             <Button
-                                key={type}
+                                key={option.type}
                                 type="button"
-                                variant={inputType === type ? 'default' : 'outline'}
-                                onClick={() => onInputTypeChange(type)}
-                                className="capitalize"
-                                aria-pressed={inputType === type}
+                                variant={
+                                    inputType === option.type
+                                        ? 'default'
+                                        : 'outline'
+                                }
+                                onClick={() =>
+                                    onInputTypeChange(option.type)
+                                }
+                                className="h-auto flex-col items-start gap-0.5 py-2"
+                                aria-pressed={inputType === option.type}
                             >
-                                {type}
+                                <span>{option.label}</span>
+
+                                <span className="font-mono text-[10px] font-normal opacity-75">
+                                    {option.equation}
+                                </span>
                             </Button>
                         ))}
                     </div>

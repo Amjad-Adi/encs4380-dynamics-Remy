@@ -22,6 +22,40 @@ interface SharedModelOverviewProps {
 }
 
 export function SharedModelOverview({ items }: SharedModelOverviewProps) {
+    const standardFormItem = items.find(
+        (item) => item.title === 'Standard form',
+    );
+
+    const primaryItems = items.filter(
+        (item) => item.title !== 'Standard form',
+    );
+
+    function renderItem(item: SharedModelOverviewItem) {
+        return (
+            <div key={item.title} className="min-w-0 space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {item.title}
+                    </p>
+
+                    {item.badge && (
+                        <Badge variant="outline" className="text-[10px]">
+                            {item.badge}
+                        </Badge>
+                    )}
+                </div>
+
+                {item.content}
+
+                {item.description && (
+                    <div className="text-xs text-muted-foreground">
+                        {item.description}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     return (
         <section
             id="model"
@@ -33,42 +67,18 @@ export function SharedModelOverview({ items }: SharedModelOverviewProps) {
             />
 
             <Card className="overflow-hidden border-border">
-                <CardContent className="grid gap-6 p-5 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center md:p-6">
-                    {items.map((item, index) => (
-                        <div
-                            key={item.title}
-                            className="contents"
-                        >
-                            {index > 0 && (
-                                <div className="hidden h-16 w-px bg-border md:block" />
-                            )}
+                <CardContent className="space-y-6 p-5 md:p-6">
+                    <div className="grid gap-6 md:grid-cols-3">
+                        {primaryItems.map(renderItem)}
+                    </div>
 
-                            <div className="min-w-0 space-y-3">
-                                <div className="flex items-center justify-between gap-2">
-                                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                        {item.title}
-                                    </p>
+                    {standardFormItem && (
+                        <>
+                            <div className="border-t border-border" />
 
-                                    {item.badge && (
-                                        <Badge
-                                            variant="outline"
-                                            className="text-[10px]"
-                                        >
-                                            {item.badge}
-                                        </Badge>
-                                    )}
-                                </div>
-
-                                {item.content}
-
-                                {item.description && (
-                                    <div className="text-xs text-muted-foreground">
-                                        {item.description}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                            {renderItem(standardFormItem)}
+                        </>
+                    )}
                 </CardContent>
             </Card>
         </section>

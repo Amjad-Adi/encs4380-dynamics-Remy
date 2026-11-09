@@ -64,7 +64,7 @@ export function ErrorFractionChart({
             {
                 x: 2.5 * tau,
                 y: Math.exp(-2.5),
-                text: `log10 slope = ${(-1 / (tau * Math.LN10)).toFixed(3)} s⁻¹`,
+                text: `ln slope = −1/τ = ${(-1 / tau).toFixed(3)} s⁻¹`,
                 showarrow: false,
                 bgcolor: 'rgba(214,93,103,0.10)',
                 borderpad: 5,

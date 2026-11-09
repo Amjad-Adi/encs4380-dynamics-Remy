@@ -46,15 +46,15 @@
                 ).matches;
 
                 const theme =
-                    savedTheme === Theme.LIGHT || savedTheme === Theme.DARK
+                    savedTheme === 'light' || savedTheme === 'dark'
                         ? savedTheme
                         : systemPrefersDark
-                            ? Theme.DARK
-                            : Theme.LIGHT;
+                            ? 'dark'
+                            : 'light';
 
-                root.classList.toggle(Theme.DARK, theme === Theme.DARK);
+                root.classList.toggle('dark', theme === 'dark');
             } catch {
-                root.classList.remove(Theme.DARK);
+                root.classList.remove('dark');
             }
         })();
     </script>
