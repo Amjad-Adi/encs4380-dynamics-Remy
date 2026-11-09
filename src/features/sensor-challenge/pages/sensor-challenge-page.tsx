@@ -128,9 +128,7 @@ export default function SensorChallengePage() {
             </Reveal>
 
             <Reveal>
-                <ModuleFooter
-                    assumptions="Simulated unit-step measurements of stable first- and underdamped second-order sensors, with additive Gaussian measurement noise. The normalized response has unit steady-state gain; noise is generated once per round and remains fixed while you inspect the challenge."
-                />
+                <ModuleFooter />
             </Reveal>
         </main>
     );
