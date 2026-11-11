@@ -1,12 +1,8 @@
-
 import type { ReactNode } from 'react';
 import { BookOpen } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import {
-    Card,
-    CardContent,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 import { SectionHeading } from '@/components/modules/section-heading';
 
@@ -22,19 +18,15 @@ interface SharedModelOverviewProps {
 }
 
 export function SharedModelOverview({ items }: SharedModelOverviewProps) {
-    const standardFormItem = items.find(
-        (item) => item.title === 'Standard form',
-    );
+    const standardFormItem = items.find((item) => item.title === 'Standard form');
 
-    const primaryItems = items.filter(
-        (item) => item.title !== 'Standard form',
-    );
+    const primaryItems = items.filter((item) => item.title !== 'Standard form');
 
     function renderItem(item: SharedModelOverviewItem) {
         return (
             <div key={item.title} className="min-w-0 space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
                         {item.title}
                     </p>
 
@@ -48,33 +40,23 @@ export function SharedModelOverview({ items }: SharedModelOverviewProps) {
                 {item.content}
 
                 {item.description && (
-                    <div className="text-xs text-muted-foreground">
-                        {item.description}
-                    </div>
+                    <div className="text-muted-foreground text-xs">{item.description}</div>
                 )}
             </div>
         );
     }
 
     return (
-        <section
-            id="model"
-            className="scroll-mt-24 space-y-3"
-        >
-            <SectionHeading
-                title="Mathematical model"
-                icon={BookOpen}
-            />
+        <section id="model" className="scroll-mt-24 space-y-3">
+            <SectionHeading title="Mathematical model" icon={BookOpen} />
 
-            <Card className="overflow-hidden border-border">
+            <Card className="border-border overflow-hidden">
                 <CardContent className="space-y-6 p-5 md:p-6">
-                    <div className="grid gap-6 md:grid-cols-3">
-                        {primaryItems.map(renderItem)}
-                    </div>
+                    <div className="grid gap-6 md:grid-cols-3">{primaryItems.map(renderItem)}</div>
 
                     {standardFormItem && (
                         <>
-                            <div className="border-t border-border" />
+                            <div className="border-border border-t" />
 
                             {renderItem(standardFormItem)}
                         </>

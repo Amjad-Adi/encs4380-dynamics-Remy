@@ -1,10 +1,4 @@
-import {
-    Activity,
-    AudioWaveform,
-    Gauge,
-    ScanSearch,
-} from 'lucide-react';
-
+import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch } from 'lucide-react';
 
 export const MODULES = [
     {
@@ -33,6 +27,13 @@ export const MODULES = [
         label: 'Guess the sensor',
         path: 'sensor-challenge',
         icon: ScanSearch,
-        available: false,
+        available: true,
+    },
+    {
+        number: '05',
+        label: 'Pole explorer',
+        path: 'pole-explorer',
+        icon: Crosshair,
+        available: true,
     },
 ];

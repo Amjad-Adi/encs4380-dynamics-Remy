@@ -6,11 +6,7 @@ interface EquationProps {
     displayMode?: boolean;
 }
 
-export function Equation({
-                             expression,
-                             className = '',
-                             displayMode = true,
-                         }: EquationProps) {
+export function Equation({ expression, className = '', displayMode = true }: EquationProps) {
     const html = katex.renderToString(expression, {
         displayMode,
         throwOnError: false,
@@ -20,7 +16,7 @@ export function Equation({
     return (
         <div
             dir="ltr"
-            className={`min-w-0 overflow-x-auto py-2 text-foreground ${className}`}
+            className={`text-foreground min-w-0 overflow-x-auto py-2 ${className}`}
             dangerouslySetInnerHTML={{ __html: html }}
         />
     );

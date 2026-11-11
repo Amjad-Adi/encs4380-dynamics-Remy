@@ -1,10 +1,7 @@
 import { SharedExperimentSection } from '@/components/modules/sections/experiment-section';
-import type {
-    PhysicalParameters,
-    ResponseMetrics,
-} from '@/features/second-order/domain/second-order';
 import { SecondOrderControls } from '../controls/second-order-controls';
 import { ResponseAnalysis } from '../analysis/response-analysis';
+import type { PhysicalParameters, ResponseMetrics } from '@/features/second-order/domain';
 
 interface ExperimentSectionProps {
     parameters: PhysicalParameters;

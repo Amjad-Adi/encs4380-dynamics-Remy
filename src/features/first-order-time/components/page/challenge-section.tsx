@@ -8,13 +8,9 @@ interface ChallengeSectionProps {
     inputType: FirstOrderInputType;
 }
 
-export function ChallengeSection({
-                                     inputType,
-                                 }: ChallengeSectionProps) {
+export function ChallengeSection({ inputType }: ChallengeSectionProps) {
     return (
-        <SharedChallengeSection
-            description="Predict the system behavior before revealing the result. Use the concepts from the experiment to evaluate your understanding."
-        >
+        <SharedChallengeSection description="Predict the system behavior before revealing the result. Use the concepts from the experiment to evaluate your understanding.">
             <PredictionExercise inputType={inputType} />
         </SharedChallengeSection>
     );

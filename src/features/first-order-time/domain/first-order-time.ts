@@ -1,7 +1,7 @@
-import {useIsMobile} from "@/hooks/use-is-mobile.ts";
-import {useState} from "react";
-import type {ModuleSection} from "@/components/modules/section-navigation.tsx";
-import {Activity, BookOpen, Gauge, SlidersHorizontal} from "lucide-react";
+import { useIsMobile } from '@/hooks/use-is-mobile.ts';
+import { useState } from 'react';
+import type { ModuleSection } from '@/components/modules/section-navigation.tsx';
+import { Activity, BookOpen, Gauge, SlidersHorizontal } from 'lucide-react';
 
 export type FirstOrderInputType = 'step' | 'ramp';
 
@@ -34,22 +34,12 @@ export const TIME_SECTIONS: ModuleSection[] = [
     { id: 'challenge', label: 'Challenge', icon: Gauge },
 ];
 
-export function stepResponse(
-    time: number,
-    { gain, tau, amplitude }: FirstOrderParameters,
-): number {
+export function stepResponse(time: number, { gain, tau, amplitude }: FirstOrderParameters): number {
     return gain * amplitude * (1 - Math.exp(-time / tau));
 }
 
-export function rampResponse(
-    time: number,
-    { gain, tau, amplitude }: FirstOrderParameters,
-): number {
-    return (
-        gain *
-        amplitude *
-        (time - tau * (1 - Math.exp(-time / tau)))
-    );
+export function rampResponse(time: number, { gain, tau, amplitude }: FirstOrderParameters): number {
+    return gain * amplitude * (time - tau * (1 - Math.exp(-time / tau)));
 }
 
 export function errorFraction(time: number, tau: number): number {
@@ -67,15 +57,10 @@ export function generateTimeResponse(
     return Array.from({ length: samples }, (_, index) => {
         const time = (index / (samples - 1)) * duration;
 
-        const input =
-            inputType === 'step'
-                ? amplitude
-                : amplitude * time;
+        const input = inputType === 'step' ? amplitude : amplitude * time;
 
         const output =
-            inputType === 'step'
-                ? stepResponse(time, parameters)
-                : rampResponse(time, parameters);
+            inputType === 'step' ? stepResponse(time, parameters) : rampResponse(time, parameters);
 
         const reference = gain * input;
 
@@ -102,9 +87,7 @@ export function generateErrorFractionData(tau: number) {
     });
 }
 
-export function getStepValidation(
-    parameters: FirstOrderParameters,
-): ValidationResult[] {
+export function getStepValidation(parameters: FirstOrderParameters): ValidationResult[] {
     const finalValue = parameters.gain * parameters.amplitude;
 
     const tests = [
@@ -134,14 +117,8 @@ export function getStepValidation(
     });
 }
 
-export function getRampSteadyStateError(
-    parameters: FirstOrderParameters,
-): number {
-    return (
-        parameters.gain *
-        parameters.amplitude *
-        parameters.tau
-    );
+export function getRampSteadyStateError(parameters: FirstOrderParameters): number {
+    return parameters.gain * parameters.amplitude * parameters.tau;
 }
 
 export function getRampLag(tau: number): number {

@@ -15,14 +15,11 @@ export function AppHeader() {
     const isMobile = useIsMobile();
 
     return (
-        <header className="border-b border-border bg-background">
+        <header className="border-border bg-background border-b">
             <div className="mx-auto flex min-h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
                 <div className="flex min-w-0 items-center gap-3">
                     {isMobile && (
-                        <SidebarTrigger
-                            className="size-9 shrink-0"
-                            aria-label="Open navigation"
-                        >
+                        <SidebarTrigger className="size-9 shrink-0" aria-label="Open navigation">
                             <Menu size={21} />
                         </SidebarTrigger>
                     )}
@@ -32,7 +29,7 @@ export function AppHeader() {
                         className="flex min-w-0 items-center gap-3"
                         aria-label="Dynamic Characteristics Toolkit home"
                     >
-                        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                        <div className="bg-primary text-primary-foreground flex size-9 shrink-0 items-center justify-center rounded-lg">
                             <img
                                 src={remyImage}
                                 alt="Remy"
@@ -45,7 +42,7 @@ export function AppHeader() {
                                 Dynamic Characteristics Toolkit
                             </p>
 
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground text-xs">
                                 ENCS4380 · Interfacing Techniques
                             </p>
                         </div>
@@ -59,7 +56,7 @@ export function AppHeader() {
                             target="_blank"
                             rel="noreferrer"
                             aria-label="GitHub"
-                            className="inline-flex rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                            className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex rounded-md p-2 transition-colors"
                         >
                             <FaGithub className="size-5" />
                         </a>

@@ -3,20 +3,13 @@ import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
 import { useChartTheme } from '@/hooks/use-chart-theme';
-import {
-    generateStepResponse,
-    type PhysicalParameters,
-} from '@/features/second-order/domain/second-order';
-
+import { generateStepResponse, type PhysicalParameters } from '@/features/second-order/domain';
 interface StepResponseChartProps {
     parameters: PhysicalParameters;
     duration: number;
 }
 
-export function StepResponseChart({
-    parameters,
-    duration,
-}: StepResponseChartProps) {
+export function StepResponseChart({ parameters, duration }: StepResponseChartProps) {
     const theme = useChartTheme();
     const points = useMemo(
         () => generateStepResponse(parameters, duration),

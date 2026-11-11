@@ -12,12 +12,12 @@ interface ExperimentSectionProps {
 }
 
 export function ExperimentSection({
-                                      tau,
-                                      omega,
-                                      onTauChange,
-                                      onOmegaChange,
-                                      onReset,
-                                  }: ExperimentSectionProps) {
+    tau,
+    omega,
+    onTauChange,
+    onOmegaChange,
+    onReset,
+}: ExperimentSectionProps) {
     return (
         <SharedExperimentSection
             description="Adjust the sensor time constant and sinusoidal input frequency. The time-domain signal and frequency-domain plots update immediately."
@@ -30,12 +30,7 @@ export function ExperimentSection({
                     onReset={onReset}
                 />
             }
-            analysis={
-                <FrequencyResponseAnalysis
-                    tau={tau}
-                    omega={omega}
-                />
-            }
+            analysis={<FrequencyResponseAnalysis tau={tau} omega={omega} />}
         />
     );
 }

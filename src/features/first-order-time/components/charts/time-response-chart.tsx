@@ -18,21 +18,13 @@ interface TimeResponseChartProps {
 const FRACTION_AT_TAU = 0.6321205588;
 const FRACTION_AT_THREE_TAU = 0.9502129316;
 
-export function TimeResponseChart({
-                                      parameters,
-                                      inputType,
-                                      duration,
-                                  }: TimeResponseChartProps) {
+export function TimeResponseChart({ parameters, inputType, duration }: TimeResponseChartProps) {
     const theme = useChartTheme();
 
     const { gain, tau, amplitude } = parameters;
     const finalValue = gain * amplitude;
 
-    const points = generateTimeResponse(
-        parameters,
-        inputType,
-        duration,
-    );
+    const points = generateTimeResponse(parameters, inputType, duration);
 
     const traces: Data[] = [
         {
@@ -146,79 +138,79 @@ export function TimeResponseChart({
         shapes:
             inputType === 'step'
                 ? [
-                    {
-                        type: 'line',
-                        x0: tau,
-                        x1: tau,
-                        y0: 0,
-                        y1: valueAtTau,
-                        line: {
-                            color: '#d69a35',
-                            dash: 'dot',
-                        },
-                    },
-                    {
-                        type: 'line',
-                        x0: 0,
-                        x1: tau,
-                        y0: valueAtTau,
-                        y1: valueAtTau,
-                        line: {
-                            color: '#d69a35',
-                            dash: 'dot',
-                        },
-                    },
-                    {
-                        type: 'line',
-                        x0: 3 * tau,
-                        x1: 3 * tau,
-                        y0: 0,
-                        y1: valueAtThreeTau,
-                        line: {
-                            color: '#d65d67',
-                            dash: 'dot',
-                        },
-                    },
-                    {
-                        type: 'line',
-                        x0: 0,
-                        x1: 3 * tau,
-                        y0: valueAtThreeTau,
-                        y1: valueAtThreeTau,
-                        line: {
-                            color: '#d65d67',
-                            dash: 'dot',
-                        },
-                    },
-                ]
+                      {
+                          type: 'line',
+                          x0: tau,
+                          x1: tau,
+                          y0: 0,
+                          y1: valueAtTau,
+                          line: {
+                              color: '#d69a35',
+                              dash: 'dot',
+                          },
+                      },
+                      {
+                          type: 'line',
+                          x0: 0,
+                          x1: tau,
+                          y0: valueAtTau,
+                          y1: valueAtTau,
+                          line: {
+                              color: '#d69a35',
+                              dash: 'dot',
+                          },
+                      },
+                      {
+                          type: 'line',
+                          x0: 3 * tau,
+                          x1: 3 * tau,
+                          y0: 0,
+                          y1: valueAtThreeTau,
+                          line: {
+                              color: '#d65d67',
+                              dash: 'dot',
+                          },
+                      },
+                      {
+                          type: 'line',
+                          x0: 0,
+                          x1: 3 * tau,
+                          y0: valueAtThreeTau,
+                          y1: valueAtThreeTau,
+                          line: {
+                              color: '#d65d67',
+                              dash: 'dot',
+                          },
+                      },
+                  ]
                 : [],
 
         annotations:
             inputType === 'step'
                 ? [
-                    {
-                        x: tau / 2,
-                        y: valueAtTau,
-                        text: '63.2%',
-                        showarrow: false,
-                        yshift: 13,
-                        font: {
-                            color: '#b9791f',
-                            size: 10,
-                        },
-                    },
-                    {
-                        x: 1.5 * tau,
-                        y: valueAtThreeTau,
-                        text: '95%',
-                        showarrow: false,
-                        yshift: -14,
-                        font: {
-                            color: '#c04a55',
-                            size: 10,
-                        },
-                    },
-                ]
+                      {
+                          x: tau / 2,
+                          y: valueAtTau,
+                          text: '63.2%',
+                          showarrow: false,
+                          yshift: 13,
+                          font: {
+                              color: '#b9791f',
+                              size: 10,
+                          },
+                      },
+                      {
+                          x: 1.5 * tau,
+                          y: valueAtThreeTau,
+                          text: '95%',
+                          showarrow: false,
+                          yshift: -14,
+                          font: {
+                              color: '#c04a55',
+                              size: 10,
+                          },
+                      },
+                  ]
                 : [],
     };
     return (

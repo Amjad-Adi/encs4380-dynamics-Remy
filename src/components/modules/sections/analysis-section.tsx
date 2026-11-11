@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -13,23 +12,18 @@ interface SharedAnalysisSectionProps {
 }
 
 export function SharedAnalysisSection({
-                                    title,
-                                    icon,
-                                    children,
-                                    description,
-                                    className = 'space-y-3',
-                                }: SharedAnalysisSectionProps) {
+    title,
+    icon,
+    children,
+    description,
+    className = 'space-y-3',
+}: SharedAnalysisSectionProps) {
     return (
-        <section
-            id="analysis"
-            className={`scroll-mt-24 ${className}`}
-        >
+        <section id="analysis" className={`scroll-mt-24 ${className}`}>
             <SectionHeading title={title} icon={icon} />
 
             {description && (
-                <p className="text-sm leading-6 text-muted-foreground">
-                    {description}
-                </p>
+                <p className="text-muted-foreground text-sm leading-6">{description}</p>
             )}
 
             {children}

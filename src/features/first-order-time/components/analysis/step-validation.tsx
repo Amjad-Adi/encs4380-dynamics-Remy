@@ -18,10 +18,7 @@ interface StepValidationProps {
     parameters: FirstOrderParameters;
 }
 
-export function StepValidation({
-                                   results,
-                                   parameters,
-                               }: StepValidationProps) {
+export function StepValidation({ results, parameters }: StepValidationProps) {
     const finalValue = parameters.gain * parameters.amplitude;
     const valueAtTau = FRACTION_AT_TAU * finalValue;
     const valueAtThreeTau = FRACTION_AT_THREE_TAU * finalValue;
@@ -36,10 +33,9 @@ export function StepValidation({
 
     return (
         <section className="space-y-4">
-            <p className="text-sm leading-6 text-muted-foreground">
-                At t = τ = {parameters.tau.toFixed(2)} s the output reaches
-                63.2% of KA; at t = 3τ = {(3 * parameters.tau).toFixed(2)} s
-                it reaches 95.0% of KA.
+            <p className="text-muted-foreground text-sm leading-6">
+                At t = τ = {parameters.tau.toFixed(2)} s the output reaches 63.2% of KA; at t = 3τ ={' '}
+                {(3 * parameters.tau).toFixed(2)} s it reaches 95.0% of KA.
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">

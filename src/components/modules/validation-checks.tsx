@@ -2,12 +2,7 @@ import { ClipboardCheck } from 'lucide-react';
 
 import { SectionHeading } from '@/components/modules/section-heading';
 import { Badge } from '@/components/ui/badge';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export interface ValidationCheck {
     label: string;
@@ -26,16 +21,11 @@ interface ValidationSectionProps {
     description: string;
 }
 
-const PASS_BADGE_CLASS =
-    'w-fit border-success/30 bg-success/5 text-success';
+const PASS_BADGE_CLASS = 'w-fit border-success/30 bg-success/5 text-success';
 
-const FAIL_BADGE_CLASS =
-    'w-fit border-destructive/30 bg-destructive/5 text-destructive';
+const FAIL_BADGE_CLASS = 'w-fit border-destructive/30 bg-destructive/5 text-destructive';
 
-export function ValidationChecks({
-                                     checks,
-                                     title = 'Validation results',
-                                 }: ValidationChecksProps) {
+export function ValidationChecks({ checks, title = 'Validation results' }: ValidationChecksProps) {
     return (
         <Card className="min-w-0">
             <CardHeader>
@@ -46,14 +36,12 @@ export function ValidationChecks({
                 {checks.map((check) => (
                     <div
                         key={check.label}
-                        className="flex flex-col justify-between gap-2 rounded-lg border border-border p-3 sm:flex-row sm:items-center"
+                        className="border-border flex flex-col justify-between gap-2 rounded-lg border p-3 sm:flex-row sm:items-center"
                     >
                         <div className="min-w-0">
-                            <p className="text-sm font-medium">
-                                {check.label}
-                            </p>
+                            <p className="text-sm font-medium">{check.label}</p>
 
-                            <p className="mt-1 break-words text-xs text-muted-foreground">
+                            <p className="text-muted-foreground mt-1 text-xs break-words">
                                 Expected: {check.expected}
                                 {' · '}
                                 Your value: {check.calculated}
@@ -62,11 +50,7 @@ export function ValidationChecks({
 
                         <Badge
                             variant="outline"
-                            className={
-                                check.passed
-                                    ? PASS_BADGE_CLASS
-                                    : FAIL_BADGE_CLASS
-                            }
+                            className={check.passed ? PASS_BADGE_CLASS : FAIL_BADGE_CLASS}
                         >
                             {check.passed ? 'PASS' : 'FAIL'}
                         </Badge>
@@ -77,20 +61,12 @@ export function ValidationChecks({
     );
 }
 
-export function ValidationSection({
-                                      checks,
-                                      description,
-                                  }: ValidationSectionProps) {
+export function ValidationSection({ checks, description }: ValidationSectionProps) {
     return (
         <section className="space-y-3">
-            <SectionHeading
-                title="Lecture validation checks"
-                icon={ClipboardCheck}
-            />
+            <SectionHeading title="Lecture validation checks" icon={ClipboardCheck} />
 
-            <p className="text-sm leading-6 text-muted-foreground">
-                {description}
-            </p>
+            <p className="text-muted-foreground text-sm leading-6">{description}</p>
 
             <ValidationChecks checks={checks} />
         </section>

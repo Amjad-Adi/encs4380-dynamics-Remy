@@ -2,7 +2,10 @@ import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
 import { useChartTheme } from '@/hooks/use-chart-theme.ts';
-import { generateBodeResponse, getFrequencyResponse } from '@/features/first-order-frequency/domain/first-order-frequency.ts';
+import {
+    generateBodeResponse,
+    getFrequencyResponse,
+} from '@/features/first-order-frequency/domain/first-order-frequency.ts';
 
 interface BodeResponseChartProps {
     tau: number;
@@ -153,7 +156,9 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
     return (
         <div className="grid min-w-0 gap-4 lg:grid-cols-2">
             <div className="min-w-0">
-                <p className="mb-1 text-xs font-semibold text-muted-foreground">Magnitude response</p>
+                <p className="text-muted-foreground mb-1 text-xs font-semibold">
+                    Magnitude response
+                </p>
                 <div className="h-[330px] min-h-[330px] w-full min-w-0">
                     <Plot
                         data={magnitudeData}
@@ -164,7 +169,7 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
                 </div>
             </div>
             <div className="min-w-0">
-                <p className="mb-1 text-xs font-semibold text-muted-foreground">Phase response</p>
+                <p className="text-muted-foreground mb-1 text-xs font-semibold">Phase response</p>
                 <div className="h-[330px] min-h-[330px] w-full min-w-0">
                     <Plot
                         data={phaseData}

@@ -1,7 +1,4 @@
-import {
-    Clock3,
-    Gauge,
-} from 'lucide-react';
+import { Clock3, Gauge } from 'lucide-react';
 
 import {
     Card,
@@ -29,37 +26,33 @@ interface RampResultCardProps {
 }
 
 function RampResultCard({
-                            title,
-                            description,
-                            value,
-                            unit,
-                            equation,
-                            explanation,
-                            icon: Icon,
-                        }: RampResultCardProps) {
+    title,
+    description,
+    value,
+    unit,
+    equation,
+    explanation,
+    icon: Icon,
+}: RampResultCardProps) {
     return (
         <Card className="min-w-0">
             <CardHeader>
                 <div className="flex items-start gap-3">
-                    <div className="rounded-lg bg-accent p-2 text-accent-foreground">
+                    <div className="bg-accent text-accent-foreground rounded-lg p-2">
                         <Icon size={19} aria-hidden="true" />
                     </div>
 
                     <div className="min-w-0">
-                        <CardTitle className="text-base">
-                            {title}
-                        </CardTitle>
+                        <CardTitle className="text-base">{title}</CardTitle>
 
-                        <CardDescription className="mt-1">
-                            {description}
-                        </CardDescription>
+                        <CardDescription className="mt-1">{description}</CardDescription>
                     </div>
                 </div>
             </CardHeader>
 
             <CardContent className="space-y-4">
-                <div className="rounded-xl border bg-muted/40 p-4">
-                    <p className="text-xs font-medium text-muted-foreground">
+                <div className="bg-muted/40 rounded-xl border p-4">
+                    <p className="text-muted-foreground text-xs font-medium">
                         Mathematical relationship
                     </p>
 
@@ -67,19 +60,17 @@ function RampResultCard({
                 </div>
 
                 <div>
-                    <p className="text-xs text-muted-foreground">
-                        Calculated result
-                    </p>
+                    <p className="text-muted-foreground text-xs">Calculated result</p>
 
                     <p className="mt-1 font-mono text-3xl font-semibold tabular-nums">
                         {value}
-                        <span className="ml-2 text-sm font-normal text-muted-foreground">
+                        <span className="text-muted-foreground ml-2 text-sm font-normal">
                             {unit}
                         </span>
                     </p>
                 </div>
 
-                <p className="border-t pt-3 text-sm leading-6 text-muted-foreground">
+                <p className="text-muted-foreground border-t pt-3 text-sm leading-6">
                     {explanation}
                 </p>
             </CardContent>
@@ -87,10 +78,7 @@ function RampResultCard({
     );
 }
 
-export function RampAnalysis({
-                                 rampError,
-                                 rampLag,
-                             }: RampAnalysisProps) {
+export function RampAnalysis({ rampError, rampLag }: RampAnalysisProps) {
     return (
         <section className="grid min-w-0 gap-4 lg:grid-cols-2">
             <RampResultCard

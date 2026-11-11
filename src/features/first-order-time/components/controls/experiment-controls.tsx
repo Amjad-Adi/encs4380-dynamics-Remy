@@ -19,28 +19,23 @@ import type {
 interface ExperimentControlsProps {
     parameters: FirstOrderParameters;
     inputType: FirstOrderInputType;
-    onParameterChange: (
-        key: keyof FirstOrderParameters,
-        value: number,
-    ) => void;
+    onParameterChange: (key: keyof FirstOrderParameters, value: number) => void;
     onInputTypeChange: (type: FirstOrderInputType) => void;
     onReset: () => void;
 }
 
 export function ExperimentControls({
-                                       parameters,
-                                       inputType,
-                                       onParameterChange,
-                                       onInputTypeChange,
-                                       onReset,
-                                   }: ExperimentControlsProps) {
+    parameters,
+    inputType,
+    onParameterChange,
+    onInputTypeChange,
+    onReset,
+}: ExperimentControlsProps) {
     return (
         <Card className="h-fit">
             <CardHeader>
                 <div className="flex items-center justify-between gap-2">
-                    <CardTitle className="text-base">
-                        Experiment controls
-                    </CardTitle>
+                    <CardTitle className="text-base">Experiment controls</CardTitle>
 
                     <Button
                         variant="ghost"
@@ -53,9 +48,7 @@ export function ExperimentControls({
                     </Button>
                 </div>
 
-                <CardDescription>
-                    Change the system parameters and input signal.
-                </CardDescription>
+                <CardDescription>Change the system parameters and input signal.</CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-7">
@@ -66,7 +59,7 @@ export function ExperimentControls({
                     min={0.1}
                     max={5}
                     step={0.1}
-                    unit="—"
+                    unit="-"
                     description="System sensitivity"
                     onChange={(value) => onParameterChange('gain', value)}
                 />
@@ -85,24 +78,14 @@ export function ExperimentControls({
 
                 <ParameterControl
                     id="amplitude"
-                    label={
-                        inputType === 'step'
-                            ? 'Step amplitude (A)'
-                            : 'Ramp slope (A)'
-                    }
+                    label={inputType === 'step' ? 'Step amplitude (A)' : 'Ramp slope (A)'}
                     value={parameters.amplitude}
                     min={0.1}
                     max={5}
                     step={0.1}
                     unit={inputType === 'step' ? 'units' : 'units/s'}
-                    description={
-                        inputType === 'step'
-                            ? 'Step magnitude'
-                            : 'Ramp slope'
-                    }
-                    onChange={(value) =>
-                        onParameterChange('amplitude', value)
-                    }
+                    description={inputType === 'step' ? 'Step magnitude' : 'Ramp slope'}
+                    onChange={(value) => onParameterChange('amplitude', value)}
                 />
 
                 <Separator />
@@ -126,14 +109,8 @@ export function ExperimentControls({
                             <Button
                                 key={option.type}
                                 type="button"
-                                variant={
-                                    inputType === option.type
-                                        ? 'default'
-                                        : 'outline'
-                                }
-                                onClick={() =>
-                                    onInputTypeChange(option.type)
-                                }
+                                variant={inputType === option.type ? 'default' : 'outline'}
+                                onClick={() => onInputTypeChange(option.type)}
                                 className="h-auto flex-col items-start gap-0.5 py-2"
                                 aria-pressed={inputType === option.type}
                             >
@@ -147,22 +124,14 @@ export function ExperimentControls({
                     </div>
                 </div>
 
-                <div className="rounded-lg bg-muted/60 p-3">
-                    <p className="text-xs font-semibold">
-                        Current experiment
-                    </p>
+                <div className="bg-muted/60 rounded-lg p-3">
+                    <p className="text-xs font-semibold">Current experiment</p>
 
-                    <p className="mt-2 font-mono text-sm">
-                        K = {parameters.gain.toFixed(2)}
-                    </p>
+                    <p className="mt-2 font-mono text-sm">K = {parameters.gain.toFixed(2)}</p>
 
-                    <p className="font-mono text-sm">
-                        τ = {parameters.tau.toFixed(2)} s
-                    </p>
+                    <p className="font-mono text-sm">τ = {parameters.tau.toFixed(2)} s</p>
 
-                    <p className="font-mono text-sm">
-                        A = {parameters.amplitude.toFixed(2)}
-                    </p>
+                    <p className="font-mono text-sm">A = {parameters.amplitude.toFixed(2)}</p>
                 </div>
             </CardContent>
         </Card>

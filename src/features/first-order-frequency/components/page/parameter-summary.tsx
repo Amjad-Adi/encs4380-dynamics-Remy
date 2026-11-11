@@ -1,12 +1,6 @@
+import { Activity, Gauge, Waves, Zap } from 'lucide-react';
 
-import {
-    Activity,
-    Gauge,
-    Waves,
-    Zap,
-} from 'lucide-react';
-
-import {  SharedParameterSummary } from '@/components/modules/parameter-summary';
+import { SharedParameterSummary } from '@/components/modules/parameter-summary';
 
 import type { FrequencyResponse } from '@/features/first-order-frequency/domain/first-order-frequency';
 
@@ -43,10 +37,5 @@ export function ParameterSummary({ response }: ParameterSummaryProps) {
         },
     ];
 
-    return (
-        <SharedParameterSummary
-            items={items}
-            ariaLabel="Current frequency response metrics"
-        />
-    );
+    return <SharedParameterSummary items={items} ariaLabel="Current frequency response metrics" />;
 }

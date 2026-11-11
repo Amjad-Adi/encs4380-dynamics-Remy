@@ -1,10 +1,4 @@
-import {
-    Activity,
-    BookOpen,
-    Gauge,
-    Lightbulb,
-    SlidersHorizontal,
-} from 'lucide-react';
+import { Activity, BookOpen, Gauge, Lightbulb, SlidersHorizontal } from 'lucide-react';
 
 import type { ModuleSection } from '@/components/modules/section-navigation';
 

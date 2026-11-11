@@ -20,12 +20,12 @@ An interactive engineering toolkit for studying the dynamic characteristics of m
 
 The project is developed collaboratively, with each team member responsible for a dedicated module and its integration into the overall toolkit.
 
-| Team Member | Module | Responsibility |
-|---|---|---|
-| Amjad Adi | Module 1 | First-Order Time Response |
-| Yazeed | Module 2 | First-Order Frequency Response |
-| Rahaf | Module 3 | Second-Order System Response |
-| Hanan | Module 4 | Guess the Sensor Challenge |
+| Team Member | Module   | Responsibility                 |
+| ----------- | -------- | ------------------------------ |
+| Amjad Adi   | Module 1 | First-Order Time Response      |
+| Yazeed      | Module 2 | First-Order Frequency Response |
+| Hanan       | Module 3 | Second-Order System Response   |
+| Rahaf       | Module 4 | Guess the Sensor Challenge     |
 
 ---
 
@@ -33,7 +33,7 @@ The project is developed collaboratively, with each team member responsible for 
 
 The application is organized into four interconnected modules, progressing from fundamental first-order system behavior to second-order dynamics and practical sensor identification.
 
-### Module 1 — First-Order Time Response
+### Module 1 - First-Order Time Response
 
 **Developer: Amjad Adi**
 
@@ -46,6 +46,7 @@ G(s)=\frac{K}{\tau s+1}
 The module provides adjustable gain and time-constant parameters, with selectable step and ramp inputs. Its visualizations connect the mathematical model to the transient and steady-state behavior of a measurement system.
 
 **Implemented features:**
+
 - Interactive first-order step-response simulation.
 - Dynamic visualization of the 63.2% response point at \(t=\tau\) and the 95% response point at \(t=3\tau\).
 - Ramp-response simulation with ideal and actual output comparison.
@@ -77,8 +78,7 @@ The module provides adjustable gain and time-constant parameters, with selectabl
 
 ![Module 1 – Screenshot 11](screenshots/screenshot1-11.jpg)
 
-
-### Module 2 — First-Order Frequency Response
+### Module 2 - First-Order Frequency Response
 
 **Developer: Yazeed**
 
@@ -93,6 +93,7 @@ M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
 \]
 
 **Implemented features:**
+
 - Interactive sinusoidal input and output visualization.
 - Real-time amplitude-ratio and phase-lag calculations.
 - Frequency-response analysis with adjustable time constant and input frequency.
@@ -103,13 +104,11 @@ M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
 
 **Screenshots**
 
-
 **Screenshots**
 
+### Module 3 - Second-Order System Response
 
-### Module 3 — Second-Order System Response
-
-**Developer: Rahaf**
+**Developer: Hanan**
 
 An interactive study of second-order measurement systems, focusing on the influence of damping ratio and natural frequency on transient response.
 
@@ -121,6 +120,7 @@ G(s)=\frac{K\omega_n^2}
 \]
 
 **Implemented features:**
+
 - Interactive underdamped, critically damped, and overdamped response simulations.
 - Adjustable damping ratio and natural frequency.
 - Live rise-time, peak-time, percentage-overshoot, and settling-time measurements.
@@ -132,14 +132,14 @@ G(s)=\frac{K\omega_n^2}
 
 **Screenshots**
 
+### Module 4 - Guess the Sensor Challenge
 
-### Module 4 — Guess the Sensor Challenge
-
-**Developer: Hanan**
+**Developer: Rahaf**
 
 An interactive parameter-estimation challenge that puts the concepts from the preceding modules into practice. Users investigate an unknown sensor response and estimate its underlying dynamic parameters from the observed behavior.
 
 **Implemented features:**
+
 - Random generation of first-order and second-order sensor models.
 - Noisy response visualization.
 - Parameter estimation using response characteristics.
@@ -151,10 +151,9 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 
 **Screenshots**
 
-
 ---
 
-## Teaching Approach — Predict, Then Check
+## Teaching Approach - Predict, Then Check
 
 The toolkit is designed around active exploration. Rather than presenting system responses as static results, it encourages students to form predictions, manipulate system parameters, and compare their expectations with the resulting mathematical calculations and visualizations.
 
@@ -177,17 +176,17 @@ The following prompts connect the theoretical concepts to the interactive experi
 
 The toolkit uses a modular React architecture, combining mathematical computation, interactive visualization, and reusable interface components.
 
-| Technology | Purpose |
-|---|---|
-| React | Component-based user interface |
-| TypeScript | Type-safe application logic |
-| Vite | Development server and production build |
-| Tailwind CSS | Responsive styling and design system |
-| shadcn-style components | Consistent, reusable interface elements |
-| Plotly | Interactive engineering visualizations |
-| KaTeX | Mathematical equation rendering |
-| React Router | Client-side navigation |
-| Lucide React / React Icons | Interface iconography |
+| Technology                 | Purpose                                 |
+| -------------------------- | --------------------------------------- |
+| React                      | Component-based user interface          |
+| TypeScript                 | Type-safe application logic             |
+| Vite                       | Development server and production build |
+| Tailwind CSS               | Responsive styling and design system    |
+| shadcn-style components    | Consistent, reusable interface elements |
+| Plotly                     | Interactive engineering visualizations  |
+| KaTeX                      | Mathematical equation rendering         |
+| React Router               | Client-side navigation                  |
+| Lucide React / React Icons | Interface iconography                   |
 
 ## Architecture and Development
 
@@ -196,6 +195,7 @@ The application follows a consistent frontend architecture across all four modul
 Module 1 established the initial interactive structure and visual conventions. Module 2's existing Python implementation was subsequently integrated into the web application using the same overall structure, preserving consistency across the toolkit. The remaining modules extend the application to second-order system analysis and practical parameter estimation.
 
 The implementation emphasizes:
+
 - Separation of module-specific logic and shared interface components.
 - Reusable interactive controls and visualization patterns.
 - Responsive layouts for desktop and mobile devices.
@@ -208,7 +208,7 @@ The implementation emphasizes:
 
 AI coding assistants were used as development tools throughout the project. Their role was to support technical reasoning, implementation, code review, and interface refinement. All team members remain responsible for understanding and explaining their respective implementations.
 
-### Amjad Adi — Module 1
+### Amjad Adi - Module 1
 
 **AI tool:** ChatGPT (GPT-6)
 
@@ -219,6 +219,7 @@ I used ChatGPT throughout the development of Module 1 to support the implementat
 I provided the technical requirements and explicitly specified the frontend technologies and libraries to be used, including React, TypeScript, Tailwind CSS, Plotly, and KaTeX. I also guided the component architecture and implementation structure to ensure consistency with the intended application design.
 
 My prompts covered:
+
 - Translating the first-order differential equation and transfer function into interactive response calculations.
 - Implementing step and ramp response models.
 - Calculating and displaying characteristic response points.
@@ -241,7 +242,7 @@ I directed the implementation by defining the required libraries, frontend struc
 
 I used the AI-generated assistance selectively, reviewing and adapting the resulting implementation rather than accepting suggestions without evaluation. I also checked the implemented calculations against the mathematical relationships and validation values specified in the assignment.
 
-### Yazeed — Module 2
+### Yazeed - Module 2
 
 **AI tool:** [Tool and model]
 
@@ -251,7 +252,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Rahaf — Module 3
+### Hanan - Module 3
 
 **AI tool:** [Tool and model]
 
@@ -261,32 +262,34 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Hanan — Module 4
+### Rahaf - Module 4: Sensor Challenge
 
-**AI tool:** [Tool and model]
+**AI tool:**  
+ChatGPT (GPT-6) and GitHub Copilot.
 
-**What I asked:** [Describe the actual prompts and technical assistance used.]
+**What I asked:**  
+I used ChatGPT to understand the Module 4 requirements, plan the implementation, and prepare technical prompts for GitHub Copilot. I asked for assistance with designing the sensor identification challenge, generating hidden first-order and second-order sensor parameters, adding measurement noise, calculating parameter estimates, and implementing the scoring and feedback system. I also used AI assistance to troubleshoot TypeScript build errors and integrate the module into the existing project structure.
 
-**What I learned:** [Describe the concepts and implementation knowledge gained.]
+**What I learned:**  
+I learned how to identify first-order system parameters using the 63.2% response method and how to estimate second-order system parameters using percentage overshoot and peak time. I also improved my understanding of noisy sensor measurements, parameter estimation, error calculation, and comparing estimated values with actual system parameters. Additionally, I learned about React component integration, TypeScript error handling, and Git workflows.
 
-**How I used it:** [Describe how the assistance contributed to the completed module.]
-
----
+**How I used it:**  
+I used AI assistance to plan and implement the Sensor Challenge module within the existing React and TypeScript project. GitHub Copilot helped generate the implementation, including random sensor generation, noisy response visualization, parameter input fields, answer validation, accuracy calculations, hints, and score tracking. ChatGPT helped review the implementation process, resolve integration issues, and guide the build and testing steps. I then ran the project locally and successfully completed the production build.
 
 ## Validation
 
 The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
 
-| # | Validation case | Expected result |
-|---|---|---|
-| 1 | First-order step response at \(t=\tau\) | \(y(\tau)=0.632KA\) |
-| 2 | First-order step response at \(t=3\tau\) | \(y(3\tau)=0.95KA\) |
-| 3 | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\) | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
-| 4 | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\) |
-| 5 | Phase lag at 50 Hz using the maximum time constant | \(\approx9.3^\circ\) |
-| 6 | Second-order response with \(\zeta=0.5\) | Overshoot \(\approx16.3\%\) |
-| 7 | Second-order response with \(\zeta=1\) | No overshoot |
-| 8 | State-space model, \(m=1,\ b=2,\ k=4\) | Eigenvalues \(-1\pm j1.732\), matching the poles |
+| #   | Validation case                                                | Expected result                                   |
+| --- | -------------------------------------------------------------- | ------------------------------------------------- |
+| 1   | First-order step response at \(t=\tau\)                        | \(y(\tau)=0.632KA\)                               |
+| 2   | First-order step response at \(t=3\tau\)                       | \(y(3\tau)=0.95KA\)                               |
+| 3   | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\)       | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
+| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\)                    |
+| 5   | Phase lag at 50 Hz using the maximum time constant             | \(\approx9.3^\circ\)                              |
+| 6   | Second-order response with \(\zeta=0.5\)                       | Overshoot \(\approx16.3\%\)                       |
+| 7   | Second-order response with \(\zeta=1\)                         | No overshoot                                      |
+| 8   | State-space model, \(m=1,\ b=2,\ k=4\)                         | Eigenvalues \(-1\pm j1.732\), matching the poles  |
 
 The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
 
@@ -298,12 +301,12 @@ The validation results are presented within the relevant modules, allowing users
 
 The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
 
-| Team Member | GitHub Username | Contribution History |
-|---|---|---|
-| Amjad Adi | [Username] | [Commit history link] |
-| Yazeed | [Username] | [Commit history link] |
-| Rahaf | [Username] | [Commit history link] |
-| Hanan | [Username] | [Commit history link] |
+| Team Member | GitHub Username | Contribution History  |
+| ----------- | --------------- | --------------------- |
+| Amjad Adi   | [Username]      | [Commit history link] |
+| Yazeed      | [Username]      | [Commit history link] |
+| Rahaf       | [Username]      | [Commit history link] |
+| Hanan       | [Username]      | [Commit history link] |
 
 Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
 

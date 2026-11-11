@@ -24,16 +24,10 @@ interface DynamicErrorCalculatorProps {
     omega: number;
 }
 
-export function DynamicErrorCalculator({
-    tau,
-    omega,
-}: DynamicErrorCalculatorProps) {
+export function DynamicErrorCalculator({ tau, omega }: DynamicErrorCalculatorProps) {
     const [tolerance, setTolerance] = useState(10);
     const response = getFrequencyResponse(tau, omega);
-    const maximumFrequency = useMemo(
-        () => getMaximumFrequency(tau, tolerance),
-        [tau, tolerance],
-    );
+    const maximumFrequency = useMemo(() => getMaximumFrequency(tau, tolerance), [tau, tolerance]);
     const isWithinTolerance = response.amplitudeLossPercent <= tolerance;
 
     return (
@@ -44,21 +38,19 @@ export function DynamicErrorCalculator({
                     <CardTitle className="text-base">Dynamic-error calculator</CardTitle>
                 </div>
                 <CardDescription>
-                    Determine the highest input frequency that keeps amplitude loss
-                    within a selected tolerance.
+                    Determine the highest input frequency that keeps amplitude loss within a
+                    selected tolerance.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
-                <div className="rounded-lg bg-muted/40 px-3 py-2">
+                <div className="bg-muted/40 rounded-lg px-3 py-2">
                     <Equation
                         expression={String.raw`\delta=M-1,\qquad \omega_{\max}=\frac{1}{\tau}\sqrt{\frac{1}{(1-\epsilon)^2}-1}`}
                     />
                 </div>
                 <div className="space-y-2">
                     <div className="flex items-center justify-between gap-3">
-                        <Label htmlFor="amplitude-tolerance">
-                            Allowable amplitude loss
-                        </Label>
+                        <Label htmlFor="amplitude-tolerance">Allowable amplitude loss</Label>
                         <span className="font-mono text-sm font-semibold tabular-nums">
                             {tolerance}%
                         </span>
@@ -78,23 +70,23 @@ export function DynamicErrorCalculator({
                         }}
                         className="max-w-32 font-mono"
                     />
-                    <p className="text-xs leading-5 text-muted-foreground">
-                        Amplitude loss is measured relative to the ideal output amplitude.
-                        Phase error is not included in this tolerance.
+                    <p className="text-muted-foreground text-xs leading-5">
+                        Amplitude loss is measured relative to the ideal output amplitude. Phase
+                        error is not included in this tolerance.
                     </p>
                 </div>
 
-                <div className="rounded-lg bg-muted/60 p-4">
-                    <p className="text-xs font-semibold text-muted-foreground">
+                <div className="bg-muted/60 rounded-lg p-4">
+                    <p className="text-muted-foreground text-xs font-semibold">
                         Maximum permitted angular frequency
                     </p>
                     <p className="mt-1 font-mono text-2xl font-semibold tabular-nums">
                         {maximumFrequency.toFixed(3)}
-                        <span className="ml-2 text-sm font-normal text-muted-foreground">
+                        <span className="text-muted-foreground ml-2 text-sm font-normal">
                             rad/s
                         </span>
                     </p>
-                    <p className="mt-1 text-xs text-muted-foreground">
+                    <p className="text-muted-foreground mt-1 text-xs">
                         Equivalent frequency: {(maximumFrequency / (2 * Math.PI)).toFixed(3)} Hz
                     </p>
                 </div>
@@ -109,9 +101,9 @@ export function DynamicErrorCalculator({
                     role="status"
                 >
                     {isWithinTolerance ? (
-                        <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-success" />
+                        <CheckCircle2 size={18} className="text-success mt-0.5 shrink-0" />
                     ) : (
-                        <AlertTriangle size={18} className="mt-0.5 shrink-0 text-warning" />
+                        <AlertTriangle size={18} className="text-warning mt-0.5 shrink-0" />
                     )}
                     <div className="min-w-0">
                         <p className="font-medium">
@@ -119,9 +111,10 @@ export function DynamicErrorCalculator({
                                 ? 'Current frequency is within tolerance.'
                                 : 'Current frequency exceeds the amplitude-loss tolerance.'}
                         </p>
-                        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                        <p className="text-muted-foreground mt-1 text-xs leading-5">
                             Current amplitude loss: {response.amplitudeLossPercent.toFixed(2)}%.
-                            {` `}Selected ω = {omega.toFixed(3)} rad/s; limit = {maximumFrequency.toFixed(3)} rad/s.
+                            {` `}Selected ω = {omega.toFixed(3)} rad/s; limit ={' '}
+                            {maximumFrequency.toFixed(3)} rad/s.
                         </p>
                     </div>
                 </div>
