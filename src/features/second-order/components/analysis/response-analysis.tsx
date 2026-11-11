@@ -5,10 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { PoleChart } from '../charts/pole-chart';
 import { StepResponseChart } from '../charts/step-response-chart';
-import type {
-    DampingRegime,
-    PhysicalParameters,
-    ResponseMetrics,
+import {
+    type DampingRegime, getDampingRegime,
+    type PhysicalParameters,
+    type ResponseMetrics,
 } from '@/features/second-order/domain';
 interface ResponseAnalysisProps {
     parameters: PhysicalParameters;
@@ -40,7 +40,6 @@ export function ResponseAnalysis({
         metrics.settlingTime === null
             ? 'No finite settling time'
             : `${metrics.settlingTime.toFixed(3)} s`;
-    // @ts-ignore
     const regime = REGIME_LABELS[getDampingRegime(parameters)];
 
     return (
