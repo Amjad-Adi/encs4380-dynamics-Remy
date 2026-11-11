@@ -1,11 +1,4 @@
-import {
-    Activity,
-    AudioWaveform,
-    Crosshair,
-    Gauge,
-    ScanSearch,
-} from 'lucide-react';
-
+import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch } from 'lucide-react';
 
 export const MODULES = [
     {

@@ -1,17 +1,13 @@
 import {
-    getNormalizedStepResponse,
-    type PhysicalParameters,
-} from '@/features/second-order/domain/second-order';
-import {
     stepResponse,
     type FirstOrderParameters,
 } from '@/features/first-order-time/domain/first-order-time';
+import { getNormalizedStepResponse, type PhysicalParameters } from '@/features/second-order/domain';
 
 export type SensorType = 'first-order' | 'second-order';
 
 export type SensorParameters =
-    | { type: 'first-order'; tau: number }
-    | { type: 'second-order'; zeta: number; omegaN: number };
+    { type: 'first-order'; tau: number } | { type: 'second-order'; zeta: number; omegaN: number };
 
 export interface SensorSample {
     time: number;
@@ -26,8 +22,7 @@ export interface SensorChallenge {
 }
 
 export type SensorEstimate =
-    | { type: 'first-order'; tau: number }
-    | { type: 'second-order'; zeta: number; omegaN: number };
+    { type: 'first-order'; tau: number } | { type: 'second-order'; zeta: number; omegaN: number };
 
 export interface ParameterError {
     label: string;
@@ -48,16 +43,11 @@ function gaussianNoise(random: () => number): number {
     const u1 = Math.max(Number.MIN_VALUE, random());
     const u2 = random();
     const noise =
-        Math.sqrt(-2 * Math.log(u1)) *
-        Math.cos(2 * Math.PI * u2) *
-        NOISE_STANDARD_DEVIATION;
+        Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2) * NOISE_STANDARD_DEVIATION;
     return Math.min(0.04, Math.max(-0.04, noise));
 }
 
-function getSecondOrderParameters(
-    zeta: number,
-    omegaN: number,
-): PhysicalParameters {
+function getSecondOrderParameters(zeta: number, omegaN: number): PhysicalParameters {
     return {
         m: 1,
         b: 2 * zeta * omegaN,
@@ -65,10 +55,7 @@ function getSecondOrderParameters(
     };
 }
 
-export function getSensorResponse(
-    parameters: SensorParameters,
-    time: number,
-): number {
+export function getSensorResponse(parameters: SensorParameters, time: number): number {
     if (parameters.type === 'first-order') {
         const firstOrderParameters: FirstOrderParameters = {
             gain: 1,
@@ -84,9 +71,7 @@ export function getSensorResponse(
     );
 }
 
-export function generateSensorChallenge(
-    random: () => number = Math.random,
-): SensorChallenge {
+export function generateSensorChallenge(random: () => number = Math.random): SensorChallenge {
     let parameters: SensorParameters;
     let duration: number;
 
@@ -162,10 +147,7 @@ export function getParameterErrors(
     });
 }
 
-export function earnsFullCredit(
-    parameters: SensorParameters,
-    estimate: SensorEstimate,
-): boolean {
+export function earnsFullCredit(parameters: SensorParameters, estimate: SensorEstimate): boolean {
     if (parameters.type !== estimate.type) return false;
     const errors = getParameterErrors(parameters, estimate);
     return errors.length > 0 && errors.every((error) => error.withinTolerance);

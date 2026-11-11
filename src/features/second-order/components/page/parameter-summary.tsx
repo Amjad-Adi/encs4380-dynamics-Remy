@@ -1,13 +1,7 @@
-import {
-    Activity,
-    Gauge,
-    Scale,
-    SlidersHorizontal,
-    Wrench,
-} from 'lucide-react';
+import { Activity, Gauge, Scale, SlidersHorizontal, Wrench } from 'lucide-react';
 
 import { SharedParameterSummary } from '@/components/modules/parameter-summary';
-import type { PhysicalParameters } from '@/features/second-order/domain/second-order';
+import type { PhysicalParameters } from '@/features/second-order/domain';
 
 interface ParameterSummaryProps {
     parameters: PhysicalParameters;

@@ -1,4 +1,3 @@
-
 import type { LucideIcon } from 'lucide-react';
 
 interface SharedParameterSummaryItem {
@@ -15,43 +14,30 @@ interface SharedParameterSummaryProps {
 }
 
 export function SharedParameterSummary({
-                                     items,
-                                     ariaLabel = 'Current experiment parameters',
-                                 }: SharedParameterSummaryProps) {
+    items,
+    ariaLabel = 'Current experiment parameters',
+}: SharedParameterSummaryProps) {
     return (
-        <section
-            aria-label={ariaLabel}
-            className="grid grid-cols-2 gap-3 lg:grid-cols-4"
-        >
+        <section aria-label={ariaLabel} className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {items.map(({ label, value, unit, description, icon: Icon }) => (
-                <div
-                    key={label}
-                    className="min-w-0 rounded-xl border border-border bg-card p-4"
-                >
+                <div key={label} className="border-border bg-card min-w-0 rounded-xl border p-4">
                     <div className="mb-3 flex items-center justify-between gap-2">
-                        <span className="text-xs text-muted-foreground">
-                            {label}
-                        </span>
+                        <span className="text-muted-foreground text-xs">{label}</span>
 
-                        <Icon
-                            size={16}
-                            className="shrink-0 text-primary"
-                        />
+                        <Icon size={16} className="text-primary shrink-0" />
                     </div>
 
-                    <p className="break-words font-mono text-2xl font-semibold tracking-tight tabular-nums">
+                    <p className="font-mono text-2xl font-semibold tracking-tight break-words tabular-nums">
                         {value}
 
                         {unit && (
-                            <span className="ml-1 text-sm font-normal text-muted-foreground">
+                            <span className="text-muted-foreground ml-1 text-sm font-normal">
                                 {unit}
                             </span>
                         )}
                     </p>
 
-                    <p className="mt-1 text-xs text-muted-foreground">
-                        {description}
-                    </p>
+                    <p className="text-muted-foreground mt-1 text-xs">{description}</p>
                 </div>
             ))}
         </section>

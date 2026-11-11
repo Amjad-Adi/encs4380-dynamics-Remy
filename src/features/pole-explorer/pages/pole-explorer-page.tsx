@@ -25,23 +25,13 @@ import { POLE_EXPLORER_SECTIONS } from '../components/page/pole-explorer-section
 import { PredictionExercise } from '../components/exercises/prediction-exercise';
 
 export default function PoleExplorerPage() {
-    const [configuration, setConfiguration] =
-        useState<PoleConfiguration>(() =>
-            createDefaultConfiguration('second'),
-        );
+    const [configuration, setConfiguration] = useState<PoleConfiguration>(() =>
+        createDefaultConfiguration('second'),
+    );
 
-    const characteristics = useMemo(
-        () => getCharacteristics(configuration),
-        [configuration],
-    );
-    const metrics = useMemo(
-        () => getResponseMetrics(configuration),
-        [configuration],
-    );
-    const duration = useMemo(
-        () => getSuggestedDuration(configuration),
-        [configuration],
-    );
+    const characteristics = useMemo(() => getCharacteristics(configuration), [configuration]);
+    const metrics = useMemo(() => getResponseMetrics(configuration), [configuration]);
+    const duration = useMemo(() => getSuggestedDuration(configuration), [configuration]);
 
     function updatePole(index: number, pole: ComplexPole) {
         setConfiguration((current) => movePole(current, index, pole));
@@ -58,10 +48,7 @@ export default function PoleExplorerPage() {
         }));
     }
 
-    function changeConjugatePair(
-        realPart: number,
-        imaginaryPart: number,
-    ) {
+    function changeConjugatePair(realPart: number, imaginaryPart: number) {
         setConfiguration(setConjugatePair(realPart, imaginaryPart));
     }
 
@@ -97,10 +84,7 @@ export default function PoleExplorerPage() {
             </Reveal>
 
             <Reveal>
-                <ParameterSummary
-                    configuration={configuration}
-                    characteristics={characteristics}
-                />
+                <ParameterSummary configuration={configuration} characteristics={characteristics} />
             </Reveal>
 
             <Reveal>

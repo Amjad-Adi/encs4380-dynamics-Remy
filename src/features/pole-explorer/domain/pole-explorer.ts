@@ -10,11 +10,7 @@ export type SystemOrder = 'first' | 'second';
 
 export type PoleStability = 'stable' | 'marginal' | 'unstable';
 
-export type DampingRegime =
-    | 'undamped'
-    | 'underdamped'
-    | 'critical'
-    | 'overdamped';
+export type DampingRegime = 'undamped' | 'underdamped' | 'critical' | 'overdamped';
 
 export type SecondOrderKind = DampingRegime | 'saddle';
 
@@ -139,9 +135,7 @@ export function getPresets(order: SystemOrder): PolePreset[] {
     return order === 'first' ? FIRST_ORDER_PRESETS : SECOND_ORDER_PRESETS;
 }
 
-export function createDefaultConfiguration(
-    order: SystemOrder = 'second',
-): PoleConfiguration {
+export function createDefaultConfiguration(order: SystemOrder = 'second'): PoleConfiguration {
     return {
         order,
         poles: DEFAULT_POLES[order].map((pole) => ({ ...pole })),
@@ -149,12 +143,8 @@ export function createDefaultConfiguration(
 }
 
 export function clampPole(pole: ComplexPole): ComplexPole {
-    let real = roundCoordinate(
-        Math.min(POLE_LIMIT, Math.max(-POLE_LIMIT, pole.real)),
-    );
-    let imaginary = roundCoordinate(
-        Math.min(POLE_LIMIT, Math.max(-POLE_LIMIT, pole.imaginary)),
-    );
+    let real = roundCoordinate(Math.min(POLE_LIMIT, Math.max(-POLE_LIMIT, pole.real)));
+    let imaginary = roundCoordinate(Math.min(POLE_LIMIT, Math.max(-POLE_LIMIT, pole.imaginary)));
 
     if (Math.abs(imaginary) < IMAGINARY_SNAP) {
         imaginary = 0;
@@ -177,10 +167,7 @@ export function getPoles(configuration: PoleConfiguration): ComplexPole[] {
         ];
     }
 
-    return [
-        clampPole(configuration.poles[0]),
-        clampPole(configuration.poles[1]),
-    ];
+    return [clampPole(configuration.poles[0]), clampPole(configuration.poles[1])];
 }
 
 export function getStability(poles: ComplexPole[]): PoleStability {
@@ -191,9 +178,7 @@ export function getStability(poles: ComplexPole[]): PoleStability {
     return 'stable';
 }
 
-export function getCharacteristics(
-    configuration: PoleConfiguration,
-): PoleCharacteristics {
+export function getCharacteristics(configuration: PoleConfiguration): PoleCharacteristics {
     const poles = getPoles(configuration);
     const stability = getStability(poles);
 
@@ -214,10 +199,7 @@ export function getCharacteristics(
     }
 
     const [first, second] = poles;
-    const imaginaryPart = Math.max(
-        Math.abs(first.imaginary),
-        Math.abs(second.imaginary),
-    );
+    const imaginaryPart = Math.max(Math.abs(first.imaginary), Math.abs(second.imaginary));
 
     if (imaginaryPart > 0) {
         const realPart = (first.real + second.real) / 2;
@@ -227,10 +209,7 @@ export function getCharacteristics(
         return {
             order: 'second',
             stability,
-            kind:
-                Math.abs(dampingRatio) < STABILITY_EPSILON
-                    ? 'undamped'
-                    : 'underdamped',
+            kind: Math.abs(dampingRatio) < STABILITY_EPSILON ? 'undamped' : 'underdamped',
             dampingRatio,
             naturalFrequency,
             realPart,
@@ -258,8 +237,7 @@ export function getCharacteristics(
     }
 
     const naturalFrequency = Math.sqrt(product);
-    const dampingRatio = -(first.real + second.real) /
-        (2 * naturalFrequency);
+    const dampingRatio = -(first.real + second.real) / (2 * naturalFrequency);
     const kind: SecondOrderKind =
         Math.abs(first.real - second.real) <= CRITICAL_DAMPING_TOLERANCE
             ? 'critical'
@@ -278,16 +256,11 @@ export function getCharacteristics(
     };
 }
 
-export function getResponseMetrics(
-    configuration: PoleConfiguration,
-): ResponseMetrics {
+export function getResponseMetrics(configuration: PoleConfiguration): ResponseMetrics {
     const characteristics = getCharacteristics(configuration);
     const poles = getPoles(configuration);
 
-    if (
-        characteristics.stability === 'unstable' ||
-        characteristics.kind === 'saddle'
-    ) {
+    if (characteristics.stability === 'unstable' || characteristics.kind === 'saddle') {
         return {
             overshootPercent: null,
             peakTime: null,
@@ -309,11 +282,7 @@ export function getResponseMetrics(
         const overshootPercent =
             Math.abs(dampingRatio) < STABILITY_EPSILON
                 ? 100
-                : 100 *
-                  Math.exp(
-                      (-dampingRatio * Math.PI) /
-                          Math.sqrt(1 - dampingRatio ** 2),
-                  );
+                : 100 * Math.exp((-dampingRatio * Math.PI) / Math.sqrt(1 - dampingRatio ** 2));
 
         return {
             overshootPercent,
@@ -325,9 +294,7 @@ export function getResponseMetrics(
         };
     }
 
-    const slowestPole = Math.min(
-        ...poles.map((pole) => Math.abs(pole.real)),
-    );
+    const slowestPole = Math.min(...poles.map((pole) => Math.abs(pole.real)));
 
     return {
         overshootPercent: 0,
@@ -336,9 +303,7 @@ export function getResponseMetrics(
     };
 }
 
-export function getSuggestedDuration(
-    configuration: PoleConfiguration,
-): number {
+export function getSuggestedDuration(configuration: PoleConfiguration): number {
     const characteristics = getCharacteristics(configuration);
     const poles = getPoles(configuration);
 
@@ -366,9 +331,7 @@ export function getSuggestedDuration(
 
     if (characteristics.kind === 'saddle') return 8;
 
-    const slowestPole = Math.min(
-        ...poles.map((pole) => Math.abs(pole.real)),
-    );
+    const slowestPole = Math.min(...poles.map((pole) => Math.abs(pole.real)));
 
     return clampDuration(6 / slowestPole, 6, 20);
 }
@@ -386,11 +349,7 @@ export function generateStepResponse(
 
         return {
             time,
-            value: evaluateStepResponse(
-                characteristics,
-                poles,
-                time,
-            ),
+            value: evaluateStepResponse(characteristics, poles, time),
         };
     });
 }
@@ -435,10 +394,7 @@ export function movePole(
     return { order: 'second', poles };
 }
 
-export function setConjugatePair(
-    realPart: number,
-    imaginaryPart: number,
-): PoleConfiguration {
+export function setConjugatePair(realPart: number, imaginaryPart: number): PoleConfiguration {
     const target = clampPole({
         real: realPart,
         imaginary: Math.abs(imaginaryPart),
@@ -453,10 +409,7 @@ export function setConjugatePair(
 
     return {
         order: 'second',
-        poles: [
-            target,
-            { real: target.real, imaginary: -target.imaginary },
-        ],
+        poles: [target, { real: target.real, imaginary: -target.imaginary }],
     };
 }
 
@@ -479,8 +432,7 @@ export function getPoleSummary(poles: ComplexPole[]): string {
     const [first, second] = poles;
     const isPair =
         Math.abs(first.real - second.real) < DUPLICATE_POLE_TOLERANCE &&
-        Math.abs(first.imaginary + second.imaginary) <
-            DUPLICATE_POLE_TOLERANCE;
+        Math.abs(first.imaginary + second.imaginary) < DUPLICATE_POLE_TOLERANCE;
 
     if (isPair && Math.abs(first.imaginary) > 0) {
         return `${formatNumber(first.real)} ± j${formatNumber(Math.abs(first.imaginary))}`;
@@ -509,17 +461,13 @@ function evaluateStepResponse(
         return (
             1 -
             Math.exp(sigma * time) *
-                (Math.cos(omega * time) -
-                    (sigma / omega) * Math.sin(omega * time))
+                (Math.cos(omega * time) - (sigma / omega) * Math.sin(omega * time))
         );
     }
 
     const [first, second] = poles;
 
-    if (
-        Math.abs(first.real - second.real) <
-        DUPLICATE_POLE_TOLERANCE
-    ) {
+    if (Math.abs(first.real - second.real) < DUPLICATE_POLE_TOLERANCE) {
         const pole = first.real;
 
         return 1 - (1 - pole * time) * Math.exp(pole * time);
@@ -530,8 +478,7 @@ function evaluateStepResponse(
 
     return (
         1 +
-        (secondReal * Math.exp(firstReal * time) -
-            firstReal * Math.exp(secondReal * time)) /
+        (secondReal * Math.exp(firstReal * time) - firstReal * Math.exp(secondReal * time)) /
             (firstReal - secondReal)
     );
 }

@@ -6,11 +6,10 @@ const GITHUB_REPOSITORY_URL =
 
 export function AppFooter() {
     return (
-        <footer className="border-t bg-background">
+        <footer className="bg-background border-t">
             <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-4 py-5 sm:flex-row">
-                <p className="text-sm text-muted-foreground">
-                    © {new Date().getFullYear()} Dynamics Toolkit.
-                    Built for ENCS4380.
+                <p className="text-muted-foreground text-sm">
+                    © {new Date().getFullYear()} Dynamics Toolkit. Built for ENCS4380.
                 </p>
 
                 <a
@@ -18,7 +17,7 @@ export function AppFooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub repository"
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
                 >
                     <FaGithub className="h-4 w-4" />
                     <span>GitHub</span>

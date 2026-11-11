@@ -1,19 +1,8 @@
-import {
-    Activity,
-    Clock3,
-    ShieldCheck,
-    TrendingUp,
-} from 'lucide-react';
+import { Activity, Clock3, ShieldCheck, TrendingUp } from 'lucide-react';
 
 import { MetricCard } from '@/components/modules/metric-card';
 import { Badge } from '@/components/ui/badge';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     formatNumber,
     getPoleSummary,
@@ -34,10 +23,8 @@ import { StepResponseChart } from '../charts/step-response-chart';
 
 const STABILITY_BADGE_CLASS: Record<PoleStability, string> = {
     stable: 'border-success/30 bg-success/5 text-success',
-    marginal:
-        'border-[#d69a35]/40 bg-[#d69a35]/10 text-[#a9761f] dark:text-[#e0b25f]',
-    unstable:
-        'border-destructive/30 bg-destructive/5 text-destructive',
+    marginal: 'border-[#d69a35]/40 bg-[#d69a35]/10 text-[#a9761f] dark:text-[#e0b25f]',
+    unstable: 'border-destructive/30 bg-destructive/5 text-destructive',
 };
 
 interface ResponseAnalysisProps {
@@ -57,13 +44,9 @@ export function ResponseAnalysis({
 }: ResponseAnalysisProps) {
     const poles = getPoles(configuration);
     const overshootValue =
-        metrics.overshootPercent === null
-            ? 'N/A'
-            : `${formatNumber(metrics.overshootPercent, 2)}%`;
+        metrics.overshootPercent === null ? 'N/A' : `${formatNumber(metrics.overshootPercent, 2)}%`;
     const peakTimeValue =
-        metrics.peakTime === null
-            ? 'N/A'
-            : `${formatNumber(metrics.peakTime, 3)} s`;
+        metrics.peakTime === null ? 'N/A' : `${formatNumber(metrics.peakTime, 3)} s`;
     const settlingTimeValue =
         metrics.settlingTime === null
             ? characteristics.stability === 'unstable'
@@ -78,64 +61,43 @@ export function ResponseAnalysis({
                     <CardHeader>
                         <div className="flex flex-wrap items-start justify-between gap-3">
                             <div>
-                                <CardTitle className="text-base">
-                                    Interactive s-plane
-                                </CardTitle>
+                                <CardTitle className="text-base">Interactive s-plane</CardTitle>
 
                                 <CardDescription className="mt-1">
-                                    Drag a pole to update the system
-                                    instantly. The shading marks the
-                                    stable and unstable half-planes.
+                                    Drag a pole to update the system instantly. The shading marks
+                                    the stable and unstable half-planes.
                                 </CardDescription>
                             </div>
 
                             <div className="flex flex-wrap gap-2">
                                 <Badge variant="outline">
-                                    {getRegimeLabel(
-                                        characteristics.kind,
-                                    )}
+                                    {getRegimeLabel(characteristics.kind)}
                                 </Badge>
 
                                 <Badge
                                     variant="outline"
-                                    className={
-                                        STABILITY_BADGE_CLASS[
-                                            characteristics.stability
-                                        ]
-                                    }
+                                    className={STABILITY_BADGE_CLASS[characteristics.stability]}
                                 >
-                                    {getStabilityLabel(
-                                        characteristics.stability,
-                                    )}
+                                    {getStabilityLabel(characteristics.stability)}
                                 </Badge>
                             </div>
                         </div>
                     </CardHeader>
 
                     <CardContent className="min-w-0">
-                        <PolePlaneChart
-                            configuration={configuration}
-                            onPoleChange={onPoleChange}
-                        />
+                        <PolePlaneChart configuration={configuration} onPoleChange={onPoleChange} />
 
-                        <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        <p className="text-muted-foreground mt-2 text-xs leading-5">
                             Poles: {getPoleSummary(poles)}
                             {configuration.order === 'first'
-                                ? ` · τ = ${formatNumber(
-                                      characteristics.timeConstant ?? 0,
-                                      2,
-                                  )} s`
+                                ? ` · τ = ${formatNumber(characteristics.timeConstant ?? 0, 2)} s`
                                 : ` · ζ = ${
                                       characteristics.dampingRatio === null
-                                          ? '—'
-                                          : formatNumber(
-                                                characteristics.dampingRatio,
-                                                3,
-                                            )
+                                          ? '-'
+                                          : formatNumber(characteristics.dampingRatio, 3)
                                   } · ωn = ${
-                                      characteristics.naturalFrequency ===
-                                      null
-                                          ? '—'
+                                      characteristics.naturalFrequency === null
+                                          ? '-'
                                           : `${formatNumber(
                                                 characteristics.naturalFrequency,
                                                 3,
@@ -147,13 +109,11 @@ export function ResponseAnalysis({
 
                 <Card className="min-w-0">
                     <CardHeader>
-                        <CardTitle className="text-base">
-                            Unit step response
-                        </CardTitle>
+                        <CardTitle className="text-base">Unit step response</CardTitle>
 
                         <CardDescription>
-                            The response is regenerated from the current
-                            pole locations as you drag them.
+                            The response is regenerated from the current pole locations as you drag
+                            them.
                         </CardDescription>
                     </CardHeader>
 
@@ -164,10 +124,9 @@ export function ResponseAnalysis({
                             metrics={metrics}
                         />
 
-                        <p className="text-xs leading-5 text-muted-foreground">
-                            Solid teal: y(t) · dotted orange: steady-state
-                            value 1 · shaded band: ±2% of the final value ·
-                            dashed blue: settling time.
+                        <p className="text-muted-foreground text-xs leading-5">
+                            Solid teal: y(t) · dotted orange: steady-state value 1 · shaded band:
+                            ±2% of the final value · dashed blue: settling time.
                         </p>
                     </CardContent>
                 </Card>
@@ -213,14 +172,8 @@ export function ResponseAnalysis({
 
                 <MetricCard
                     label="Stability"
-                    value={getStabilityLabel(
-                        characteristics.stability,
-                    )}
-                    detail={
-                        STABILITY_DESCRIPTIONS[
-                            characteristics.stability
-                        ]
-                    }
+                    value={getStabilityLabel(characteristics.stability)}
+                    detail={STABILITY_DESCRIPTIONS[characteristics.stability]}
                     icon={ShieldCheck}
                 />
             </div>

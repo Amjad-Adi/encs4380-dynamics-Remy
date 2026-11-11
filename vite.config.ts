@@ -9,9 +9,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-    base: process.env.NODE_ENV === 'production'
-        ? `/${process.env.REPOSITORY_NAME}/`
-        : '/',
+    base: process.env.NODE_ENV === 'production' ? `/${process.env.REPOSITORY_NAME}/` : '/',
     plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
     resolve: {
         alias: {

@@ -8,9 +8,7 @@ interface AnalysisSectionProps {
     characteristics: PoleCharacteristics;
 }
 
-export function AnalysisSection({
-    characteristics,
-}: AnalysisSectionProps) {
+export function AnalysisSection({ characteristics }: AnalysisSectionProps) {
     return (
         <SharedAnalysisSection
             title="Stability and damping analysis"

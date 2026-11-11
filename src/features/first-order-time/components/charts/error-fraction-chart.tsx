@@ -8,9 +8,7 @@ interface ErrorFractionChartProps {
     tau: number;
 }
 
-export function ErrorFractionChart({
-                                       tau,
-                                   }: ErrorFractionChartProps) {
+export function ErrorFractionChart({ tau }: ErrorFractionChartProps) {
     const points = generateErrorFractionData(tau);
     const theme = useChartTheme();
 

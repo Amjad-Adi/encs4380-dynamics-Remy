@@ -13,23 +13,20 @@ interface ExperimentSectionProps {
     inputType: FirstOrderInputType;
     rampError: number;
     rampLag: number;
-    onParameterChange: (
-        key: keyof FirstOrderParameters,
-        value: number,
-    ) => void;
+    onParameterChange: (key: keyof FirstOrderParameters, value: number) => void;
     onInputTypeChange: (type: FirstOrderInputType) => void;
     onReset: () => void;
 }
 
 export function ExperimentSection({
-                                      parameters,
-                                      inputType,
-                                      rampError,
-                                      rampLag,
-                                      onParameterChange,
-                                      onInputTypeChange,
-                                      onReset,
-                                  }: ExperimentSectionProps) {
+    parameters,
+    inputType,
+    rampError,
+    rampLag,
+    onParameterChange,
+    onInputTypeChange,
+    onReset,
+}: ExperimentSectionProps) {
     return (
         <SharedExperimentSection
             description="Modify the system parameters and input type. The response visualization and calculated results update as you make changes."

@@ -1,10 +1,6 @@
-
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import {
-    Check,
-    ChevronRight,
-} from 'lucide-react';
+import { Check, ChevronRight } from 'lucide-react';
 
 import {
     Sidebar,
@@ -58,10 +54,7 @@ export function MobileNavigation() {
     const location = useLocation();
     const { setOpenMobile } = useSidebar();
 
-    const sections =
-        MODULE_SECTIONS[
-            location.pathname as keyof typeof MODULE_SECTIONS
-            ] ?? [];
+    const sections = MODULE_SECTIONS[location.pathname as keyof typeof MODULE_SECTIONS] ?? [];
 
     const [activeSection, setActiveSection] = useState('model');
 
@@ -72,9 +65,7 @@ export function MobileNavigation() {
 
         const sectionElements = sections
             .map(({ id }) => document.getElementById(id))
-            .filter(
-                (section): section is HTMLElement => section !== null,
-            );
+            .filter((section): section is HTMLElement => section !== null);
 
         if (sectionElements.length === 0) return;
 
@@ -84,18 +75,11 @@ export function MobileNavigation() {
                     .filter((section) => {
                         const rect = section.getBoundingClientRect();
                         const activationTop = window.innerHeight * 0.15;
-                        const activationBottom = window.innerHeight * 0.30;
+                        const activationBottom = window.innerHeight * 0.3;
 
-                        return (
-                            rect.top < activationBottom &&
-                            rect.bottom > activationTop
-                        );
+                        return rect.top < activationBottom && rect.bottom > activationTop;
                     })
-                    .sort(
-                        (a, b) =>
-                            a.getBoundingClientRect().top -
-                            b.getBoundingClientRect().top,
-                    );
+                    .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
 
                 if (visibleSections.length > 0) {
                     setActiveSection(visibleSections[0].id);
@@ -117,20 +101,14 @@ export function MobileNavigation() {
     }
 
     return (
-        <Sidebar
-            side="left"
-            variant="sidebar"
-            collapsible="offcanvas"
-        >
+        <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
             <SidebarContent className="gap-0">
                 {/* Modules */}
                 <SidebarGroup>
                     <div className="mb-2 flex items-center justify-between">
-                        <SidebarGroupLabel>
-                            Modules
-                        </SidebarGroupLabel>
+                        <SidebarGroupLabel>Modules</SidebarGroupLabel>
 
-                        <span className="px-2 text-[10px] text-sidebar-foreground/50">
+                        <span className="text-sidebar-foreground/50 px-2 text-[10px]">
                             {MODULES.length} modules
                         </span>
                     </div>
@@ -202,17 +180,14 @@ export function MobileNavigation() {
 
                         <SidebarGroup>
                             <div className="mb-2 flex items-center justify-between">
-                                <SidebarGroupLabel>
-                                    Module sections
-                                </SidebarGroupLabel>
+                                <SidebarGroupLabel>Module sections</SidebarGroupLabel>
 
-                                <span className="px-2 text-[10px] text-sidebar-foreground/50">
+                                <span className="text-sidebar-foreground/50 px-2 text-[10px]">
                                     {String(
                                         Math.max(
                                             0,
                                             sections.findIndex(
-                                                (section) =>
-                                                    section.id === activeSection,
+                                                (section) => section.id === activeSection,
                                             ) + 1,
                                         ),
                                     ).padStart(2, '0')}
@@ -240,13 +215,9 @@ export function MobileNavigation() {
                                                 >
                                                     <Icon />
 
-                                                    <span className="min-w-0 flex-1">
-                                                        {label}
-                                                    </span>
+                                                    <span className="min-w-0 flex-1">{label}</span>
 
-                                                    {isActive && (
-                                                        <Check className="ml-auto" />
-                                                    )}
+                                                    {isActive && <Check className="ml-auto" />}
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>
                                         );
@@ -258,8 +229,8 @@ export function MobileNavigation() {
                 )}
             </SidebarContent>
 
-            <SidebarFooter className="border-t border-sidebar-border px-5 py-3">
-                <p className="text-center text-[11px] text-sidebar-foreground/60">
+            <SidebarFooter className="border-sidebar-border border-t px-5 py-3">
+                <p className="text-sidebar-foreground/60 text-center text-[11px]">
                     ENCS4380 · Interfacing Techniques
                 </p>
             </SidebarFooter>

@@ -1,68 +1,59 @@
-
 <!doctype html>
 <html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dynamic Characteristics Toolkit | ENCS4380</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dynamic Characteristics Toolkit | ENCS4380</title>
 
-    <meta
+        <meta
             name="description"
             content="An interactive engineering toolkit for exploring first-order and second-order dynamic systems, time responses, frequency responses, and system behavior."
-    />
+        />
 
-    <meta name="author" content="ENCS4380 Engineering Project" />
-    <meta
-            name="application-name"
-            content="Dynamic Characteristics Toolkit"
-    />
+        <meta name="author" content="ENCS4380 Engineering Project" />
+        <meta name="application-name" content="Dynamic Characteristics Toolkit" />
 
-    <meta name="theme-color" content="#f4f6f9" />
-    <meta name="color-scheme" content="light dark" />
+        <meta name="theme-color" content="#f4f6f9" />
+        <meta name="color-scheme" content="light dark" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta
-            property="og:title"
-            content="Dynamic Characteristics Toolkit | ENCS4380"
-    />
-    <meta
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Dynamic Characteristics Toolkit | ENCS4380" />
+        <meta
             property="og:description"
             content="Explore and experiment with dynamic system characteristics through interactive engineering simulations."
-    />
+        />
 
-    <!-- Theme initialization: prevent incorrect theme flash -->
-    <script>
-        (() => {
-            const root = document.documentElement;
+        <!-- Theme initialization: prevent incorrect theme flash -->
+        <script>
+            (() => {
+                const root = document.documentElement;
 
-            try {
-                const savedTheme = localStorage.getItem(
-                    'dynamics-toolkit-theme'
-                );
+                try {
+                    const savedTheme = localStorage.getItem('dynamics-toolkit-theme');
 
-                const systemPrefersDark = window.matchMedia(
-                    '(prefers-color-scheme: dark)'
-                ).matches;
+                    const systemPrefersDark = window.matchMedia(
+                        '(prefers-color-scheme: dark)',
+                    ).matches;
 
-                const theme =
-                    savedTheme === 'light' || savedTheme === 'dark'
-                        ? savedTheme
-                        : systemPrefersDark
-                            ? 'dark'
-                            : 'light';
+                    const theme =
+                        savedTheme === 'light' || savedTheme === 'dark'
+                            ? savedTheme
+                            : systemPrefersDark
+                              ? 'dark'
+                              : 'light';
 
-                root.classList.toggle('dark', theme === 'dark');
-            } catch {
-                root.classList.remove('dark');
-            }
-        })();
-    </script>
-</head>
+                    root.classList.toggle('dark', theme === 'dark');
+                } catch {
+                    root.classList.remove('dark');
+                }
+            })();
+        </script>
+    </head>
 
-<body>
-<div id="root"></div>
+    <body>
+        <div id="root"></div>
 
-<script type="module" src="/src/main.tsx"></script>
-</body>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
 </html>

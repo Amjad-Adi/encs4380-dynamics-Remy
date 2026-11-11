@@ -20,11 +20,7 @@ interface StepResponseChartProps {
     metrics: ResponseMetrics;
 }
 
-export function StepResponseChart({
-    configuration,
-    duration,
-    metrics,
-}: StepResponseChartProps) {
+export function StepResponseChart({ configuration, duration, metrics }: StepResponseChartProps) {
     const theme = useChartTheme();
     const points = useMemo(
         () => generateStepResponse(configuration, duration),
@@ -39,15 +35,11 @@ export function StepResponseChart({
             mode: 'lines',
             name: 'Step response',
             line: { color: RESPONSE_COLOR, width: 2.8 },
-            hovertemplate:
-                't = %{x:.3f} s<br>y = %{y:.4f}<extra></extra>',
+            hovertemplate: 't = %{x:.3f} s<br>y = %{y:.4f}<extra></extra>',
         },
     ];
 
-    if (
-        metrics.peakTime !== null &&
-        metrics.overshootPercent !== null
-    ) {
+    if (metrics.peakTime !== null && metrics.overshootPercent !== null) {
         data.push({
             x: [metrics.peakTime],
             y: [1 + metrics.overshootPercent / 100],
@@ -59,8 +51,7 @@ export function StepResponseChart({
                 size: 9,
                 line: { color: PEAK_COLOR, width: 1 },
             },
-            hovertemplate:
-                'First peak<br>t = %{x:.3f} s<br>y = %{y:.4f}<extra></extra>',
+            hovertemplate: 'First peak<br>t = %{x:.3f} s<br>y = %{y:.4f}<extra></extra>',
         });
     }
 

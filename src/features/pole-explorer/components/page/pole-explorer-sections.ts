@@ -1,9 +1,4 @@
-import {
-    Activity,
-    BookOpen,
-    Crosshair,
-    Lightbulb,
-} from 'lucide-react';
+import { Activity, BookOpen, Crosshair, Lightbulb } from 'lucide-react';
 
 import type { ModuleSection } from '@/components/modules/section-navigation';
 

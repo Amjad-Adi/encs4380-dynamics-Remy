@@ -1,11 +1,5 @@
-import {
-    useRef,
-    useState,
-} from 'react';
-import type {
-    KeyboardEvent as ReactKeyboardEvent,
-    PointerEvent as ReactPointerEvent,
-} from 'react';
+import { useRef, useState } from 'react';
+import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent } from 'react';
 
 import {
     POLE_LIMIT,
@@ -21,8 +15,7 @@ const PADDING_LEFT = 44;
 const PADDING_RIGHT = 16;
 const PADDING_TOP = 16;
 const PADDING_BOTTOM = 44;
-const PLOT_SIZE =
-    VIEW_SIZE - PADDING_LEFT - PADDING_RIGHT;
+const PLOT_SIZE = VIEW_SIZE - PADDING_LEFT - PADDING_RIGHT;
 const GRID_VALUES = [-6, -4, -2, 0, 2, 4, 6];
 const TICK_VALUES = [-6, -4, -2, 2, 4, 6];
 const MARGINAL_COLOR = '#d69a35';
@@ -34,26 +27,15 @@ interface PolePlaneChartProps {
     onPoleChange: (index: number, pole: ComplexPole) => void;
 }
 
-export function PolePlaneChart({
-    configuration,
-    onPoleChange,
-}: PolePlaneChartProps) {
+export function PolePlaneChart({ configuration, onPoleChange }: PolePlaneChartProps) {
     const svgRef = useRef<SVGSVGElement>(null);
-    const [draggingIndex, setDraggingIndex] = useState<number | null>(
-        null,
-    );
-    const [focusedIndex, setFocusedIndex] = useState<number | null>(
-        null,
-    );
+    const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+    const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
     const poles = getPoles(configuration);
-    const draggingPole =
-        draggingIndex === null ? null : poles[draggingIndex];
+    const draggingPole = draggingIndex === null ? null : poles[draggingIndex];
 
-    function handlePointerDown(
-        event: ReactPointerEvent<SVGGElement>,
-        index: number,
-    ) {
+    function handlePointerDown(event: ReactPointerEvent<SVGGElement>, index: number) {
         const svg = svgRef.current;
         if (!svg) return;
 
@@ -62,9 +44,7 @@ export function PolePlaneChart({
         setDraggingIndex(index);
     }
 
-    function handlePointerMove(
-        event: ReactPointerEvent<SVGSVGElement>,
-    ) {
+    function handlePointerMove(event: ReactPointerEvent<SVGSVGElement>) {
         if (draggingIndex === null) return;
 
         const svg = svgRef.current;
@@ -79,9 +59,7 @@ export function PolePlaneChart({
         onPoleChange(draggingIndex, fromSvg(local.x, local.y));
     }
 
-    function endPointerDrag(
-        event: ReactPointerEvent<SVGSVGElement>,
-    ) {
+    function endPointerDrag(event: ReactPointerEvent<SVGSVGElement>) {
         const svg = svgRef.current;
 
         if (svg?.hasPointerCapture(event.pointerId)) {
@@ -91,14 +69,9 @@ export function PolePlaneChart({
         setDraggingIndex(null);
     }
 
-    function handleKeyDown(
-        event: ReactKeyboardEvent<SVGGElement>,
-        index: number,
-    ) {
+    function handleKeyDown(event: ReactKeyboardEvent<SVGGElement>, index: number) {
         const pole = poles[index];
-        const step = event.shiftKey
-            ? KEYBOARD_LARGE_STEP
-            : KEYBOARD_STEP;
+        const step = event.shiftKey ? KEYBOARD_LARGE_STEP : KEYBOARD_STEP;
         let nextPole: ComplexPole | null = null;
 
         switch (event.key) {
@@ -181,12 +154,7 @@ export function PolePlaneChart({
                     opacity={0.06}
                 />
 
-                <text
-                    x={PADDING_LEFT + 8}
-                    y={PADDING_TOP + 16}
-                    fontSize={10}
-                    fill="var(--success)"
-                >
+                <text x={PADDING_LEFT + 8} y={PADDING_TOP + 16} fontSize={10} fill="var(--success)">
                     Left half-plane · stable
                 </text>
 
@@ -219,9 +187,7 @@ export function PolePlaneChart({
                                 y2={plotBottom}
                                 stroke="var(--border)"
                                 strokeWidth={value === 0 ? 0 : 1}
-                                strokeDasharray={
-                                    value === 0 ? undefined : '3 6'
-                                }
+                                strokeDasharray={value === 0 ? undefined : '3 6'}
                                 opacity={0.6}
                             />
 
@@ -232,9 +198,7 @@ export function PolePlaneChart({
                                 y2={y}
                                 stroke="var(--border)"
                                 strokeWidth={value === 0 ? 0 : 1}
-                                strokeDasharray={
-                                    value === 0 ? undefined : '3 6'
-                                }
+                                strokeDasharray={value === 0 ? undefined : '3 6'}
                                 opacity={0.6}
                             />
                         </g>
@@ -357,21 +321,16 @@ export function PolePlaneChart({
                 {poles.map((pole, index) => {
                     const { x, y } = toSvg(pole);
                     const color = getPoleColor(pole);
-                    const isActive =
-                        draggingIndex === index ||
-                        focusedIndex === index;
+                    const isActive = draggingIndex === index || focusedIndex === index;
                     const isDuplicate = poles.some(
                         (other, otherIndex) =>
                             otherIndex !== index &&
                             Math.abs(other.real - pole.real) < 1e-9 &&
-                            Math.abs(other.imaginary - pole.imaginary) <
-                                1e-9,
+                            Math.abs(other.imaginary - pole.imaginary) < 1e-9,
                     );
-                    const labelOnLeft =
-                        x > PADDING_LEFT + PLOT_SIZE * 0.68;
+                    const labelOnLeft = x > PADDING_LEFT + PLOT_SIZE * 0.68;
                     const labelX = labelOnLeft ? x - 14 : x + 14;
-                    const labelY =
-                        pole.imaginary < 0 ? y + 20 : y - 14;
+                    const labelY = pole.imaginary < 0 ? y + 20 : y - 14;
                     const showLabel = !isDuplicate || index === 0;
 
                     return (
@@ -385,25 +344,14 @@ export function PolePlaneChart({
                             aria-valuenow={Number(pole.real.toFixed(2))}
                             aria-valuetext={`Real ${pole.real.toFixed(2)}, imaginary ${pole.imaginary.toFixed(2)}`}
                             className="cursor-grab outline-none focus-visible:outline-none"
-                            onPointerDown={(event) =>
-                                handlePointerDown(event, index)
-                            }
-                            onKeyDown={(event) =>
-                                handleKeyDown(event, index)
-                            }
+                            onPointerDown={(event) => handlePointerDown(event, index)}
+                            onKeyDown={(event) => handleKeyDown(event, index)}
                             onFocus={() => setFocusedIndex(index)}
                             onBlur={() =>
-                                setFocusedIndex((current) =>
-                                    current === index ? null : current,
-                                )
+                                setFocusedIndex((current) => (current === index ? null : current))
                             }
                         >
-                            <circle
-                                cx={x}
-                                cy={y}
-                                r={22}
-                                fill="transparent"
-                            />
+                            <circle cx={x} cy={y} r={22} fill="transparent" />
 
                             {isActive && (
                                 <circle
@@ -451,9 +399,7 @@ export function PolePlaneChart({
                                     y={labelY}
                                     fontSize={11}
                                     fontFamily="monospace"
-                                    textAnchor={
-                                        labelOnLeft ? 'end' : 'start'
-                                    }
+                                    textAnchor={labelOnLeft ? 'end' : 'start'}
                                     fill={color}
                                 >
                                     {formatPole(pole)}
@@ -464,10 +410,9 @@ export function PolePlaneChart({
                 })}
             </svg>
 
-            <p className="text-xs leading-5 text-muted-foreground">
-                Drag a pole in the s-plane, or focus a pole and use the
-                arrow keys (hold Shift for larger steps). Second-order
-                complex poles stay conjugate automatically.
+            <p className="text-muted-foreground text-xs leading-5">
+                Drag a pole in the s-plane, or focus a pole and use the arrow keys (hold Shift for
+                larger steps). Second-order complex poles stay conjugate automatically.
             </p>
         </div>
     );
@@ -475,25 +420,15 @@ export function PolePlaneChart({
 
 function toSvg(pole: ComplexPole) {
     return {
-        x:
-            PADDING_LEFT +
-            ((pole.real + POLE_LIMIT) / (2 * POLE_LIMIT)) *
-                PLOT_SIZE,
-        y:
-            PADDING_TOP +
-            ((POLE_LIMIT - pole.imaginary) / (2 * POLE_LIMIT)) *
-                PLOT_SIZE,
+        x: PADDING_LEFT + ((pole.real + POLE_LIMIT) / (2 * POLE_LIMIT)) * PLOT_SIZE,
+        y: PADDING_TOP + ((POLE_LIMIT - pole.imaginary) / (2 * POLE_LIMIT)) * PLOT_SIZE,
     };
 }
 
 function fromSvg(x: number, y: number): ComplexPole {
     return {
-        real:
-            ((x - PADDING_LEFT) / PLOT_SIZE) * 2 * POLE_LIMIT -
-            POLE_LIMIT,
-        imaginary:
-            POLE_LIMIT -
-            ((y - PADDING_TOP) / PLOT_SIZE) * 2 * POLE_LIMIT,
+        real: ((x - PADDING_LEFT) / PLOT_SIZE) * 2 * POLE_LIMIT - POLE_LIMIT,
+        imaginary: POLE_LIMIT - ((y - PADDING_TOP) / PLOT_SIZE) * 2 * POLE_LIMIT,
     };
 }
 

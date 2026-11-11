@@ -3,19 +3,13 @@ import { CheckCircle2, Lightbulb, RotateCcw } from 'lucide-react';
 
 import { SectionHeading } from '@/components/modules/section-heading';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-import {
-    getDampingRegime,
     type DampingRegime,
+    getDampingRegime,
     type PhysicalParameters,
     type ResponseMetrics,
-} from '@/features/second-order/domain/second-order';
+} from '@/features/second-order/domain';
 
 type OvershootPrediction = 'yes' | 'no';
 
@@ -38,21 +32,15 @@ interface PredictionExerciseProps {
     metrics: ResponseMetrics;
 }
 
-export function PredictionExercise({
-    parameters,
-    metrics,
-}: PredictionExerciseProps) {
-    const [predictedRegime, setPredictedRegime] =
-        useState<DampingRegime | null>(null);
-    const [predictedOvershoot, setPredictedOvershoot] =
-        useState<OvershootPrediction | null>(null);
+export function PredictionExercise({ parameters, metrics }: PredictionExerciseProps) {
+    const [predictedRegime, setPredictedRegime] = useState<DampingRegime | null>(null);
+    const [predictedOvershoot, setPredictedOvershoot] = useState<OvershootPrediction | null>(null);
     const [submitted, setSubmitted] = useState(false);
 
     const actualRegime = getDampingRegime(parameters);
     const actualOvershoot = metrics.percentageOvershoot > 0;
     const regimeCorrect = predictedRegime === actualRegime;
-    const overshootCorrect =
-        predictedOvershoot === (actualOvershoot ? 'yes' : 'no');
+    const overshootCorrect = predictedOvershoot === (actualOvershoot ? 'yes' : 'no');
 
     function submitPrediction() {
         if (predictedRegime === null || predictedOvershoot === null) return;
@@ -70,13 +58,11 @@ export function PredictionExercise({
             <SectionHeading title="Predict, then check" icon={Lightbulb} />
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-base">
-                        Predict the current system behavior
-                    </CardTitle>
+                    <CardTitle className="text-base">Predict the current system behavior</CardTitle>
                     <CardDescription>
-                        Using the current m, b, and k values, predict the damping
-                        regime and whether the step response overshoots. Submit both
-                        predictions to check each answer against the live results.
+                        Using the current m, b, and k values, predict the damping regime and whether
+                        the step response overshoots. Submit both predictions to check each answer
+                        against the live results.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
@@ -93,7 +79,7 @@ export function PredictionExercise({
                                     onClick={() => setPredictedRegime(option.value)}
                                     className={[
                                         'rounded-lg border p-3 text-left text-sm transition-colors',
-                                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                                        'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                                         predictedRegime === option.value
                                             ? 'border-primary bg-accent text-accent-foreground'
                                             : 'border-border hover:bg-muted',
@@ -110,10 +96,12 @@ export function PredictionExercise({
                             Will the response overshoot its final displacement?
                         </legend>
                         <div className="grid gap-2 sm:grid-cols-2">
-                            {([
-                                ['yes', 'Yes, overshoot occurs'],
-                                ['no', 'No overshoot'],
-                            ] as const).map(([value, label]) => (
+                            {(
+                                [
+                                    ['yes', 'Yes, overshoot occurs'],
+                                    ['no', 'No overshoot'],
+                                ] as const
+                            ).map(([value, label]) => (
                                 <button
                                     key={value}
                                     type="button"
@@ -121,7 +109,7 @@ export function PredictionExercise({
                                     onClick={() => setPredictedOvershoot(value)}
                                     className={[
                                         'rounded-lg border p-3 text-left text-sm transition-colors',
-                                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                                        'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                                         predictedOvershoot === value
                                             ? 'border-primary bg-accent text-accent-foreground'
                                             : 'border-border hover:bg-muted',
@@ -137,30 +125,20 @@ export function PredictionExercise({
                         {!submitted ? (
                             <Button
                                 type="button"
-                                disabled={
-                                    predictedRegime === null ||
-                                    predictedOvershoot === null
-                                }
+                                disabled={predictedRegime === null || predictedOvershoot === null}
                                 onClick={submitPrediction}
                             >
                                 Check prediction
                             </Button>
                         ) : (
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={resetPrediction}
-                            >
+                            <Button type="button" variant="outline" onClick={resetPrediction}>
                                 <RotateCcw />
                                 Retry prediction
                             </Button>
                         )}
 
                         {submitted && (
-                            <div
-                                className="flex items-start gap-2 text-sm"
-                                role="status"
-                            >
+                            <div className="flex items-start gap-2 text-sm" role="status">
                                 <div className="space-y-1">
                                     <p>
                                         <CheckCircle2
@@ -184,7 +162,9 @@ export function PredictionExercise({
                                             className={`mr-1 inline ${overshootCorrect ? 'text-success' : 'text-muted-foreground'}`}
                                         />
                                         Overshoot prediction:{' '}
-                                        <strong>{overshootCorrect ? 'Correct.' : 'Not quite.'}</strong>{' '}
+                                        <strong>
+                                            {overshootCorrect ? 'Correct.' : 'Not quite.'}
+                                        </strong>{' '}
                                         You predicted{' '}
                                         <strong>
                                             {predictedOvershoot === 'yes'

@@ -2,13 +2,7 @@ import { MousePointer2, RotateCcw } from 'lucide-react';
 
 import { ParameterControl } from '@/components/shared/parameter-control';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import {
     POLE_LIMIT,
@@ -46,10 +40,7 @@ interface PoleControlsProps {
     onOrderChange: (order: SystemOrder) => void;
     onPresetSelect: (preset: PolePreset) => void;
     onPoleChange: (index: number, pole: ComplexPole) => void;
-    onConjugatePairChange: (
-        realPart: number,
-        imaginaryPart: number,
-    ) => void;
+    onConjugatePairChange: (realPart: number, imaginaryPart: number) => void;
     onReset: () => void;
 }
 
@@ -64,9 +55,7 @@ export function PoleControls({
 }: PoleControlsProps) {
     const poles = getPoles(configuration);
     const presets = getPresets(configuration.order);
-    const bothReal = poles.every(
-        (pole) => Math.abs(pole.imaginary) < 1e-9,
-    );
+    const bothReal = poles.every((pole) => Math.abs(pole.imaginary) < 1e-9);
 
     function isPresetActive(preset: PolePreset) {
         const current = poles.map(poleKey).sort();
@@ -82,9 +71,7 @@ export function PoleControls({
         <Card className="h-fit">
             <CardHeader>
                 <div className="flex items-center justify-between gap-2">
-                    <CardTitle className="text-base">
-                        Pole placement
-                    </CardTitle>
+                    <CardTitle className="text-base">Pole placement</CardTitle>
 
                     <Button
                         type="button"
@@ -113,22 +100,15 @@ export function PoleControls({
                                 key={option.order}
                                 type="button"
                                 variant={
-                                    configuration.order === option.order
-                                        ? 'default'
-                                        : 'outline'
+                                    configuration.order === option.order ? 'default' : 'outline'
                                 }
                                 onClick={() => {
-                                    if (
-                                        configuration.order !==
-                                        option.order
-                                    ) {
+                                    if (configuration.order !== option.order) {
                                         onOrderChange(option.order);
                                     }
                                 }}
                                 className="h-auto flex-col items-start gap-0.5 py-2"
-                                aria-pressed={
-                                    configuration.order === option.order
-                                }
+                                aria-pressed={configuration.order === option.order}
                             >
                                 <span>{option.label}</span>
 
@@ -141,27 +121,19 @@ export function PoleControls({
                 </div>
 
                 <div className="space-y-3">
-                    <p className="text-sm font-medium">
-                        Pole presets
-                    </p>
+                    <p className="text-sm font-medium">Pole presets</p>
 
                     <div className="grid grid-cols-2 gap-2">
                         {presets.map((preset) => (
                             <Button
                                 key={preset.id}
                                 type="button"
-                                variant={
-                                    isPresetActive(preset)
-                                        ? 'secondary'
-                                        : 'outline'
-                                }
+                                variant={isPresetActive(preset) ? 'secondary' : 'outline'}
                                 onClick={() => onPresetSelect(preset)}
                                 className="h-auto flex-col items-start gap-0.5 py-2 text-left"
                                 aria-pressed={isPresetActive(preset)}
                             >
-                                <span className="text-xs font-medium">
-                                    {preset.label}
-                                </span>
+                                <span className="text-xs font-medium">{preset.label}</span>
 
                                 <span className="font-mono text-[10px] font-normal opacity-75">
                                     {preset.description}
@@ -235,78 +207,55 @@ export function PoleControls({
                         <ParameterControl
                             id="pole-real-part"
                             label="Real part (σ)"
-                            value={Number(
-                                characteristics.realPart.toFixed(2),
-                            )}
+                            value={Number(characteristics.realPart.toFixed(2))}
                             min={-POLE_LIMIT}
                             max={POLE_LIMIT}
                             step={0.1}
                             unit="s⁻¹"
                             description="Distance from the jω axis"
                             onChange={(value) =>
-                                onConjugatePairChange(
-                                    value,
-                                    characteristics.imaginaryPart,
-                                )
+                                onConjugatePairChange(value, characteristics.imaginaryPart)
                             }
                         />
 
                         <ParameterControl
                             id="pole-imaginary-part"
                             label="Imaginary part (ωd)"
-                            value={Number(
-                                characteristics.imaginaryPart.toFixed(2),
-                            )}
+                            value={Number(characteristics.imaginaryPart.toFixed(2))}
                             min={0}
                             max={POLE_LIMIT}
                             step={0.1}
                             unit="rad/s"
                             description="Damped oscillation frequency"
                             onChange={(value) =>
-                                onConjugatePairChange(
-                                    characteristics.realPart,
-                                    value,
-                                )
+                                onConjugatePairChange(characteristics.realPart, value)
                             }
                         />
                     </>
                 )}
 
-                <div className="rounded-lg bg-muted/60 p-3">
+                <div className="bg-muted/60 rounded-lg p-3">
                     <p className="flex items-center gap-2 text-xs font-semibold">
                         <MousePointer2 size={13} />
                         Current poles
                     </p>
 
-                    <p className="mt-2 font-mono text-sm">
-                        {getPoleSummary(poles)}
-                    </p>
+                    <p className="mt-2 font-mono text-sm">{getPoleSummary(poles)}</p>
 
                     {configuration.order === 'first' ? (
-                        <p className="mt-1 text-xs text-muted-foreground">
-                            τ ={' '}
-                            {formatNumber(
-                                characteristics.timeConstant ?? 0,
-                                2,
-                            )}{' '}
-                            s
+                        <p className="text-muted-foreground mt-1 text-xs">
+                            τ = {formatNumber(characteristics.timeConstant ?? 0, 2)} s
                         </p>
                     ) : (
-                        <p className="mt-1 text-xs text-muted-foreground">
+                        <p className="text-muted-foreground mt-1 text-xs">
                             ζ ={' '}
                             {characteristics.dampingRatio === null
-                                ? '—'
-                                : formatNumber(
-                                      characteristics.dampingRatio,
-                                      3,
-                                  )}{' '}
+                                ? '-'
+                                : formatNumber(characteristics.dampingRatio, 3)}{' '}
                             · ωn ={' '}
                             {characteristics.naturalFrequency === null
-                                ? '—'
-                                : `${formatNumber(
-                                      characteristics.naturalFrequency,
-                                      3,
-                                  )} rad/s`}
+                                ? '-'
+                                : `${formatNumber(characteristics.naturalFrequency, 3)} rad/s`}
                         </p>
                     )}
                 </div>

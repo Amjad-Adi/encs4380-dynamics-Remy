@@ -15,10 +15,7 @@ export const STABILITY_DESCRIPTIONS: Record<PoleStability, string> = {
     unstable: 'At least one pole lies in the right half-plane.',
 };
 
-export const REGIME_LABELS: Record<
-    PoleCharacteristics['kind'],
-    string
-> = {
+export const REGIME_LABELS: Record<PoleCharacteristics['kind'], string> = {
     'first-order': 'First-order',
     undamped: 'Undamped',
     underdamped: 'Underdamped',
@@ -27,22 +24,14 @@ export const REGIME_LABELS: Record<
     saddle: 'Saddle point',
 };
 
-export const KIND_DESCRIPTIONS: Record<
-    PoleCharacteristics['kind'],
-    string
-> = {
-    'first-order':
-        'A single real pole. Moving it farther left makes the response settle faster.',
+export const KIND_DESCRIPTIONS: Record<PoleCharacteristics['kind'], string> = {
+    'first-order': 'A single real pole. Moving it farther left makes the response settle faster.',
     undamped:
         'Complex poles on the imaginary axis. The response oscillates forever without decaying.',
-    underdamped:
-        'Complex poles. The response oscillates while decaying toward its final value.',
-    critical:
-        'A repeated real pole. This is the fastest response that does not oscillate.',
-    overdamped:
-        'Two distinct real poles. The response settles without overshoot.',
-    saddle:
-        'One pole in each half-plane. The right-half-plane pole makes the response diverge.',
+    underdamped: 'Complex poles. The response oscillates while decaying toward its final value.',
+    critical: 'A repeated real pole. This is the fastest response that does not oscillate.',
+    overdamped: 'Two distinct real poles. The response settles without overshoot.',
+    saddle: 'One pole in each half-plane. The right-half-plane pole makes the response diverge.',
 };
 
 export function getRegimeLabel(kind: PoleCharacteristics['kind']): string {
@@ -53,9 +42,7 @@ export function getStabilityLabel(stability: PoleStability): string {
     return STABILITY_LABELS[stability];
 }
 
-export function getKindDescription(
-    kind: PoleCharacteristics['kind'],
-): string {
+export function getKindDescription(kind: PoleCharacteristics['kind']): string {
     return KIND_DESCRIPTIONS[kind];
 }
 

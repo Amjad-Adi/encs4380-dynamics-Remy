@@ -1,32 +1,27 @@
-
 import * as React from 'react';
 
 const MOBILE_BREAKPOINT = 768;
 
 /** Mobile is any viewport narrower than Tailwind's md breakpoint. */
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(
-      () =>
-          typeof window !== 'undefined' &&
-          window.matchMedia(
-              `(max-width: ${MOBILE_BREAKPOINT - 1}px)`,
-          ).matches,
-  );
-
-  React.useEffect(() => {
-    const query = window.matchMedia(
-        `(max-width: ${MOBILE_BREAKPOINT - 1}px)`,
+    const [isMobile, setIsMobile] = React.useState(
+        () =>
+            typeof window !== 'undefined' &&
+            window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches,
     );
 
-    const update = (event: MediaQueryListEvent) => {
-      setIsMobile(event.matches);
-    };
+    React.useEffect(() => {
+        const query = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
-    setIsMobile(query.matches);
-    query.addEventListener('change', update);
+        const update = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
 
-    return () => query.removeEventListener('change', update);
-  }, []);
+        setIsMobile(query.matches);
+        query.addEventListener('change', update);
 
-  return isMobile;
+        return () => query.removeEventListener('change', update);
+    }, []);
+
+    return isMobile;
 }

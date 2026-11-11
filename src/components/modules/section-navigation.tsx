@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -14,13 +13,9 @@ interface SectionNavigationProps {
     sections: ModuleSection[];
 }
 
-export function SectionNavigation({
-                                      sections,
-                                  }: SectionNavigationProps) {
+export function SectionNavigation({ sections }: SectionNavigationProps) {
     const isMobile = useIsMobile();
-    const [activeSection, setActiveSection] = useState(
-        sections[0]?.id ?? '',
-    );
+    const [activeSection, setActiveSection] = useState(sections[0]?.id ?? '');
 
     useEffect(() => {
         const elements = sections
@@ -33,11 +28,7 @@ export function SectionNavigation({
             (entries) => {
                 const visibleSections = entries
                     .filter((entry) => entry.isIntersecting)
-                    .sort(
-                        (a, b) =>
-                            a.boundingClientRect.top -
-                            b.boundingClientRect.top,
-                    );
+                    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
                 if (visibleSections.length > 0) {
                     setActiveSection(visibleSections[0].target.id);
@@ -59,7 +50,7 @@ export function SectionNavigation({
     return (
         <nav
             aria-label="Module sections"
-            className="sticky top-2 z-30 -mx-1 flex gap-1 overflow-x-auto rounded-xl border border-border/80 bg-background/90 p-1.5 shadow-sm backdrop-blur-xl sm:mx-0 sm:gap-2"
+            className="border-border/80 bg-background/90 sticky top-2 z-30 -mx-1 flex gap-1 overflow-x-auto rounded-xl border p-1.5 shadow-sm backdrop-blur-xl sm:mx-0 sm:gap-2"
         >
             {sections.map(({ id, label, icon: Icon }) => {
                 const isActive = activeSection === id;
@@ -71,7 +62,7 @@ export function SectionNavigation({
                         aria-current={isActive ? 'location' : undefined}
                         className={[
                             'flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors',
-                            'focus-visible:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                            'focus-visible:bg-accent focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                             isActive
                                 ? 'bg-accent text-accent-foreground'
                                 : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',

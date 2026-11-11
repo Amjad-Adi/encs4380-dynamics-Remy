@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-    Activity,
-    ArrowRight,
-    CheckCircle2,
-    CircleX,
-} from 'lucide-react';
+import { Activity, ArrowRight, CheckCircle2, CircleX } from 'lucide-react';
 
 import { Button } from '@/components/ui/button.tsx';
 import {
@@ -33,8 +28,7 @@ interface PredictionQuestion {
 const STEP_QUESTIONS: PredictionQuestion[] = [
     {
         id: 'fraction-at-tau',
-        prompt:
-            'At t = τ, what percentage of the final output KA has the step response reached?',
+        prompt: 'At t = τ, what percentage of the final output KA has the step response reached?',
         options: [
             { value: '36.8', label: '36.8%' },
             { value: '63.2', label: '63.2%' },
@@ -47,8 +41,7 @@ const STEP_QUESTIONS: PredictionQuestion[] = [
     },
     {
         id: 'fraction-at-three-tau',
-        prompt:
-            'At t = 3τ, what percentage of KA has the step response reached?',
+        prompt: 'At t = 3τ, what percentage of KA has the step response reached?',
         options: [
             { value: '86.5', label: '86.5%' },
             { value: '95.0', label: '95.0%' },
@@ -61,8 +54,7 @@ const STEP_QUESTIONS: PredictionQuestion[] = [
     },
     {
         id: 'tau-increase',
-        prompt:
-            'If τ increases while K and A stay fixed, how does the step response change?',
+        prompt: 'If τ increases while K and A stay fixed, how does the step response change?',
         options: [
             { value: 'slower', label: 'The response becomes slower' },
             { value: 'faster', label: 'The response becomes faster' },
@@ -77,8 +69,7 @@ const STEP_QUESTIONS: PredictionQuestion[] = [
 const RAMP_QUESTIONS: PredictionQuestion[] = [
     {
         id: 'ramp-error-tau',
-        prompt:
-            'If τ increases while K and the ramp slope A stay fixed, what happens to the steady-state tracking error KAτ?',
+        prompt: 'If τ increases while K and the ramp slope A stay fixed, what happens to the steady-state tracking error KAτ?',
         options: [
             { value: 'increases', label: 'It increases' },
             { value: 'decreases', label: 'It decreases' },
@@ -90,16 +81,15 @@ const RAMP_QUESTIONS: PredictionQuestion[] = [
     },
     {
         id: 'ramp-lag-gain',
-        prompt:
-            'Does the equivalent time lag of a first-order ramp response depend on the system gain K?',
+        prompt: 'Does the equivalent time lag of a first-order ramp response depend on the system gain K?',
         options: [
             {
                 value: 'yes',
-                label: 'Yes — a larger K increases the lag',
+                label: 'Yes - a larger K increases the lag',
             },
             {
                 value: 'no',
-                label: 'No — the lag equals τ for any K',
+                label: 'No - the lag equals τ for any K',
             },
             {
                 value: 'only',
@@ -121,9 +111,7 @@ interface PredictionExerciseProps {
     inputType: FirstOrderInputType;
 }
 
-export function PredictionExercise({
-                                       inputType,
-                                   }: PredictionExerciseProps) {
+export function PredictionExercise({ inputType }: PredictionExerciseProps) {
     const questions = QUESTION_SETS[inputType];
 
     const [questionIndex, setQuestionIndex] = useState(0);
@@ -136,10 +124,7 @@ export function PredictionExercise({
         setChecked(false);
     }, [inputType]);
 
-    const activeIndex = Math.min(
-        questionIndex,
-        questions.length - 1,
-    );
+    const activeIndex = Math.min(questionIndex, questions.length - 1);
     const question = questions[activeIndex];
     const isCorrect = answer === question.correct;
     const isLastQuestion = activeIndex === questions.length - 1;
@@ -150,9 +135,7 @@ export function PredictionExercise({
     }
 
     function advance() {
-        setQuestionIndex(
-            isLastQuestion ? 0 : activeIndex + 1,
-        );
+        setQuestionIndex(isLastQuestion ? 0 : activeIndex + 1);
         setAnswer(null);
         setChecked(false);
     }
@@ -164,9 +147,7 @@ export function PredictionExercise({
                     <div className="flex items-center gap-2">
                         <Activity size={18} className="text-brand" />
 
-                        <CardTitle className="text-base">
-                            Predict, then check
-                        </CardTitle>
+                        <CardTitle className="text-base">Predict, then check</CardTitle>
                     </div>
 
                     <CardDescription>
@@ -177,12 +158,12 @@ export function PredictionExercise({
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+                    <div className="text-muted-foreground flex items-center justify-between gap-3 text-xs">
                         <span>
                             Question {activeIndex + 1} of {questions.length}
                         </span>
 
-                        <span className="rounded-full bg-muted px-2 py-0.5 font-medium">
+                        <span className="bg-muted rounded-full px-2 py-0.5 font-medium">
                             {inputType === 'step' ? 'Step input' : 'Ramp input'}
                         </span>
                     </div>
@@ -192,10 +173,8 @@ export function PredictionExercise({
                     <div className="grid gap-2 sm:grid-cols-2">
                         {question.options.map((option) => {
                             const isSelected = answer === option.value;
-                            const isCorrectOption =
-                                checked && option.value === question.correct;
-                            const isWrongSelection =
-                                checked && isSelected && !isCorrect;
+                            const isCorrectOption = checked && option.value === question.correct;
+                            const isWrongSelection = checked && isSelected && !isCorrect;
 
                             return (
                                 <button
@@ -209,15 +188,15 @@ export function PredictionExercise({
                                     }}
                                     className={[
                                         'rounded-lg border p-3 text-left text-sm transition-colors',
-                                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                                        'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                                         'disabled:cursor-default',
                                         isCorrectOption
                                             ? 'border-success bg-success/5 text-success'
                                             : isWrongSelection
-                                                ? 'border-destructive bg-destructive/5 text-destructive'
-                                                : isSelected
-                                                    ? 'border-brand bg-accent text-accent-foreground'
-                                                    : 'border-border hover:bg-muted',
+                                              ? 'border-destructive bg-destructive/5 text-destructive'
+                                              : isSelected
+                                                ? 'border-brand bg-accent text-accent-foreground'
+                                                : 'border-border hover:bg-muted',
                                     ].join(' ')}
                                 >
                                     {option.label}
@@ -228,11 +207,7 @@ export function PredictionExercise({
 
                     <div className="flex flex-wrap items-center gap-3">
                         {checked ? (
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={advance}
-                            >
+                            <Button type="button" variant="outline" onClick={advance}>
                                 {isLastQuestion ? 'Start over' : 'Next question'}
 
                                 {!isLastQuestion && <ArrowRight />}
@@ -248,36 +223,25 @@ export function PredictionExercise({
                         )}
 
                         {checked && (
-                            <div
-                                className="flex items-start gap-2 text-sm"
-                                role="status"
-                            >
+                            <div className="flex items-start gap-2 text-sm" role="status">
                                 {isCorrect ? (
                                     <CheckCircle2
                                         size={17}
-                                        className="mt-0.5 shrink-0 text-success"
+                                        className="text-success mt-0.5 shrink-0"
                                     />
                                 ) : (
                                     <CircleX
                                         size={17}
-                                        className="mt-0.5 shrink-0 text-destructive"
+                                        className="text-destructive mt-0.5 shrink-0"
                                     />
                                 )}
 
                                 <div className="min-w-0 space-y-1">
-                                    <p
-                                        className={
-                                            isCorrect
-                                                ? 'text-success'
-                                                : 'text-destructive'
-                                        }
-                                    >
+                                    <p className={isCorrect ? 'text-success' : 'text-destructive'}>
                                         {isCorrect ? 'Correct.' : 'Not quite.'}
                                     </p>
 
-                                    <p className="text-muted-foreground">
-                                        {question.explanation}
-                                    </p>
+                                    <p className="text-muted-foreground">{question.explanation}</p>
                                 </div>
                             </div>
                         )}

@@ -14,11 +14,7 @@ interface SensorResponseChartProps {
     revealed: boolean;
 }
 
-export function SensorResponseChart({
-    challenge,
-    estimate,
-    revealed,
-}: SensorResponseChartProps) {
+export function SensorResponseChart({ challenge, estimate, revealed }: SensorResponseChartProps) {
     const theme = useChartTheme();
     const times = challenge.samples.map((sample) => sample.time);
     const data: Data[] = [

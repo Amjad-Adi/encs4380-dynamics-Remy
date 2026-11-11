@@ -1,11 +1,4 @@
-import {
-    Activity,
-    Clock3,
-    Crosshair,
-    Gauge,
-    Layers,
-    ShieldCheck,
-} from 'lucide-react';
+import { Activity, Clock3, Crosshair, Gauge, Layers, ShieldCheck } from 'lucide-react';
 
 import { SharedParameterSummary } from '@/components/modules/parameter-summary';
 import {
@@ -25,14 +18,9 @@ interface ParameterSummaryProps {
     characteristics: PoleCharacteristics;
 }
 
-export function ParameterSummary({
-    configuration,
-    characteristics,
-}: ParameterSummaryProps) {
+export function ParameterSummary({ configuration, characteristics }: ParameterSummaryProps) {
     const poles = getPoles(configuration);
-    const bothReal = poles.every(
-        (pole) => Math.abs(pole.imaginary) < 1e-9,
-    );
+    const bothReal = poles.every((pole) => Math.abs(pole.imaginary) < 1e-9);
 
     const items =
         configuration.order === 'first'
@@ -51,23 +39,15 @@ export function ParameterSummary({
                   },
                   {
                       label: 'Time constant (τ)',
-                      value: formatNumber(
-                          characteristics.timeConstant ?? 0,
-                          3,
-                      ),
+                      value: formatNumber(characteristics.timeConstant ?? 0, 3),
                       unit: 's',
                       description: '1 / |p|',
                       icon: Clock3,
                   },
                   {
                       label: 'Stability',
-                      value: getStabilityLabel(
-                          characteristics.stability,
-                      ),
-                      description:
-                          STABILITY_DESCRIPTIONS[
-                              characteristics.stability
-                          ],
+                      value: getStabilityLabel(characteristics.stability),
+                      description: STABILITY_DESCRIPTIONS[characteristics.stability],
                       icon: ShieldCheck,
                   },
               ]
@@ -81,20 +61,15 @@ export function ParameterSummary({
                   {
                       label: 'Pole locations',
                       value: getPoleSummary(poles),
-                      description: bothReal
-                          ? 'Real poles on the σ axis'
-                          : 'σ ± jωd in the s-plane',
+                      description: bothReal ? 'Real poles on the σ axis' : 'σ ± jωd in the s-plane',
                       icon: Crosshair,
                   },
                   {
                       label: 'Damping ratio (ζ)',
                       value:
                           characteristics.dampingRatio === null
-                              ? '—'
-                              : formatNumber(
-                                    characteristics.dampingRatio,
-                                    3,
-                                ),
+                              ? '-'
+                              : formatNumber(characteristics.dampingRatio, 3),
                       description: 'Derived from σ and ωn',
                       icon: Gauge,
                   },
@@ -102,24 +77,13 @@ export function ParameterSummary({
                       label: 'Natural frequency (ωn)',
                       value:
                           characteristics.naturalFrequency === null
-                              ? '—'
-                              : formatNumber(
-                                    characteristics.naturalFrequency,
-                                    3,
-                                ),
-                      unit:
-                          characteristics.naturalFrequency === null
-                              ? undefined
-                              : 'rad/s',
+                              ? '-'
+                              : formatNumber(characteristics.naturalFrequency, 3),
+                      unit: characteristics.naturalFrequency === null ? undefined : 'rad/s',
                       description: 'Distance from the origin',
                       icon: Activity,
                   },
               ];
 
-    return (
-        <SharedParameterSummary
-            ariaLabel="Current pole configuration"
-            items={items}
-        />
-    );
+    return <SharedParameterSummary ariaLabel="Current pole configuration" items={items} />;
 }

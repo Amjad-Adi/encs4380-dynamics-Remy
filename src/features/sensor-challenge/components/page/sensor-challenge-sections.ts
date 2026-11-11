@@ -1,8 +1,4 @@
-import {
-    BookOpen,
-    Lightbulb,
-    ScanSearch,
-} from 'lucide-react';
+import { BookOpen, Lightbulb, ScanSearch } from 'lucide-react';
 
 import type { ModuleSection } from '@/components/modules/section-navigation';
 

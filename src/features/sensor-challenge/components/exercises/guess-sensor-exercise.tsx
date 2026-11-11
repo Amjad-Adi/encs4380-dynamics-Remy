@@ -3,13 +3,7 @@ import { CheckCircle2, Lightbulb, Send } from 'lucide-react';
 
 import { SectionHeading } from '@/components/modules/section-heading';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SensorResponseChart } from '@/features/sensor-challenge/components/charts/sensor-response-chart';
@@ -40,8 +34,7 @@ export function GuessSensorExercise({
     onSubmit,
     onNewSensor,
 }: GuessSensorExerciseProps) {
-    const [estimatedType, setEstimatedType] =
-        useState<SensorType>('first-order');
+    const [estimatedType, setEstimatedType] = useState<SensorType>('first-order');
     const [tau, setTau] = useState('');
     const [zeta, setZeta] = useState('');
     const [omegaN, setOmegaN] = useState('');
@@ -49,13 +42,9 @@ export function GuessSensorExercise({
     const [estimate, setEstimate] = useState<SensorEstimate | null>(null);
     const submitted = estimate !== null;
 
-    const errors = estimate
-        ? getParameterErrors(challenge.parameters, estimate)
-        : [];
-    const correctType =
-        estimate !== null && challenge.parameters.type === estimate.type;
-    const fullCredit =
-        estimate !== null && earnsFullCredit(challenge.parameters, estimate);
+    const errors = estimate ? getParameterErrors(challenge.parameters, estimate) : [];
+    const correctType = estimate !== null && challenge.parameters.type === estimate.type;
+    const fullCredit = estimate !== null && earnsFullCredit(challenge.parameters, estimate);
 
     function submitEstimate(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -66,9 +55,7 @@ export function GuessSensorExercise({
             !Number.isFinite(firstValue) ||
             firstValue <= 0 ||
             (estimatedType === 'second-order' &&
-                (firstValue >= 1 ||
-                    !Number.isFinite(secondValue) ||
-                    secondValue <= 0))
+                (firstValue >= 1 || !Number.isFinite(secondValue) || secondValue <= 0))
         ) {
             setErrorMessage(
                 estimatedType === 'first-order'
@@ -93,10 +80,7 @@ export function GuessSensorExercise({
     }
 
     return (
-        <section
-            id="sensor-challenge"
-            className="scroll-mt-24 space-y-3"
-        >
+        <section id="sensor-challenge" className="scroll-mt-24 space-y-3">
             <SectionHeading title="Guess the sensor" icon={Lightbulb} />
             <Card>
                 <CardHeader>
@@ -104,9 +88,8 @@ export function GuessSensorExercise({
                         Inspect the response and make your prediction
                     </CardTitle>
                     <CardDescription>
-                        The blue measurements include simulated sensor noise.
-                        Choose a model, estimate its parameters, and submit to
-                        reveal the answer and compare curves.
+                        The blue measurements include simulated sensor noise. Choose a model,
+                        estimate its parameters, and submit to reveal the answer and compare curves.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
@@ -117,10 +100,7 @@ export function GuessSensorExercise({
                     />
 
                     {!submitted ? (
-                        <form
-                            className="space-y-5"
-                            onSubmit={submitEstimate}
-                        >
+                        <form className="space-y-5" onSubmit={submitEstimate}>
                             <fieldset className="space-y-2">
                                 <legend className="text-sm font-medium">
                                     Which sensor model best fits the trace?
@@ -142,7 +122,7 @@ export function GuessSensorExercise({
                                             }}
                                             className={[
                                                 'rounded-lg border p-3 text-left text-sm transition-colors',
-                                                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                                                'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                                                 estimatedType === type
                                                     ? 'border-primary bg-accent text-accent-foreground'
                                                     : 'border-border hover:bg-muted',
@@ -156,9 +136,7 @@ export function GuessSensorExercise({
 
                             {estimatedType === 'first-order' ? (
                                 <div className="max-w-sm space-y-2">
-                                    <Label htmlFor="guess-tau">
-                                        Estimated time constant τ (s)
-                                    </Label>
+                                    <Label htmlFor="guess-tau">Estimated time constant τ (s)</Label>
                                     <Input
                                         id="guess-tau"
                                         type="number"
@@ -166,9 +144,7 @@ export function GuessSensorExercise({
                                         step="any"
                                         required
                                         value={tau}
-                                        onChange={(event) =>
-                                            setTau(event.target.value)
-                                        }
+                                        onChange={(event) => setTau(event.target.value)}
                                         placeholder="e.g. 1.2"
                                     />
                                 </div>
@@ -186,16 +162,13 @@ export function GuessSensorExercise({
                                             step="any"
                                             required
                                             value={zeta}
-                                            onChange={(event) =>
-                                                setZeta(event.target.value)
-                                            }
+                                            onChange={(event) => setZeta(event.target.value)}
                                             placeholder="e.g. 0.45"
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="guess-omega-n">
-                                            Estimated natural frequency ωn
-                                            (rad/s)
+                                            Estimated natural frequency ωn (rad/s)
                                         </Label>
                                         <Input
                                             id="guess-omega-n"
@@ -204,9 +177,7 @@ export function GuessSensorExercise({
                                             step="any"
                                             required
                                             value={omegaN}
-                                            onChange={(event) =>
-                                                setOmegaN(event.target.value)
-                                            }
+                                            onChange={(event) => setOmegaN(event.target.value)}
                                             placeholder="e.g. 2.0"
                                         />
                                     </div>
@@ -214,7 +185,7 @@ export function GuessSensorExercise({
                             )}
 
                             {errorMessage && (
-                                <p className="text-sm text-destructive" role="alert">
+                                <p className="text-destructive text-sm" role="alert">
                                     {errorMessage}
                                 </p>
                             )}
@@ -239,39 +210,33 @@ export function GuessSensorExercise({
                                         size={18}
                                         className={
                                             fullCredit
-                                                ? 'mt-0.5 text-success'
-                                                : 'mt-0.5 text-muted-foreground'
+                                                ? 'text-success mt-0.5'
+                                                : 'text-muted-foreground mt-0.5'
                                         }
                                     />
                                     <div className="space-y-2">
                                         <p className="font-semibold">
                                             {fullCredit
-                                                ? 'Full credit — excellent estimate!'
+                                                ? 'Full credit - excellent estimate!'
                                                 : 'Challenge revealed'}
                                         </p>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-muted-foreground text-sm">
                                             Actual sensor: {actualDescription(challenge)}
                                         </p>
                                         {!correctType && (
-                                            <p className="text-sm text-muted-foreground">
-                                                The selected model type was not
-                                                correct; parameter errors are
-                                                only comparable when the model
-                                                type matches.
+                                            <p className="text-muted-foreground text-sm">
+                                                The selected model type was not correct; parameter
+                                                errors are only comparable when the model type
+                                                matches.
                                             </p>
                                         )}
                                         {errors.map((parameterError) => (
-                                            <p
-                                                key={parameterError.label}
-                                                className="text-sm"
-                                            >
+                                            <p key={parameterError.label} className="text-sm">
                                                 {parameterError.label}: estimated{' '}
-                                                {parameterError.estimate.toFixed(3)}
-                                                , actual{' '}
+                                                {parameterError.estimate.toFixed(3)}, actual{' '}
                                                 {parameterError.actual.toFixed(3)}
                                                 {' · '}
-                                                {parameterError.percent.toFixed(1)}%
-                                                error (
+                                                {parameterError.percent.toFixed(1)}% error (
                                                 {parameterError.withinTolerance
                                                     ? 'within 10%'
                                                     : 'outside 10%'}
@@ -281,11 +246,7 @@ export function GuessSensorExercise({
                                     </div>
                                 </div>
                             </div>
-                            <Button
-                                type="button"
-                                onClick={onNewSensor}
-                                className="gap-2"
-                            >
+                            <Button type="button" onClick={onNewSensor} className="gap-2">
                                 New Sensor
                             </Button>
                         </div>
@@ -301,31 +262,22 @@ export function SensorHints() {
         <section id="hints" className="scroll-mt-24 space-y-3">
             <SectionHeading title="Hints for reading the response" icon={Lightbulb} />
             <Card>
-                <CardContent className="space-y-3 pt-4 text-sm leading-6 text-muted-foreground">
+                <CardContent className="text-muted-foreground space-y-3 pt-4 text-sm leading-6">
                     <p>
-                        <strong className="text-foreground">
-                            First-order:
-                        </strong>{' '}
-                        for a unit step, the response reaches about 63.2% of its
-                        final value after one time constant τ. A larger τ means
-                        a slower rise.
+                        <strong className="text-foreground">First-order:</strong> for a unit step,
+                        the response reaches about 63.2% of its final value after one time constant
+                        τ. A larger τ means a slower rise.
                     </p>
                     <p>
-                        <strong className="text-foreground">
-                            Underdamped second-order:
-                        </strong>{' '}
-                        overshoot is evidence of ζ &lt; 1. Its percentage is
-                        approximately{' '}
-                        <span className="font-mono">
-                            Mp = 100 exp(−πζ / √(1 − ζ²))
-                        </span>
-                        . Greater overshoot means lower damping; the spacing
-                        between oscillations helps estimate ωn.
+                        <strong className="text-foreground">Underdamped second-order:</strong>{' '}
+                        overshoot is evidence of ζ &lt; 1. Its percentage is approximately{' '}
+                        <span className="font-mono">Mp = 100 exp(−πζ / √(1 − ζ²))</span>. Greater
+                        overshoot means lower damping; the spacing between oscillations helps
+                        estimate ωn.
                     </p>
                     <p>
-                        Noise can obscure the exact curve. Focus on the overall
-                        rise time, final value, peak, and oscillation pattern
-                        rather than individual points.
+                        Noise can obscure the exact curve. Focus on the overall rise time, final
+                        value, peak, and oscillation pattern rather than individual points.
                     </p>
                 </CardContent>
             </Card>

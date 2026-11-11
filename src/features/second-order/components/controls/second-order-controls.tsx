@@ -1,15 +1,9 @@
 import { RotateCcw } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ParameterControl } from '@/components/shared/parameter-control';
-import type { PhysicalParameters } from '@/features/second-order/domain/second-order';
+import type { PhysicalParameters } from '@/features/second-order/domain';
 
 interface SecondOrderControlsProps {
     parameters: PhysicalParameters;
@@ -80,12 +74,11 @@ export function SecondOrderControls({
                     onChange={(value) => onParameterChange('k', value)}
                 />
 
-                <div className="rounded-lg bg-muted/60 p-3">
+                <div className="bg-muted/60 rounded-lg p-3">
                     <p className="text-xs font-semibold">Input and initial conditions</p>
-                    <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                        Unit-force step input (1 N), with zero initial displacement
-                        and velocity. Physical output is x(t); normalized output is
-                        kx(t).
+                    <p className="text-muted-foreground mt-2 text-xs leading-5">
+                        Unit-force step input (1 N), with zero initial displacement and velocity.
+                        Physical output is x(t); normalized output is kx(t).
                     </p>
                 </div>
             </CardContent>

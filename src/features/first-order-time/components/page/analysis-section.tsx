@@ -22,12 +22,12 @@ interface AnalysisSectionProps {
 }
 
 export function AnalysisSection({
-                                    inputType,
-                                    parameters,
-                                    validation,
-                                    rampError,
-                                    rampLag,
-                                }: AnalysisSectionProps) {
+    inputType,
+    parameters,
+    validation,
+    rampError,
+    rampLag,
+}: AnalysisSectionProps) {
     const isStep = inputType === 'step';
 
     return (
@@ -43,18 +43,12 @@ export function AnalysisSection({
         >
             {isStep ? (
                 <div className="space-y-5">
-                    <StepValidation
-                        results={validation}
-                        parameters={parameters}
-                    />
+                    <StepValidation results={validation} parameters={parameters} />
 
                     <ErrorFractionAnalysis tau={parameters.tau} />
                 </div>
             ) : (
-                <RampAnalysis
-                    rampError={rampError}
-                    rampLag={rampLag}
-                />
+                <RampAnalysis rampError={rampError} rampLag={rampLag} />
             )}
         </SharedAnalysisSection>
     );

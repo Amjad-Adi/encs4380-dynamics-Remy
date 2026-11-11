@@ -7,11 +7,7 @@ export function ModelOverview() {
             items={[
                 {
                     title: 'First-order pole',
-                    content: (
-                        <Equation
-                            expression={String.raw`G(s)=\frac{-p}{s-p}`}
-                        />
-                    ),
+                    content: <Equation expression={String.raw`G(s)=\frac{-p}{s-p}`} />,
                     description:
                         'A single real pole p gives a first-order response with time constant τ = 1/|p|.',
                 },
@@ -42,8 +38,7 @@ export function ModelOverview() {
                             expression={String.raw`G(s)=\frac{\omega_n^2}{s^2+2\zeta\omega_n s+\omega_n^2}`}
                         />
                     ),
-                    description:
-                        'Unit step input; the DC gain is 1 for every stable placement.',
+                    description: 'Unit step input; the DC gain is 1 for every stable placement.',
                 },
             ]}
         />

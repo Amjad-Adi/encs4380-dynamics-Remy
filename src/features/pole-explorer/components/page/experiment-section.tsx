@@ -18,10 +18,7 @@ interface ExperimentSectionProps {
     onOrderChange: (order: SystemOrder) => void;
     onPresetSelect: (preset: PolePreset) => void;
     onPoleChange: (index: number, pole: ComplexPole) => void;
-    onConjugatePairChange: (
-        realPart: number,
-        imaginaryPart: number,
-    ) => void;
+    onConjugatePairChange: (realPart: number, imaginaryPart: number) => void;
     onReset: () => void;
 }
 

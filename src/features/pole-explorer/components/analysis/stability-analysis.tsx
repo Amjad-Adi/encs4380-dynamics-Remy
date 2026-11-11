@@ -1,17 +1,7 @@
-import {
-    ArrowLeftRight,
-    MoveVertical,
-    ShieldAlert,
-} from 'lucide-react';
+import { ArrowLeftRight, MoveVertical, ShieldAlert } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
     formatNumber,
@@ -26,10 +16,8 @@ import {
 
 const STABILITY_BADGE_CLASS = {
     stable: 'border-success/30 bg-success/5 text-success',
-    marginal:
-        'border-[#d69a35]/40 bg-[#d69a35]/10 text-[#a9761f] dark:text-[#e0b25f]',
-    unstable:
-        'border-destructive/30 bg-destructive/5 text-destructive',
+    marginal: 'border-[#d69a35]/40 bg-[#d69a35]/10 text-[#a9761f] dark:text-[#e0b25f]',
+    unstable: 'border-destructive/30 bg-destructive/5 text-destructive',
 } as const;
 
 interface StabilityAnalysisProps {
@@ -57,9 +45,7 @@ const PLANE_GUIDES = [
     },
 ];
 
-export function StabilityAnalysis({
-    characteristics,
-}: StabilityAnalysisProps) {
+export function StabilityAnalysis({ characteristics }: StabilityAnalysisProps) {
     const readouts =
         characteristics.order === 'first'
             ? [
@@ -69,18 +55,15 @@ export function StabilityAnalysis({
                   },
                   {
                       label: 'Time constant τ',
-                      value: `${formatNumber(
-                          characteristics.timeConstant ?? 0,
-                          3,
-                      )} s`,
+                      value: `${formatNumber(characteristics.timeConstant ?? 0, 3)} s`,
                   },
                   {
                       label: 'Damping ratio ζ',
-                      value: '—',
+                      value: '-',
                   },
                   {
                       label: 'Natural frequency ωn',
-                      value: '—',
+                      value: '-',
                   },
               ]
             : [
@@ -92,31 +75,22 @@ export function StabilityAnalysis({
                       label: 'Imaginary part',
                       value:
                           characteristics.imaginaryPart > 0
-                              ? `± j${formatNumber(
-                                    characteristics.imaginaryPart,
-                                    2,
-                                )}`
+                              ? `± j${formatNumber(characteristics.imaginaryPart, 2)}`
                               : '0',
                   },
                   {
                       label: 'Damping ratio ζ',
                       value:
                           characteristics.dampingRatio === null
-                              ? '—'
-                              : formatNumber(
-                                    characteristics.dampingRatio,
-                                    3,
-                                ),
+                              ? '-'
+                              : formatNumber(characteristics.dampingRatio, 3),
                   },
                   {
                       label: 'Natural frequency ωn',
                       value:
                           characteristics.naturalFrequency === null
-                              ? '—'
-                              : `${formatNumber(
-                                    characteristics.naturalFrequency,
-                                    3,
-                                )} rad/s`,
+                              ? '-'
+                              : `${formatNumber(characteristics.naturalFrequency, 3)} rad/s`,
                   },
               ];
 
@@ -126,9 +100,7 @@ export function StabilityAnalysis({
                 <CardHeader>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
-                            <CardTitle className="text-base">
-                                Current pole classification
-                            </CardTitle>
+                            <CardTitle className="text-base">Current pole classification</CardTitle>
 
                             <CardDescription className="mt-1 max-w-2xl">
                                 {getKindDescription(characteristics.kind)}
@@ -136,21 +108,13 @@ export function StabilityAnalysis({
                         </div>
 
                         <div className="flex flex-wrap gap-2">
-                            <Badge variant="outline">
-                                {getRegimeLabel(characteristics.kind)}
-                            </Badge>
+                            <Badge variant="outline">{getRegimeLabel(characteristics.kind)}</Badge>
 
                             <Badge
                                 variant="outline"
-                                className={
-                                    STABILITY_BADGE_CLASS[
-                                        characteristics.stability
-                                    ]
-                                }
+                                className={STABILITY_BADGE_CLASS[characteristics.stability]}
                             >
-                                {getStabilityLabel(
-                                    characteristics.stability,
-                                )}
+                                {getStabilityLabel(characteristics.stability)}
                             </Badge>
                         </div>
                     </div>
@@ -161,13 +125,11 @@ export function StabilityAnalysis({
                         {readouts.map((readout) => (
                             <div
                                 key={readout.label}
-                                className="min-w-0 rounded-lg border border-border bg-muted/30 p-3"
+                                className="border-border bg-muted/30 min-w-0 rounded-lg border p-3"
                             >
-                                <p className="text-xs text-muted-foreground">
-                                    {readout.label}
-                                </p>
+                                <p className="text-muted-foreground text-xs">{readout.label}</p>
 
-                                <p className="mt-1 break-words font-mono text-lg font-semibold tabular-nums">
+                                <p className="mt-1 font-mono text-lg font-semibold break-words tabular-nums">
                                     {readout.value}
                                 </p>
                             </div>
@@ -175,11 +137,10 @@ export function StabilityAnalysis({
                     </div>
 
                     {!characteristics.standardFormValid && (
-                        <p className="text-xs leading-5 text-muted-foreground">
-                            The two real poles have opposite signs, so the
-                            standard second-order form with positive ωn² is
-                            not realizable. The right-half-plane pole makes
-                            this an unstable saddle.
+                        <p className="text-muted-foreground text-xs leading-5">
+                            The two real poles have opposite signs, so the standard second-order
+                            form with positive ωn² is not realizable. The right-half-plane pole
+                            makes this an unstable saddle.
                         </p>
                     )}
                 </CardContent>
@@ -187,13 +148,10 @@ export function StabilityAnalysis({
 
             <Card className="min-w-0">
                 <CardHeader>
-                    <CardTitle className="text-base">
-                        Damping regimes
-                    </CardTitle>
+                    <CardTitle className="text-base">Damping regimes</CardTitle>
 
                     <CardDescription>
-                        The highlighted regime matches the current pole
-                        placement.
+                        The highlighted regime matches the current pole placement.
                     </CardDescription>
                 </CardHeader>
 
@@ -202,8 +160,7 @@ export function StabilityAnalysis({
                         const isActive =
                             reference.id === 'unstable'
                                 ? characteristics.stability === 'unstable'
-                                : characteristics.stability !==
-                                      'unstable' &&
+                                : characteristics.stability !== 'unstable' &&
                                   characteristics.kind === reference.id;
 
                         return (
@@ -211,31 +168,24 @@ export function StabilityAnalysis({
                                 key={reference.id}
                                 className={cn(
                                     'min-w-0 rounded-lg border p-3 transition-colors',
-                                    isActive
-                                        ? 'border-primary bg-accent'
-                                        : 'border-border',
+                                    isActive ? 'border-primary bg-accent' : 'border-border',
                                 )}
                             >
                                 <div className="flex items-center justify-between gap-2">
-                                    <p className="text-sm font-medium">
-                                        {reference.label}
-                                    </p>
+                                    <p className="text-sm font-medium">{reference.label}</p>
 
                                     {isActive && (
-                                        <Badge
-                                            variant="outline"
-                                            className="text-[10px]"
-                                        >
+                                        <Badge variant="outline" className="text-[10px]">
                                             Current
                                         </Badge>
                                     )}
                                 </div>
 
-                                <p className="mt-1 font-mono text-xs text-muted-foreground">
+                                <p className="text-muted-foreground mt-1 font-mono text-xs">
                                     {reference.condition}
                                 </p>
 
-                                <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                                <p className="text-muted-foreground mt-2 text-xs leading-5">
                                     {reference.summary}
                                 </p>
                             </div>
@@ -246,36 +196,24 @@ export function StabilityAnalysis({
 
             <Card className="min-w-0">
                 <CardHeader>
-                    <CardTitle className="text-base">
-                        Reading the s-plane
-                    </CardTitle>
+                    <CardTitle className="text-base">Reading the s-plane</CardTitle>
 
-                    <CardDescription>
-                        How moving a pole changes the time response.
-                    </CardDescription>
+                    <CardDescription>How moving a pole changes the time response.</CardDescription>
                 </CardHeader>
 
                 <CardContent className="grid gap-3 sm:grid-cols-3">
-                    {PLANE_GUIDES.map(
-                        ({ title, description, icon: Icon }) => (
-                            <div
-                                key={title}
-                                className="min-w-0 rounded-lg border border-border p-3"
-                            >
-                                <p className="flex items-center gap-2 text-sm font-medium">
-                                    <Icon
-                                        size={15}
-                                        className="shrink-0 text-primary"
-                                    />
-                                    {title}
-                                </p>
+                    {PLANE_GUIDES.map(({ title, description, icon: Icon }) => (
+                        <div key={title} className="border-border min-w-0 rounded-lg border p-3">
+                            <p className="flex items-center gap-2 text-sm font-medium">
+                                <Icon size={15} className="text-primary shrink-0" />
+                                {title}
+                            </p>
 
-                                <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                                    {description}
-                                </p>
-                            </div>
-                        ),
-                    )}
+                            <p className="text-muted-foreground mt-2 text-xs leading-5">
+                                {description}
+                            </p>
+                        </div>
+                    ))}
                 </CardContent>
             </Card>
         </div>

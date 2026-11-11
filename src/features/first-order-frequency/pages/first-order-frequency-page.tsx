@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-
 import {
     FREQUENCY_SECTIONS,
     getFrequencyResponse,
@@ -13,11 +12,11 @@ import { ExperimentSection } from '../components/page/experiment-section';
 import { AnalysisSection } from '../components/page/analysis-section';
 import { ChallengeSection } from '../components/page/challenge-section';
 import { Calculator } from 'lucide-react';
-import {ModuleHeader} from "@/components/modules/module-header.tsx";
-import {ModuleFooter} from "@/components/modules/module-footer.tsx";
-import {SectionHeading} from "@/components/modules/section-heading.tsx";
-import {SectionNavigation} from "@/components/modules/section-navigation.tsx";
-import {Reveal} from "@/components/ui/reveal.tsx";
+import { ModuleHeader } from '@/components/modules/module-header.tsx';
+import { ModuleFooter } from '@/components/modules/module-footer.tsx';
+import { SectionHeading } from '@/components/modules/section-heading.tsx';
+import { SectionNavigation } from '@/components/modules/section-navigation.tsx';
+import { Reveal } from '@/components/ui/reveal.tsx';
 
 const DEFAULT_TAU = 1;
 const DEFAULT_OMEGA = 1;
@@ -54,11 +53,11 @@ export default function FirstOrderFrequencyPage() {
                 />
             </Reveal>
 
-            <Reveal >
+            <Reveal>
                 <SectionNavigation sections={FREQUENCY_SECTIONS} />
             </Reveal>
 
-            <Reveal >
+            <Reveal>
                 <ParameterSummary response={response} />
             </Reveal>
 
@@ -92,7 +91,7 @@ export default function FirstOrderFrequencyPage() {
             </Reveal>
 
             <Reveal>
-                <ModuleFooter/>
+                <ModuleFooter />
             </Reveal>
         </main>
     );

@@ -1,20 +1,9 @@
 import { useState } from 'react';
-import {
-    CheckCircle2,
-    CircleX,
-    Lightbulb,
-    RotateCcw,
-} from 'lucide-react';
+import { CheckCircle2, CircleX, Lightbulb, RotateCcw } from 'lucide-react';
 
 import { SectionHeading } from '@/components/modules/section-heading';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface PredictionOption {
     value: string;
@@ -32,8 +21,7 @@ interface PredictionQuestion {
 const QUESTIONS: PredictionQuestion[] = [
     {
         id: 'distance',
-        prompt:
-            'You move a stable pole farther to the left, away from the imaginary axis. What happens to the step response?',
+        prompt: 'You move a stable pole farther to the left, away from the imaginary axis. What happens to the step response?',
         options: [
             {
                 value: 'faster',
@@ -58,8 +46,7 @@ const QUESTIONS: PredictionQuestion[] = [
     },
     {
         id: 'rhp',
-        prompt:
-            'A pole crosses the imaginary axis into the right half-plane. What happens to the step response?',
+        prompt: 'A pole crosses the imaginary axis into the right half-plane. What happens to the step response?',
         options: [
             {
                 value: 'bounded',
@@ -84,8 +71,7 @@ const QUESTIONS: PredictionQuestion[] = [
     },
     {
         id: 'imaginary',
-        prompt:
-            'You move a complex pole pair farther from the real axis (larger ωd) while keeping the real part fixed. What changes?',
+        prompt: 'You move a complex pole pair farther from the real axis (larger ωd) while keeping the real part fixed. What changes?',
         options: [
             {
                 value: 'frequency',
@@ -113,9 +99,7 @@ const QUESTIONS: PredictionQuestion[] = [
 export function PredictionExercise() {
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [submitted, setSubmitted] = useState(false);
-    const allAnswered = QUESTIONS.every(
-        (question) => answers[question.id] !== undefined,
-    );
+    const allAnswered = QUESTIONS.every((question) => answers[question.id] !== undefined);
 
     function selectAnswer(questionId: string, value: string) {
         setAnswers((current) => ({
@@ -133,55 +117,40 @@ export function PredictionExercise() {
         <section id="prediction" className="scroll-mt-24 space-y-3">
             <SectionHeading title="Predict, then check" icon={Lightbulb} />
 
-            <p className="text-sm leading-6 text-muted-foreground">
-                Use the s-plane to reason about how pole movement changes
-                stability, damping, and speed. Answer all three questions,
-                then check your reasoning.
+            <p className="text-muted-foreground text-sm leading-6">
+                Use the s-plane to reason about how pole movement changes stability, damping, and
+                speed. Answer all three questions, then check your reasoning.
             </p>
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-base">
-                        Moving poles in the s-plane
-                    </CardTitle>
+                    <CardTitle className="text-base">Moving poles in the s-plane</CardTitle>
 
                     <CardDescription>
-                        Predict the effect of each change before checking
-                        the explanation.
+                        Predict the effect of each change before checking the explanation.
                     </CardDescription>
                 </CardHeader>
 
                 <CardContent className="space-y-5">
                     {QUESTIONS.map((question, questionIndex) => (
-                        <fieldset
-                            key={question.id}
-                            disabled={submitted}
-                            className="space-y-2"
-                        >
+                        <fieldset key={question.id} disabled={submitted} className="space-y-2">
                             <legend className="mb-2 text-sm font-medium">
                                 {questionIndex + 1}. {question.prompt}
                             </legend>
 
                             <div className="grid gap-2 sm:grid-cols-2">
                                 {question.options.map((option) => {
-                                    const isSelected =
-                                        answers[question.id] ===
-                                        option.value;
+                                    const isSelected = answers[question.id] === option.value;
 
                                     return (
                                         <button
                                             key={option.value}
                                             type="button"
                                             aria-pressed={isSelected}
-                                            onClick={() =>
-                                                selectAnswer(
-                                                    question.id,
-                                                    option.value,
-                                                )
-                                            }
+                                            onClick={() => selectAnswer(question.id, option.value)}
                                             className={[
                                                 'rounded-lg border p-3 text-left text-sm transition-colors',
-                                                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                                                'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                                                 isSelected
                                                     ? 'border-primary bg-accent text-accent-foreground'
                                                     : 'border-border hover:bg-muted',
@@ -205,11 +174,7 @@ export function PredictionExercise() {
                                 Check predictions
                             </Button>
                         ) : (
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={resetPrediction}
-                            >
+                            <Button type="button" variant="outline" onClick={resetPrediction}>
                                 <RotateCcw />
                                 Retry predictions
                             </Button>
@@ -219,47 +184,37 @@ export function PredictionExercise() {
                     {submitted && (
                         <div className="space-y-3" role="status">
                             {QUESTIONS.map((question) => {
-                                const answer =
-                                    answers[question.id];
-                                const isCorrect =
-                                    answer === question.correctValue;
-                                const correctOption =
-                                    question.options.find(
-                                        (option) =>
-                                            option.value ===
-                                            question.correctValue,
-                                    );
+                                const answer = answers[question.id];
+                                const isCorrect = answer === question.correctValue;
+                                const correctOption = question.options.find(
+                                    (option) => option.value === question.correctValue,
+                                );
 
                                 return (
                                     <div
                                         key={question.id}
-                                        className="rounded-lg border border-border p-3"
+                                        className="border-border rounded-lg border p-3"
                                     >
-                                        <p className="text-sm font-medium">
-                                            {question.prompt}
-                                        </p>
+                                        <p className="text-sm font-medium">{question.prompt}</p>
 
-                                        <p className="mt-2 flex items-start gap-2 text-xs leading-5 text-muted-foreground">
+                                        <p className="text-muted-foreground mt-2 flex items-start gap-2 text-xs leading-5">
                                             {isCorrect ? (
                                                 <CheckCircle2
                                                     size={16}
-                                                    className="mt-0.5 shrink-0 text-success"
+                                                    className="text-success mt-0.5 shrink-0"
                                                 />
                                             ) : (
                                                 <CircleX
                                                     size={16}
-                                                    className="mt-0.5 shrink-0 text-destructive"
+                                                    className="text-destructive mt-0.5 shrink-0"
                                                 />
                                             )}
 
                                             <span>
                                                 <strong className="text-foreground">
-                                                    {isCorrect
-                                                        ? 'Correct.'
-                                                        : 'Review this one.'}
+                                                    {isCorrect ? 'Correct.' : 'Review this one.'}
                                                 </strong>{' '}
-                                                {correctOption?.label}.{' '}
-                                                {question.explanation}
+                                                {correctOption?.label}. {question.explanation}
                                             </span>
                                         </p>
                                     </div>

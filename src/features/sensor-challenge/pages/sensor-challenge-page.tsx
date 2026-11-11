@@ -6,13 +6,7 @@ import { ModuleHeader } from '@/components/modules/module-header';
 import { MetricCard } from '@/components/modules/metric-card';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { Reveal } from '@/components/ui/reveal';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     GuessSensorExercise,
     SensorHints,
@@ -71,25 +65,20 @@ export default function SensorChallengePage() {
                 <section id="model" className="scroll-mt-24 space-y-3">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="text-base">
-                                How to play
-                            </CardTitle>
+                            <CardTitle className="text-base">How to play</CardTitle>
                             <CardDescription>
-                                Each round generates a new sensor and a noisy
-                                unit-step response. The model and parameter
-                                values stay hidden until you commit your
+                                Each round generates a new sensor and a noisy unit-step response.
+                                The model and parameter values stay hidden until you commit your
                                 prediction.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <p className="text-sm leading-6 text-muted-foreground">
-                                Choose first- or second-order, estimate τ or
-                                both ζ and ωn, then submit. You earn one point
-                                when the sensor type is correct and every
-                                required parameter is within 10% of its actual
-                                value. Compare your predicted curve with the
-                                actual response and use the feedback to guide
-                                your next estimate.
+                            <p className="text-muted-foreground text-sm leading-6">
+                                Choose first- or second-order, estimate τ or both ζ and ωn, then
+                                submit. You earn one point when the sensor type is correct and every
+                                required parameter is within 10% of its actual value. Compare your
+                                predicted curve with the actual response and use the feedback to
+                                guide your next estimate.
                             </p>
                             <div className="grid gap-3 sm:grid-cols-2">
                                 <MetricCard
@@ -102,7 +91,7 @@ export default function SensorChallengePage() {
                                     label="Session accuracy"
                                     value={
                                         attemptedRounds === 0
-                                            ? '—'
+                                            ? '-'
                                             : `${Math.round((correctRounds / attemptedRounds) * 100)}%`
                                     }
                                     detail="Full-credit rounds divided by submitted predictions"

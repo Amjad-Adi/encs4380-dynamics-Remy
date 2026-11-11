@@ -1,11 +1,6 @@
+import { Activity, Gauge, Waves } from 'lucide-react';
 
-import {
-    Activity,
-    Gauge,
-    Waves,
-} from 'lucide-react';
-
-import {  SharedParameterSummary } from '@/components/modules/parameter-summary';
+import { SharedParameterSummary } from '@/components/modules/parameter-summary';
 
 import type {
     FirstOrderInputType,
@@ -20,15 +15,15 @@ interface ParameterSummaryProps {
 }
 
 function formatValue(value: number, digits = 2) {
-    return Number.isFinite(value) ? value.toFixed(digits) : '—';
+    return Number.isFinite(value) ? value.toFixed(digits) : '-';
 }
 
 export function ParameterSummary({
-                                     parameters,
-                                     inputType,
-                                     rampLag,
-                                     expectedStepOutput,
-                                 }: ParameterSummaryProps) {
+    parameters,
+    inputType,
+    rampLag,
+    expectedStepOutput,
+}: ParameterSummaryProps) {
     const items = [
         {
             label: 'System gain',
@@ -50,24 +45,13 @@ export function ParameterSummary({
             icon: Waves,
         },
         {
-            label: inputType === 'step'
-                ? 'Expected final output'
-                : 'Ramp tracking lag',
-            value: inputType === 'step'
-                ? formatValue(expectedStepOutput)
-                : formatValue(rampLag),
+            label: inputType === 'step' ? 'Expected final output' : 'Ramp tracking lag',
+            value: inputType === 'step' ? formatValue(expectedStepOutput) : formatValue(rampLag),
             unit: inputType === 'ramp' ? 's' : undefined,
-            description: inputType === 'step'
-                ? 'Steady-state output (KA)'
-                : 'Time delay (τ)',
+            description: inputType === 'step' ? 'Steady-state output (KA)' : 'Time delay (τ)',
             icon: Activity,
         },
     ];
 
-    return (
-        <SharedParameterSummary
-            items={items}
-            ariaLabel="Current experiment parameters"
-        />
-    );
+    return <SharedParameterSummary items={items} ariaLabel="Current experiment parameters" />;
 }
