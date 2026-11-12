@@ -185,7 +185,15 @@ $$
 
 The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
 
-- **Euler's method** advances the output by \(y_{n+1}=y_n+\Delta t\,f(t_n,y_n)\), where \(f(t,y)=(KA-y)/\tau\).
+- **Euler's method** advances the output by $$
+y_{n+1} = y_n + \Delta t \cdot f(t_n, y_n)
+$$
+
+where
+
+$$
+f(t,y) = \frac{KA-y}{\tau}
+$$.
 - **Fourth-order Runge–Kutta (RK4)** combines four derivative evaluations per step (at the start, two midpoint estimates, and the end) in a weighted average. It is generally more accurate than Euler for the tested step sizes.
 
 The controls adjust:
