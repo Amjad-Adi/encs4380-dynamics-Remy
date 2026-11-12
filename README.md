@@ -167,21 +167,21 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 
 The standalone Bonus tool compares numerical integration of a first-order system with its analytical step response. For a system with transfer function
 
-\[
+$$
 G(s)=\frac{K}{\tau s+1}
-\]
+$$
 
 and a step input of amplitude \(A\), the zero-initial-condition model is
 
-\[
-\tau\frac{dy}{dt}+y=KA,\qquad y(0)=0.
-\]
+$$
+\tau\frac{dy}{dt}+y=KA,\qquad y(0)=0
+$$
 
 Its analytical response, used as the reference for the numerical errors, is
 
-\[
-y(t)=KA\left(1-e^{-t/\tau}\right).
-\]
+$$
+y(t)=KA\left(1-e^{-t/\tau}\right)
+$$
 
 The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
 
