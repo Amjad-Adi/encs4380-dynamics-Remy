@@ -254,7 +254,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 ### Hanan - Module 3
 
-**AI tool:** [Tool and model]
+**AI tool:** ChatGPT (GPT-6) and an AI coding assistant integrated into WebStorm
 
 **What I asked:** [Describe the actual prompts and technical assistance used.]
 
