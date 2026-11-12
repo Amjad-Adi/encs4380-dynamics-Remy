@@ -423,12 +423,14 @@ The validation results are presented within the relevant modules, allowing users
 
 The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
 
-| Team Member | GitHub Username | Contribution History  |
-| ----------- | --------------- | --------------------- |
-| Amjad Adi   | [Username]      | [Commit history link] |
-| Yazeed      | [Username]      | [Commit history link] |
-| Rahaf       | [Username]      | [Commit history link] |
-| Hanan       | [Username]      | [Commit history link] |
+| Team Member | GitHub Username | Contribution History |
+|---|---|---|
+| Hanan | [7enno](https://github.com/7enno) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=7enno) |
+
+| Amjad Adi | [Amjad-Adi](https://github.com/Amjad-Adi) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=Amjad-Adi) |
+| Rahaf | [rahafalqam](https://github.com/rahafalqam) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=rahafalqam) |
+| Yazeed | [yazeedalhaddad](https://github.com/yazeedalhaddad) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=yazeedalhaddad) |
+
 
 Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
 
