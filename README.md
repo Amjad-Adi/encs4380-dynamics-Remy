@@ -106,7 +106,19 @@ $$
 
 **Screenshots**
 
-**Screenshots**
+![Module 2 – Screenshot 1](2-1.png)
+
+![Module 2 – Screenshot 2](2-2.png)
+
+![Module 2 – Screenshot 3](2-3.png)
+
+![Module 2 – Screenshot 4](2-4.png)
+
+![Module 2 – Screenshot 5](2-5.png)
+
+![Module 2 – Screenshot 6](2-6.png)
+
+
 
 ### Module 3 - Second-Order System Response
 
