@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
     Check,
+    Calculator,
     ChevronRight,
 } from 'lucide-react';
 
@@ -25,12 +26,14 @@ import { MODULES } from '@/models/modules';
 import { TIME_SECTIONS } from '@/features/first-order-time/domain/first-order-time';
 import { FREQUENCY_SECTIONS } from '@/features/first-order-frequency/domain/first-order-frequency';
 import { SECOND_ORDER_SECTIONS } from '@/features/second-order/components/page/second-order-sections';
+import { NUMERICAL_ODE_SECTIONS } from '@/features/numerical-ode/components/page/numerical-ode-sections';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
     '/time-response': TIME_SECTIONS,
     '/frequency-response': FREQUENCY_SECTIONS,
     '/second-order': SECOND_ORDER_SECTIONS,
+    '/numerical-ode': NUMERICAL_ODE_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [
@@ -193,6 +196,41 @@ export function MobileNavigation() {
                     </SidebarGroupContent>
                 </SidebarGroup>
 
+                <SidebarSeparator />
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>Bonus tools</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <NavLink
+                                    to="numerical-ode"
+                                    onClick={closeNavigation}
+                                    className="block"
+                                >
+                                    {({ isActive }) => (
+                                        <SidebarMenuButton
+                                            isActive={isActive}
+                                            size="lg"
+                                            className={
+                                                isActive
+                                                    ? ACTIVE_MODULE_BUTTON_CLASS
+                                                    : INACTIVE_MODULE_BUTTON_CLASS
+                                            }
+                                        >
+                                            <Calculator />
+                                            <span className="flex-1">
+                                                Numerical ODE Solver
+                                            </span>
+                                            {isActive && <Check className="ml-auto" />}
+                                        </SidebarMenuButton>
+                                    )}
+                                </NavLink>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
                 {/* Module Sections */}
                 {sections.length > 0 && (
                     <>
@@ -201,7 +239,7 @@ export function MobileNavigation() {
                         <SidebarGroup>
                             <div className="mb-2 flex items-center justify-between">
                                 <SidebarGroupLabel>
-                                    Module sections
+                                    Page sections
                                 </SidebarGroupLabel>
 
                                 <span className="px-2 text-[10px] text-sidebar-foreground/50">

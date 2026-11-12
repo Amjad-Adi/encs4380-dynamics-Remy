@@ -1,9 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import {
-    Activity,
-    AudioWaveform,
-    Gauge,
-    ScanSearch,
+    Calculator,
 } from 'lucide-react';
 
 import { useIsMobile } from '@/hooks/use-is-mobile';
@@ -23,7 +20,7 @@ export function ModuleNavigation() {
     return (
         <TooltipProvider>
             <nav
-                aria-label="Toolkit modules"
+                aria-label="Toolkit navigation"
                 className="border-b border-border bg-card"
             >
                 <div className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
@@ -85,6 +82,21 @@ export function ModuleNavigation() {
                             </NavLink>
                         );
                     })}
+                    <NavLink
+                        to="numerical-ode"
+                        className={({ isActive }) =>
+                            [
+                                'flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm transition-colors',
+                                isActive
+                                    ? 'border-brand font-semibold text-foreground'
+                                    : 'border-transparent text-muted-foreground hover:text-foreground',
+                            ].join(' ')
+                        }
+                    >
+                        <Calculator size={16} />
+                        <span className="font-mono text-xs">BONUS</span>
+                        <span>Numerical ODE Solver</span>
+                    </NavLink>
                 </div>
             </nav>
         </TooltipProvider>

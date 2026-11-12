@@ -24,14 +24,14 @@ The project is developed collaboratively, with each team member responsible for 
 |---|---|---|
 | Amjad Adi | Module 1 | First-Order Time Response |
 | Yazeed | Module 2 | First-Order Frequency Response |
-| Rahaf | Module 3 | Second-Order System Response |
-| Hanan | Module 4 | Guess the Sensor Challenge |
+| Hanan | Module 3 | Second-Order System Response |
+| Rahaf | Module 4 | Guess the Sensor Challenge |
 
 ---
 
 ## Project Modules
 
-The application is organized into four interconnected modules, progressing from fundamental first-order system behavior to second-order dynamics and practical sensor identification.
+The application is organized into four interconnected modules, progressing from fundamental first-order system behavior to second-order dynamics and practical sensor identification. It also includes the standalone Bonus Numerical ODE Solver described below.
 
 ### Module 1 — First-Order Time Response
 
@@ -109,7 +109,7 @@ M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
 
 ### Module 3 — Second-Order System Response
 
-**Developer: Rahaf**
+**Developer: Hanan**
 
 An interactive study of second-order measurement systems, focusing on the influence of damping ratio and natural frequency on transient response.
 
@@ -135,7 +135,7 @@ G(s)=\frac{K\omega_n^2}
 
 ### Module 4 — Guess the Sensor Challenge
 
-**Developer: Hanan**
+**Developer: Rahaf**
 
 An interactive parameter-estimation challenge that puts the concepts from the preceding modules into practice. Users investigate an unknown sensor response and estimate its underlying dynamic parameters from the observed behavior.
 
@@ -150,6 +150,78 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 - New-sensor generation and contextual hints.
 
 **Screenshots**
+
+
+### Bonus — Numerical ODE Solver
+
+The standalone Bonus tool compares numerical integration of a first-order system with its analytical step response. For a system with transfer function
+
+\[
+G(s)=\frac{K}{\tau s+1}
+\]
+
+and a step input of amplitude \(A\), the zero-initial-condition model is
+
+\[
+\tau\frac{dy}{dt}+y=KA,\qquad y(0)=0.
+\]
+
+Its analytical response, used as the reference for the numerical errors, is
+
+\[
+y(t)=KA\left(1-e^{-t/\tau}\right).
+\]
+
+The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
+
+- **Euler's method** advances the output by \(y_{n+1}=y_n+\Delta t\,f(t_n,y_n)\), where \(f(t,y)=(KA-y)/\tau\).
+- **Fourth-order Runge–Kutta (RK4)** combines four derivative evaluations per step (at the start, two midpoint estimates, and the end) in a weighted average. It is generally more accurate than Euler for the tested step sizes.
+
+The controls adjust:
+
+| Parameter | Meaning |
+|---|---|
+| \(K\) | System gain |
+| \(\tau\) | System time constant, in seconds |
+| \(A\) | Step-input amplitude |
+| \(\Delta t\) | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
+| Simulation duration | End time of the integration, in seconds |
+
+Error metrics compare each numerical result with the analytical response at every shared sampled time:
+
+- **Maximum absolute error:** the largest absolute difference across the sampled points.
+- **Root mean square error (RMSE):** the square root of the mean of squared differences across the sampled points.
+- **Final-time absolute error:** the absolute difference at the simulation endpoint.
+
+Euler stability is classified using \(r=\Delta t/\tau\) and its amplification factor \(1-r\): \(0<r\leq1\) is stable without alternating error; \(1<r<2\) is stable with damped oscillation; \(r=2\) is marginally stable with persistent alternating error; and \(r>2\) is unstable, with errors growing from step to step. These classifications describe Euler stability, not the size of ordinary approximation error.
+
+**Screenshots**
+
+The following captures show the running local application: parameter controls, the comparison chart, error metrics, the prediction exercise, and a narrow-screen layout.
+
+![Bonus Numerical ODE Solver — parameter controls](screenshots/bonus-numerical-ode-controls.png)
+
+![Bonus Numerical ODE Solver — comparison chart](screenshots/bonus-numerical-ode-comparison.png)
+
+![Bonus Numerical ODE Solver — error metrics](screenshots/bonus-numerical-ode-errors.png)
+
+![Bonus Numerical ODE Solver — prediction exercise](screenshots/bonus-numerical-ode-prediction.png)
+
+![Bonus Numerical ODE Solver — mobile layout](screenshots/bonus-numerical-ode-mobile.png)
+
+To run the Bonus tool locally, start the Vite development server and open `/numerical-ode`:
+
+```bash
+npm run dev
+```
+
+To check the TypeScript project and produce a production build:
+
+```bash
+npm run build
+```
+
+There is no dedicated automated test script configured in `package.json`; the build is the repository's available automated project check.
 
 
 ---
@@ -251,7 +323,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Rahaf — Module 3
+### Hanan — Module 3
 
 **AI tool:** [Tool and model]
 
@@ -261,7 +333,7 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
 
-### Hanan — Module 4
+### Rahaf — Module 4
 
 **AI tool:** [Tool and model]
 
@@ -270,6 +342,10 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 **What I learned:** [Describe the concepts and implementation knowledge gained.]
 
 **How I used it:** [Describe how the assistance contributed to the completed module.]
+
+### Bonus Numerical ODE Solver
+
+An AI coding assistant supported the development process for this standalone feature through planning, implementation assistance, code review, debugging, and verification. This included help examining the feature requirements and integration points, reasoning about and implementing the user-interface code, reviewing the changes, investigating issues, and checking numerical behavior, routes, and the production build. AI assistance contributed to code and technical decisions; it is not represented as work independently written by the student. The project team remains responsible for reviewing, understanding, and validating the submitted work.
 
 ---
 
@@ -322,7 +398,12 @@ screenshots/
 ├── module-3-main.png
 ├── module-3-state-space.png
 ├── module-4-challenge.png
-└── module-4-results.png
+├── module-4-results.png
+├── bonus-numerical-ode-controls.png
+├── bonus-numerical-ode-comparison.png
+├── bonus-numerical-ode-errors.png
+├── bonus-numerical-ode-prediction.png
+└── bonus-numerical-ode-mobile.png
 ```
 
 The screenshots above are referenced directly in the corresponding module sections.
