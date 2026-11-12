@@ -130,6 +130,19 @@ $$
 - Phase-plane visualization of displacement and velocity trajectories.
 
 **Screenshots**
+![Module 3 – Screenshot 1](screenshots/1.png)
+
+![Module 3 – Screenshot 2](screenshots/2.png)
+
+![Module 3 – Screenshot 3](screenshots/3.png)
+
+![Module 3 – Screenshot 4](screenshots/4.png)
+
+![Module 3 – Screenshot 5](screenshots/5.png)
+
+![Module 3 – Screenshot 6](screenshots/6.png)
+
+
 
 ### Module 4 - Guess the Sensor Challenge
 
