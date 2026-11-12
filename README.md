@@ -176,6 +176,13 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 - New-sensor generation and contextual hints.
 
 **Screenshots**
+![Module 4 – Screenshot 2](screenshots/4-1.png)
+
+![Module 4 – Screenshot 3](screenshots/4-2.png)
+
+![Module 4 – Screenshot 4](screenshots/4-3.png)
+
+
 
 ### Bonus — Numerical ODE Solver
 
