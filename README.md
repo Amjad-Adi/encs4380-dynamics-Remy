@@ -359,13 +359,13 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 ### Yazeed - Module 2
 
-**AI tool:** [Tool and model]
+**AI tool:** Claude Opus
 
-**What I asked:** [Describe the actual prompts and technical assistance used.]
+**What I asked:** I provided it with the backend code in python and it develop the needed UI for it. 
 
-**What I learned:** [Describe the concepts and implementation knowledge gained.]
+**What I learned:** It used a known UI lib streamlit in python. I have been able to see and understand how the backend could be translated into UI graphs. 
 
-**How I used it:** [Describe how the assistance contributed to the completed module.]
+**How I used it:** AI assisted with the Streamlit user interface, including the interactive controls, layout, plots, and presentation of results.
 
 ### Hanan — Module 3
 
