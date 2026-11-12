@@ -426,7 +426,6 @@ The project is maintained in a shared public repository. Each member contributes
 | Team Member | GitHub Username | Contribution History |
 |---|---|---|
 | Hanan | [7enno](https://github.com/7enno) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=7enno) |
-
 | Amjad Adi | [Amjad-Adi](https://github.com/Amjad-Adi) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=Amjad-Adi) |
 | Rahaf | [rahafalqam](https://github.com/rahafalqam) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=rahafalqam) |
 | Yazeed | [yazeedalhaddad](https://github.com/yazeedalhaddad) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=yazeedalhaddad) |
