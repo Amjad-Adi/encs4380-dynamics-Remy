@@ -8,6 +8,7 @@ import NumericalOdePage from '@/features/numerical-ode/pages/numerical-ode-page'
 import NotFoundPage from "@/app/pages/not-found-page.tsx";
 import SensorChallengePage from '@/features/sensor-challenge/pages/sensor-challenge-page.tsx';
 import PoleExplorerPage from '@/features/pole-explorer/pages/pole-explorer-page.tsx';
+import SuperpositionPage from '@/features/superposition/pages/superposition-page.tsx';
 
 export const router = createBrowserRouter(
     [
@@ -42,6 +43,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'pole-explorer',
                     element: <PoleExplorerPage />,
+                },
+                {
+                    path: 'superposition',
+                    element: <SuperpositionPage />,
                 },
                 {
                     path: '*',

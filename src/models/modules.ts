@@ -1,4 +1,4 @@
-import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch } from 'lucide-react';
+import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch, Sigma } from 'lucide-react';
 
 export const MODULES = [
     {
@@ -34,6 +34,13 @@ export const MODULES = [
         label: 'Pole explorer',
         path: 'pole-explorer',
         icon: Crosshair,
+        available: true,
+    },
+    {
+        number: '06',
+        label: 'Superposition simulator',
+        path: 'superposition',
+        icon: Sigma,
         available: true,
     },
 ];
