@@ -102,6 +102,13 @@ $$
 
 These characteristic points help illustrate how quickly a first-order system approaches its steady-state value.
 
+**Screenshots**
+
+![Module 1](screenshots/Module-1/1-1.png)
+![Module 1](screenshots/Module-1/1-2.png)
+![Module 1](screenshots/Module-1/1-3.png)
+![Module 1](screenshots/Module-1/1-4.png)
+![Module 1](screenshots/Module-1/1-5.png)
 ### 2. First-Order Frequency Response
 
 **Developed by:** Yazeed
@@ -155,6 +162,16 @@ $$
 $$
 
 The module demonstrates how increasing input frequency affects the amplitude and phase of a first-order system's output.
+
+**Screenshots**
+
+![Module 2](screenshots/Module-2/2-1.png)
+![Module 2](screenshots/Module-2/2-2.png)
+![Module 2](screenshots/Module-2/2-3.png)
+![Module 2](screenshots/Module-2/2-4.png)
+![Module 2](screenshots/Module-2/2-5.png)
+![Module 2](screenshots/Module-2/2-6.png)
+![Module 2](screenshots/Module-2/2-7.png)
 
 ### 3. Second-Order System Response
 
@@ -215,6 +232,16 @@ $$
 
 The module also demonstrates how the mass-spring-damper parameters determine the system's dynamic response.
 
+**Screenshots**
+
+![Module 3](screenshots/Module-3/3-1.png)
+![Module 3](screenshots/Module-3/3-2.png)
+![Module 3](screenshots/Module-3/3-3.png)
+![Module 3](screenshots/Module-3/3-4.png)
+![Module 3](screenshots/Module-3/3-5.png)
+![Module 3](screenshots/Module-3/3-6.png)
+![Module 3](screenshots/Module-3/3-7.png)
+
 ### 4. Guess the Sensor Challenge
 
 **Developed by:** Rahaf
@@ -235,6 +262,12 @@ The user is presented with a simulated sensor response and must estimate the und
 - Hints and new-sensor challenges.
 
 The challenge encourages users to apply theoretical concepts to identify unknown system behavior from measured responses.
+
+**Screenshots**
+
+![Module 4](screenshots/Module-4/4-1.png)
+![Module 4](screenshots/Module-4/4-2.png)
+![Module 4](screenshots/Module-4/4-3.png)
 
 ### 5. Superposition Simulator
 
@@ -308,6 +341,17 @@ $$
 
 This demonstrates how a first-order sensor attenuates and delays different frequency components by different amounts.
 
+
+**Screenshots**
+
+![Module 5](screenshots/Module-6/6-1.png)
+![Module 5](screenshots/Module-6/6-2.png)
+![Module 5](screenshots/Module-6/6-3.png)
+![Module 5](screenshots/Module-6/6-4.png)
+![Module 5](screenshots/Module-6/6-5.png)
+![Module 5](screenshots/Module-6/6-6.png)
+![Module 5](screenshots/Module-6/6-7.png)
+
 ### 6. Pole Explorer
 
 **Developed by:** Amjad Adi
@@ -362,6 +406,16 @@ $$
 $$
 
 The module illustrates that pole locations determine important characteristics of a system's dynamic behavior and stability.
+
+
+**Screenshots**
+
+![Module 6](screenshots/Module-5/5-1.png)
+![Module 6](screenshots/Module-5/5-2.png)
+![Module 6](screenshots/Module-5/5-3.png)
+![Module 6](screenshots/Module-5/5-4.png)
+![Module 6](screenshots/Module-5/5-5.png)
+![Module 6](screenshots/Module-5/5-6.png)
 
 ### 7. Numerical ODE Solver
 
@@ -426,6 +480,13 @@ y_n+\frac{h}{6}(k_1+2k_2+2k_3+k_4)
 $$
 
 The module allows users to investigate how the integration method and time-step size affect numerical accuracy.
+
+**Screenshots**
+
+![Module 7](screenshots/Module-7/7-1.png)
+![Module 7](screenshots/Module-7/7-2.png)
+![Module 7](screenshots/Module-7/7-3.png)
+![Module 7](screenshots/Module-7/7-4.png)
 
 ---
 
