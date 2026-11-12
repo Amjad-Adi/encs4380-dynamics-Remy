@@ -74,16 +74,13 @@ export function FrequencyControls({
 
                 <Separator />
 
-                <div className="rounded-lg bg-muted/60 p-3">
+                <div className="bg-muted/60 rounded-lg p-3">
                     <p className="text-xs font-semibold">Current experiment</p>
                     <p className="mt-2 font-mono text-sm">τ = {tau.toFixed(3)} s</p>
                     <p className="font-mono text-sm">ω = {omega.toFixed(3)} rad/s</p>
-                    <p className="font-mono text-sm">
-                        ωτ = {(omega * tau).toFixed(3)}
-                    </p>
-                    <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                        The model assumes a unity-gain input sinusoid and omits
-                        startup transients.
+                    <p className="font-mono text-sm">ωτ = {(omega * tau).toFixed(3)}</p>
+                    <p className="text-muted-foreground mt-2 text-xs leading-5">
+                        The model assumes a unity-gain input sinusoid and omits startup transients.
                     </p>
                 </div>
             </CardContent>

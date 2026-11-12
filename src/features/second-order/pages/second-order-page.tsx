@@ -4,19 +4,19 @@ import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { Reveal } from '@/components/ui/reveal';
-import {
-    getDampingRatio,
-    getDampingRegime,
-    getNaturalFrequency,
-    getResponseMetrics,
-    type PhysicalParameters,
-} from '@/features/second-order/domain/second-order';
 import { PredictionExercise } from '../components/exercises/prediction-exercise';
 import { AnalysisSection } from '../components/page/analysis-section';
 import { ExperimentSection } from '../components/page/experiment-section';
 import { ModelOverview } from '../components/page/model-overview';
 import { ParameterSummary } from '../components/page/parameter-summary';
 import { SECOND_ORDER_SECTIONS } from '../components/page/second-order-sections';
+import {
+    getDampingRatio,
+    getDampingRegime,
+    getNaturalFrequency,
+    getResponseMetrics,
+    type PhysicalParameters,
+} from '@/features/second-order/domain';
 
 const DEFAULT_PARAMETERS: PhysicalParameters = {
     m: 1,
@@ -25,22 +25,12 @@ const DEFAULT_PARAMETERS: PhysicalParameters = {
 };
 
 export default function SecondOrderPage() {
-    const [parameters, setParameters] =
-        useState<PhysicalParameters>({ ...DEFAULT_PARAMETERS });
+    const [parameters, setParameters] = useState<PhysicalParameters>({ ...DEFAULT_PARAMETERS });
     const [predictionAttemptKey, setPredictionAttemptKey] = useState(0);
 
-    const dampingRatio = useMemo(
-        () => getDampingRatio(parameters),
-        [parameters],
-    );
-    const naturalFrequency = useMemo(
-        () => getNaturalFrequency(parameters),
-        [parameters],
-    );
-    const metrics = useMemo(
-        () => getResponseMetrics(parameters),
-        [parameters],
-    );
+    const dampingRatio = useMemo(() => getDampingRatio(parameters), [parameters]);
+    const naturalFrequency = useMemo(() => getNaturalFrequency(parameters), [parameters]);
+    const metrics = useMemo(() => getResponseMetrics(parameters), [parameters]);
     const duration = useMemo(() => {
         if (metrics.settlingTime !== null) {
             return Math.max(6 / naturalFrequency, metrics.settlingTime * 1.2);
@@ -53,8 +43,7 @@ export default function SecondOrderPage() {
             return Math.max(duration, (3 * 2 * Math.PI) / naturalFrequency);
         }
         if (regime === 'underdamped') {
-            const dampedFrequency =
-                naturalFrequency * Math.sqrt(1 - dampingRatio ** 2);
+            const dampedFrequency = naturalFrequency * Math.sqrt(1 - dampingRatio ** 2);
             const threePeriods = (3 * 2 * Math.PI) / dampedFrequency;
             return Math.max(duration, threePeriods);
         }
@@ -84,7 +73,7 @@ export default function SecondOrderPage() {
                     description="Explore how mass, damping, and stiffness shape a physical system’s step response, poles, state-space representation, and phase-plane trajectory."
                     nextModule={{
                         to: '/frequency-response',
-                        label: '← Return to Module 02: Frequency Response',
+                        label: '← Return to Module 02: First-order frequency response',
                     }}
                     onReset={resetExperiment}
                 />
@@ -127,16 +116,11 @@ export default function SecondOrderPage() {
             </Reveal>
 
             <Reveal>
-                <AnalysisSection
-                    parameters={parameters}
-                    phasePlaneDuration={phasePlaneDuration}
-                />
+                <AnalysisSection parameters={parameters} phasePlaneDuration={phasePlaneDuration} />
             </Reveal>
 
             <Reveal>
-                <ModuleFooter
-                    assumptions="Linear mass–spring–damper system with positive mass and stiffness, nonnegative viscous damping, a 1 N force step, and zero initial displacement and velocity. The physical displacement settles to 1/k when damping is positive; the displayed normalized response is kx(t)."
-                />
+                <ModuleFooter />
             </Reveal>
         </main>
     );

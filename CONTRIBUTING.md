@@ -6,29 +6,29 @@ This guide explains the project's frontend stack, modular structure, and a begin
 
 The project is a browser-based React application. Here is what the main technologies do:
 
-| Technology | What it does in this project |
-|---|---|
-| **HTML** | Provides the page entry point and document structure. React renders the application into that page. |
-| **React** | Builds the interface from small, reusable components. |
-| **TypeScript** | Adds types to JavaScript so that data, component properties, and calculations are easier to understand and errors are easier to catch. |
-| **Tailwind CSS** | Provides utility classes for styling layouts, spacing, colors, and responsive behavior. This project uses Tailwind CSS 4. |
-| **CSS** | Holds the global styles and design foundations that complement Tailwind. |
-| **shadcn/ui** | Supplies a pattern and tools for reusable interface components. The project configuration uses the shadcn ecosystem and Base UI. It is not a single ready-made component library: components are integrated into the project and can be adapted. |
-| **Vite** | Runs the local development server and creates the production build. |
-| **Plotly** | Creates interactive engineering plots and charts. |
-| **KaTeX** | Renders mathematical notation. |
-| **React Router** | Handles navigation between application views. |
-| **Lucide React / React Icons** | Provide icons for the interface. |
+| Technology                     | What it does in this project                                                                                                                                                                                                                     |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **HTML**                       | Provides the page entry point and document structure. React renders the application into that page.                                                                                                                                              |
+| **React**                      | Builds the interface from small, reusable components.                                                                                                                                                                                            |
+| **TypeScript**                 | Adds types to JavaScript so that data, component properties, and calculations are easier to understand and errors are easier to catch.                                                                                                           |
+| **Tailwind CSS**               | Provides utility classes for styling layouts, spacing, colors, and responsive behavior. This project uses Tailwind CSS 4.                                                                                                                        |
+| **CSS**                        | Holds the global styles and design foundations that complement Tailwind.                                                                                                                                                                         |
+| **shadcn/ui**                  | Supplies a pattern and tools for reusable interface components. The project configuration uses the shadcn ecosystem and Base UI. It is not a single ready-made component library: components are integrated into the project and can be adapted. |
+| **Vite**                       | Runs the local development server and creates the production build.                                                                                                                                                                              |
+| **Plotly**                     | Creates interactive engineering plots and charts.                                                                                                                                                                                                |
+| **KaTeX**                      | Renders mathematical notation.                                                                                                                                                                                                                   |
+| **React Router**               | Handles navigation between application views.                                                                                                                                                                                                    |
+| **Lucide React / React Icons** | Provide icons for the interface.                                                                                                                                                                                                                 |
 
 Other libraries are listed in `package.json`. Before adding a dependency, check whether the project already has a suitable library and discuss the addition with the team.
 
 ## 2. How the modular design works
 
-The application is divided into learning modules, while shared parts of the interface—such as navigation, common controls, styling conventions, and chart patterns—help the modules feel consistent. React components make it possible to build a screen from smaller pieces and reuse those pieces where it makes sense.
+The application is divided into learning modules, while shared parts of the interface-such as navigation, common controls, styling conventions, and chart patterns-help the modules feel consistent. React components make it possible to build a screen from smaller pieces and reuse those pieces where it makes sense.
 
 A module should own its own topic-specific calculations, controls, explanations, and visualizations. Shared components should stay general and should not contain calculations that belong to only one module. This separation makes modules easier to build, test, understand, and update independently.
 
-The first two completed modules are useful examples for new work. Before asking an AI agent to implement another module, inspect **Module 1 (First-Order Time Response)** and **Module 2 (First-Order Frequency Response)**. Look at how they are organized, how they use the shared layout and visual style, how controls update plots, and how they explain engineering results. Treat them as examples of project conventions—not as permission to copy unrelated calculations or duplicate large sections of code.
+The first two completed modules are useful examples for new work. Before asking an AI agent to implement another module, inspect **Module 1 (First-Order Time Response)** and **Module 2 (First-Order Frequency Response)**. Look at how they are organized, how they use the shared layout and visual style, how controls update plots, and how they explain engineering results. Treat them as examples of project conventions-not as permission to copy unrelated calculations or duplicate large sections of code.
 
 ## 3. A safe workflow for building a module with AI
 
@@ -77,7 +77,7 @@ When a module is ready, run it alongside the existing modules, not just in isola
 
 Choose an assistant the team can access and that supports the way you work (for example, in-editor help or repository-aware coding). Examples with free or free-tier options have included **GitHub Copilot Free**, **Gemini Code Assist**, and **Qodo** (formerly CodiumAI). Plans, limits, availability, and terms can change, so check each provider's current official plan before choosing. A paid plan is not required for this workflow; a general chat assistant can also help explain code and review a small, pasted snippet, provided no secrets or sensitive data are included.
 
-Use one assistant at a time for a clearly defined task when possible. Keep the team aligned by sharing the task, plan, and changes—not by assuming every member has access to the same conversation or tool.
+Use one assistant at a time for a clearly defined task when possible. Keep the team aligned by sharing the task, plan, and changes-not by assuming every member has access to the same conversation or tool.
 
 ## 6. Run and check the application
 

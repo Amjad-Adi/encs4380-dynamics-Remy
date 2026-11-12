@@ -1,23 +1,15 @@
 import { Activity, Clock3, Gauge, TrendingUp } from 'lucide-react';
 
 import { MetricCard } from '@/components/modules/metric-card';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PoleChart } from '../charts/pole-chart';
 import { StepResponseChart } from '../charts/step-response-chart';
-import type {
-    DampingRegime,
-    PhysicalParameters,
-    ResponseMetrics,
-} from '@/features/second-order/domain/second-order';
-import { getDampingRegime } from '@/features/second-order/domain/second-order';
-
+import {
+    type DampingRegime, getDampingRegime,
+    type PhysicalParameters,
+    type ResponseMetrics,
+} from '@/features/second-order/domain';
 interface ResponseAnalysisProps {
     parameters: PhysicalParameters;
     metrics: ResponseMetrics;
@@ -58,20 +50,18 @@ export function ResponseAnalysis({
                         <div>
                             <CardTitle className="text-base">Unit-force step response</CardTitle>
                             <CardDescription className="mt-1">
-                                Physical displacement and normalized response update with m, b, and k.
+                                Physical displacement and normalized response update with m, b, and
+                                k.
                             </CardDescription>
                         </div>
                         <Badge variant="outline">{regime}</Badge>
                     </div>
                 </CardHeader>
                 <CardContent className="min-w-0">
-                    <StepResponseChart
-                        parameters={parameters}
-                        duration={duration}
-                    />
-                    <p className="text-xs leading-5 text-muted-foreground">
-                        Solid teal: x(t) in m · dashed blue: kx(t) · dotted orange:
-                        physical steady-state displacement 1/k = {(1 / parameters.k).toFixed(4)} m.
+                    <StepResponseChart parameters={parameters} duration={duration} />
+                    <p className="text-muted-foreground text-xs leading-5">
+                        Solid teal: x(t) in m · dashed blue: kx(t) · dotted orange: physical
+                        steady-state displacement 1/k = {(1 / parameters.k).toFixed(4)} m.
                     </p>
                 </CardContent>
             </Card>
@@ -86,7 +76,11 @@ export function ResponseAnalysis({
                 <MetricCard
                     label="Peak time"
                     value={formatTime(metrics.peakTime)}
-                    detail={metrics.peakTime === null ? 'Not mathematically applicable' : 'Time to first peak'}
+                    detail={
+                        metrics.peakTime === null
+                            ? 'Not mathematically applicable'
+                            : 'Time to first peak'
+                    }
                     icon={Activity}
                 />
                 <MetricCard
@@ -111,14 +105,15 @@ export function ResponseAnalysis({
                 <CardHeader>
                     <CardTitle className="text-base">Complex s-plane poles</CardTitle>
                     <CardDescription>
-                        Roots of ms² + bs + k = 0 for the current physical parameters.
-                        The plot supports hover, pan, and zoom.
+                        Roots of ms² + bs + k = 0 for the current physical parameters. The plot
+                        supports hover, pan, and zoom.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="min-w-0">
                     <PoleChart parameters={parameters} />
-                    <p className="text-xs text-muted-foreground">
-                        Current values: ζ = {dampingRatio.toFixed(4)}, ωn = {naturalFrequency.toFixed(3)} rad/s.
+                    <p className="text-muted-foreground text-xs">
+                        Current values: ζ = {dampingRatio.toFixed(4)}, ωn ={' '}
+                        {naturalFrequency.toFixed(3)} rad/s.
                     </p>
                 </CardContent>
             </Card>

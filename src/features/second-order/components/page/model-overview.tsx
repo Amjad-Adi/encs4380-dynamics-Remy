@@ -7,11 +7,7 @@ export function ModelOverview() {
             items={[
                 {
                     title: 'Physical equation',
-                    content: (
-                        <Equation
-                            expression={String.raw`m\ddot{x}+b\dot{x}+kx=F(t)`}
-                        />
-                    ),
+                    content: <Equation expression={String.raw`m\ddot{x}+b\dot{x}+kx=F(t)`} />,
                     description: 'Force input F(t), displacement output x(t).',
                 },
                 {

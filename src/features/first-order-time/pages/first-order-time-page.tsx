@@ -5,7 +5,8 @@ import {
     getRampSteadyStateError,
     getStepValidation,
     type FirstOrderInputType,
-    type FirstOrderParameters, TIME_SECTIONS,
+    type FirstOrderParameters,
+    TIME_SECTIONS,
 } from '@/features/first-order-time/domain/first-order-time';
 
 import { ModuleHeader } from '@/components/modules/module-header.tsx';
@@ -14,10 +15,10 @@ import { ModelOverview } from '../components/page/model-overview';
 import { ExperimentSection } from '../components/page/experiment-section';
 import { AnalysisSection } from '../components/page/analysis-section';
 import { ChallengeSection } from '../components/page/challenge-section';
-import {useIsMobile} from "@/hooks/use-is-mobile.ts";
-import {ModuleFooter} from "@/components/modules/module-footer.tsx";
-import {SectionNavigation} from "@/components/modules/section-navigation.tsx";
-import { Reveal } from "@/components/ui/reveal";
+import { useIsMobile } from '@/hooks/use-is-mobile.ts';
+import { ModuleFooter } from '@/components/modules/module-footer.tsx';
+import { SectionNavigation } from '@/components/modules/section-navigation.tsx';
+import { Reveal } from '@/components/ui/reveal';
 const DEFAULT_PARAMETERS: FirstOrderParameters = {
     gain: 1,
     tau: 1,
@@ -27,28 +28,20 @@ const DEFAULT_PARAMETERS: FirstOrderParameters = {
 export default function FirstOrderTimePage() {
     const isMobile = useIsMobile();
 
-    const [parameters, setParameters] =
-        useState<FirstOrderParameters>({ ...DEFAULT_PARAMETERS });
+    const [parameters, setParameters] = useState<FirstOrderParameters>({ ...DEFAULT_PARAMETERS });
 
-    const [inputType, setInputType] =
-        useState<FirstOrderInputType>('step');
+    const [inputType, setInputType] = useState<FirstOrderInputType>('step');
 
     const [resetKey, setResetKey] = useState(0);
 
-    const validation = useMemo(
-        () => getStepValidation(parameters),
-        [parameters],
-    );
+    const validation = useMemo(() => getStepValidation(parameters), [parameters]);
 
     const rampError = getRampSteadyStateError(parameters);
     const rampLag = getRampLag(parameters.tau);
 
     const expectedStepOutput = parameters.gain * parameters.amplitude;
 
-    function updateParameter(
-        key: keyof FirstOrderParameters,
-        value: number,
-    ) {
+    function updateParameter(key: keyof FirstOrderParameters, value: number) {
         if (!Number.isFinite(value)) return;
 
         setParameters((current) => ({
@@ -76,7 +69,7 @@ export default function FirstOrderTimePage() {
                     description="Investigate how a first-order sensor responds to sudden and continuously changing inputs. Adjust its parameters and observe their effects on response speed, steady-state behavior, and tracking error."
                     nextModule={{
                         to: '/frequency-response',
-                        label: 'Continue to Module 02: Frequency Response →',
+                        label: 'Continue to Module 02: First-order frequency response →',
                     }}
                     onReset={resetExperiment}
                 />
@@ -84,12 +77,12 @@ export default function FirstOrderTimePage() {
 
             {/* Conditionally render SectionNavigation based on viewport width */}
             {!isMobile && (
-                <Reveal >
+                <Reveal>
                     <SectionNavigation sections={TIME_SECTIONS} />
                 </Reveal>
             )}
 
-            <Reveal >
+            <Reveal>
                 <ParameterSummary
                     parameters={parameters}
                     inputType={inputType}
@@ -125,13 +118,11 @@ export default function FirstOrderTimePage() {
             </Reveal>
 
             <Reveal>
-                <ChallengeSection key={resetKey} />
+                <ChallengeSection key={`${inputType}-${resetKey}`} inputType={inputType} />
             </Reveal>
 
             <Reveal>
-                <ModuleFooter
-                    assumptions="Zero initial output, ideal first-order dynamics, and no measurement noise or saturation. The transfer function is defined under zero initial conditions."
-                />
+                <ModuleFooter />
             </Reveal>
         </main>
     );

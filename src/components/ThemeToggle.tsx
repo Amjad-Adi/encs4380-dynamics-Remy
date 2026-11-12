@@ -1,7 +1,7 @@
-import {Moon, Sun} from 'lucide-react';
-import {useTheme} from './ThemeProvider.tsx'; // Adjust path to your ThemeProvider location
-import {Button} from '@/components/ui/button';
-import {Theme} from '@/models/enums/themes.ts';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from './ThemeProvider.tsx'; // Adjust path to your ThemeProvider location
+import { Button } from '@/components/ui/button';
+import { Theme } from '@/models/enums/themes.ts';
 
 export default function ThemeToggle() {
     const { theme, setTheme } = useTheme();

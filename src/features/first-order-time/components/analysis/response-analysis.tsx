@@ -1,8 +1,4 @@
-import {
-    Activity,
-    Clock3,
-    Gauge,
-} from 'lucide-react';
+import { Activity, Clock3, Gauge } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge.tsx';
 
@@ -20,7 +16,7 @@ import type {
     FirstOrderInputType,
     FirstOrderParameters,
 } from '@/features/first-order-time/domain/first-order-time.ts';
-import {MetricCard} from "@/components/modules/metric-card.tsx";
+import { MetricCard } from '@/components/modules/metric-card.tsx';
 
 interface ResponseAnalysisProps {
     parameters: FirstOrderParameters;
@@ -30,11 +26,11 @@ interface ResponseAnalysisProps {
 }
 
 export function ResponseAnalysis({
-                                     parameters,
-                                     inputType,
-                                     rampError,
-                                     rampLag,
-                                 }: ResponseAnalysisProps) {
+    parameters,
+    inputType,
+    rampError,
+    rampLag,
+}: ResponseAnalysisProps) {
     const { gain, tau, amplitude } = parameters;
 
     const finalValue = gain * amplitude;
@@ -47,19 +43,14 @@ export function ResponseAnalysis({
                 <CardHeader>
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         <div>
-                            <CardTitle className="text-base">
-                                System response
-                            </CardTitle>
+                            <CardTitle className="text-base">System response</CardTitle>
 
                             <CardDescription className="mt-1">
-                                Compare the applied input, actual output,
-                                and ideal output.
+                                Compare the applied input, actual output, and ideal output.
                             </CardDescription>
                         </div>
 
-                        <Badge variant="outline">
-                            {isStep ? 'Step input' : 'Ramp input'}
-                        </Badge>
+                        <Badge variant="outline">{isStep ? 'Step input' : 'Ramp input'}</Badge>
                     </div>
                 </CardHeader>
 
@@ -70,32 +61,17 @@ export function ResponseAnalysis({
                         duration={5 * tau}
                     />
 
-                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-                        <ChartLegend
-                            color="#3978c5"
-                            label="Input"
-                        />
+                    <div className="text-muted-foreground mt-2 flex flex-wrap gap-x-5 gap-y-2 text-xs">
+                        <ChartLegend color="#3978c5" label="Input" />
 
-                        <ChartLegend
-                            color="#159b98"
-                            label="Actual output"
-                        />
+                        <ChartLegend color="#159b98" label="Actual output" />
 
-                        <ChartLegend
-                            color="#d69a35"
-                            label="Ideal output"
-                        />
+                        <ChartLegend color="#d69a35" label="Ideal output" />
                     </div>
                 </CardContent>
             </Card>
 
-            <div
-                className={`grid gap-3 ${
-                    isStep
-                        ? 'sm:grid-cols-3'
-                        : 'sm:grid-cols-3'
-                }`}
-            >
+            <div className="grid gap-3 sm:grid-cols-3">
                 <MetricCard
                     label="Time constant"
                     value={`${tau.toFixed(2)} s`}
@@ -106,9 +82,9 @@ export function ResponseAnalysis({
                 {isStep ? (
                     <>
                         <MetricCard
-                            label="95% response"
+                            label="95% response time"
                             value={`${(3 * tau).toFixed(2)} s`}
-                            detail="Approximately 3τ"
+                            detail="Reaches 95% of KA at 3τ"
                             icon={Activity}
                         />
 
@@ -141,13 +117,7 @@ export function ResponseAnalysis({
     );
 }
 
-function ChartLegend({
-                         color,
-                         label,
-                     }: {
-    color: string;
-    label: string;
-}) {
+function ChartLegend({ color, label }: { color: string; label: string }) {
     return (
         <span className="inline-flex items-center gap-2">
             <span

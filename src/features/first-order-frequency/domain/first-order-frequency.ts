@@ -27,13 +27,7 @@ export interface FrequencyValidationResult {
     unit: string;
     passed: boolean;
 }
-import {
-    Activity,
-    BookOpen,
-    Calculator,
-    Gauge,
-    SlidersHorizontal,
-} from 'lucide-react';
+import { Activity, BookOpen, Calculator, Gauge, SlidersHorizontal } from 'lucide-react';
 
 import type { ModuleSection } from '@/components/modules/section-navigation';
 
@@ -46,10 +40,7 @@ export const FREQUENCY_SECTIONS: ModuleSection[] = [
 ];
 const DEG_PER_RAD = 180 / Math.PI;
 
-export function getFrequencyResponse(
-    tau: number,
-    omega: number,
-): FrequencyResponse {
+export function getFrequencyResponse(tau: number, omega: number): FrequencyResponse {
     if (!Number.isFinite(tau) || tau <= 0) {
         throw new RangeError('The time constant must be positive.');
     }
@@ -72,11 +63,7 @@ export function getFrequencyResponse(
     };
 }
 
-export function generateSignalResponse(
-    tau: number,
-    omega: number,
-    samples = 600,
-): SignalPoint[] {
+export function generateSignalResponse(tau: number, omega: number, samples = 600): SignalPoint[] {
     if (omega <= 0) {
         throw new RangeError('A sinusoidal input requires positive frequency.');
     }
@@ -96,10 +83,7 @@ export function generateSignalResponse(
     });
 }
 
-export function generateBodeResponse(
-    tau: number,
-    samples = 500,
-): BodePoint[] {
+export function generateBodeResponse(tau: number, samples = 500): BodePoint[] {
     if (!Number.isFinite(tau) || tau <= 0) {
         throw new RangeError('The time constant must be positive.');
     }
@@ -111,9 +95,7 @@ export function generateBodeResponse(
     const maxLog = Math.log10(maxFrequency);
 
     return Array.from({ length: samples }, (_, index) => {
-        const frequency = 10 ** (
-            minLog + (index / (samples - 1)) * (maxLog - minLog)
-        );
+        const frequency = 10 ** (minLog + (index / (samples - 1)) * (maxLog - minLog));
         const response = getFrequencyResponse(tau, frequency);
 
         return {
@@ -128,18 +110,11 @@ export function generateBodeResponse(
  * Maximum angular frequency for a permitted amplitude loss.
  * M >= 1 - tolerance, where tolerance is expressed as a fraction.
  */
-export function getMaximumFrequency(
-    tau: number,
-    tolerancePercent: number,
-): number {
+export function getMaximumFrequency(tau: number, tolerancePercent: number): number {
     if (tau <= 0 || !Number.isFinite(tau)) {
         throw new RangeError('The time constant must be positive.');
     }
-    if (
-        !Number.isFinite(tolerancePercent) ||
-        tolerancePercent <= 0 ||
-        tolerancePercent >= 100
-    ) {
+    if (!Number.isFinite(tolerancePercent) || tolerancePercent <= 0 || tolerancePercent >= 100) {
         throw new RangeError('Tolerance must be between 0 and 100 percent.');
     }
 
@@ -152,12 +127,8 @@ export function getFrequencyValidation(): FrequencyValidationResult[] {
 
     // For a 5% amplitude-loss limit at 100 Hz:
     // omega = 2πf and tau_max = sqrt(1/0.95² - 1) / omega.
-    const maximumTau =
-        Math.sqrt(1 / 0.95 ** 2 - 1) / (2 * Math.PI * 100);
-    const phaseAt50Hz = getFrequencyResponse(
-        maximumTau,
-        2 * Math.PI * 50,
-    ).phaseDegrees;
+    const maximumTau = Math.sqrt(1 / 0.95 ** 2 - 1) / (2 * Math.PI * 100);
+    const phaseAt50Hz = getFrequencyResponse(maximumTau, 2 * Math.PI * 50).phaseDegrees;
 
     return [
         {

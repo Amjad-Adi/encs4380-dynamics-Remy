@@ -11,10 +11,7 @@ import { TooltipProvider } from './components/ui/tooltip';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ThemeProvider
-            defaultTheme={Theme.SYSTEM}
-            storageKey="dynamics-toolkit-theme"
-        >
+        <ThemeProvider defaultTheme={Theme.SYSTEM} storageKey="dynamics-toolkit-theme">
             <TooltipProvider>
                 <RouterProvider router={router} />
             </TooltipProvider>

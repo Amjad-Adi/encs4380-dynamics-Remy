@@ -36,11 +36,7 @@ export function ThemeProvider({
             root.classList.remove(Theme.LIGHT, Theme.DARK);
 
             const resolvedTheme =
-                theme === Theme.SYSTEM
-                    ? mediaQuery.matches
-                        ? Theme.DARK
-                        : Theme.LIGHT
-                    : theme;
+                theme === Theme.SYSTEM ? (mediaQuery.matches ? Theme.DARK : Theme.LIGHT) : theme;
 
             root.classList.add(resolvedTheme);
         };
@@ -53,7 +49,6 @@ export function ThemeProvider({
             mediaQuery.removeEventListener('change', applyTheme);
         };
     }, [theme]);
-
 
     const setTheme = (theme: Theme) => {
         localStorage.setItem(storageKey, theme);

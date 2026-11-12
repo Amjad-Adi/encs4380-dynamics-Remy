@@ -1,4 +1,3 @@
-
 import { SharedModelOverview } from '@/components/modules/model-overview';
 import { Equation } from '@/components/modules/equation';
 
@@ -9,9 +8,7 @@ export function ModelOverview() {
                 {
                     title: 'Transfer function',
                     content: (
-                        <Equation
-                            expression={String.raw`G(s)=\frac{K}{\tau s+1},\qquad K=1`}
-                        />
+                        <Equation expression={String.raw`G(s)=\frac{K}{\tau s+1},\qquad K=1`} />
                     ),
                     description: 'Unity static gain.',
                 },
@@ -27,9 +24,7 @@ export function ModelOverview() {
                 {
                     title: 'Phase response',
                     content: (
-                        <Equation
-                            expression={String.raw`\phi(\omega)=-\tan^{-1}(\omega\tau)`}
-                        />
+                        <Equation expression={String.raw`\phi(\omega)=-\tan^{-1}(\omega\tau)`} />
                     ),
                     description: 'Negative phase means the output lags the input.',
                 },

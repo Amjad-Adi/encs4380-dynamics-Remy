@@ -53,8 +53,8 @@ export function FrequencyPredictionExercise({ tau }: { tau: number }) {
                     <CardTitle className="text-base">Predict, then check</CardTitle>
                 </div>
                 <CardDescription>
-                    Keep τ fixed. Predict what happens as the input frequency increases
-                    from 0.1ωc to 10ωc.
+                    Keep τ fixed. Predict what happens as the input frequency increases from 0.1ωc
+                    to 10ωc.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
@@ -83,26 +83,31 @@ export function FrequencyPredictionExercise({ tau }: { tau: number }) {
                 </div>
 
                 {checked && (
-                    <div className="space-y-2 rounded-lg border border-border bg-muted/40 p-4" role="status">
+                    <div
+                        className="border-border bg-muted/40 space-y-2 rounded-lg border p-4"
+                        role="status"
+                    >
                         <div className="flex items-center gap-2 text-sm font-medium">
                             <CheckCircle2
                                 size={17}
                                 className={correct ? 'text-success' : 'text-muted-foreground'}
                             />
-                            {correct ? 'Both predictions are correct.' : 'Review the comparison below.'}
+                            {correct
+                                ? 'Both predictions are correct.'
+                                : 'Review the comparison below.'}
                         </div>
-                        <p className="text-sm leading-6 text-muted-foreground">
-                            As frequency increases, the sensor attenuates the signal more
-                            strongly and its phase lag approaches −90°.
+                        <p className="text-muted-foreground text-sm leading-6">
+                            As frequency increases, the sensor attenuates the signal more strongly
+                            and its phase lag approaches −90°.
                         </p>
                         <div className="grid gap-2 text-xs sm:grid-cols-2">
-                            <p className="rounded-md bg-background p-3">
-                                <span className="font-semibold">0.1ωc:</span>{' '}
-                                M = {low.magnitude.toFixed(4)}, φ = {low.phaseDegrees.toFixed(2)}°
+                            <p className="bg-background rounded-md p-3">
+                                <span className="font-semibold">0.1ωc:</span> M ={' '}
+                                {low.magnitude.toFixed(4)}, φ = {low.phaseDegrees.toFixed(2)}°
                             </p>
-                            <p className="rounded-md bg-background p-3">
-                                <span className="font-semibold">10ωc:</span>{' '}
-                                M = {high.magnitude.toFixed(4)}, φ = {high.phaseDegrees.toFixed(2)}°
+                            <p className="bg-background rounded-md p-3">
+                                <span className="font-semibold">10ωc:</span> M ={' '}
+                                {high.magnitude.toFixed(4)}, φ = {high.phaseDegrees.toFixed(2)}°
                             </p>
                         </div>
                     </div>
@@ -133,7 +138,7 @@ function PredictionQuestion({
                         onClick={() => onChange(option.value)}
                         className={[
                             'rounded-lg border px-3 py-2.5 text-sm transition-colors',
-                            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                            'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                             value === option.value
                                 ? 'border-brand bg-accent text-accent-foreground'
                                 : 'border-border hover:bg-muted',

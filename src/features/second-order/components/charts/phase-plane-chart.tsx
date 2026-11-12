@@ -6,17 +6,13 @@ import { useChartTheme } from '@/hooks/use-chart-theme';
 import {
     generatePhasePlaneTrajectory,
     type PhysicalParameters,
-} from '@/features/second-order/domain/second-order';
-
+} from '@/features/second-order/domain';
 interface PhasePlaneChartProps {
     parameters: PhysicalParameters;
     duration: number;
 }
 
-export function PhasePlaneChart({
-    parameters,
-    duration,
-}: PhasePlaneChartProps) {
+export function PhasePlaneChart({ parameters, duration }: PhasePlaneChartProps) {
     const theme = useChartTheme();
     const points = useMemo(
         () => generatePhasePlaneTrajectory(parameters, duration),

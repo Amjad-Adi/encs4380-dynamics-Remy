@@ -7,22 +7,15 @@ import {
     getEigenvaluesOfA,
     getSystemPoles,
     type PhysicalParameters,
-} from '@/features/second-order/domain/second-order';
-
+} from '@/features/second-order/domain';
 interface PoleChartProps {
     parameters: PhysicalParameters;
 }
 
 export function PoleChart({ parameters }: PoleChartProps) {
     const theme = useChartTheme();
-    const poles = useMemo(
-        () => getSystemPoles(parameters),
-        [parameters],
-    );
-    const eigenvalues = useMemo(
-        () => getEigenvaluesOfA(parameters),
-        [parameters],
-    );
+    const poles = useMemo(() => getSystemPoles(parameters), [parameters]);
+    const eigenvalues = useMemo(() => getEigenvaluesOfA(parameters), [parameters]);
     const data: Data[] = [
         {
             x: poles.map((pole) => pole.real),

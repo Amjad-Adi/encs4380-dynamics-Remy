@@ -1,15 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import {
-    Calculator,
-} from 'lucide-react';
+import { Calculator } from 'lucide-react';
 
 import { useIsMobile } from '@/hooks/use-is-mobile';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { MODULES } from '@/models/modules.ts';
 
 export function ModuleNavigation() {
@@ -34,7 +27,7 @@ export function ModuleNavigation() {
                                         render={
                                             <div
                                                 aria-disabled="true"
-                                                className="flex shrink-0 cursor-not-allowed items-center gap-2 border-b-2 border-transparent px-4 py-3 text-sm text-muted-foreground/60"
+                                                className="text-muted-foreground/60 flex shrink-0 cursor-not-allowed items-center gap-2 border-b-2 border-transparent px-4 py-3 text-sm"
                                             >
                                                 <Icon size={16} />
 
@@ -44,16 +37,14 @@ export function ModuleNavigation() {
 
                                                 <span>{module.label}</span>
 
-                                                <span className="hidden rounded-full bg-muted px-2 py-0.5 text-[10px] sm:inline">
+                                                <span className="bg-muted hidden rounded-full px-2 py-0.5 text-[10px] sm:inline">
                                                     Soon
                                                 </span>
                                             </div>
                                         }
                                     />
 
-                                    <TooltipContent>
-                                        This module is coming soon.
-                                    </TooltipContent>
+                                    <TooltipContent>This module is coming soon.</TooltipContent>
                                 </Tooltip>
                             );
                         }
@@ -67,16 +58,14 @@ export function ModuleNavigation() {
                                     [
                                         'flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm transition-colors',
                                         isActive
-                                            ? 'border-brand font-semibold text-foreground'
-                                            : 'border-transparent text-muted-foreground hover:text-foreground',
+                                            ? 'border-brand text-foreground font-semibold'
+                                            : 'text-muted-foreground hover:text-foreground border-transparent',
                                     ].join(' ')
                                 }
                             >
                                 <Icon size={16} />
 
-                                <span className="font-mono text-xs">
-                                    {module.number}
-                                </span>
+                                <span className="font-mono text-xs">{module.number}</span>
 
                                 <span>{module.label}</span>
                             </NavLink>

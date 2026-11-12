@@ -22,32 +22,33 @@ interface AnalysisSectionProps {
 }
 
 export function AnalysisSection({
-                                    inputType,
-                                    parameters,
-                                    validation,
-                                    rampError,
-                                    rampLag,
-                                }: AnalysisSectionProps) {
+    inputType,
+    parameters,
+    validation,
+    rampError,
+    rampLag,
+}: AnalysisSectionProps) {
     const isStep = inputType === 'step';
 
     return (
         <SharedAnalysisSection
             title={isStep ? 'Step response analysis' : 'Ramp response analysis'}
-            description=""
+            description={
+                isStep
+                    ? 'The final value KA and the responses at τ and 3τ define the step behavior, while the error fraction decays exponentially.'
+                    : 'A first-order sensor cannot track a ramp perfectly; its steady-state error and equivalent lag are both set by τ.'
+            }
             icon={Activity}
             className="space-y-5"
         >
             {isStep ? (
                 <div className="space-y-5">
-                    <StepValidation results={validation} />
+                    <StepValidation results={validation} parameters={parameters} />
 
                     <ErrorFractionAnalysis tau={parameters.tau} />
                 </div>
             ) : (
-                <RampAnalysis
-                    rampError={rampError}
-                    rampLag={rampLag}
-                />
+                <RampAnalysis rampError={rampError} rampLag={rampLag} />
             )}
         </SharedAnalysisSection>
     );

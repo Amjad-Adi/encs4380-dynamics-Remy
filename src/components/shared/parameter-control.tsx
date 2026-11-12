@@ -27,10 +27,7 @@ export function ParameterControl({
     description,
     onChange,
 }: ParameterControlProps) {
-    const decimals = Math.max(
-        0,
-        (step.toString().split('.')[1] ?? '').length,
-    );
+    const decimals = Math.max(0, (step.toString().split('.')[1] ?? '').length);
 
     function updateValue(nextValue: number) {
         if (!Number.isFinite(nextValue)) return;
@@ -53,16 +50,12 @@ export function ParameterControl({
                         min={min}
                         max={max}
                         step={step}
-                        onChange={(event) =>
-                            updateValue(Number(event.target.value))
-                        }
+                        onChange={(event) => updateValue(Number(event.target.value))}
                         className="h-8 w-24 text-right font-mono text-sm"
                         aria-label={`${label} value`}
                     />
 
-                    <span className="w-12 text-xs text-muted-foreground">
-                        {unit}
-                    </span>
+                    <span className="text-muted-foreground w-12 text-xs">{unit}</span>
                 </div>
             </div>
 
@@ -72,18 +65,17 @@ export function ParameterControl({
                 max={max}
                 step={step}
                 value={[value]}
-                onValueChange={(values) =>updateValue(typeof values === 'number' ? values : values[0])
+                onValueChange={(values) =>
+                    updateValue(typeof values === 'number' ? values : values[0])
                 }
                 className="w-full cursor-pointer"
                 aria-label={label}
             />
 
-            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 text-xs text-muted-foreground">
+            <div className="text-muted-foreground grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 text-xs">
                 <span>{min.toFixed(decimals)}</span>
 
-                <span className="text-center">
-                    {description}
-                </span>
+                <span className="text-center">{description}</span>
 
                 <span className="text-right">
                     {max.toFixed(decimals)} {unit}

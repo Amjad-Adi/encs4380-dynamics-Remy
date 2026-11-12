@@ -18,10 +18,7 @@ interface FrequencyResponseAnalysisProps {
     omega: number;
 }
 
-export function FrequencyResponseAnalysis({
-    tau,
-    omega,
-}: FrequencyResponseAnalysisProps) {
+export function FrequencyResponseAnalysis({ tau, omega }: FrequencyResponseAnalysisProps) {
     const response = getFrequencyResponse(tau, omega);
     const cutoff = response.cutoffFrequency;
 
@@ -31,9 +28,12 @@ export function FrequencyResponseAnalysis({
                 <CardHeader>
                     <div className="flex flex-wrap items-center justify-between gap-3">
                         <div>
-                            <CardTitle className="text-base">Steady-state sinusoidal response</CardTitle>
+                            <CardTitle className="text-base">
+                                Steady-state sinusoidal response
+                            </CardTitle>
                             <CardDescription className="mt-1">
-                                Compare the input sinusoid with the attenuated and phase-shifted output.
+                                Compare the input sinusoid with the attenuated and phase-shifted
+                                output.
                             </CardDescription>
                         </div>
                         <Badge variant="outline">ωτ = {(omega * tau).toFixed(3)}</Badge>
@@ -41,7 +41,7 @@ export function FrequencyResponseAnalysis({
                 </CardHeader>
                 <CardContent className="min-w-0">
                     <SignalResponseChart tau={tau} omega={omega} />
-                    <div className="mt-1 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
+                    <div className="text-muted-foreground mt-1 flex flex-wrap gap-x-5 gap-y-2 text-xs">
                         <span className="inline-flex items-center gap-2">
                             <span className="size-2 rounded-full bg-[#98a6bb]" />
                             Input sin(ωt)
@@ -97,9 +97,9 @@ export function FrequencyResponseAnalysis({
                 </CardHeader>
                 <CardContent className="min-w-0">
                     <BodeResponseChart tau={tau} omega={omega} />
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                        Blue: response curve · teal: selected frequency · orange dashed:
-                        cutoff. At ω = ωc, M = 0.7071 (−3.01 dB) and φ = −45°.
+                    <p className="text-muted-foreground mt-1 text-xs leading-5">
+                        Blue: response curve · teal: selected frequency · orange dashed: cutoff. At
+                        ω = ωc, M = 0.7071 (−3.01 dB) and φ = −45°.
                     </p>
                 </CardContent>
             </Card>
