@@ -186,6 +186,7 @@ $$
 The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
 
 - **Euler's method** advances the output by
+  
 $$
 y_{n+1} = y_n + \Delta t \cdot f(t_n, y_n)
 $$
