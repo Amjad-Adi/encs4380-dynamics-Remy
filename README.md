@@ -1,516 +1,660 @@
-# ENCS4380 Homework 1: Dynamic Characteristics Interactive Toolkit
+# Dynamic Characteristics Interactive Toolkit
 
-An interactive engineering toolkit for studying the dynamic characteristics of measurement systems through mathematical modeling, real-time simulation, and visual analysis.
+An interactive toolkit for exploring the dynamic characteristics of first-order and second-order systems. The application combines mathematical models, interactive simulations, numerical methods, and visual experiments to help students understand how dynamic systems respond to different inputs and operating conditions.
 
 **Course:** ENCS4380 – Interfacing Techniques  
 **University:** Birzeit University  
 **Instructor:** Dr. Wasel Ghanem  
-**Released:** Thursday, 29 October 2026  
-**Due:** Thursday, 12 November 2026
+**Release Date:** October 29, 2026  
+**Submission Deadline:** November 12, 2026
 
-## Live Application
-
-**[Launch the Dynamic Characteristics Toolkit](https://amjad-adi.github.io/encs4380-dynamics-Remy/)**
-
-**Source Code:** [GitHub Repository](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
+**Live Application:** [Dynamic Characteristics Toolkit](https://amjad-adi.github.io/encs4380-dynamics-Remy/)  
+**GitHub Repository:** [encs4380-dynamics-Remy](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
 
 ---
 
-## Team and Contributions
+## Table of Contents
 
-The project is developed collaboratively, with each team member responsible for a dedicated module and its integration into the overall toolkit.
-
-| Team Member | Module   | Responsibility                 |
-| ----------- | -------- | ------------------------------ |
-| Amjad Adi   | Module 1 | First-Order Time Response      |
-| Yazeed      | Module 2 | First-Order Frequency Response |
-| Hanan       | Module 3 | Second-Order System Response   |
-| Rahaf       | Module 4 | Guess the Sensor Challenge     |
+- [Project Overview](#project-overview)
+- [Interactive Modules](#interactive-modules)
+  - [1. First-Order Time Response](#1-first-order-time-response)
+  - [2. First-Order Frequency Response](#2-first-order-frequency-response)
+  - [3. Second-Order System Response](#3-second-order-system-response)
+  - [4. Guess the Sensor Challenge](#4-guess-the-sensor-challenge)
+  - [5. Superposition Simulator](#5-superposition-simulator)
+  - [6. Pole Explorer](#6-pole-explorer)
+  - [7. Numerical ODE Solver](#7-numerical-ode-solver)
+- [Technology Stack](#technology-stack)
+- [Project Architecture](#project-architecture)
+- [Getting Started](#getting-started)
+- [Validation and Reference Calculations](#validation-and-reference-calculations)
+- [Team Contributions](#team-contributions)
+- [Use of AI Tools](#use-of-ai-tools)
+- [Educational Objectives](#educational-objectives)
 
 ---
 
-## Project Modules
+## Project Overview
 
-The application is organized into four interconnected modules, progressing from fundamental first-order system behavior to second-order dynamics and practical sensor identification. It also includes the standalone Bonus Numerical ODE Solver described below.
+Dynamic systems are commonly described using differential equations and transfer functions. Understanding their behavior requires analyzing how they respond to different inputs, how their parameters affect their performance, and how their internal characteristics relate to their observable outputs.
 
-### Module 1 - First-Order Time Response
+This project provides an interactive learning environment where users can:
 
-**Developer: Amjad Adi**
+- Simulate the time-domain and frequency-domain responses of dynamic systems.
+- Modify system parameters and observe their effects immediately.
+- Explore first-order and second-order system behavior.
+- Visualize poles and understand their relationship with stability and transient response.
+- Combine multiple sinusoidal signals and analyze their response through a first-order sensor.
+- Compare numerical solutions of differential equations with analytical solutions.
+- Investigate system characteristics through interactive prediction and challenge activities.
 
-An interactive investigation of first-order measurement systems in the time domain, based on the transfer function:
+The toolkit is designed to connect theoretical concepts with practical visualization and experimentation.
+
+---
+
+## Interactive Modules
+
+### 1. First-Order Time Response
+
+**Developed by:** Amjad Adi
+
+This module explores the time-domain behavior of first-order systems using step and ramp inputs.
+
+The general first-order transfer function is:
 
 $$
 G(s) = \frac{K}{\tau s + 1}
 $$
 
-The module provides adjustable gain and time-constant parameters, with selectable step and ramp inputs. Its visualizations connect the mathematical model to the transient and steady-state behavior of a measurement system.
+Where:
 
-**Implemented features:**
+- \(K\) is the system's static gain.
+- \(\tau\) is the time constant.
+- \(s\) is the Laplace variable.
 
-- Interactive first-order step-response simulation.
-- Dynamic visualization of the 63.2% response point at \(t=\tau\) and the 95% response point at \(t=3\tau\).
-- Ramp-response simulation with ideal and actual output comparison.
-- Calculation and visualization of ramp tracking lag and steady-state error.
-- Logarithmic error-fraction analysis demonstrating the relationship between response decay and the time constant.
-- Interactive parameter controls and dynamically updated plots.
+**Features:**
 
-**Screenshots**
+- Interactive step and ramp input simulations.
+- Adjustable system gain and time constant.
+- Visualization of input and output signals.
+- Identification of characteristic response points.
+- Analysis of the time constant and settling behavior.
+- Examination of ramp tracking lag and steady-state error.
+- Logarithmic visualization of the remaining response error.
 
-![Module 1 – Screenshot 1](screenshots/screenshot1-1.png)
-
-![Module 1 – Screenshot 2](screenshots/screenshot1-2.png)
-
-![Module 1 – Screenshot 3](screenshots/screenshot1-3.png)
-
-![Module 1 – Screenshot 4](screenshots/screenshot1-4.png)
-
-![Module 1 – Screenshot 5](screenshots/screenshot1-5.png)
-
-![Module 1 – Screenshot 6](screenshots/screenshot1-6.png)
-
-![Module 1 – Screenshot 7](screenshots/screenshot1-7.png)
-
-![Module 1 – Screenshot 8](screenshots/screenshot1-8.png)
-
-![Module 1 – Screenshot 9](screenshots/screenshot1-9.png)
-
-![Module 1 – Screenshot 10](screenshots/screenshot1-10.jpg)
-
-![Module 1 – Screenshot 11](screenshots/screenshot1-11.jpg)
-
-### Module 2 - First-Order Frequency Response
-
-**Developer: Yazeed**
-
-An interactive analysis of first-order measurement systems in the frequency domain, examining how a sensor responds to sinusoidal inputs across different operating frequencies.
-
-The module connects the frequency-domain transfer function to observable changes in output amplitude and phase:
+For a step input with amplitude \(A\), the output is:
 
 $$
-M = \frac{1}{\sqrt{1+(\omega\tau)^2}}
+y(t) = KA\left(1-e^{-t/\tau}\right)
 $$
 
+At one time constant:
+
 $$
-\phi = -\tan^{-1}(\omega\tau)
+y(\tau) \approx 0.632KA
 $$
 
-**Implemented features:**
+At three time constants:
+
+$$
+y(3\tau) \approx 0.950KA
+$$
+
+These characteristic points help illustrate how quickly a first-order system approaches its steady-state value.
+
+### 2. First-Order Frequency Response
+
+**Developed by:** Yazeed
+
+This module investigates how a first-order system responds to sinusoidal inputs at different frequencies.
+
+For the transfer function:
+
+$$
+G(s) = \frac{K}{\tau s + 1}
+$$
+
+The magnitude ratio is:
+
+$$
+M(\omega) = \frac{K}{\sqrt{1+(\omega\tau)^2}}
+$$
+
+The phase response is:
+
+$$
+\phi(\omega) = -\tan^{-1}(\omega\tau)
+$$
+
+For a normalized gain of \(K=1\), the magnitude ratio becomes:
+
+$$
+M(\omega) = \frac{1}{\sqrt{1+(\omega\tau)^2}}
+$$
+
+**Features:**
 
 - Interactive sinusoidal input and output visualization.
-- Real-time amplitude-ratio and phase-lag calculations.
-- Frequency-response analysis with adjustable time constant and input frequency.
+- Adjustable input frequency and system time constant.
+- Amplitude attenuation analysis.
+- Phase lag visualization.
 - Bode magnitude and phase plots.
-- Cutoff-frequency identification at \(\omega_c=1/\tau\).
-- Dynamic-error calculation using \(\delta=M-1\).
-- Parameter-dependent visualizations and numerical results.
+- Identification of the cutoff frequency.
+- Analysis of dynamic measurement error.
 
-**Screenshots**
-
-![Module 2 – Screenshot 1](screenshots/2-1.png)
-
-![Module 2 – Screenshot 2](screenshots/2-2.png)
-
-![Module 2 – Screenshot 3](screenshots/2-3.png)
-
-![Module 2 – Screenshot 4](screenshots/2-4.png)
-
-![Module 2 – Screenshot 5](screenshots/2-5.png)
-
-![Module 2 – Screenshot 6](screenshots/2-6.png)
-
-
-
-### Module 3 - Second-Order System Response
-
-**Developer: Hanan**
-
-An interactive study of second-order measurement systems, focusing on the influence of damping ratio and natural frequency on transient response.
-
-The module brings together time-domain response analysis and pole-based system interpretation, using the standard second-order transfer function:
+The cutoff frequency is:
 
 $$
-G(s)=\frac{K\omega_n^2}{s^2+2\zeta\omega_n s+\omega_n^2}
+\omega_c = \frac{1}{\tau}
 $$
 
-**Implemented features:**
-
-- Interactive underdamped, critically damped, and overdamped response simulations.
-- Adjustable damping ratio and natural frequency.
-- Live rise-time, peak-time, percentage-overshoot, and settling-time measurements.
-- Pole visualization in the complex s-plane.
-- Mass-spring-damper state-space representation.
-- Live state-space matrix updates based on mass, damping, and stiffness.
-- Eigenvalue calculations and comparison with the system poles.
-- Phase-plane visualization of displacement and velocity trajectories.
-
-**Screenshots**
-![Module 3 – Screenshot 1](screenshots/1.png)
-
-![Module 3 – Screenshot 2](screenshots/2.png)
-
-![Module 3 – Screenshot 3](screenshots/3.png)
-
-![Module 3 – Screenshot 4](screenshots/4.png)
-
-![Module 3 – Screenshot 5](screenshots/5.png)
-
-![Module 3 – Screenshot 6](screenshots/6.png)
-
-
-
-### Module 4 - Guess the Sensor Challenge
-
-**Developer: Rahaf**
-
-An interactive parameter-estimation challenge that puts the concepts from the preceding modules into practice. Users investigate an unknown sensor response and estimate its underlying dynamic parameters from the observed behavior.
-
-**Implemented features:**
-
-- Random generation of first-order and second-order sensor models.
-- Noisy response visualization.
-- Parameter estimation using response characteristics.
-- First-order estimation through the time constant and error-decay behavior.
-- Second-order estimation through overshoot and peak time.
-- Comparison of estimated and actual system responses.
-- Parameter-recovery scoring and session score tracking.
-- New-sensor generation and contextual hints.
-
-**Screenshots**
-![Module 4 – Screenshot 2](screenshots/4-1.png)
-
-![Module 4 – Screenshot 3](screenshots/4-2.png)
-
-![Module 4 – Screenshot 4](screenshots/4-3.png)
-
-
-
-### Bonus — Numerical ODE Solver
-
-The standalone Bonus tool compares numerical integration of a first-order system with its analytical step response. For a system with transfer function
+The normalized dynamic error is:
 
 $$
-G(s)=\frac{K}{\tau s+1}
+\delta = M(\omega)-1
 $$
 
-and a step input of amplitude \(A\), the zero-initial-condition model is
+The module demonstrates how increasing input frequency affects the amplitude and phase of a first-order system's output.
+
+### 3. Second-Order System Response
+
+**Developed by:** Hanan
+
+This module explores the transient behavior of second-order systems and the relationship between system parameters, damping, and response characteristics.
+
+The general second-order transfer function is:
 
 $$
-\tau\frac{dy}{dt}+y=KA,\qquad y(0)=0
+G(s) =
+\frac{K\omega_n^2}
+{s^2+2\zeta\omega_n s+\omega_n^2}
 $$
 
-Its analytical response, used as the reference for the numerical errors, is
+Where:
+
+- \(K\) is the static gain.
+- \(\omega_n\) is the natural frequency.
+- \(\zeta\) is the damping ratio.
+
+**Features:**
+
+- Interactive adjustment of damping ratio and natural frequency.
+- Visualization of underdamped, critically damped, and overdamped responses.
+- Analysis of rise time, peak time, overshoot, and settling time.
+- Pole visualization in the complex plane.
+- Mass-spring-damper system modeling.
+- State-space representation and visualization.
+- Interactive adjustment of mass, damping coefficient, and spring stiffness.
+- Eigenvalue calculations.
+- Phase-plane visualization.
+
+For an underdamped system, the overshoot percentage is:
 
 $$
-y(t)=KA\left(1-e^{-t/\tau}\right)
+\%OS =
+100e^{-\frac{\zeta\pi}{\sqrt{1-\zeta^2}}}
 $$
 
-The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
-
-- **Euler's method** advances the output by
-  
-$$
-y_{n+1} = y_n + \Delta t \cdot f(t_n, y_n)
-$$
-
-where
+The damped natural frequency is:
 
 $$
-f(t,y) = \frac{KA-y}{\tau}
+\omega_d = \omega_n\sqrt{1-\zeta^2}
 $$
-- **Fourth-order Runge–Kutta (RK4)** combines four derivative evaluations per step (at the start, two midpoint estimates, and the end) in a weighted average. It is generally more accurate than Euler for the tested step sizes.
 
-The controls adjust:
+The peak time is:
 
-| Parameter | Meaning |
-|---|---|
-| $K$ | System gain |
-| $\tau$ | System time constant, in seconds |
-| $A$ | Step-input amplitude |
-| $\Delta t$ | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
-| Simulation duration | End time of the integration, in seconds |
+$$
+T_p = \frac{\pi}{\omega_d}
+$$
 
-Error metrics compare each numerical result with the analytical response at every shared sampled time:
+For a standard second-order system, the approximate 2% settling time is:
 
-- **Maximum absolute error:** the largest absolute difference across the sampled points.
-- **Root mean square error (RMSE):** the square root of the mean of squared differences across the sampled points.
-- **Final-time absolute error:** the absolute difference at the simulation endpoint.
+$$
+T_s \approx \frac{4}{\zeta\omega_n}
+$$
 
-Euler stability is classified using \(r=\Delta t/\tau\) and its amplification factor \(1-r\): \(0<r\leq1\) is stable without alternating error; \(1<r<2\) is stable with damped oscillation; \(r=2\) is marginally stable with persistent alternating error; and \(r>2\) is unstable, with errors growing from step to step. These classifications describe Euler stability, not the size of ordinary approximation error.
+The module also demonstrates how the mass-spring-damper parameters determine the system's dynamic response.
 
-**Screenshots**
+### 4. Guess the Sensor Challenge
 
-The following captures show the running local application: parameter controls, the comparison chart, error metrics, the prediction exercise, and a narrow-screen layout.
+**Developed by:** Rahaf
 
-![Bonus Numerical ODE Solver — parameter controls](screenshots/bonus-numerical-ode-controls.png)
+This module provides an interactive challenge in which users investigate an unknown dynamic sensor by analyzing its response to an input signal.
 
-![Bonus Numerical ODE Solver — comparison chart](screenshots/bonus-numerical-ode-comparison.png)
+The user is presented with a simulated sensor response and must estimate the underlying system characteristics.
 
-![Bonus Numerical ODE Solver — error metrics](screenshots/bonus-numerical-ode-errors.png)
+**Features:**
 
-![Bonus Numerical ODE Solver — prediction exercise](screenshots/bonus-numerical-ode-prediction.png)
+- Randomly generated first-order and second-order sensor models.
+- Simulated sensor measurements with noise.
+- Estimation of first-order time constants.
+- Estimation of second-order parameters using response characteristics.
+- Comparison between actual and estimated parameters.
+- Visualization of actual and estimated responses.
+- Interactive scoring system.
+- Hints and new-sensor challenges.
 
-![Bonus Numerical ODE Solver — mobile layout](screenshots/bonus-numerical-ode-mobile.png)
+The challenge encourages users to apply theoretical concepts to identify unknown system behavior from measured responses.
 
-To run the Bonus tool locally, start the Vite development server and open `/numerical-ode`:
+### 5. Superposition Simulator
 
-```bash
-npm run dev
-```
+**Developed by:** Yazeed
 
-To check the TypeScript project and produce a production build:
+This module demonstrates how multiple sinusoidal signals combine through the principle of superposition and how a first-order sensor affects the resulting signal.
 
-```bash
-npm run build
-```
+Users can construct a composite signal by dynamically adding and removing sinusoidal components.
 
-There is no dedicated automated test script configured in `package.json`; the build is the repository's available automated project check.
+Each component is described by:
 
+$$
+x_i(t) = A_i\sin(\omega_i t+\phi_i)
+$$
 
----
+The combined input signal is:
 
-## Teaching Approach - Predict, Then Check
+$$
+x(t) = \sum_{i=1}^{N} A_i\sin(\omega_i t+\phi_i)
+$$
 
-The toolkit is designed around active exploration. Rather than presenting system responses as static results, it encourages students to form predictions, manipulate system parameters, and compare their expectations with the resulting mathematical calculations and visualizations.
+Where:
 
-The following prompts connect the theoretical concepts to the interactive experiments:
+- \(A_i\) is the amplitude of component \(i\).
+- \(\omega_i\) is its angular frequency.
+- \(\phi_i\) is its phase.
+- \(N\) is the number of sinusoidal components.
 
-1. **Time constant:** Predict the percentage of the final value reached by a first-order system after one time constant. Verify the 63.2% response point.
-2. **Settling behavior:** Predict the percentage of the final value reached after three time constants. Compare your prediction with the 95% response marker.
-3. **Response speed:** Double the time constant while keeping the gain unchanged. Predict how the step response changes.
-4. **Ramp tracking:** Predict whether a first-order system can perfectly track a ramp input and determine its steady-state tracking error.
-5. **Time lag:** Increase the time constant and predict how the equivalent time lag changes.
-6. **Amplitude response:** For \(\tau=0.2\,s\) and an input frequency of \(2\,rad/s\), predict the output-to-input amplitude ratio.
-7. **Phase response:** Under the same conditions, predict the phase lag between the input and output.
-8. **Cutoff frequency:** Predict how the cutoff frequency changes when the time constant increases.
-9. **Damping behavior:** Reduce the damping ratio below one. Predict the resulting overshoot and oscillatory behavior.
-10. **Sensor identification:** Given an unknown response curve, identify the characteristics that distinguish first-order from second-order system behavior.
+The combined signal is passed through a first-order sensor described by:
+
+$$
+\tau\frac{dy(t)}{dt}+y(t)=Kx(t)
+$$
+
+**Features:**
+
+- Dynamically add and remove sinusoidal components.
+- Independently configure each component's amplitude, frequency, and phase.
+- Visualize individual sinusoidal components.
+- Visualize the combined input signal.
+- Visualize the first-order sensor output.
+- Adjust sensor gain and time constant.
+- Analyze the attenuation and phase lag of individual frequency components.
+- Interactive prediction exercise.
+
+For each sinusoidal component, the sensor's magnitude ratio is:
+
+$$
+M_i = \frac{K}{\sqrt{1+(\omega_i\tau)^2}}
+$$
+
+Its phase lag is:
+
+$$
+\phi_{sensor,i} = -\tan^{-1}(\omega_i\tau)
+$$
+
+Therefore, the steady-state output contribution of each component is:
+
+$$
+y_i(t) =
+A_iM_i
+\sin\left(\omega_i t+\phi_i+\phi_{sensor,i}\right)
+$$
+
+The overall steady-state output is the sum of the individual output components:
+
+$$
+y(t) = \sum_{i=1}^{N} y_i(t)
+$$
+
+This demonstrates how a first-order sensor attenuates and delays different frequency components by different amounts.
+
+### 6. Pole Explorer
+
+**Developed by:** Amjad Adi
+
+This module provides an interactive environment for exploring the relationship between pole locations, system stability, and transient response.
+
+Users can manipulate poles in the complex \(s\)-plane and observe how their positions affect the system's characteristics.
+
+For a standard second-order system, the poles are:
+
+$$
+s_{1,2} =
+-\zeta\omega_n
+\pm j\omega_n\sqrt{1-\zeta^2}
+$$
+
+Where:
+
+- \(\zeta\) is the damping ratio.
+- \(\omega_n\) is the natural frequency.
+- \(j\) is the imaginary unit.
+
+**Features:**
+
+- Interactive complex \(s\)-plane visualization.
+- Drag-and-drop pole manipulation.
+- Support for first-order and second-order systems.
+- Visualization of real and complex poles.
+- Calculation of damping ratio and natural frequency.
+- Analysis of overshoot, peak time, and settling time.
+- Classification of underdamped, critically damped, and overdamped systems.
+- Stable and unstable system identification.
+- Dynamic step-response updates.
+- Interactive learning activity.
+
+For a complex conjugate pole pair:
+
+$$
+s_{1,2} = \sigma \pm j\omega_d
+$$
+
+The natural frequency is:
+
+$$
+\omega_n = \sqrt{\sigma^2+\omega_d^2}
+$$
+
+The damping ratio is:
+
+$$
+\zeta = \frac{-\sigma}{\omega_n}
+$$
+
+The module illustrates that pole locations determine important characteristics of a system's dynamic behavior and stability.
+
+### 7. Numerical ODE Solver
+
+**Developed by:** Rahaf
+
+This module demonstrates how ordinary differential equations can be solved numerically and compares numerical approximations with analytical solutions.
+
+The module uses a first-order sensor model:
+
+$$
+\frac{dy(t)}{dt} = \frac{Kx(t)-y(t)}{\tau}
+$$
+
+For a step input of amplitude \(A\), the analytical solution is:
+
+$$
+y(t) = KA\left(1-e^{-t/\tau}\right)
+$$
+
+**Features:**
+
+- Numerical solution using Euler's method.
+- Numerical solution using the fourth-order Runge-Kutta method (RK4).
+- Adjustable integration time step.
+- Adjustable sensor gain and time constant.
+- Adjustable step-input amplitude.
+- Comparison between numerical and analytical solutions.
+- Visualization of numerical approximation errors.
+- Interactive prediction exercise.
+
+Euler's method approximates the solution using:
+
+$$
+y_{n+1} = y_n + h f(t_n,y_n)
+$$
+
+Where \(h\) is the integration time step.
+
+For the fourth-order Runge-Kutta method:
+
+$$
+k_1 = f(t_n,y_n)
+$$
+
+$$
+k_2 = f\left(t_n+\frac{h}{2},y_n+\frac{hk_1}{2}\right)
+$$
+
+$$
+k_3 = f\left(t_n+\frac{h}{2},y_n+\frac{hk_2}{2}\right)
+$$
+
+$$
+k_4 = f(t_n+h,y_n+hk_3)
+$$
+
+The next value is calculated using:
+
+$$
+y_{n+1} =
+y_n+\frac{h}{6}(k_1+2k_2+2k_3+k_4)
+$$
+
+The module allows users to investigate how the integration method and time-step size affect numerical accuracy.
 
 ---
 
 ## Technology Stack
 
-The toolkit uses a modular React architecture, combining mathematical computation, interactive visualization, and reusable interface components.
+The application is built using a modern React and TypeScript frontend architecture.
 
-| Technology                 | Purpose                                 |
-| -------------------------- | --------------------------------------- |
-| React                      | Component-based user interface          |
-| TypeScript                 | Type-safe application logic             |
-| Vite                       | Development server and production build |
-| Tailwind CSS               | Responsive styling and design system    |
-| shadcn-style components    | Consistent, reusable interface elements |
-| Plotly                     | Interactive engineering visualizations  |
-| KaTeX                      | Mathematical equation rendering         |
-| React Router               | Client-side navigation                  |
-| Lucide React / React Icons | Interface iconography                   |
+| Technology | Purpose |
+|---|---|
+| HTML5 | Application entry point and document structure |
+| React | Component-based user interface |
+| TypeScript | Static typing and maintainable application logic |
+| Vite | Development server and production build tooling |
+| Tailwind CSS 4 | Utility-first styling and responsive layouts |
+| CSS | Global styles and application-wide design foundations |
+| Base UI | Accessible, unstyled UI primitives |
+| shadcn-style components | Reusable and customizable interface components |
+| Plotly | Interactive plots and data visualization |
+| KaTeX | Mathematical equation rendering |
+| React Router | Client-side navigation between modules |
+| Lucide React | Interface icons |
+| React Icons | Additional icon resources |
 
-## Architecture and Development
-
-The application follows a consistent frontend architecture across all four modules. Shared interface components, navigation, styling conventions, and visualization patterns provide a unified experience, while each module maintains its own domain-specific calculations and interactions.
-
-Module 1 established the initial interactive structure and visual conventions. Module 2 was originally developed in Python and was later reimplemented using React and TypeScript to integrate it into the web application. This transition ensured a consistent frontend architecture and user experience across the toolkit. Modules 3 and 4 further extend the application with second-order system analysis and practical sensor parameter estimation.
-
-The implementation emphasizes:
-
-- Separation of module-specific logic and shared interface components.
-- Reusable interactive controls and visualization patterns.
-- Responsive layouts for desktop and mobile devices.
-- Mathematical consistency with the course lecture material.
-- Immediate visual feedback when parameters change.
+Dependencies and their versions are managed through `package.json`.
 
 ---
 
-## AI-Assisted Development
+## Project Architecture
 
-AI coding assistants were used as development tools throughout the project. Their role was to support technical reasoning, implementation, code review, and interface refinement. All team members remain responsible for understanding and explaining their respective implementations.
+The project follows a modular React architecture. Each interactive module maintains its own domain logic and interface while reusing shared components and application-level functionality.
 
-### Amjad Adi - Module 1
+The main design principles are:
 
-**AI tool:** ChatGPT (GPT-6)
+- **Modularity:** Each module is organized around a specific dynamic-system concept.
+- **Separation of concerns:** Mathematical calculations and domain-specific logic are kept separate from reusable interface components.
+- **Reusability:** Shared components and utilities are used where appropriate.
+- **Type safety:** TypeScript provides explicit types for application data and functions.
+- **Consistency:** Modules follow common interface and interaction conventions.
+- **Responsive design:** The application supports desktop and mobile screen sizes.
 
-**What I asked:**
+The application provides separate routes for the interactive modules:
 
-I used ChatGPT throughout the development of Module 1 to support the implementation of the first-order time-response model, its interactive controls, mathematical calculations, and visualizations.
+| Route | Module |
+|---|---|
+| `/time-response` | First-Order Time Response |
+| `/frequency-response` | First-Order Frequency Response |
+| `/second-order` | Second-Order System Response |
+| `/sensor-challenge` | Guess the Sensor Challenge |
+| `/superposition` | Superposition Simulator |
+| `/pole-explorer` | Pole Explorer |
+| `/numerical-ode` | Numerical ODE Solver |
 
-I provided the technical requirements and explicitly specified the frontend technologies and libraries to be used, including React, TypeScript, Tailwind CSS, Plotly, and KaTeX. I also guided the component architecture and implementation structure to ensure consistency with the intended application design.
-
-My prompts covered:
-
-- Translating the first-order differential equation and transfer function into interactive response calculations.
-- Implementing step and ramp response models.
-- Calculating and displaying characteristic response points.
-- Deriving and visualizing ramp tracking lag and steady-state error.
-- Implementing the logarithmic error-fraction plot and interpreting its slope.
-- Reviewing React component structure, mathematical presentation, and responsive layouts.
-- Refining the interface to improve clarity and usability.
-
-**What I learned:**
-
-- How the time constant governs the transient behavior of a first-order measurement system.
-- How to connect analytical response equations to interactive visualizations.
-- How logarithmic error analysis reveals the exponential decay rate.
-- How to organize an engineering visualization application using reusable React components.
-- How to integrate Plotly and KaTeX into a TypeScript-based frontend.
-
-**How I used it:**
-
-I directed the implementation by defining the required libraries, frontend structure, mathematical behavior, and presentation requirements. My frontend development knowledge allowed me to evaluate the generated code critically, assess component composition and styling decisions, identify unsuitable suggestions, and request targeted revisions.
-
-I used the AI-generated assistance selectively, reviewing and adapting the resulting implementation rather than accepting suggestions without evaluation. I also checked the implemented calculations against the mathematical relationships and validation values specified in the assignment.
-
-### Yazeed - Module 2
-
-**AI tool:** [Tool and model]
-
-**What I asked:** [Describe the actual prompts and technical assistance used.]
-
-**What I learned:** [Describe the concepts and implementation knowledge gained.]
-
-**How I used it:** [Describe how the assistance contributed to the completed module.]
-
-### Hanan — Module 3
-
-**AI tool:** ChatGPT (GPT-6) and an AI coding assistant integrated into WebStorm
-
-**What I asked:** I used AI assistance throughout the development of Module 3. I provided the project requirements and asked for help planning the implementation, following the existing Module 1 and Module 2 architecture, and organizing the code into domain logic, controls, pages, and charts.
-
-I also requested assistance with:
-
-Implementing second-order system equations, damping regimes, step responses, response metrics, poles, and state-space calculations.
-
-Designing interactive visualizations for step response, the complex s-plane, and phase-plane trajectories using Plotly.
-
-Connecting physical parameters (mass, damping, and stiffness) to live calculations and visualizations.
-
-Implementing a "Predict, then check" interactive exercise.
-
-Reviewing the implementation against the assignment requirements, identifying missing features, and fixing issues.
-
-Testing numerical accuracy, validating eigenvalues against transfer-function poles, and checking the production build.
-
-**What I learned:** I improved my understanding of second-order dynamic systems, including the relationship between mass, damping, stiffness, natural frequency, and damping ratio. I learned how underdamped, critically damped, overdamped, and undamped systems behave differently.
-
-I also gained practical knowledge of calculating step-response characteristics such as rise time, peak time, percentage overshoot, and settling time. Additionally, I strengthened my understanding of transfer-function poles, state-space representation, eigenvalues, and phase-plane trajectories.
-
-From the software engineering perspective, I learned how to structure a React and TypeScript feature, separate domain calculations from UI components, connect state to interactive charts, validate numerical results, and integrate a new module into an existing application.
-
-**How I used it:** I used AI as a development and review assistant while remaining involved in the implementation decisions and testing process.
-
-I first used it to break the requirements into manageable implementation phases and establish a structure consistent with the existing modules. I then used an AI coding assistant to help implement the domain calculations, interactive controls, charts, state-space analysis, and prediction exercise.
-
-After implementation, I reviewed the generated code and used AI assistance to identify and fix issues found during the requirements audit. I also tested the application by changing the physical parameters and observing how the response curves, damping regime, metrics, and pole locations changed.
-
-Finally, I verified the numerical benchmark results, checked the prediction interaction, ran the TypeScript and production build checks, and used Git to commit and push the completed changes.
-
-### Rahaf — Module 4: Sensor Challenge
-
-**AI tool:**
-ChatGPT (GPT-6) and GitHub Copilot.
-
-**What I asked:**
-I used ChatGPT to understand the Module 4 requirements, plan the implementation, and prepare technical prompts for GitHub Copilot. I asked for assistance with designing the sensor identification challenge, generating hidden first-order and second-order sensor parameters, adding measurement noise, calculating parameter estimates, and implementing the scoring and feedback system. I also used AI assistance to troubleshoot TypeScript build errors and integrate the module into the existing project structure.
-
-**What I learned:**
-I learned how to identify first-order system parameters using the 63.2% response method and how to estimate second-order system parameters using percentage overshoot and peak time. I also improved my understanding of noisy sensor measurements, parameter estimation, error calculation, and comparing estimated values with actual system parameters. Additionally, I learned about React component integration, TypeScript error handling, and Git workflows.
-
-**How I used it:**
-I used AI assistance to plan and implement the Sensor Challenge module within the existing React and TypeScript project. GitHub Copilot helped generate the implementation, including random sensor generation, noisy response visualization, parameter input fields, answer validation, accuracy calculations, hints, and score tracking. ChatGPT helped review the implementation process, resolve integration issues, and guide the build and testing steps. I then ran the project locally and successfully completed the production build.
-
-### Bonus Numerical ODE Solver
-
-An AI coding assistant supported the development process for this standalone feature through planning, implementation assistance, code review, debugging, and verification. This included help examining the feature requirements and integration points, reasoning about and implementing the user-interface code, reviewing the changes, investigating issues, and checking numerical behavior, routes, and the production build. AI assistance contributed to code and technical decisions; it is not represented as work independently written by the student. The project team remains responsible for reviewing, understanding, and validating the submitted work.
-
-## Validation
-
-The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
-
-| # | Validation case | Expected result |
-|---|---|---|
-| 1 | First-order step response at $t = \tau$ | $y(\tau) = 0.632KA$ |
-| 2 | First-order step response at $t = 3\tau$ | $y(3\tau) = 0.95KA$ |
-| 3 | Frequency response, $\tau = 0.2\,s$, $\omega = 2\,rad/s$ | $M \approx 0.93$, phase lag $\approx 21.8^\circ$ |
-| 4 | Maximum time constant for 100 Hz signals with 5% dynamic error | $\tau_{\max} \approx 0.52\,ms$ |
-| 5 | Phase lag at 50 Hz using the maximum time constant | $\approx 9.3^\circ$ |
-| 6 | Second-order response with $\zeta = 0.5$ | Overshoot $\approx 16.3\%$ |
-| 7 | Second-order response with $\zeta = 1$ | No overshoot |
-| 8 | State-space model, $m = 1,\ b = 2,\ k = 4$ | Eigenvalues $-1 \pm j1.732$, matching the poles |
-
-The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
+The root route (`/`) serves as the application landing page.
 
 ---
 
-## GitHub Contributions
+## Getting Started
 
-**Repository:** [encs4380-dynamics-Remy](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
+### Prerequisites
 
-The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
+- Node.js
+- npm
+- Git
 
-| Team Member | GitHub Username | Contribution History |
-|---|---|---|
-| Hanan | [7enno](https://github.com/7enno) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=7enno) |
-| Amjad Adi | [Amjad-Adi](https://github.com/Amjad-Adi) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=Amjad-Adi) |
-| Rahaf | [rahafalqam](https://github.com/rahafalqam) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=rahafalqam) |
-| Yazeed | [yazeedalhaddad](https://github.com/yazeedalhaddad) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=yazeedalhaddad) |
+### Installation
 
-
-Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
-
-## Screenshots
-
-The project screenshots are maintained in the repository's `screenshots/` directory.
-
-```text
-screenshots/
-├── module-1-step-response.png
-├── module-1-ramp-response.png
-├── module-1-error-analysis.png
-├── module-2-frequency-response.png
-├── module-2-bode-analysis.png
-├── module-2-dynamic-error.png
-├── module-3-main.png
-├── module-3-state-space.png
-├── module-4-challenge.png
-├── module-4-results.png
-├── bonus-numerical-ode-controls.png
-├── bonus-numerical-ode-comparison.png
-├── bonus-numerical-ode-errors.png
-├── bonus-numerical-ode-prediction.png
-└── bonus-numerical-ode-mobile.png
-```
-
-The screenshots above are referenced directly in the corresponding module sections.
-
----
-
-## Running Locally
+Clone the repository:
 
 ```bash
 git clone https://github.com/Amjad-Adi/encs4380-dynamics-Remy.git
+```
 
+Navigate to the project directory:
+
+```bash
 cd encs4380-dynamics-Remy
+```
 
+Install the dependencies:
+
+```bash
 npm install
+```
 
+### Development
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-To generate a production build:
+Vite will provide a local development URL in the terminal.
+
+### Production Build
+
+Run the production build:
 
 ```bash
 npm run build
 ```
 
-## Deployment
+This runs the configured TypeScript project checks and creates the production build using Vite.
 
-The application is deployed as a static website through GitHub Pages. GitHub Actions automates the production build and deployment process whenever changes are pushed to the `main` branch.
+### Preview Production Build
 
-**Live application:** https://amjad-adi.github.io/encs4380-dynamics-Remy/
+To preview the production build locally:
 
-## Academic Information
+```bash
+npm run preview
+```
 
-**Course:** ENCS4380 – Interfacing Techniques  
-**University:** Birzeit University  
-**Instructor:** Dr. Wasel Ghanem  
-**Assignment:** Homework 1 – Dynamic Characteristics Interactive Toolkit  
-**Released:** Thursday, 29 October 2026  
-**Due:** Thursday, 12 November 2026  
-**Final release:** v1.0
+---
+
+## Validation and Reference Calculations
+
+The following reference calculations provide useful checks for verifying the mathematical behavior of the toolkit.
+
+| # | Test case | Expected result |
+|---|---|---|
+| 1 | First-order step response at \(t=\tau\) | \(y(\tau)\approx0.632KA\) |
+| 2 | First-order step response at \(t=3\tau\) | \(y(3\tau)\approx0.950KA\) |
+| 3 | \(\tau=0.2\,s\), \(\omega=2\,rad/s\), normalized gain | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
+| 4 | Maximum time constant for a 100 Hz input with 5% normalized amplitude error | \(\tau_{max}\approx0.52\,ms\) |
+| 5 | Phase lag at 50 Hz using the maximum time constant above | \(\approx9.3^\circ\) |
+| 6 | Second-order system with \(\zeta=0.5\) | Overshoot \(\approx16.3\%\) |
+| 7 | Second-order system with \(\zeta=1\) | No overshoot |
+| 8 | Mass-spring-damper system with \(m=1\), \(b=2\), \(k=4\) | Eigenvalues \(=-1\pm j1.732\) |
+
+These values are reference checks for the corresponding theoretical models and are useful when evaluating simulation results.
+
+---
+
+## Team Contributions
+
+| Team member | Main contributions |
+|---|---|
+| Amjad Adi | First-Order Time Response; Pole Explorer |
+| Yazeed | First-Order Frequency Response; Superposition Simulator |
+| Hanan | Second-Order System Response; README documentation and project finalization |
+| Rahaf | Guess the Sensor Challenge; Numerical ODE Solver |
+
+Each team member contributed to the development and integration of the application, with responsibilities distributed across the interactive modules and project documentation.
+
+---
+
+## Use of AI Tools
+
+AI tools were used as development assistants for selected tasks, including mathematical clarification, implementation support, debugging, code review, and documentation. The team remained responsible for reviewing generated suggestions, validating calculations, testing the application, and integrating the final implementation.
+
+### Amjad Adi
+
+**Tool:** ChatGPT (GPT-6)
+
+AI assistance was used during the development of the First-Order Time Response and Pole Explorer modules.
+
+For the First-Order Time Response module, AI assistance included:
+
+- Clarifying first-order system equations and response characteristics.
+- Understanding step and ramp responses.
+- Planning the visualization of characteristic response points.
+- Supporting implementation using React, TypeScript, Plotly, and KaTeX.
+- Reviewing implementation approaches and debugging issues.
+
+For the Pole Explorer module, AI assistance supported mathematical reasoning and implementation planning related to pole locations, damping ratio, natural frequency, stability, and transient-response characteristics.
+
+Generated suggestions were reviewed, and mathematical results and application behavior were checked during development.
+
+### Yazeed
+
+**Tool:** Claude Opus
+
+AI assistance was used during the development of the First-Order Frequency Response and Superposition Simulator modules.
+
+For the First-Order Frequency Response module, AI assistance was used to develop the user interface from the provided Python backend logic, including controls, layouts, graphs, and result presentation. This also supported learning how backend calculations could be represented through an interactive interface.
+
+For the Superposition Simulator, AI assistance supported the implementation of the interactive signal-combination interface and the visualization of the combined input and first-order sensor output.
+
+The resulting implementation was reviewed and integrated as part of the project.
+
+### Hanan
+
+**Tools:** ChatGPT (GPT-6) and an AI coding assistant in WebStorm
+
+AI assistance was used during the development of the Second-Order System Response module and project documentation.
+
+For the Second-Order System Response module, AI assistance included:
+
+- Planning module requirements and implementation structure.
+- Clarifying second-order system equations and damping behavior.
+- Supporting transient-response calculations and visualizations.
+- Assisting with Plotly-based visualizations.
+- Supporting the mass-spring-damper state-space representation.
+- Reviewing numerical calculations and eigenvalue results.
+- Debugging and improving the implementation.
+
+The implementation was reviewed and tested, with reference calculations used to verify important results.
+
+### Rahaf
+
+**Tools:** ChatGPT (GPT-6) and GitHub Copilot
+
+AI assistance was used during the development of the Guess the Sensor Challenge and Numerical ODE Solver modules.
+
+For the Guess the Sensor Challenge, AI assistance supported implementation planning, interface development, debugging, and integration of the sensor-estimation challenge.
+
+For the Numerical ODE Solver, an AI coding assistant supported planning, implementation, code review, debugging, and verification of the numerical-solution functionality.
+
+Generated code and suggestions were reviewed, and the application was run and tested locally before integration.
+
+---
+
+## Educational Objectives
+
+The toolkit is intended to help students connect mathematical models with observable system behavior.
+
+After using the application, students should be able to:
+
+1. Explain the time-domain response of first-order systems.
+2. Interpret the effect of a time constant on system response.
+3. Understand amplitude attenuation and phase lag in frequency-domain analysis.
+4. Distinguish between underdamped, critically damped, and overdamped second-order systems.
+5. Relate pole locations to stability and transient-response characteristics.
+6. Apply the principle of superposition to sinusoidal signals.
+7. Understand how a first-order sensor affects different frequency components.
+8. Compare numerical ODE solutions with analytical solutions.
+9. Investigate how numerical integration methods and time-step sizes affect accuracy.
+10. Apply system-identification concepts to estimate unknown sensor characteristics.
+
+---
+
+**Birzeit University — ENCS4380 Interfacing Techniques — 2026**
