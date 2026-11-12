@@ -39,9 +39,9 @@ The application is organized into four interconnected modules, progressing from 
 
 An interactive investigation of first-order measurement systems in the time domain, based on the transfer function:
 
-\[
-G(s)=\frac{K}{\tau s+1}
-\]
+$$
+G(s) = \frac{K}{\tau s + 1}
+$$
 
 The module provides adjustable gain and time-constant parameters, with selectable step and ramp inputs. Its visualizations connect the mathematical model to the transient and steady-state behavior of a measurement system.
 
@@ -86,11 +86,13 @@ An interactive analysis of first-order measurement systems in the frequency doma
 
 The module connects the frequency-domain transfer function to observable changes in output amplitude and phase:
 
-\[
-M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
-\qquad
-\phi=-\tan^{-1}(\omega\tau)
-\]
+$$
+M = \frac{1}{\sqrt{1+(\omega\tau)^2}}
+$$
+
+$$
+\phi = -\tan^{-1}(\omega\tau)
+$$
 
 **Implemented features:**
 
@@ -202,10 +204,10 @@ The controls adjust:
 
 | Parameter | Meaning |
 |---|---|
-| \(K\) | System gain |
-| \(\tau\) | System time constant, in seconds |
-| \(A\) | Step-input amplitude |
-| \(\Delta t\) | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
+| $K$ | System gain |
+| $\tau$ | System time constant, in seconds |
+| $A$ | Step-input amplitude |
+| $\Delta t$ | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
 | Simulation duration | End time of the integration, in seconds |
 
 Error metrics compare each numerical result with the analytical response at every shared sampled time:
@@ -402,16 +404,16 @@ An AI coding assistant supported the development process for this standalone fea
 
 The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
 
-| #   | Validation case                                                | Expected result                                   |
-| --- | -------------------------------------------------------------- | ------------------------------------------------- |
-| 1   | First-order step response at \(t=\tau\)                        | \(y(\tau)=0.632KA\)                               |
-| 2   | First-order step response at \(t=3\tau\)                       | \(y(3\tau)=0.95KA\)                               |
-| 3   | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\)       | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
-| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\)                    |
-| 5   | Phase lag at 50 Hz using the maximum time constant             | \(\approx9.3^\circ\)                              |
-| 6   | Second-order response with \(\zeta=0.5\)                       | Overshoot \(\approx16.3\%\)                       |
-| 7   | Second-order response with \(\zeta=1\)                         | No overshoot                                      |
-| 8   | State-space model, \(m=1,\ b=2,\ k=4\)                         | Eigenvalues \(-1\pm j1.732\), matching the poles  |
+| # | Validation case | Expected result |
+|---|---|---|
+| 1 | First-order step response at $t = \tau$ | $y(\tau) = 0.632KA$ |
+| 2 | First-order step response at $t = 3\tau$ | $y(3\tau) = 0.95KA$ |
+| 3 | Frequency response, $\tau = 0.2\,s$, $\omega = 2\,rad/s$ | $M \approx 0.93$, phase lag $\approx 21.8^\circ$ |
+| 4 | Maximum time constant for 100 Hz signals with 5% dynamic error | $\tau_{\max} \approx 0.52\,ms$ |
+| 5 | Phase lag at 50 Hz using the maximum time constant | $\approx 9.3^\circ$ |
+| 6 | Second-order response with $\zeta = 0.5$ | Overshoot $\approx 16.3\%$ |
+| 7 | Second-order response with $\zeta = 1$ | No overshoot |
+| 8 | State-space model, $m = 1,\ b = 2,\ k = 4$ | Eigenvalues $-1 \pm j1.732$, matching the poles |
 
 The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
 
