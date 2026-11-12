@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Activity, AlertTriangle, Calculator, CheckCircle2 } from 'lucide-react';
+import { Activity, AlertTriangle, Badge, Calculator, CheckCircle2 } from 'lucide-react';
 
+import { ModuleHeader } from '@/components/modules/module-header';
+import { ModuleFooter } from '@/components/modules/module-footer';
 import { SectionHeading } from '@/components/modules/section-heading';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedChallengeSection } from '@/components/modules/sections/challenge-section';
@@ -12,6 +14,8 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Reveal } from '@/components/ui/reveal';
+import { useIsMobile } from '@/hooks/use-is-mobile';
+
 import { NumericalOdeComparisonChart } from '@/features/numerical-ode/components/charts/numerical-ode-comparison-chart';
 import { ErrorMetricsComparison } from '@/features/numerical-ode/components/analysis/error-metrics-comparison';
 import {
@@ -24,8 +28,6 @@ import {
     generateNumericalOdeComparison,
     type NumericalOdeParameters,
 } from '@/features/numerical-ode/domain/numerical-ode';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 const DEFAULT_PARAMETERS: NumericalOdeParameters = {
     gain: 1,
@@ -36,6 +38,8 @@ const DEFAULT_PARAMETERS: NumericalOdeParameters = {
 };
 
 export default function NumericalOdePage() {
+    const isMobile = useIsMobile();
+
     const [parameters, setParameters] = useState({ ...DEFAULT_PARAMETERS });
     const [method, setMethod] = useState<NumericalMethod>('euler');
     const [predictionResetKey, setPredictionResetKey] = useState(0);
@@ -47,6 +51,7 @@ export default function NumericalOdePage() {
 
     function updateParameter(key: keyof NumericalOdeParameters, value: number) {
         if (!Number.isFinite(value)) return;
+
         setParameters((current) => ({ ...current, [key]: value }));
     }
 
@@ -65,57 +70,20 @@ export default function NumericalOdePage() {
             className="mx-auto w-full max-w-[1600px] space-y-10 px-4 py-6 sm:px-6 lg:space-y-12 lg:px-8 lg:py-10"
         >
             <Reveal>
-                <header className="space-y-5">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <Badge
-                            variant="outline"
-                            className="border-primary/30 bg-primary/5 px-3 py-1 font-mono text-primary"
-                        >
-                            BONUS TOOL
-                        </Badge>
-                        <Badge className="bg-accent text-accent-foreground">
-                            Numerical methods
-                        </Badge>
-                        <span className="ml-auto inline-flex items-center gap-2 text-xs text-muted-foreground">
-                            <span className="relative flex size-2">
-                                <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-50" />
-                                <span className="relative inline-flex size-2 rounded-full bg-success" />
-                            </span>
-                            Live simulation
-                        </span>
-                    </div>
-
-                    <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                        <div className="max-w-3xl space-y-3">
-                            <div className="flex items-center gap-2 text-sm font-medium text-primary">
-                                <Activity size={16} />
-                                Dynamic characteristics laboratory
-                            </div>
-                            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                                Bonus – Numerical ODE Solver
-                            </h1>
-                            <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                                Compare Euler’s method and fourth-order Runge–Kutta
-                                with the analytical step response of a first-order
-                                system. Adjust the parameters and observe the
-                                numerical solutions update in real time.
-                            </p>
-                        </div>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={resetExperiment}
-                        >
-                            <Calculator size={15} />
-                            Reset experiment
-                        </Button>
-                    </div>
-                </header>
+                <ModuleHeader
+                    moduleNumber="ODE"
+                    systemType="Numerical methods"
+                    title="Numerical ODE Solver"
+                    description="Compare Euler’s method and fourth-order Runge–Kutta with the analytical step response of a first-order system. Adjust the parameters and observe the numerical solutions update in real time."
+                    onReset={resetExperiment}
+                />
             </Reveal>
 
-            <Reveal>
-                <SectionNavigation sections={NUMERICAL_ODE_SECTIONS} />
-            </Reveal>
+            {!isMobile && (
+                <Reveal>
+                    <SectionNavigation sections={NUMERICAL_ODE_SECTIONS} />
+                </Reveal>
+            )}
 
             <Reveal>
                 <section id="experiment" className="scroll-mt-24 space-y-3">
@@ -139,7 +107,11 @@ export default function NumericalOdePage() {
 
             <Reveal>
                 <section id="comparison" className="scroll-mt-24 space-y-3">
-                    <SectionHeading title="Solution comparison" icon={Activity} />
+                    <SectionHeading
+                        title="Solution comparison"
+                        icon={Activity}
+                    />
+
                     <Card className="min-w-0 overflow-hidden">
                         <CardHeader>
                             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -152,8 +124,10 @@ export default function NumericalOdePage() {
                                         solutions are shown at shared time points.
                                     </CardDescription>
                                 </div>
-                                <Badge variant="outline">
-                                    {method === 'euler' ? "Euler's method selected" : 'RK4 selected'}
+                                <Badge>
+                                    {method === 'euler'
+                                        ? "Euler's method selected"
+                                        : 'RK4 selected'}
                                 </Badge>
                             </div>
                         </CardHeader>
@@ -209,7 +183,9 @@ export default function NumericalOdePage() {
             </Reveal>
 
             <Reveal>
-                <SharedChallengeSection description="Use the current simulation settings to predict which numerical method will have the lower overall error before revealing the measured comparison.">
+                <SharedChallengeSection
+                    description="Use the current simulation settings to predict which numerical method will have the lower overall error before revealing the measured comparison."
+                >
                     <AccuracyPredictionExercise
                         key={[
                             predictionResetKey,
@@ -224,6 +200,10 @@ export default function NumericalOdePage() {
                         rk4Error={comparison.rk4Error}
                     />
                 </SharedChallengeSection>
+            </Reveal>
+
+            <Reveal>
+                <ModuleFooter />
             </Reveal>
         </main>
     );

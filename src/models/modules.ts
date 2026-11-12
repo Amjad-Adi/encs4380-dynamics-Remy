@@ -1,4 +1,4 @@
-import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch, Sigma } from 'lucide-react';
+import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch, Sigma, Calculator } from 'lucide-react';
 
 export const MODULES = [
     {
@@ -41,6 +41,13 @@ export const MODULES = [
         label: 'Superposition simulator',
         path: 'superposition',
         icon: Sigma,
+        available: true,
+    },
+    {
+        number: '07',
+        label: 'Numerical ODE Solver',
+        path: 'numerical-ode',
+        icon: Calculator,
         available: true,
     },
 ];
