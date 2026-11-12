@@ -286,7 +286,7 @@ The toolkit uses a modular React architecture, combining mathematical computatio
 
 The application follows a consistent frontend architecture across all four modules. Shared interface components, navigation, styling conventions, and visualization patterns provide a unified experience, while each module maintains its own domain-specific calculations and interactions.
 
-Module 1 established the initial interactive structure and visual conventions. Module 2's existing Python implementation was subsequently integrated into the web application using the same overall structure, preserving consistency across the toolkit. The remaining modules extend the application to second-order system analysis and practical parameter estimation.
+Module 1 established the initial interactive structure and visual conventions. Module 2 was originally developed in Python and was later reimplemented using React and TypeScript to integrate it into the web application. This transition ensured a consistent frontend architecture and user experience across the toolkit. Modules 3 and 4 further extend the application with second-order system analysis and practical sensor parameter estimation.
 
 The implementation emphasizes:
 
