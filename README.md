@@ -114,10 +114,9 @@ An interactive study of second-order measurement systems, focusing on the influe
 
 The module brings together time-domain response analysis and pole-based system interpretation, using the standard second-order transfer function:
 
-\[
-G(s)=\frac{K\omega_n^2}
-{s^2+2\zeta\omega_n s+\omega_n^2}
-\]
+$$
+G(s)=\frac{K\omega_n^2}{s^2+2\zeta\omega_n s+\omega_n^2}
+$$
 
 **Implemented features:**
 
