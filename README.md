@@ -256,11 +256,35 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **AI tool:** ChatGPT (GPT-6) and an AI coding assistant integrated into WebStorm
 
-**What I asked:** [Describe the actual prompts and technical assistance used.]
+**What I asked:** I used AI assistance throughout the development of Module 3. I provided the project requirements and asked for help planning the implementation, following the existing Module 1 and Module 2 architecture, and organizing the code into domain logic, controls, pages, and charts.
 
-**What I learned:** [Describe the concepts and implementation knowledge gained.]
+I also requested assistance with:
 
-**How I used it:** [Describe how the assistance contributed to the completed module.]
+Implementing second-order system equations, damping regimes, step responses, response metrics, poles, and state-space calculations.
+
+Designing interactive visualizations for step response, the complex s-plane, and phase-plane trajectories using Plotly.
+
+Connecting physical parameters (mass, damping, and stiffness) to live calculations and visualizations.
+
+Implementing a "Predict, then check" interactive exercise.
+
+Reviewing the implementation against the assignment requirements, identifying missing features, and fixing issues.
+
+Testing numerical accuracy, validating eigenvalues against transfer-function poles, and checking the production build.
+
+**What I learned:** I improved my understanding of second-order dynamic systems, including the relationship between mass, damping, stiffness, natural frequency, and damping ratio. I learned how underdamped, critically damped, overdamped, and undamped systems behave differently.
+
+I also gained practical knowledge of calculating step-response characteristics such as rise time, peak time, percentage overshoot, and settling time. Additionally, I strengthened my understanding of transfer-function poles, state-space representation, eigenvalues, and phase-plane trajectories.
+
+From the software engineering perspective, I learned how to structure a React and TypeScript feature, separate domain calculations from UI components, connect state to interactive charts, validate numerical results, and integrate a new module into an existing application.
+
+**How I used it:** I used AI as a development and review assistant while remaining involved in the implementation decisions and testing process.
+
+I first used it to break the requirements into manageable implementation phases and establish a structure consistent with the existing modules. I then used an AI coding assistant to help implement the domain calculations, interactive controls, charts, state-space analysis, and prediction exercise.
+
+After implementation, I reviewed the generated code and used AI assistance to identify and fix issues found during the requirements audit. I also tested the application by changing the physical parameters and observing how the response curves, damping regime, metrics, and pole locations changed.
+
+Finally, I verified the numerical benchmark results, checked the prediction interaction, ran the TypeScript and production build checks, and used Git to commit and push the completed changes.
 
 ### Rahaf - Module 4: Sensor Challenge
 
