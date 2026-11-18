@@ -5,7 +5,6 @@ export function PIDModelOverview() {
     return (
         <section id="model" className="scroll-mt-24 space-y-3">
             <div className="flex items-center gap-2">
-                <span className="text-primary text-sm font-semibold">01</span>
                 <h2 className="text-xl font-semibold">Feedback control model</h2>
             </div>
             <p className="text-muted-foreground text-sm leading-6">
