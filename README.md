@@ -17,13 +17,13 @@ An interactive toolkit for exploring the dynamic characteristics of first-order 
 
 - [Project Overview](#project-overview)
 - [Interactive Modules](#interactive-modules)
-  - [1. First-Order Time Response](#1-first-order-time-response)
-  - [2. First-Order Frequency Response](#2-first-order-frequency-response)
-  - [3. Second-Order System Response](#3-second-order-system-response)
-  - [4. Guess the Sensor Challenge](#4-guess-the-sensor-challenge)
-  - [5. Superposition Simulator](#5-superposition-simulator)
-  - [6. Pole Explorer](#6-pole-explorer)
-  - [7. Numerical ODE Solver](#7-numerical-ode-solver)
+    - [1. First-Order Time Response](#1-first-order-time-response)
+    - [2. First-Order Frequency Response](#2-first-order-frequency-response)
+    - [3. Second-Order System Response](#3-second-order-system-response)
+    - [4. Guess the Sensor Challenge](#4-guess-the-sensor-challenge)
+    - [5. Superposition Simulator](#5-superposition-simulator)
+    - [6. Pole Explorer](#6-pole-explorer)
+    - [7. Numerical ODE Solver](#7-numerical-ode-solver)
 - [Technology Stack](#technology-stack)
 - [Project Architecture](#project-architecture)
 - [Getting Started](#getting-started)
@@ -109,6 +109,7 @@ These characteristic points help illustrate how quickly a first-order system app
 ![Module 1](screenshots/Module-1/1-3.png)
 ![Module 1](screenshots/Module-1/1-4.png)
 ![Module 1](screenshots/Module-1/1-5.png)
+
 ### 2. First-Order Frequency Response
 
 **Developed by:** Yazeed
@@ -341,7 +342,6 @@ $$
 
 This demonstrates how a first-order sensor attenuates and delays different frequency components by different amounts.
 
-
 **Screenshots**
 
 ![Module 5](screenshots/Module-6/6-1.png)
@@ -406,7 +406,6 @@ $$
 $$
 
 The module illustrates that pole locations determine important characteristics of a system's dynamic behavior and stability.
-
 
 **Screenshots**
 
@@ -494,21 +493,21 @@ The module allows users to investigate how the integration method and time-step 
 
 The application is built using a modern React and TypeScript frontend architecture.
 
-| Technology | Purpose |
-|---|---|
-| HTML5 | Application entry point and document structure |
-| React | Component-based user interface |
-| TypeScript | Static typing and maintainable application logic |
-| Vite | Development server and production build tooling |
-| Tailwind CSS 4 | Utility-first styling and responsive layouts |
-| CSS | Global styles and application-wide design foundations |
-| Base UI | Accessible, unstyled UI primitives |
-| shadcn-style components | Reusable and customizable interface components |
-| Plotly | Interactive plots and data visualization |
-| KaTeX | Mathematical equation rendering |
-| React Router | Client-side navigation between modules |
-| Lucide React | Interface icons |
-| React Icons | Additional icon resources |
+| Technology              | Purpose                                               |
+| ----------------------- | ----------------------------------------------------- |
+| HTML5                   | Application entry point and document structure        |
+| React                   | Component-based user interface                        |
+| TypeScript              | Static typing and maintainable application logic      |
+| Vite                    | Development server and production build tooling       |
+| Tailwind CSS 4          | Utility-first styling and responsive layouts          |
+| CSS                     | Global styles and application-wide design foundations |
+| Base UI                 | Accessible, unstyled UI primitives                    |
+| shadcn-style components | Reusable and customizable interface components        |
+| Plotly                  | Interactive plots and data visualization              |
+| KaTeX                   | Mathematical equation rendering                       |
+| React Router            | Client-side navigation between modules                |
+| Lucide React            | Interface icons                                       |
+| React Icons             | Additional icon resources                             |
 
 Dependencies and their versions are managed through `package.json`.
 
@@ -529,15 +528,15 @@ The main design principles are:
 
 The application provides separate routes for the interactive modules:
 
-| Route | Module |
-|---|---|
-| `/time-response` | First-Order Time Response |
+| Route                 | Module                         |
+| --------------------- | ------------------------------ |
+| `/time-response`      | First-Order Time Response      |
 | `/frequency-response` | First-Order Frequency Response |
-| `/second-order` | Second-Order System Response |
-| `/sensor-challenge` | Guess the Sensor Challenge |
-| `/superposition` | Superposition Simulator |
-| `/pole-explorer` | Pole Explorer |
-| `/numerical-ode` | Numerical ODE Solver |
+| `/second-order`       | Second-Order System Response   |
+| `/sensor-challenge`   | Guess the Sensor Challenge     |
+| `/superposition`      | Superposition Simulator        |
+| `/pole-explorer`      | Pole Explorer                  |
+| `/numerical-ode`      | Numerical ODE Solver           |
 
 The root route (`/`) serves as the application landing page.
 
@@ -605,16 +604,16 @@ npm run preview
 
 The following reference calculations provide useful checks for verifying the mathematical behavior of the toolkit.
 
-| # | Test case | Expected result |
-|---|---|---|
-| 1 | First-order step response at \(t=\tau\) | \(y(\tau)\approx0.632KA\) |
-| 2 | First-order step response at \(t=3\tau\) | \(y(3\tau)\approx0.950KA\) |
-| 3 | \(\tau=0.2\,s\), \(\omega=2\,rad/s\), normalized gain | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
-| 4 | Maximum time constant for a 100 Hz input with 5% normalized amplitude error | \(\tau_{max}\approx0.52\,ms\) |
-| 5 | Phase lag at 50 Hz using the maximum time constant above | \(\approx9.3^\circ\) |
-| 6 | Second-order system with \(\zeta=0.5\) | Overshoot \(\approx16.3\%\) |
-| 7 | Second-order system with \(\zeta=1\) | No overshoot |
-| 8 | Mass-spring-damper system with \(m=1\), \(b=2\), \(k=4\) | Eigenvalues \(=-1\pm j1.732\) |
+| #   | Test case                                                                   | Expected result                                   |
+| --- | --------------------------------------------------------------------------- | ------------------------------------------------- |
+| 1   | First-order step response at \(t=\tau\)                                     | \(y(\tau)\approx0.632KA\)                         |
+| 2   | First-order step response at \(t=3\tau\)                                    | \(y(3\tau)\approx0.950KA\)                        |
+| 3   | \(\tau=0.2\,s\), \(\omega=2\,rad/s\), normalized gain                       | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
+| 4   | Maximum time constant for a 100 Hz input with 5% normalized amplitude error | \(\tau_{max}\approx0.52\,ms\)                     |
+| 5   | Phase lag at 50 Hz using the maximum time constant above                    | \(\approx9.3^\circ\)                              |
+| 6   | Second-order system with \(\zeta=0.5\)                                      | Overshoot \(\approx16.3\%\)                       |
+| 7   | Second-order system with \(\zeta=1\)                                        | No overshoot                                      |
+| 8   | Mass-spring-damper system with \(m=1\), \(b=2\), \(k=4\)                    | Eigenvalues \(=-1\pm j1.732\)                     |
 
 These values are reference checks for the corresponding theoretical models and are useful when evaluating simulation results.
 
@@ -622,12 +621,12 @@ These values are reference checks for the corresponding theoretical models and a
 
 ## Team Contributions
 
-| Team member | Main contributions |
-|---|---|
-| Amjad Adi | First-Order Time Response; Pole Explorer |
-| Yazeed | First-Order Frequency Response; Superposition Simulator |
-| Hanan | Second-Order System Response; README documentation and project finalization |
-| Rahaf | Guess the Sensor Challenge; Numerical ODE Solver |
+| Team member | Main contributions                                                          |
+| ----------- | --------------------------------------------------------------------------- |
+| Amjad Adi   | First-Order Time Response; Pole Explorer                                    |
+| Yazeed      | First-Order Frequency Response; Superposition Simulator                     |
+| Hanan       | Second-Order System Response; README documentation and project finalization |
+| Rahaf       | Guess the Sensor Challenge; Numerical ODE Solver                            |
 
 Each team member contributed to the development and integration of the application, with responsibilities distributed across the interactive modules and project documentation.
 

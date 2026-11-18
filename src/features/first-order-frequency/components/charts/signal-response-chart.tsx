@@ -1,7 +1,7 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme.ts';
+import { ThemedPlot } from '@/components/shared/themed-plot';
+
 import { generateSignalResponse } from '@/features/first-order-frequency/domain/first-order-frequency.ts';
 
 interface SignalResponseChartProps {
@@ -10,7 +10,6 @@ interface SignalResponseChartProps {
 }
 
 export function SignalResponseChart({ tau, omega }: SignalResponseChartProps) {
-    const theme = useChartTheme();
     const points = generateSignalResponse(tau, omega);
 
     const traces: Data[] = [
@@ -38,36 +37,22 @@ export function SignalResponseChart({ tau, omega }: SignalResponseChartProps) {
         margin: { l: 55, r: 20, t: 20, b: 65 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 11,
-        },
         xaxis: {
             title: { text: 'Time (s)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis: {
             title: { text: 'Amplitude' },
             range: [-1.15, 1.15],
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         legend: { orientation: 'h', y: -0.25 },
         hovermode: 'x unified',
     };
 
     return (
-        <div className="h-[330px] min-h-[330px] w-full min-w-0">
-            <Plot
-                data={traces}
-                layout={layout}
-                config={{ responsive: true, displaylogo: false }}
-                style={{ width: '100%', height: '100%' }}
-            />
-        </div>
+        <ThemedPlot
+            data={traces}
+            layout={layout}
+            className="h-[330px] min-h-[330px] w-full min-w-0"
+        />
     );
 }

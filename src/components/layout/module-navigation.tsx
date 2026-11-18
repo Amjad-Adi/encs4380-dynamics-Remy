@@ -10,10 +10,7 @@ export function ModuleNavigation() {
 
     return (
         <TooltipProvider>
-            <nav
-                aria-label="Toolkit navigation"
-                className="border-b border-border bg-card"
-            >
+            <nav aria-label="Toolkit navigation" className="border-border bg-card border-b">
                 <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-center gap-x-1 px-4 sm:px-6 lg:px-8">
                     {MODULES.map((module) => {
                         const Icon = module.icon;
@@ -25,7 +22,7 @@ export function ModuleNavigation() {
                                         render={
                                             <div
                                                 aria-disabled="true"
-                                                className="flex cursor-not-allowed items-center gap-2 border-b-2 border-transparent px-3 py-3 text-sm text-muted-foreground/60"
+                                                className="text-muted-foreground/60 flex cursor-not-allowed items-center gap-2 border-b-2 border-transparent px-3 py-3 text-sm"
                                             >
                                                 <Icon size={16} />
 
@@ -37,16 +34,14 @@ export function ModuleNavigation() {
                                                     {module.label}
                                                 </span>
 
-                                                <span className="hidden rounded-full bg-muted px-2 py-0.5 text-[10px] sm:inline">
+                                                <span className="bg-muted hidden rounded-full px-2 py-0.5 text-[10px] sm:inline">
                                                     Soon
                                                 </span>
                                             </div>
                                         }
                                     />
 
-                                    <TooltipContent>
-                                        This module is coming soon.
-                                    </TooltipContent>
+                                    <TooltipContent>This module is coming soon.</TooltipContent>
                                 </Tooltip>
                             );
                         }
@@ -61,15 +56,13 @@ export function ModuleNavigation() {
                                         'flex items-center gap-2 border-b-2 px-3 py-3 text-sm whitespace-nowrap transition-colors',
                                         isActive
                                             ? 'border-brand text-foreground font-semibold'
-                                            : 'border-transparent text-muted-foreground hover:text-foreground',
+                                            : 'text-muted-foreground hover:text-foreground border-transparent',
                                     ].join(' ')
                                 }
                             >
                                 <Icon size={16} />
 
-                                <span className="font-mono text-xs">
-                                    {module.number}
-                                </span>
+                                <span className="font-mono text-xs">{module.number}</span>
 
                                 <span>{module.label}</span>
                             </NavLink>

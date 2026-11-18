@@ -1,7 +1,7 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme.ts';
+import { ThemedPlot } from '@/components/shared/themed-plot';
+
 import {
     generateBodeResponse,
     getFrequencyResponse,
@@ -13,7 +13,6 @@ interface BodeResponseChartProps {
 }
 
 export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
-    const theme = useChartTheme();
     const points = generateBodeResponse(tau);
     const selected = getFrequencyResponse(tau, omega);
     const cutoff = 1 / tau;
@@ -21,8 +20,6 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
     const commonXAxis = {
         type: 'log' as const,
         title: { text: 'Angular frequency ω (rad/s)' },
-        gridcolor: theme.grid,
-        color: theme.muted,
         showgrid: true,
     };
 
@@ -86,11 +83,6 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
         margin: { l: 58, r: 18, t: 25, b: 65 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 10,
-        },
         xaxis: commonXAxis,
         hovermode: 'closest',
         showlegend: false,
@@ -100,9 +92,6 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
         ...baseLayout,
         yaxis: {
             title: { text: 'Magnitude (dB)' },
-            gridcolor: theme.grid,
-            color: theme.muted,
-            zerolinecolor: theme.grid,
         },
         shapes: [
             {
@@ -119,7 +108,7 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
                 x1: cutoff * 100,
                 y0: -3.0103,
                 y1: -3.0103,
-                line: { color: theme.grid, dash: 'dot', width: 1 },
+                line: { color: 'var(--border)', dash: 'dot', width: 1 },
             },
         ],
     };
@@ -129,9 +118,6 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
         yaxis: {
             title: { text: 'Phase (degrees)' },
             range: [-95, 5],
-            gridcolor: theme.grid,
-            color: theme.muted,
-            zerolinecolor: theme.grid,
         },
         shapes: [
             {
@@ -148,7 +134,7 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
                 x1: cutoff * 100,
                 y0: -45,
                 y1: -45,
-                line: { color: theme.grid, dash: 'dot', width: 1 },
+                line: { color: 'var(--border)', dash: 'dot', width: 1 },
             },
         ],
     };
@@ -159,25 +145,19 @@ export function BodeResponseChart({ tau, omega }: BodeResponseChartProps) {
                 <p className="text-muted-foreground mb-1 text-xs font-semibold">
                     Magnitude response
                 </p>
-                <div className="h-[330px] min-h-[330px] w-full min-w-0">
-                    <Plot
-                        data={magnitudeData}
-                        layout={magnitudeLayout}
-                        config={{ responsive: true, displaylogo: false }}
-                        style={{ width: '100%', height: '100%' }}
-                    />
-                </div>
+                <ThemedPlot
+                    data={magnitudeData}
+                    layout={magnitudeLayout}
+                    className="h-[330px] min-h-[330px] w-full min-w-0"
+                />
             </div>
             <div className="min-w-0">
                 <p className="text-muted-foreground mb-1 text-xs font-semibold">Phase response</p>
-                <div className="h-[330px] min-h-[330px] w-full min-w-0">
-                    <Plot
-                        data={phaseData}
-                        layout={phaseLayout}
-                        config={{ responsive: true, displaylogo: false }}
-                        style={{ width: '100%', height: '100%' }}
-                    />
-                </div>
+                <ThemedPlot
+                    data={phaseData}
+                    layout={phaseLayout}
+                    className="h-[330px] min-h-[330px] w-full min-w-0"
+                />
             </div>
         </div>
     );

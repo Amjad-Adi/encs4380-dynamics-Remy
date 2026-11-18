@@ -2,13 +2,7 @@ import { useState } from 'react';
 import { Activity, CheckCircle2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type {
     NumericalErrorMetrics,
     NumericalOdeParameters,
@@ -30,9 +24,7 @@ function getMoreAccurateMethod(
     euler: NumericalErrorMetrics,
     rk4: NumericalErrorMetrics,
 ): NumericalMethod | null {
-    if (
-        Math.abs(euler.rootMeanSquareError - rk4.rootMeanSquareError) <= 1e-12
-    ) {
+    if (Math.abs(euler.rootMeanSquareError - rk4.rootMeanSquareError) <= 1e-12) {
         return null;
     }
     return euler.rootMeanSquareError < rk4.rootMeanSquareError ? 'euler' : 'rk4';
@@ -56,11 +48,11 @@ export function AccuracyPredictionExercise({
                     <CardTitle className="text-base">Predict, then check</CardTitle>
                 </div>
                 <CardDescription>
-                    For the current system and step size, predict which method has
-                    the lower RMSE compared with the analytical response.
-                    {' '}K = {parameters.gain.toFixed(2)}, τ = {parameters.timeConstant.toFixed(2)} s,
-                    {' '}A = {parameters.amplitude.toFixed(2)}, Δt = {parameters.stepSize.toFixed(2)} s,
-                    {' '}duration = {parameters.duration.toFixed(2)} s.
+                    For the current system and step size, predict which method has the lower RMSE
+                    compared with the analytical response. K = {parameters.gain.toFixed(2)}, τ ={' '}
+                    {parameters.timeConstant.toFixed(2)} s, A = {parameters.amplitude.toFixed(2)},
+                    Δt = {parameters.stepSize.toFixed(2)} s, duration ={' '}
+                    {parameters.duration.toFixed(2)} s.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
@@ -80,7 +72,7 @@ export function AccuracyPredictionExercise({
                                 }}
                                 className={[
                                     'rounded-lg border px-3 py-2.5 text-left text-sm transition-colors',
-                                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                                    'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
                                     prediction === value
                                         ? 'border-brand bg-accent text-accent-foreground'
                                         : 'border-border hover:bg-muted',
@@ -102,16 +94,14 @@ export function AccuracyPredictionExercise({
 
                 {checked && (
                     <div
-                        className="space-y-3 rounded-lg border border-border bg-muted/40 p-4"
+                        className="border-border bg-muted/40 space-y-3 rounded-lg border p-4"
                         role="status"
                     >
                         <div className="flex items-center gap-2 text-sm font-medium">
                             <CheckCircle2
                                 size={17}
                                 className={
-                                    predictionIsCorrect
-                                        ? 'text-success'
-                                        : 'text-muted-foreground'
+                                    predictionIsCorrect ? 'text-success' : 'text-muted-foreground'
                                 }
                             />
                             {actual === null
@@ -120,21 +110,21 @@ export function AccuracyPredictionExercise({
                                   ? 'Correct prediction.'
                                   : 'Not quite; compare the errors below.'}
                         </div>
-                        <p className="text-sm leading-6 text-muted-foreground">
+                        <p className="text-muted-foreground text-sm leading-6">
                             {actual === null
                                 ? 'The methods are equally accurate by RMSE at the sampled timestamps.'
                                 : `${actual === 'euler' ? "Euler's method" : 'Fourth-order Runge–Kutta'} has the lower RMSE (${(actual === 'euler' ? eulerError.rootMeanSquareError : rk4Error.rootMeanSquareError).toExponential(3)}). RMSE measures the typical error over all shared sample times; compare maximum and final-time errors as well, since those describe peak error and error at the endpoint.`}
                         </p>
                         <div className="grid gap-2 text-xs sm:grid-cols-2">
-                            <p className="rounded-md bg-background p-3">
-                                <span className="font-semibold">Euler:</span>{' '}
-                                RMSE {eulerError.rootMeanSquareError.toExponential(3)}
+                            <p className="bg-background rounded-md p-3">
+                                <span className="font-semibold">Euler:</span> RMSE{' '}
+                                {eulerError.rootMeanSquareError.toExponential(3)}
                                 {' · '}max {eulerError.maximumAbsoluteError.toExponential(3)}
                                 {' · '}final {eulerError.finalTimeAbsoluteError.toExponential(3)}
                             </p>
-                            <p className="rounded-md bg-background p-3">
-                                <span className="font-semibold">RK4:</span>{' '}
-                                RMSE {rk4Error.rootMeanSquareError.toExponential(3)}
+                            <p className="bg-background rounded-md p-3">
+                                <span className="font-semibold">RK4:</span> RMSE{' '}
+                                {rk4Error.rootMeanSquareError.toExponential(3)}
                                 {' · '}max {rk4Error.maximumAbsoluteError.toExponential(3)}
                                 {' · '}final {rk4Error.finalTimeAbsoluteError.toExponential(3)}
                             </p>
