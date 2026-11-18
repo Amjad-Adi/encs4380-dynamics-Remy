@@ -1,7 +1,7 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme';
+import { ThemedPlot } from '@/components/shared/themed-plot';
+
 import {
     getSensorResponse,
     type SensorChallenge,
@@ -15,7 +15,6 @@ interface SensorResponseChartProps {
 }
 
 export function SensorResponseChart({ challenge, estimate, revealed }: SensorResponseChartProps) {
-    const theme = useChartTheme();
     const times = challenge.samples.map((sample) => sample.time);
     const data: Data[] = [
         {
@@ -59,40 +58,21 @@ export function SensorResponseChart({ challenge, estimate, revealed }: SensorRes
         margin: { l: 58, r: 24, t: 20, b: 62 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 11,
-        },
         xaxis: {
             title: { text: 'Time (s)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis: {
             title: { text: 'Normalized output' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         legend: { orientation: 'h', y: -0.24 },
         hovermode: 'x unified',
     };
 
     return (
-        <div className="h-[360px] min-h-[360px] w-full min-w-0">
-            <Plot
-                data={data}
-                layout={layout}
-                config={{
-                    responsive: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
-                }}
-                style={{ width: '100%', height: '100%' }}
-                useResizeHandler
-            />
-        </div>
+        <ThemedPlot
+            data={data}
+            layout={layout}
+            className="h-[360px] min-h-[360px] w-full min-w-0"
+        />
     );
 }

@@ -2,13 +2,7 @@ import { RotateCcw } from 'lucide-react';
 
 import { ParameterControl } from '@/components/shared/parameter-control';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 import type { NumericalOdeParameters } from '@/features/numerical-ode/domain/numerical-ode';
@@ -47,8 +41,8 @@ export function NumericalOdeControls({
                     </Button>
                 </div>
                 <CardDescription>
-                    Adjust the system, integration interval, and method. Results
-                    recalculate immediately.
+                    Adjust the system, integration interval, and method. Results recalculate
+                    immediately.
                 </CardDescription>
             </CardHeader>
 
@@ -60,7 +54,7 @@ export function NumericalOdeControls({
                     min={0.1}
                     max={5}
                     step={0.1}
-                    unit="—"
+                    unit="-"
                     description="System sensitivity"
                     onChange={(value) => onParameterChange('gain', value)}
                 />
@@ -117,10 +111,12 @@ export function NumericalOdeControls({
                 <fieldset className="space-y-3">
                     <legend className="text-sm font-medium">Numerical method</legend>
                     <div className="grid grid-cols-2 gap-2">
-                        {([
-                            ['euler', "Euler's method"],
-                            ['rk4', 'Fourth-order RK'],
-                        ] as const).map(([value, label]) => (
+                        {(
+                            [
+                                ['euler', "Euler's method"],
+                                ['rk4', 'Fourth-order RK'],
+                            ] as const
+                        ).map(([value, label]) => (
                             <Button
                                 key={value}
                                 type="button"
@@ -134,19 +130,22 @@ export function NumericalOdeControls({
                     </div>
                 </fieldset>
 
-                <div className="rounded-lg bg-muted/60 p-3" aria-live="polite">
+                <div className="bg-muted/60 rounded-lg p-3" aria-live="polite">
                     <p className="text-xs font-semibold">Current experiment</p>
                     <p className="mt-2 font-mono text-sm">
-                        K = {parameters.gain.toFixed(2)} · τ = {parameters.timeConstant.toFixed(2)} s
+                        K = {parameters.gain.toFixed(2)} · τ = {parameters.timeConstant.toFixed(2)}{' '}
+                        s
                     </p>
                     <p className="font-mono text-sm">
-                        A = {parameters.amplitude.toFixed(2)} · Δt = {parameters.stepSize.toFixed(2)} s
+                        A = {parameters.amplitude.toFixed(2)} · Δt ={' '}
+                        {parameters.stepSize.toFixed(2)} s
                     </p>
                     <p className="font-mono text-sm">
                         Duration = {parameters.duration.toFixed(2)} s
                     </p>
                     <p className="mt-2 text-sm font-medium">
-                        Selected: {method === 'euler' ? "Euler's method" : 'Fourth-order Runge–Kutta'}
+                        Selected:{' '}
+                        {method === 'euler' ? "Euler's method" : 'Fourth-order Runge–Kutta'}
                     </p>
                 </div>
             </CardContent>

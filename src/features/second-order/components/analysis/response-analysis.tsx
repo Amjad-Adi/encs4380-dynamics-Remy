@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { PoleChart } from '../charts/pole-chart';
 import { StepResponseChart } from '../charts/step-response-chart';
 import {
-    type DampingRegime, getDampingRegime,
+    type DampingRegime,
+    getDampingRegime,
     type PhysicalParameters,
     type ResponseMetrics,
 } from '@/features/second-order/domain';

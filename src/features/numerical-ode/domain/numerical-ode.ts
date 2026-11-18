@@ -25,10 +25,7 @@ export interface NumericalErrorMetrics {
 }
 
 export type EulerStabilityKind =
-    | 'stable'
-    | 'damped-oscillation'
-    | 'marginal-oscillation'
-    | 'unstable';
+    'stable' | 'damped-oscillation' | 'marginal-oscillation' | 'unstable';
 
 export interface EulerStabilityAssessment {
     kind: EulerStabilityKind;
@@ -74,8 +71,7 @@ export function rk4Step(
     stepSize: number,
     parameters: FirstOrderSystemParameters,
 ): number {
-    const derivative = (t: number, y: number) =>
-        firstOrderStepDerivative(t, y, parameters);
+    const derivative = (t: number, y: number) => firstOrderStepDerivative(t, y, parameters);
     const k1 = derivative(time, output);
     const k2 = derivative(time + stepSize / 2, output + (stepSize * k1) / 2);
     const k3 = derivative(time + stepSize / 2, output + (stepSize * k2) / 2);
@@ -152,9 +148,7 @@ export function calculateErrorMetrics(
     return {
         maximumAbsoluteError,
         rootMeanSquareError: Math.sqrt(sumSquaredError / points.length),
-        finalTimeAbsoluteError: Math.abs(
-            finalPoint[method] - finalPoint.analytical,
-        ),
+        finalTimeAbsoluteError: Math.abs(finalPoint[method] - finalPoint.analytical),
     };
 }
 
@@ -177,19 +171,12 @@ export function generateNumericalOdeComparison(
     let rk4 = 0;
 
     while (time < parameters.duration) {
-        const step = Math.min(
-            parameters.stepSize,
-            parameters.duration - time,
-        );
-        const nextTime = time + step >= parameters.duration
-            ? parameters.duration
-            : time + step;
+        const step = Math.min(parameters.stepSize, parameters.duration - time);
+        const nextTime = time + step >= parameters.duration ? parameters.duration : time + step;
         const actualStep = nextTime - time;
 
         if (actualStep <= 0) {
-            throw new RangeError(
-                'The step size is too small to advance the current time value.',
-            );
+            throw new RangeError('The step size is too small to advance the current time value.');
         }
 
         euler = eulerStep(time, euler, actualStep, parameters);

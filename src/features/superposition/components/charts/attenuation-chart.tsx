@@ -1,7 +1,6 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme';
+import { ThemedPlot } from '@/components/shared/themed-plot';
 import {
     getComponentColor,
     getComponentResponse,
@@ -21,13 +20,12 @@ interface AttenuationChartProps {
 }
 
 export function AttenuationChart({ components, sensor }: AttenuationChartProps) {
-    const theme = useChartTheme();
-
     // Sweep the full component frequency range on a logarithmic axis.
     const minLog = Math.log10(MIN_OMEGA);
     const maxLog = Math.log10(MAX_OMEGA);
     const curve = Array.from({ length: CURVE_SAMPLES }, (_, index) => {
         const omega = 10 ** (minLog + (index / (CURVE_SAMPLES - 1)) * (maxLog - minLog));
+
         return {
             omega,
             ...getComponentResponse({ id: 0, amplitude: 1, omega, phase: 0 }, sensor),
@@ -84,30 +82,16 @@ export function AttenuationChart({ components, sensor }: AttenuationChartProps) 
     ];
 
     const layout: Partial<Layout> = {
-        autosize: true,
         height: 340,
         margin: { l: 60, r: 60, t: 20, b: 65 },
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 11,
-        },
         xaxis: {
             title: { text: 'Angular frequency ω (rad/s)' },
             type: 'log',
             range: [minLog, Math.log10(25)],
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis: {
             title: { text: 'Amplitude ratio M' },
             range: [0, 1.05],
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis2: {
             title: { text: 'Phase lag φ (°)' },
@@ -117,7 +101,6 @@ export function AttenuationChart({ components, sensor }: AttenuationChartProps) 
             tick0: 0,
             dtick: 15,
             showgrid: false,
-            color: theme.muted,
         },
         shapes:
             cutoff >= MIN_OMEGA && cutoff <= MAX_OMEGA
@@ -130,7 +113,11 @@ export function AttenuationChart({ components, sensor }: AttenuationChartProps) 
                           x1: cutoff,
                           y0: 0,
                           y1: 1,
-                          line: { color: theme.muted, dash: 'dash', width: 1 },
+                          line: {
+                              color: 'var(--chart-axis)',
+                              dash: 'dash',
+                              width: 1,
+                          },
                       },
                   ]
                 : [],
@@ -138,19 +125,5 @@ export function AttenuationChart({ components, sensor }: AttenuationChartProps) 
         hovermode: 'closest',
     };
 
-    return (
-        <div className="h-[340px] min-h-[340px] w-full min-w-0">
-            <Plot
-                data={data}
-                layout={layout}
-                config={{
-                    responsive: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
-                }}
-                style={{ width: '100%', height: '100%' }}
-                useResizeHandler
-            />
-        </div>
-    );
+    return <ThemedPlot data={data} layout={layout} className="h-[340px] min-h-[340px]" />;
 }

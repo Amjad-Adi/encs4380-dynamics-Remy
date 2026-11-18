@@ -1,7 +1,7 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme.ts';
+import { ThemedPlot } from '@/components/shared/themed-plot';
+
 import { generateErrorFractionData } from '@/features/first-order-time/domain/first-order-time.ts';
 
 interface ErrorFractionChartProps {
@@ -10,7 +10,6 @@ interface ErrorFractionChartProps {
 
 export function ErrorFractionChart({ tau }: ErrorFractionChartProps) {
     const points = generateErrorFractionData(tau);
-    const theme = useChartTheme();
 
     const traces: Data[] = [
         {
@@ -39,23 +38,13 @@ export function ErrorFractionChart({ tau }: ErrorFractionChartProps) {
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
 
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 12,
-        },
-
         xaxis: {
             title: { text: 'Time (s)' },
-            gridcolor: theme.grid,
-            color: theme.muted,
         },
 
         yaxis: {
             title: { text: 'Error fraction' },
             type: 'log',
-            gridcolor: theme.grid,
-            color: theme.muted,
         },
 
         annotations: [
@@ -67,7 +56,6 @@ export function ErrorFractionChart({ tau }: ErrorFractionChartProps) {
                 bgcolor: 'rgba(214,93,103,0.10)',
                 borderpad: 5,
                 font: {
-                    color: theme.foreground,
                     size: 10,
                 },
             },
@@ -75,20 +63,10 @@ export function ErrorFractionChart({ tau }: ErrorFractionChartProps) {
     };
 
     return (
-        <div className="h-[300px] min-h-[300px] w-full min-w-0">
-            <Plot
-                data={traces}
-                layout={layout}
-                config={{
-                    responsive: true,
-                    displaylogo: false,
-                }}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                }}
-                useResizeHandler
-            />
-        </div>
+        <ThemedPlot
+            data={traces}
+            layout={layout}
+            className="h-[300px] min-h-[300px] w-full min-w-0"
+        />
     );
 }

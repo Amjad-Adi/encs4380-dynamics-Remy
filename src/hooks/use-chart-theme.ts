@@ -5,6 +5,9 @@ interface ChartTheme {
     muted: string;
     grid: string;
     background: string;
+    popover: string;
+    popoverForeground: string;
+    border: string;
 }
 
 function readChartTheme(): ChartTheme {
@@ -15,6 +18,9 @@ function readChartTheme(): ChartTheme {
         muted: styles.getPropertyValue('--muted-foreground').trim(),
         grid: styles.getPropertyValue('--border').trim(),
         background: styles.getPropertyValue('--background').trim(),
+        popover: styles.getPropertyValue('--popover').trim(),
+        popoverForeground: styles.getPropertyValue('--popover-foreground').trim(),
+        border: styles.getPropertyValue('--border').trim(),
     };
 }
 
