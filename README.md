@@ -118,8 +118,6 @@ $$
 
 ![Module 2 – Screenshot 6](screenshots/2-6.png)
 
-
-
 ### Module 3 - Second-Order System Response
 
 **Developer: Hanan**
@@ -156,8 +154,6 @@ $$
 
 ![Module 3 – Screenshot 6](screenshots/6.png)
 
-
-
 ### Module 4 - Guess the Sensor Challenge
 
 **Developer: Rahaf**
@@ -182,8 +178,6 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 
 ![Module 4 – Screenshot 4](screenshots/4-3.png)
 
-
-
 ### Bonus — Numerical ODE Solver
 
 The standalone Bonus tool compares numerical integration of a first-order system with its analytical step response. For a system with transfer function
@@ -207,7 +201,7 @@ $$
 The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
 
 - **Euler's method** advances the output by
-  
+
 $$
 y_{n+1} = y_n + \Delta t \cdot f(t_n, y_n)
 $$
@@ -217,17 +211,18 @@ where
 $$
 f(t,y) = \frac{KA-y}{\tau}
 $$
+
 - **Fourth-order Runge–Kutta (RK4)** combines four derivative evaluations per step (at the start, two midpoint estimates, and the end) in a weighted average. It is generally more accurate than Euler for the tested step sizes.
 
 The controls adjust:
 
-| Parameter | Meaning |
-|---|---|
-| $K$ | System gain |
-| $\tau$ | System time constant, in seconds |
-| $A$ | Step-input amplitude |
-| $\Delta t$ | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
-| Simulation duration | End time of the integration, in seconds |
+| Parameter           | Meaning                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| $K$                 | System gain                                                                                                        |
+| $\tau$              | System time constant, in seconds                                                                                   |
+| $A$                 | Step-input amplitude                                                                                               |
+| $\Delta t$          | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
+| Simulation duration | End time of the integration, in seconds                                                                            |
 
 Error metrics compare each numerical result with the analytical response at every shared sampled time:
 
@@ -264,7 +259,6 @@ npm run build
 ```
 
 There is no dedicated automated test script configured in `package.json`; the build is the repository's available automated project check.
-
 
 ---
 
@@ -361,9 +355,9 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 **AI tool:** Claude Opus
 
-**What I asked:** I provided it with the backend code in python and it develop the needed UI for it. 
+**What I asked:** I provided it with the backend code in python and it develop the needed UI for it.
 
-**What I learned:** It used a known UI lib streamlit in python. I have been able to see and understand how the backend could be translated into UI graphs. 
+**What I learned:** It used a known UI lib streamlit in python. I have been able to see and understand how the backend could be translated into UI graphs.
 
 **How I used it:** AI assisted with the Streamlit user interface, including the interactive controls, layout, plots, and presentation of results.
 
@@ -423,16 +417,16 @@ An AI coding assistant supported the development process for this standalone fea
 
 The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
 
-| # | Validation case | Expected result |
-|---|---|---|
-| 1 | First-order step response at $t = \tau$ | $y(\tau) = 0.632KA$ |
-| 2 | First-order step response at $t = 3\tau$ | $y(3\tau) = 0.95KA$ |
-| 3 | Frequency response, $\tau = 0.2\,s$, $\omega = 2\,rad/s$ | $M \approx 0.93$, phase lag $\approx 21.8^\circ$ |
-| 4 | Maximum time constant for 100 Hz signals with 5% dynamic error | $\tau_{\max} \approx 0.52\,ms$ |
-| 5 | Phase lag at 50 Hz using the maximum time constant | $\approx 9.3^\circ$ |
-| 6 | Second-order response with $\zeta = 0.5$ | Overshoot $\approx 16.3\%$ |
-| 7 | Second-order response with $\zeta = 1$ | No overshoot |
-| 8 | State-space model, $m = 1,\ b = 2,\ k = 4$ | Eigenvalues $-1 \pm j1.732$, matching the poles |
+| #   | Validation case                                                | Expected result                                  |
+| --- | -------------------------------------------------------------- | ------------------------------------------------ |
+| 1   | First-order step response at $t = \tau$                        | $y(\tau) = 0.632KA$                              |
+| 2   | First-order step response at $t = 3\tau$                       | $y(3\tau) = 0.95KA$                              |
+| 3   | Frequency response, $\tau = 0.2\,s$, $\omega = 2\,rad/s$       | $M \approx 0.93$, phase lag $\approx 21.8^\circ$ |
+| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | $\tau_{\max} \approx 0.52\,ms$                   |
+| 5   | Phase lag at 50 Hz using the maximum time constant             | $\approx 9.3^\circ$                              |
+| 6   | Second-order response with $\zeta = 0.5$                       | Overshoot $\approx 16.3\%$                       |
+| 7   | Second-order response with $\zeta = 1$                         | No overshoot                                     |
+| 8   | State-space model, $m = 1,\ b = 2,\ k = 4$                     | Eigenvalues $-1 \pm j1.732$, matching the poles  |
 
 The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
 
@@ -444,13 +438,12 @@ The validation results are presented within the relevant modules, allowing users
 
 The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
 
-| Team Member | GitHub Username | Contribution History |
-|---|---|---|
-| Hanan | [7enno](https://github.com/7enno) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=7enno) |
-| Amjad Adi | [Amjad-Adi](https://github.com/Amjad-Adi) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=Amjad-Adi) |
-| Rahaf | [rahafalqam](https://github.com/rahafalqam) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=rahafalqam) |
-| Yazeed | [yazeedalhaddad](https://github.com/yazeedalhaddad) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=yazeedalhaddad) |
-
+| Team Member | GitHub Username                                     | Contribution History                                                                                    |
+| ----------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Hanan       | [7enno](https://github.com/7enno)                   | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=7enno)          |
+| Amjad Adi   | [Amjad-Adi](https://github.com/Amjad-Adi)           | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=Amjad-Adi)      |
+| Rahaf       | [rahafalqam](https://github.com/rahafalqam)         | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=rahafalqam)     |
+| Yazeed      | [yazeedalhaddad](https://github.com/yazeedalhaddad) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=yazeedalhaddad) |
 
 Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
 

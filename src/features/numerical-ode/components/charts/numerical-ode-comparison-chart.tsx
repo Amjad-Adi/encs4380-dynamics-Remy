@@ -1,7 +1,7 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme';
+import { ThemedPlot } from '@/components/shared/themed-plot';
+
 import type { NumericalOdePoint } from '@/features/numerical-ode/domain/numerical-ode';
 import type { NumericalMethod } from '../controls/numerical-ode-controls';
 
@@ -19,7 +19,6 @@ export function NumericalOdeComparisonChart({
     points,
     selectedMethod,
 }: NumericalOdeComparisonChartProps) {
-    const theme = useChartTheme();
     const inactiveMethod = selectedMethod === 'euler' ? 'rk4' : 'euler';
 
     const traces: Data[] = [
@@ -52,40 +51,21 @@ export function NumericalOdeComparisonChart({
         margin: { l: 65, r: 25, t: 25, b: 65 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 12,
-        },
         xaxis: {
             title: { text: 'Time (s)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis: {
             title: { text: 'Output y(t)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         legend: { orientation: 'h', y: -0.22 },
         hovermode: 'x unified',
     };
 
     return (
-        <div className="h-[420px] min-h-[420px] w-full min-w-0">
-            <Plot
-                data={traces}
-                layout={layout}
-                config={{
-                    responsive: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
-                }}
-                style={{ width: '100%', height: '100%' }}
-                useResizeHandler
-            />
-        </div>
+        <ThemedPlot
+            data={traces}
+            layout={layout}
+            className="h-[420px] min-h-[420px] w-full min-w-0"
+        />
     );
 }

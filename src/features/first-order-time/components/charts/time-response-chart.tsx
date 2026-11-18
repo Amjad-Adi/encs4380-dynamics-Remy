@@ -1,7 +1,6 @@
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme.ts';
+import { ThemedPlot } from '@/components/shared/themed-plot';
 
 import {
     generateTimeResponse,
@@ -19,8 +18,6 @@ const FRACTION_AT_TAU = 0.6321205588;
 const FRACTION_AT_THREE_TAU = 0.9502129316;
 
 export function TimeResponseChart({ parameters, inputType, duration }: TimeResponseChartProps) {
-    const theme = useChartTheme();
-
     const { gain, tau, amplitude } = parameters;
     const finalValue = gain * amplitude;
 
@@ -108,24 +105,12 @@ export function TimeResponseChart({ parameters, inputType, duration }: TimeRespo
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
 
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 12,
-        },
-
         xaxis: {
             title: { text: 'Time (s)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
 
         yaxis: {
             title: { text: 'Amplitude' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
 
         legend: {
@@ -214,21 +199,10 @@ export function TimeResponseChart({ parameters, inputType, duration }: TimeRespo
                 : [],
     };
     return (
-        <div className="h-[390px] min-h-[390px] w-full min-w-0">
-            <Plot
-                data={traces}
-                layout={layout}
-                config={{
-                    responsive: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
-                }}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                }}
-                useResizeHandler
-            />
-        </div>
+        <ThemedPlot
+            data={traces}
+            layout={layout}
+            className="h-[390px] min-h-[390px] w-full min-w-0"
+        />
     );
 }

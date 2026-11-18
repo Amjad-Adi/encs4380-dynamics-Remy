@@ -6,7 +6,8 @@ import { Slider } from '@/components/ui/slider';
 
 interface ParameterControlProps {
     id: string;
-    label: string;
+    label: ReactNode;
+    ariaLabel?: string;
     value: number;
     min: number;
     max: number;
@@ -19,6 +20,7 @@ interface ParameterControlProps {
 export function ParameterControl({
     id,
     label,
+    ariaLabel,
     value,
     min,
     max,
@@ -52,7 +54,7 @@ export function ParameterControl({
                         step={step}
                         onChange={(event) => updateValue(Number(event.target.value))}
                         className="h-8 w-24 text-right font-mono text-sm"
-                        aria-label={`${label} value`}
+                        aria-label={`${ariaLabel ?? (typeof label === 'string' ? label : id)} value`}
                     />
 
                     <span className="text-muted-foreground w-12 text-xs">{unit}</span>
@@ -69,7 +71,7 @@ export function ParameterControl({
                     updateValue(typeof values === 'number' ? values : values[0])
                 }
                 className="w-full cursor-pointer"
-                aria-label={label}
+                aria-label={ariaLabel ?? (typeof label === 'string' ? label : id)}
             />
 
             <div className="text-muted-foreground grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 text-xs">

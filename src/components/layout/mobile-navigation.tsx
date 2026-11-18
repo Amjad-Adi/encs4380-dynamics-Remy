@@ -24,7 +24,7 @@ import { SECOND_ORDER_SECTIONS } from '@/features/second-order/components/page/s
 import { NUMERICAL_ODE_SECTIONS } from '@/features/numerical-ode/components/page/numerical-ode-sections';
 import { SENSOR_CHALLENGE_SECTIONS } from '@/features/sensor-challenge/components/page/sensor-challenge-sections';
 import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page/pole-explorer-sections';
-import {SUPERPOSITION_SECTIONS} from "@/features/superposition/components/page/superposition-sections.ts";
+import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
@@ -188,9 +188,7 @@ export function MobileNavigation() {
 
                         <SidebarGroup>
                             <div className="mb-2 flex items-center justify-between">
-                                <SidebarGroupLabel>
-                                    Page sections
-                                </SidebarGroupLabel>
+                                <SidebarGroupLabel>Page sections</SidebarGroupLabel>
 
                                 <span className="text-sidebar-foreground/50 px-2 text-[10px]">
                                     {String(

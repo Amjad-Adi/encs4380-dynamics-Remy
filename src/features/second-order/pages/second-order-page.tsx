@@ -72,8 +72,8 @@ export default function SecondOrderPage() {
                     title="Second-order response and state-space"
                     description="Explore how mass, damping, and stiffness shape a physical system’s step response, poles, state-space representation, and phase-plane trajectory."
                     nextModule={{
-                        to: '/frequency-response',
-                        label: '← Return to Module 02: First-order frequency response',
+                        to: '/sensor-challenge',
+                        label: 'Continue to Module 04: Guess the sensor →',
                     }}
                     onReset={resetExperiment}
                 />

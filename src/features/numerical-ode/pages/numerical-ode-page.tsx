@@ -6,13 +6,7 @@ import { ModuleFooter } from '@/components/modules/module-footer';
 import { SectionHeading } from '@/components/modules/section-heading';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedChallengeSection } from '@/components/modules/sections/challenge-section';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Reveal } from '@/components/ui/reveal';
 import { useIsMobile } from '@/hooks/use-is-mobile';
 
@@ -44,10 +38,7 @@ export default function NumericalOdePage() {
     const [method, setMethod] = useState<NumericalMethod>('euler');
     const [predictionResetKey, setPredictionResetKey] = useState(0);
 
-    const comparison = useMemo(
-        () => generateNumericalOdeComparison(parameters),
-        [parameters],
-    );
+    const comparison = useMemo(() => generateNumericalOdeComparison(parameters), [parameters]);
 
     function updateParameter(key: keyof NumericalOdeParameters, value: number) {
         if (!Number.isFinite(value)) return;
@@ -71,11 +62,15 @@ export default function NumericalOdePage() {
         >
             <Reveal>
                 <ModuleHeader
-                    moduleNumber="ODE"
+                    moduleNumber="07"
                     systemType="Numerical methods"
                     title="Numerical ODE Solver"
                     description="Compare Euler’s method and fourth-order Runge–Kutta with the analytical step response of a first-order system. Adjust the parameters and observe the numerical solutions update in real time."
                     onReset={resetExperiment}
+                    nextModule={{
+                        to: '/pid-playground',
+                        label: 'Continue to Module 08: PID Control Playground →',
+                    }}
                 />
             </Reveal>
 
@@ -87,13 +82,10 @@ export default function NumericalOdePage() {
 
             <Reveal>
                 <section id="experiment" className="scroll-mt-24 space-y-3">
-                    <SectionHeading
-                        title="Interactive experiment"
-                        icon={Calculator}
-                    />
-                    <p className="text-sm leading-6 text-muted-foreground">
-                        Choose a solver and tune the system and integration settings.
-                        Both numerical solutions remain visible in the comparison.
+                    <SectionHeading title="Interactive experiment" icon={Calculator} />
+                    <p className="text-muted-foreground text-sm leading-6">
+                        Choose a solver and tune the system and integration settings. Both numerical
+                        solutions remain visible in the comparison.
                     </p>
                     <NumericalOdeControls
                         parameters={parameters}
@@ -107,10 +99,7 @@ export default function NumericalOdePage() {
 
             <Reveal>
                 <section id="comparison" className="scroll-mt-24 space-y-3">
-                    <SectionHeading
-                        title="Solution comparison"
-                        icon={Activity}
-                    />
+                    <SectionHeading title="Solution comparison" icon={Activity} />
 
                     <Card className="min-w-0 overflow-hidden">
                         <CardHeader>
@@ -120,8 +109,8 @@ export default function NumericalOdePage() {
                                         Numerical and analytical response
                                     </CardTitle>
                                     <CardDescription className="mt-1">
-                                        The selected method is emphasized; all three
-                                        solutions are shown at shared time points.
+                                        The selected method is emphasized; all three solutions are
+                                        shown at shared time points.
                                     </CardDescription>
                                 </div>
                                 <Badge>
@@ -148,22 +137,16 @@ export default function NumericalOdePage() {
                     >
                         <CardContent className="flex items-start gap-3 pt-5">
                             {isEulerStable ? (
-                                <CheckCircle2
-                                    size={19}
-                                    className="mt-0.5 shrink-0 text-success"
-                                />
+                                <CheckCircle2 size={19} className="text-success mt-0.5 shrink-0" />
                             ) : (
-                                <AlertTriangle
-                                    size={19}
-                                    className="mt-0.5 shrink-0 text-warning"
-                                />
+                                <AlertTriangle size={19} className="text-warning mt-0.5 shrink-0" />
                             )}
                             <div className="space-y-1">
                                 <p className="text-sm font-semibold">
                                     Euler: {stability.kind.replaceAll('-', ' ')}
                                     {' · '}Δt/τ = {stability.stepRatio.toFixed(3)}
                                 </p>
-                                <p className="text-sm leading-6 text-muted-foreground">
+                                <p className="text-muted-foreground text-sm leading-6">
                                     {stability.explanation}
                                 </p>
                             </div>
@@ -183,9 +166,7 @@ export default function NumericalOdePage() {
             </Reveal>
 
             <Reveal>
-                <SharedChallengeSection
-                    description="Use the current simulation settings to predict which numerical method will have the lower overall error before revealing the measured comparison."
-                >
+                <SharedChallengeSection description="Use the current simulation settings to predict which numerical method will have the lower overall error before revealing the measured comparison.">
                     <AccuracyPredictionExercise
                         key={[
                             predictionResetKey,

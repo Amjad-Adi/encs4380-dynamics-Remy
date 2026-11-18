@@ -1,4 +1,13 @@
-import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch, Sigma, Calculator } from 'lucide-react';
+import {
+    Activity,
+    AudioWaveform,
+    Crosshair,
+    Gauge,
+    ScanSearch,
+    Sigma,
+    Calculator,
+    SlidersHorizontal,
+} from 'lucide-react';
 
 export const MODULES = [
     {
@@ -45,9 +54,16 @@ export const MODULES = [
     },
     {
         number: '07',
-        label: 'Numerical ODE Solver',
+        label: 'Numerical ODE solver',
         path: 'numerical-ode',
         icon: Calculator,
+        available: true,
+    },
+    {
+        number: '08',
+        label: 'PID control playground',
+        path: 'pid-playground',
+        icon: SlidersHorizontal,
         available: true,
     },
 ];

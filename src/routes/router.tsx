@@ -5,10 +5,11 @@ import FirstOrderTimePage from '@/features/first-order-time/pages/first-order-ti
 import FirstOrderFrequencyPage from '@/features/first-order-frequency/pages/first-order-frequency-page';
 import SecondOrderPage from '@/features/second-order/pages/second-order-page';
 import NumericalOdePage from '@/features/numerical-ode/pages/numerical-ode-page';
-import NotFoundPage from "@/app/pages/not-found-page.tsx";
+import NotFoundPage from '@/app/pages/not-found-page.tsx';
 import SensorChallengePage from '@/features/sensor-challenge/pages/sensor-challenge-page.tsx';
 import PoleExplorerPage from '@/features/pole-explorer/pages/pole-explorer-page.tsx';
 import SuperpositionPage from '@/features/superposition/pages/superposition-page.tsx';
+import PIDPlaygroundPage from '@/features/pid-playground/pages/pid-playground-page';
 
 export const router = createBrowserRouter(
     [
@@ -47,6 +48,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'superposition',
                     element: <SuperpositionPage />,
+                },
+                {
+                    path: 'pid-playground',
+                    element: <PIDPlaygroundPage />,
                 },
                 {
                     path: '*',
