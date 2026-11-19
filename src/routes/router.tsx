@@ -9,7 +9,6 @@ import NotFoundPage from '@/app/pages/not-found-page.tsx';
 import SensorChallengePage from '@/features/sensor-challenge/pages/sensor-challenge-page.tsx';
 import PoleExplorerPage from '@/features/pole-explorer/pages/pole-explorer-page.tsx';
 import SuperpositionPage from '@/features/superposition/pages/superposition-page.tsx';
-import SlowSensorPIDPage from '@/features/slow-sensor-pid/pages/slow-sensor-pid-page.tsx';
 import PIDPlaygroundPage from '@/features/pid-playground/pages/pid-playground-page';
 
 export const router = createBrowserRouter(
@@ -53,10 +52,6 @@ export const router = createBrowserRouter(
                 {
                     path: 'pid-playground',
                     element: <PIDPlaygroundPage />,
-                },
-                {
-                    path: 'slow-sensor-pid',
-                    element: <SlowSensorPIDPage />,
                 },
                 {
                     path: '*',
