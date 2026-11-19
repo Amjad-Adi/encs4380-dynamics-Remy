@@ -6,7 +6,8 @@ import {
     ScanSearch,
     Sigma,
     Calculator,
-    SlidersHorizontal, Timer,
+    SlidersHorizontal,
+    Timer,
 } from 'lucide-react';
 
 export const MODULES = [

@@ -1,20 +1,15 @@
-
 import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
 import { useChartTheme } from '@/hooks/use-chart-theme.ts';
 
-import type {
-    SlowSensorPIDResponsePoint,
-} from '../../domain/slow-sensor-pid.ts';
+import type { SlowSensorPIDResponsePoint } from '../../domain/slow-sensor-pid.ts';
 
 interface SensorFeedbackChartProps {
     points: SlowSensorPIDResponsePoint[];
 }
 
-export function SensorFeedbackChart({
-                                        points,
-                                    }: SensorFeedbackChartProps) {
+export function SensorFeedbackChart({ points }: SensorFeedbackChartProps) {
     const theme = useChartTheme();
 
     const traces: Data[] = [
@@ -52,6 +47,19 @@ export function SensorFeedbackChart({
                 width: 2.5,
             },
         },
+        {
+            x: points.map((point) => point.time),
+            y: points.map((point) => point.control),
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Controller command u(t)',
+            yaxis: 'y2',
+            line: {
+                color: '#a35bb5',
+                width: 1.8,
+                dash: 'dot',
+            },
+        },
     ];
 
     const layout: Partial<Layout> = {
@@ -60,9 +68,9 @@ export function SensorFeedbackChart({
 
         margin: {
             l: 65,
-            r: 25,
+            r: 75,
             t: 25,
-            b: 65,
+            b: 85,
         },
 
         paper_bgcolor: 'rgba(0,0,0,0)',
@@ -82,15 +90,24 @@ export function SensorFeedbackChart({
         },
 
         yaxis: {
-            title: { text: 'Output' },
+            title: { text: 'Plant output / sensor measurement' },
             gridcolor: theme.grid,
             zerolinecolor: theme.grid,
             color: theme.muted,
         },
 
+        yaxis2: {
+            title: { text: 'Controller command' },
+            overlaying: 'y',
+            side: 'right',
+            showgrid: false,
+            zeroline: false,
+            color: theme.muted,
+        },
+
         legend: {
             orientation: 'h',
-            y: -0.22,
+            y: -0.28,
         },
 
         hovermode: 'x unified',

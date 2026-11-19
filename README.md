@@ -142,8 +142,6 @@ $$
 
 ![Module 3 – Screenshot 6](screenshots/6.png)
 
-
-
 ### Module 4 - Guess the Sensor Challenge
 
 **Developer: Rahaf**
@@ -251,7 +249,7 @@ $$
 The live experiment integrates the differential equation from \(t=0\), displaying the analytical response and both numerical approximations at shared time points:
 
 - **Euler's method** advances the output by
-  
+
 $$
 y_{n+1} = y_n + \Delta t \cdot f(t_n, y_n)
 $$
@@ -261,17 +259,18 @@ where
 $$
 f(t,y) = \frac{KA-y}{\tau}
 $$
+
 - **Fourth-order Runge–Kutta (RK4)** combines four derivative evaluations per step (at the start, two midpoint estimates, and the end) in a weighted average. It is generally more accurate than Euler for the tested step sizes.
 
 The controls adjust:
 
-| Parameter | Meaning |
-|---|---|
-| \(K\) | System gain |
-| \(\tau\) | System time constant, in seconds |
-| \(A\) | Step-input amplitude |
-| \(\Delta t\) | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
-| Simulation duration | End time of the integration, in seconds |
+| Parameter           | Meaning                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| \(K\)               | System gain                                                                                                        |
+| \(\tau\)            | System time constant, in seconds                                                                                   |
+| \(A\)               | Step-input amplitude                                                                                               |
+| \(\Delta t\)        | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
+| Simulation duration | End time of the integration, in seconds                                                                            |
 
 Error metrics compare each numerical result with the analytical response at every shared sampled time:
 
@@ -308,7 +307,6 @@ npm run build
 ```
 
 There is no dedicated automated test script configured in `package.json`; the build is the repository's available automated project check.
-
 
 ---
 

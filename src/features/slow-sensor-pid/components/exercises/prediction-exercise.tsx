@@ -46,11 +46,8 @@ const OPTIONS: { value: Prediction; label: string }[] = [
     { value: 'same', label: 'Stay about the same' },
 ];
 
-export function PredictionExercise({
-    parameters,
-}: PredictionExerciseProps) {
-    const [answers, setAnswers] =
-        useState<Partial<Record<PredictionKey, Prediction>>>({});
+export function PredictionExercise({ parameters }: PredictionExerciseProps) {
+    const [answers, setAnswers] = useState<Partial<Record<PredictionKey, Prediction>>>({});
     const [checkedSignature, setCheckedSignature] = useState<string | null>(null);
 
     const signature = JSON.stringify(parameters);
@@ -91,14 +88,11 @@ export function PredictionExercise({
             <CardHeader>
                 <div className="flex items-center gap-2">
                     <Activity size={18} className="text-brand" />
-                    <CardTitle className="text-base">
-                        Predict, then check
-                    </CardTitle>
+                    <CardTitle className="text-base">Predict, then check</CardTitle>
                 </div>
                 <CardDescription>
-                    Predict what changes when the sensor time constant is
-                    doubled from the current value. Choose your answers before
-                    revealing the simulation comparison.
+                    Predict what changes when the sensor time constant is doubled from the current
+                    value. Choose your answers before revealing the simulation comparison.
                 </CardDescription>
             </CardHeader>
 
@@ -135,11 +129,7 @@ export function PredictionExercise({
                         <div className="flex items-center gap-2 text-sm font-medium">
                             <CheckCircle2
                                 size={17}
-                                className={
-                                    allCorrect
-                                        ? 'text-success'
-                                        : 'text-muted-foreground'
-                                }
+                                className={allCorrect ? 'text-success' : 'text-muted-foreground'}
                             />
                             {allCorrect
                                 ? 'All predictions are correct.'
@@ -225,8 +215,8 @@ function PredictionFeedback({
                 {label}: {correct ? 'Correct' : 'Not quite'}
             </p>
             <p className="text-muted-foreground leading-6">
-                Your answer: {formatPrediction(answer)}. Actual trend:{' '}
-                {formatPrediction(actual)}. {explanation}
+                Your answer: {formatPrediction(answer)}. Actual trend: {formatPrediction(actual)}.{' '}
+                {explanation}
             </p>
         </div>
     );
@@ -246,20 +236,11 @@ function compareResponses(
 ): Comparison {
     const baselinePeak = Math.max(...baseline.map((point) => point.trueOutput));
     const increasedPeak = Math.max(...increased.map((point) => point.trueOutput));
-    const baselineOscillation = getOscillationAmplitude(
-        baseline,
-        setpoint,
-    );
-    const increasedOscillation = getOscillationAmplitude(
-        increased,
-        setpoint,
-    );
+    const baselineOscillation = getOscillationAmplitude(baseline, setpoint);
+    const increasedOscillation = getOscillationAmplitude(increased, setpoint);
     const oscillation =
         baselineOscillation.sufficient && increasedOscillation.sufficient
-            ? trend(
-                increasedOscillation.amplitude,
-                baselineOscillation.amplitude,
-            )
+            ? trend(increasedOscillation.amplitude, baselineOscillation.amplitude)
             : null;
 
     return {
@@ -280,9 +261,7 @@ function getOscillationAmplitude(
     const firstCrossingIndex = points.findIndex(
         (point, index) =>
             index > 0 &&
-            (points[index - 1].trueOutput - setpoint) *
-                (point.trueOutput - setpoint) <=
-                0,
+            (points[index - 1].trueOutput - setpoint) * (point.trueOutput - setpoint) <= 0,
     );
 
     if (firstCrossingIndex < 0) {
@@ -297,10 +276,8 @@ function getOscillationAmplitude(
     const extrema: number[] = [];
 
     for (let index = firstCrossingIndex + 1; index < points.length - 1; index++) {
-        const previousChange =
-            points[index].trueOutput - points[index - 1].trueOutput;
-        const nextChange =
-            points[index + 1].trueOutput - points[index].trueOutput;
+        const previousChange = points[index].trueOutput - points[index - 1].trueOutput;
+        const nextChange = points[index + 1].trueOutput - points[index].trueOutput;
 
         if (previousChange * nextChange < 0) {
             extrema.push(points[index].trueOutput);
@@ -330,8 +307,8 @@ function getOscillationAmplitude(
         envelopeChange > envelopeTolerance
             ? 'growing'
             : envelopeChange < -envelopeTolerance
-                ? 'decaying'
-                : 'sustained';
+              ? 'decaying'
+              : 'sustained';
 
     return {
         amplitude: amplitude <= numericalTolerance ? 0 : amplitude,
@@ -349,10 +326,7 @@ function getOscillationExplanation(comparison: Comparison): string {
         return `Insufficient data to compare oscillation amplitude: the baseline has ${baseline.extremaCount} detected extrema and the increased-sensor-time-constant case has ${increased.extremaCount}. At least two extrema are required for a peak-to-peak measurement, so no increase or decrease is reported.`;
     }
 
-    if (
-        baseline.amplitude === 0 &&
-        increased.amplitude === 0
-    ) {
+    if (baseline.amplitude === 0 && increased.amplitude === 0) {
         return `At least two extrema were detected in both responses, but both peak-to-peak amplitudes are effectively zero (${baseline.amplitude.toFixed(3)} and ${increased.amplitude.toFixed(3)}). This is a measured zero-amplitude result, not insufficient data.`;
     }
 

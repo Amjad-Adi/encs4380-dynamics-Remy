@@ -26,6 +26,7 @@ import { SENSOR_CHALLENGE_SECTIONS } from '@/features/sensor-challenge/component
 import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page/pole-explorer-sections';
 import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
 import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
+import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
@@ -35,8 +36,9 @@ const MODULE_SECTIONS = {
     '/numerical-ode': NUMERICAL_ODE_SECTIONS,
     '/sensor-challenge': SENSOR_CHALLENGE_SECTIONS,
     '/pole-explorer': POLE_EXPLORER_SECTIONS,
-    '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
     '/superposition': SUPERPOSITION_SECTIONS,
+    '/pid-playground': PID_SECTIONS,
+    '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [
@@ -204,9 +206,7 @@ export function MobileNavigation() {
                                             }
                                         >
                                             <Calculator />
-                                            <span className="flex-1">
-                                                Numerical ODE Solver
-                                            </span>
+                                            <span className="flex-1">Numerical ODE Solver</span>
                                             {isActive && <Check className="ml-auto" />}
                                         </SidebarMenuButton>
                                     )}
@@ -223,9 +223,7 @@ export function MobileNavigation() {
 
                         <SidebarGroup>
                             <div className="mb-2 flex items-center justify-between">
-                                <SidebarGroupLabel>
-                                    Page sections
-                                </SidebarGroupLabel>
+                                <SidebarGroupLabel>Page sections</SidebarGroupLabel>
 
                                 <span className="text-sidebar-foreground/50 px-2 text-[10px]">
                                     {String(

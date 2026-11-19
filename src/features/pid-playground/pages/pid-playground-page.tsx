@@ -64,6 +64,10 @@ export default function PIDPlaygroundPage() {
                     title="PID control playground"
                     description="Explore how proportional, integral, and derivative control shape a closed-loop response. Compare first-order and second-order plants, inspect the actuator command, and tune the controller against live performance metrics."
                     onReset={resetExperiment}
+                    nextModule={{
+                        to: '/slow-sensor-pid',
+                        label: 'Continue to Module 09: Slow sensor in feedback loop →',
+                    }}
                 />
             </Reveal>
             <Reveal>
