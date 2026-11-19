@@ -6,7 +6,7 @@ import { SharedAnalysisSection } from '@/components/modules/sections/analysis-se
 import type { SlowSensorPIDResponsePoint } from '../../domain/slow-sensor-pid.ts';
 import { ControllerBehavior } from './controller-behavior.tsx';
 
-interface SlowSensorPIDMetricsProps {
+export interface SlowSensorPIDMetricsProps {
     overshoot: number;
     finalTrueOutput: number;
     finalMeasuredOutput: number;
@@ -15,12 +15,12 @@ interface SlowSensorPIDMetricsProps {
 }
 
 export function SlowSensorPIDMetrics({
-    overshoot,
-    finalTrueOutput,
-    finalMeasuredOutput,
-    maxTrueOutput,
-    crossingPoint,
-}: SlowSensorPIDMetricsProps) {
+                                         overshoot,
+                                         finalTrueOutput,
+                                         finalMeasuredOutput,
+                                         maxTrueOutput,
+                                         crossingPoint,
+                                     }: SlowSensorPIDMetricsProps) {
     return (
         <SharedAnalysisSection
             title="Closed-loop performance analysis"
@@ -35,18 +35,21 @@ export function SlowSensorPIDMetrics({
                     detail="Maximum plant output during the simulation"
                     icon={Waves}
                 />
+
                 <MetricCard
                     label="Overshoot"
                     value={`${overshoot.toFixed(2)}%`}
                     detail="Relative to the setpoint"
                     icon={Gauge}
                 />
+
                 <MetricCard
                     label="Final true output"
                     value={finalTrueOutput.toFixed(3)}
                     detail="Plant output at the end of the run"
                     icon={Activity}
                 />
+
                 <MetricCard
                     label="Final measured output"
                     value={finalMeasuredOutput.toFixed(3)}
