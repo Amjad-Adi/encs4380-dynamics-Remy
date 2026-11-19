@@ -1,4 +1,12 @@
-import { Activity, AudioWaveform, Crosshair, Gauge, ScanSearch, Sigma } from 'lucide-react';
+import {
+    Activity,
+    AudioWaveform,
+    Crosshair,
+    Gauge,
+    ScanSearch,
+    Sigma,
+    Timer,
+} from 'lucide-react';
 
 export const MODULES = [
     {
@@ -20,6 +28,13 @@ export const MODULES = [
         label: 'Second-order response',
         path: 'second-order',
         icon: Gauge,
+        available: true,
+    },
+    {
+        number: 'P2',
+        label: 'Slow sensor in feedback loop',
+        path: 'slow-sensor-pid',
+        icon: Timer,
         available: true,
     },
     {

@@ -163,6 +163,71 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 
 **Screenshots**
 
+### P2 - Slow Sensor in the Feedback Loop
+
+**Owner:** Hanan Yousef Mohammed Alawawda
+
+P2 investigates how a first-order sensor lag inside a feedback loop changes
+closed-loop PID behavior. The student compares the true plant output with the
+delayed measured sensor output while changing the sensor time constant and PID
+gains.
+
+The module supports both first-order and second-order plants. Its sensor model
+is:
+
+$$
+H_s(s)=\frac{1}{\tau_s s+1},
+\qquad
+\tau_s\frac{dy_m}{dt}=y-y_m
+$$
+
+The controller uses the measured output:
+
+$$
+e(t)=r(t)-y_m(t)
+$$
+
+and the controller signal is limited before it is applied to the plant. The
+plant and sensor states are integrated together with fourth-order Runge–Kutta
+(RK4). The interactive module includes:
+
+- Sensor time-constant and PID gain controls with safe validation.
+- True plant, measured sensor, and setpoint response plots on a shared time axis.
+- Minimum and maximum controller-output limits.
+- Performance analysis for peak output, direction-aware overshoot, and the
+  final true/measured output difference.
+- A Predict-then-Check activity covering sensor lag, overshoot, and oscillation.
+  Oscillation feedback compares peak-to-peak amplitude and reports insufficient
+  data when too few extrema are available.
+- Responsive desktop and mobile navigation.
+
+The final true/measured output difference is a sensor-lag measure at the final
+sample; it is not the steady-state tracking error. Increasing $\tau_s$ does
+not universally increase overshoot or oscillation, so the prediction activity
+evaluates the current simulation parameters rather than assuming a fixed trend.
+
+**Screenshots**
+
+**First-order response**
+
+![First-order plant response](screenshots/P2_1.png)
+
+**Second-order response**
+
+![Second-order plant response](screenshots/P2_2.png)
+
+**Performance analysis**
+
+![Performance analysis](screenshots/P2_3.png)
+
+**Predict-then-Check before checking**
+
+![Predict-then-Check before checking](screenshots/P2_4.png)
+
+**Predict-then-Check after checking**
+
+![Predict-then-Check after checking](screenshots/P2_5.png)
+
 ### Bonus — Numerical ODE Solver
 
 The standalone Bonus tool compares numerical integration of a first-order system with its analytical step response. For a system with transfer function

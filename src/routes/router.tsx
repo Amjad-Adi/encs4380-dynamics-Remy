@@ -1,6 +1,6 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { AppLayout } from '@/app/app-layout';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import FirstOrderTimePage from '@/features/first-order-time/pages/first-order-time-page.tsx';
 import FirstOrderFrequencyPage from '@/features/first-order-frequency/pages/first-order-frequency-page';
 import SecondOrderPage from '@/features/second-order/pages/second-order-page';
@@ -9,7 +9,7 @@ import NotFoundPage from "@/app/pages/not-found-page.tsx";
 import SensorChallengePage from '@/features/sensor-challenge/pages/sensor-challenge-page.tsx';
 import PoleExplorerPage from '@/features/pole-explorer/pages/pole-explorer-page.tsx';
 import SuperpositionPage from '@/features/superposition/pages/superposition-page.tsx';
-
+import SlowSensorPIDPage from '@/features/slow-sensor-pid/pages/slow-sensor-pid-page.tsx';
 export const router = createBrowserRouter(
     [
         {
@@ -31,6 +31,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'second-order',
                     element: <SecondOrderPage />,
+                },
+                {
+                    path: 'slow-sensor-pid',
+                    element: <SlowSensorPIDPage />,
                 },
                 {
                     path: 'numerical-ode',
