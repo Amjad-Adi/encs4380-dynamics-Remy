@@ -185,37 +185,6 @@ export function MobileNavigation() {
 
                 <SidebarSeparator />
 
-                <SidebarGroup>
-                    <SidebarGroupLabel>Bonus tools</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <NavLink
-                                    to="numerical-ode"
-                                    onClick={closeNavigation}
-                                    className="block"
-                                >
-                                    {({ isActive }) => (
-                                        <SidebarMenuButton
-                                            isActive={isActive}
-                                            size="lg"
-                                            className={
-                                                isActive
-                                                    ? ACTIVE_MODULE_BUTTON_CLASS
-                                                    : INACTIVE_MODULE_BUTTON_CLASS
-                                            }
-                                        >
-                                            <Calculator />
-                                            <span className="flex-1">Numerical ODE Solver</span>
-                                            {isActive && <Check className="ml-auto" />}
-                                        </SidebarMenuButton>
-                                    )}
-                                </NavLink>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
                 {/* Module Sections */}
                 {sections.length > 0 && (
                     <>
