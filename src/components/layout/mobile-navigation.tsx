@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Check, ChevronRight } from 'lucide-react';
+import { Calculator, Check, ChevronRight } from 'lucide-react';
 
 import {
     Sidebar,
@@ -25,6 +25,8 @@ import { NUMERICAL_ODE_SECTIONS } from '@/features/numerical-ode/components/page
 import { SENSOR_CHALLENGE_SECTIONS } from '@/features/sensor-challenge/components/page/sensor-challenge-sections';
 import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page/pole-explorer-sections';
 import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
+import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
+import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
@@ -35,6 +37,8 @@ const MODULE_SECTIONS = {
     '/sensor-challenge': SENSOR_CHALLENGE_SECTIONS,
     '/pole-explorer': POLE_EXPLORER_SECTIONS,
     '/superposition': SUPERPOSITION_SECTIONS,
+    '/pid-playground': PID_SECTIONS,
+    '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [
@@ -180,6 +184,37 @@ export function MobileNavigation() {
                 </SidebarGroup>
 
                 <SidebarSeparator />
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>Bonus tools</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <NavLink
+                                    to="numerical-ode"
+                                    onClick={closeNavigation}
+                                    className="block"
+                                >
+                                    {({ isActive }) => (
+                                        <SidebarMenuButton
+                                            isActive={isActive}
+                                            size="lg"
+                                            className={
+                                                isActive
+                                                    ? ACTIVE_MODULE_BUTTON_CLASS
+                                                    : INACTIVE_MODULE_BUTTON_CLASS
+                                            }
+                                        >
+                                            <Calculator />
+                                            <span className="flex-1">Numerical ODE Solver</span>
+                                            {isActive && <Check className="ml-auto" />}
+                                        </SidebarMenuButton>
+                                    )}
+                                </NavLink>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
 
                 {/* Module Sections */}
                 {sections.length > 0 && (

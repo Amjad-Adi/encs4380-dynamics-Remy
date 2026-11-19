@@ -73,7 +73,7 @@ export default function PoleExplorerPage() {
                     description="Drag poles around the complex s-plane and watch the damping ratio, natural frequency, stability, and unit step response update in real time."
                     nextModule={{
                         to: '/superposition',
-                        label: 'Return to Module 06: Superposition simulator →',
+                        label: 'Continue to Module 06: Superposition simulator →',
                     }}
                     onReset={resetExperiment}
                 />
