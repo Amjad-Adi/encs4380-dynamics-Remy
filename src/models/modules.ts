@@ -5,7 +5,8 @@ import {
     Gauge,
     ScanSearch,
     Sigma,
-    Timer,
+    Calculator,
+    SlidersHorizontal, Timer,
 } from 'lucide-react';
 
 export const MODULES = [
@@ -31,13 +32,6 @@ export const MODULES = [
         available: true,
     },
     {
-        number: 'P2',
-        label: 'Slow sensor in feedback loop',
-        path: 'slow-sensor-pid',
-        icon: Timer,
-        available: true,
-    },
-    {
         number: '04',
         label: 'Guess the sensor',
         path: 'sensor-challenge',
@@ -56,6 +50,27 @@ export const MODULES = [
         label: 'Superposition simulator',
         path: 'superposition',
         icon: Sigma,
+        available: true,
+    },
+    {
+        number: '07',
+        label: 'Numerical ODE solver',
+        path: 'numerical-ode',
+        icon: Calculator,
+        available: true,
+    },
+    {
+        number: '08',
+        label: 'PID control playground',
+        path: 'pid-playground',
+        icon: SlidersHorizontal,
+        available: true,
+    },
+    {
+        number: '09',
+        label: 'Slow sensor in feedback loop',
+        path: 'slow-sensor-pid',
+        icon: Timer,
         available: true,
     },
 ];

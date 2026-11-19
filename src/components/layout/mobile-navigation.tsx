@@ -24,6 +24,7 @@ import { SECOND_ORDER_SECTIONS } from '@/features/second-order/components/page/s
 import { NUMERICAL_ODE_SECTIONS } from '@/features/numerical-ode/components/page/numerical-ode-sections';
 import { SENSOR_CHALLENGE_SECTIONS } from '@/features/sensor-challenge/components/page/sensor-challenge-sections';
 import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page/pole-explorer-sections';
+import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
 import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
 
 const MODULE_SECTIONS = {
@@ -35,6 +36,7 @@ const MODULE_SECTIONS = {
     '/sensor-challenge': SENSOR_CHALLENGE_SECTIONS,
     '/pole-explorer': POLE_EXPLORER_SECTIONS,
     '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
+    '/superposition': SUPERPOSITION_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [

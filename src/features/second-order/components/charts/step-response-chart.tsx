@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import Plot from 'react-plotly.js';
 import type { Data, Layout } from 'plotly.js';
 
-import { useChartTheme } from '@/hooks/use-chart-theme';
+import { ThemedPlot } from '@/components/shared/themed-plot';
+
 import { generateStepResponse, type PhysicalParameters } from '@/features/second-order/domain';
 interface StepResponseChartProps {
     parameters: PhysicalParameters;
@@ -10,7 +10,6 @@ interface StepResponseChartProps {
 }
 
 export function StepResponseChart({ parameters, duration }: StepResponseChartProps) {
-    const theme = useChartTheme();
     const points = useMemo(
         () => generateStepResponse(parameters, duration),
         [parameters, duration],
@@ -44,22 +43,11 @@ export function StepResponseChart({ parameters, duration }: StepResponseChartPro
         margin: { l: 62, r: 62, t: 20, b: 62 },
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(0,0,0,0)',
-        font: {
-            family: 'Geist Variable, sans-serif',
-            color: theme.foreground,
-            size: 11,
-        },
         xaxis: {
             title: { text: 'Time (s)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis: {
             title: { text: 'Displacement x(t) (m)' },
-            gridcolor: theme.grid,
-            zerolinecolor: theme.grid,
-            color: theme.muted,
         },
         yaxis2: {
             title: { text: 'Normalized kx(t)' },
@@ -67,7 +55,6 @@ export function StepResponseChart({ parameters, duration }: StepResponseChartPro
             side: 'right',
             showgrid: false,
             zeroline: false,
-            color: theme.muted,
         },
         legend: { orientation: 'h', y: -0.24 },
         hovermode: 'x unified',
@@ -84,18 +71,10 @@ export function StepResponseChart({ parameters, duration }: StepResponseChartPro
     };
 
     return (
-        <div className="h-[350px] min-h-[350px] w-full min-w-0">
-            <Plot
-                data={data}
-                layout={layout}
-                config={{
-                    responsive: true,
-                    displaylogo: false,
-                    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
-                }}
-                style={{ width: '100%', height: '100%' }}
-                useResizeHandler
-            />
-        </div>
+        <ThemedPlot
+            data={data}
+            layout={layout}
+            className="h-[350px] min-h-[350px] w-full min-w-0"
+        />
     );
 }

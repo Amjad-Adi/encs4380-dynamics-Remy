@@ -1,6 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import { Calculator } from 'lucide-react';
-
 import { useIsMobile } from '@/hooks/use-is-mobile';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { MODULES } from '@/models/modules.ts';
@@ -12,11 +10,8 @@ export function ModuleNavigation() {
 
     return (
         <TooltipProvider>
-            <nav
-                aria-label="Toolkit navigation"
-                className="border-b border-border bg-card"
-            >
-                <div className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
+            <nav aria-label="Toolkit navigation" className="border-border bg-card border-b">
+                <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-center gap-x-1 px-4 sm:px-6 lg:px-8">
                     {MODULES.map((module) => {
                         const Icon = module.icon;
 
@@ -27,7 +22,7 @@ export function ModuleNavigation() {
                                         render={
                                             <div
                                                 aria-disabled="true"
-                                                className="text-muted-foreground/60 flex shrink-0 cursor-not-allowed items-center gap-2 border-b-2 border-transparent px-4 py-3 text-sm"
+                                                className="text-muted-foreground/60 flex cursor-not-allowed items-center gap-2 border-b-2 border-transparent px-3 py-3 text-sm"
                                             >
                                                 <Icon size={16} />
 
@@ -35,7 +30,9 @@ export function ModuleNavigation() {
                                                     {module.number}
                                                 </span>
 
-                                                <span>{module.label}</span>
+                                                <span className="whitespace-nowrap">
+                                                    {module.label}
+                                                </span>
 
                                                 <span className="bg-muted hidden rounded-full px-2 py-0.5 text-[10px] sm:inline">
                                                     Soon
@@ -56,7 +53,7 @@ export function ModuleNavigation() {
                                 end={module.path === '/'}
                                 className={({ isActive }) =>
                                     [
-                                        'flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm transition-colors',
+                                        'flex items-center gap-2 border-b-2 px-3 py-3 text-sm whitespace-nowrap transition-colors',
                                         isActive
                                             ? 'border-brand text-foreground font-semibold'
                                             : 'text-muted-foreground hover:text-foreground border-transparent',
@@ -71,21 +68,6 @@ export function ModuleNavigation() {
                             </NavLink>
                         );
                     })}
-                    <NavLink
-                        to="numerical-ode"
-                        className={({ isActive }) =>
-                            [
-                                'flex shrink-0 items-center gap-2 border-b-2 px-4 py-3 text-sm transition-colors',
-                                isActive
-                                    ? 'border-brand font-semibold text-foreground'
-                                    : 'border-transparent text-muted-foreground hover:text-foreground',
-                            ].join(' ')
-                        }
-                    >
-                        <Calculator size={16} />
-                        <span className="font-mono text-xs">BONUS</span>
-                        <span>Numerical ODE Solver</span>
-                    </NavLink>
                 </div>
             </nav>
         </TooltipProvider>

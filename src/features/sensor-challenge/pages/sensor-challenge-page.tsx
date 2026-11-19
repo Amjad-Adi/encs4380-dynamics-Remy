@@ -50,8 +50,8 @@ export default function SensorChallengePage() {
                     title="Guess the sensor"
                     description="Use a measured step response to identify a hidden sensor model and estimate its dynamic parameters. Build intuition for time constants, damping, natural frequency, and measurement noise."
                     nextModule={{
-                        to: '/second-order',
-                        label: '← Return to Module 03: Second-order response',
+                        to: '/pole-explorer',
+                        label: 'Continue to Module 05: Pole explorer →',
                     }}
                     onReset={resetSession}
                 />
