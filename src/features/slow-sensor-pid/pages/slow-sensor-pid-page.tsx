@@ -147,7 +147,7 @@ export default function SlowSensorPIDPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    moduleNumber="P2"
+                    moduleNumber="09"
                     systemType="PID control with sensor dynamics"
                     title="Slow sensor in the feedback loop"
                     description="Investigate how sensor lag affects closed-loop PID performance. Compare the true plant output with the delayed sensor measurement and observe how feedback delay can increase overshoot and cause oscillations."

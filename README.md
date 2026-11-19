@@ -161,11 +161,11 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 
 **Screenshots**
 
-### P2 - Slow Sensor in the Feedback Loop
+### 09 - Slow Sensor in the Feedback Loop
 
 **Owner:** Hanan Yousef Mohammed Alawawda
 
-P2 investigates how a first-order sensor lag inside a feedback loop changes
+09 investigates how a first-order sensor lag inside a feedback loop changes
 closed-loop PID behavior. The student compares the true plant output with the
 delayed measured sensor output while changing the sensor time constant and PID
 gains.
