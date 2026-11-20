@@ -16,157 +16,317 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <svg
-                    viewBox="0 0 960 360"
-                    className="text-foreground h-auto w-full min-w-0"
-                    role="img"
-                    aria-label="Closed loop PID control system diagram"
-                >
-                    <defs>
-                        <marker
-                            id="pid-arrow"
-                            viewBox="0 0 10 10"
-                            refX="9"
-                            refY="5"
-                            markerWidth="7"
-                            markerHeight="7"
-                            orient="auto-start-reverse"
-                        >
-                            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)" />
-                        </marker>
-                        <marker
-                            id="pid-feedback-arrow"
-                            viewBox="0 0 10 10"
-                            refX="9"
-                            refY="5"
-                            markerWidth="7"
-                            markerHeight="7"
-                            orient="auto"
-                        >
-                            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)" />
-                        </marker>
-                    </defs>
-
-                    <rect x="24" y="125" width="96" height="60" rx="8" fill="var(--muted)" stroke="var(--border)" />
-                    <text x="72" y="150" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
-                        Reference
-                    </text>
-                    <text x="72" y="171" textAnchor="middle" fill="currentColor" fontSize="16" fontWeight="600">
-                        r[k]
-                    </text>
-
-                    <line x1="120" y1="155" x2="178" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
-
-                    <circle cx="210" cy="155" r="32" fill="var(--card)" stroke="currentColor" strokeWidth="1.5" />
-                    <text x="210" y="149" textAnchor="middle" fill="currentColor" fontSize="18">
-                        +
-                    </text>
-                    <text x="210" y="171" textAnchor="middle" fill="currentColor" fontSize="18">
-                        −
-                    </text>
-
-                    <line x1="242" y1="155" x2="292" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
-                    <rect
-                        x="300"
-                        y="105"
-                        width="180"
-                        height="110"
-                        rx="8"
-                        fill="var(--muted)"
-                        stroke="var(--border)"
-                    />
-                    <text x="390" y="132" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
-                        PID Controller
-                    </text>
-                    <text x="390" y="158" textAnchor="middle" fill="currentColor" fontSize="13">
-                        Kp: {kp}
-                    </text>
-                    <text x="390" y="178" textAnchor="middle" fill="currentColor" fontSize="13">
-                        Ki: {ki}
-                    </text>
-                    <text x="390" y="198" textAnchor="middle" fill="currentColor" fontSize="13">
-                        Kd: {kd}
-                    </text>
-
-                    <line x1="480" y1="155" x2="530" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
-                    <rect x="538" y="125" width="82" height="60" rx="8" fill="var(--muted)" stroke="var(--border)" />
-                    <text x="579" y="150" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
-                        Actuator
-                    </text>
-                    <text x="579" y="171" textAnchor="middle" fill="currentColor" fontSize="13" fontWeight="600">
-                        Limiter
-                    </text>
-
-                    <line x1="620" y1="155" x2="668" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
-                    <rect
-                        x="676"
-                        y="115"
-                        width="140"
-                        height="80"
-                        rx="8"
-                        fill="var(--muted)"
-                        stroke="var(--border)"
-                    />
-                    <text x="746" y="150" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
-                        Plant
-                    </text>
-                    <text x="746" y="171" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
-                        G(z) / G(s)
-                    </text>
-
-                    <line x1="816" y1="155" x2="854" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
-                    <rect x="862" y="125" width="74" height="60" rx="8" fill="var(--muted)" stroke="var(--border)" />
-                    <text x="899" y="150" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
-                        Output
-                    </text>
-                    <text x="899" y="171" textAnchor="middle" fill="currentColor" fontSize="16" fontWeight="600">
-                        y[k]
-                    </text>
-
-                    <path
-                        d="M 899 185 L 899 278 L 210 278 L 210 187"
-                        fill="none"
-                        stroke="var(--muted-foreground)"
-                        strokeWidth="1.5"
-                        markerEnd="url(#pid-feedback-arrow)"
-                    />
-                    <path
-                        d="M 899 185 L 899 278 L 210 278 L 210 187"
-                        fill="none"
-                        stroke="var(--primary)"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeDasharray="8 10"
-                        opacity="0.7"
-                        markerEnd="url(#pid-feedback-arrow)"
+                <div className="w-full overflow-hidden">
+                    <svg
+                        viewBox="0 0 960 390"
+                        className="mx-auto h-auto w-full max-w-[960px] text-foreground"
+                        role="img"
+                        aria-label="Closed-loop digital PID control system diagram"
                     >
-                        <animate
-                            attributeName="stroke-dashoffset"
-                            from="18"
-                            to="0"
-                            dur="1.8s"
-                            repeatCount="indefinite"
+                        <defs>
+                            <marker
+                                id="pid-arrow"
+                                viewBox="0 0 10 10"
+                                refX="8.5"
+                                refY="5"
+                                markerWidth="5.5"
+                                markerHeight="5.5"
+                                orient="auto"
+                            >
+                                <path
+                                    d="M 0 1.2 L 9 5 L 0 8.8 L 2.2 5 z"
+                                    fill="currentColor"
+                                />
+                            </marker>
+                        </defs>
+
+                        {/* Reference input */}
+                        <text
+                            x="100"
+                            y="128"
+                            textAnchor="middle"
+                            className="fill-muted-foreground"
+                            fontSize="12"
+                        >
+                            Reference
+                        </text>
+                        <text
+                            x="100"
+                            y="151"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontFamily="serif"
+                            fontStyle="italic"
+                        >
+                            r[k]
+                        </text>
+                        <line
+                            x1="40"
+                            y1="165"
+                            x2="171"
+                            y2="165"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            markerEnd="url(#pid-arrow)"
                         />
-                    </path>
 
-                    <text x="242" y="137" fill="var(--muted-foreground)" fontSize="12">
-                        Error
-                    </text>
-                    <text
-                        x="480"
-                        y="306"
-                        textAnchor="middle"
-                        fill="currentColor"
-                        fontSize="15"
-                        fontFamily="monospace"
-                        fontWeight="600"
-                    >
-                        e[k] = r[k] - y[k]
-                    </text>
-                    <text x="480" y="328" textAnchor="middle" fill="var(--muted-foreground)" fontSize="11">
-                        Feedback · measured output
-                    </text>
-                </svg>
+                        {/* Summing junction */}
+                        <circle
+                            cx="200"
+                            cy="165"
+                            r="28"
+                            fill="var(--card)"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                        />
+                        <text x="185" y="170" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                            +
+                        </text>
+                        <text x="200" y="185" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                            −
+                        </text>
+
+                        {/* Error signal */}
+                        <line
+                            x1="228"
+                            y1="165"
+                            x2="299"
+                            y2="165"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            markerEnd="url(#pid-arrow)"
+                        />
+                        <text
+                            x="264"
+                            y="151"
+                            textAnchor="middle"
+                            className="fill-muted-foreground"
+                            fontSize="13"
+                            fontFamily="serif"
+                            fontStyle="italic"
+                        >
+                            e[k]
+                        </text>
+
+                        {/* PID controller */}
+                        <rect
+                            x="300"
+                            y="105"
+                            width="190"
+                            height="120"
+                            rx="10"
+                            fill="var(--primary)"
+                            fillOpacity="0.07"
+                            stroke="var(--primary)"
+                            strokeWidth="1.75"
+                        />
+                        <text x="395" y="129" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                            PID Controller
+                        </text>
+                        <line
+                            x1="314"
+                            y1="140"
+                            x2="476"
+                            y2="140"
+                            stroke="var(--primary)"
+                            strokeOpacity="0.3"
+                            strokeWidth="1"
+                        />
+                        <text x="395" y="164" textAnchor="middle" fill="currentColor" fontSize="12" fontFamily="serif">
+                            Kₚe[k] + KᵢΣe[k]Δt
+                        </text>
+                        <text x="395" y="190" textAnchor="middle" fill="currentColor" fontSize="12" fontFamily="serif">
+                            + Kd(e[k] − e[k−1]) / Δt
+                        </text>
+
+                        {/* Controller gains */}
+                        <text x="395" y="213" textAnchor="middle" fill="currentColor" fontSize="11">
+                            Kp: {kp}   ·   Ki: {ki}   ·   Kd: {kd}
+                        </text>
+
+                        {/* Controller output */}
+                        <line
+                            x1="490"
+                            y1="165"
+                            x2="554"
+                            y2="165"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            markerEnd="url(#pid-arrow)"
+                        />
+                        <text
+                            x="522"
+                            y="151"
+                            textAnchor="middle"
+                            className="fill-muted-foreground"
+                            fontSize="12"
+                            fontFamily="serif"
+                            fontStyle="italic"
+                        >
+                            u[k]
+                        </text>
+
+                        {/* Actuator limiter */}
+                        <rect
+                            x="555"
+                            y="115"
+                            width="115"
+                            height="100"
+                            rx="10"
+                            fill="var(--muted)"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                        />
+                        <text x="612.5" y="139" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                            Limiter
+                        </text>
+                        <line
+                            x1="569"
+                            y1="150"
+                            x2="656"
+                            y2="150"
+                            stroke="currentColor"
+                            strokeOpacity="0.2"
+                            strokeWidth="1"
+                        />
+                        <text x="612.5" y="181" textAnchor="middle" fill="currentColor" fontSize="12" fontFamily="serif">
+                            uₘₐₓ / uₘᵢₙ
+                        </text>
+
+                        {/* Limited actuator signal */}
+                        <line
+                            x1="670"
+                            y1="165"
+                            x2="719"
+                            y2="165"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            markerEnd="url(#pid-arrow)"
+                        />
+                        <text
+                            x="695"
+                            y="151"
+                            textAnchor="middle"
+                            className="fill-muted-foreground"
+                            fontSize="13"
+                            fontFamily="serif"
+                            fontStyle="italic"
+                        >
+                            u[k]
+                        </text>
+
+                        {/* Plant */}
+                        <rect
+                            x="720"
+                            y="110"
+                            width="150"
+                            height="110"
+                            rx="10"
+                            fill="var(--muted)"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                        />
+                        <text x="795" y="134" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                            Plant
+                        </text>
+                        <line
+                            x1="734"
+                            y1="145"
+                            x2="856"
+                            y2="145"
+                            stroke="currentColor"
+                            strokeOpacity="0.2"
+                            strokeWidth="1"
+                        />
+                        <text x="795" y="176" textAnchor="middle" fill="currentColor" fontSize="13" fontFamily="serif">
+                            G(z) / G(s)
+                        </text>
+
+                        {/* Plant output */}
+                        <line
+                            x1="870"
+                            y1="165"
+                            x2="935"
+                            y2="165"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            markerEnd="url(#pid-arrow)"
+                        />
+                        <text x="905" y="128" textAnchor="middle" className="fill-muted-foreground" fontSize="12">
+                            Output
+                        </text>
+                        <text
+                            x="905"
+                            y="151"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontFamily="serif"
+                            fontStyle="italic"
+                        >
+                            y[k]
+                        </text>
+                        <circle cx="900" cy="165" r="3.2" fill="currentColor" />
+
+                        {/* Unity negative feedback path */}
+                        <path
+                            d="M 900 165 V 293 Q 900 305 888 305 H 212 Q 200 305 200 293 V 194"
+                            stroke="currentColor"
+                            strokeWidth="1.75"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            fill="none"
+                            markerEnd="url(#pid-arrow)"
+                        />
+                        <rect
+                            x="445"
+                            y="289"
+                            width="210"
+                            height="32"
+                            rx="6"
+                            fill="var(--card)"
+                            stroke="var(--border)"
+                            strokeWidth="1"
+                        />
+                        <text
+                            x="550"
+                            y="309"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="12.5"
+                            fontFamily="serif"
+                        >
+                            Unity feedback: H(z) = 1
+                        </text>
+
+                        {/* Error equation */}
+                        <text
+                            x="480"
+                            y="352"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="14.5"
+                            fontFamily="serif"
+                        >
+                            e[k] = r[k] − y[k]
+                        </text>
+                        <text
+                            x="480"
+                            y="376"
+                            textAnchor="middle"
+                            className="fill-muted-foreground"
+                            fontSize="11.5"
+                        >
+                            Digital control · Actuator saturation
+                        </text>
+                    </svg>
+                </div>
             </CardContent>
         </Card>
     );
