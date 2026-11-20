@@ -27,6 +27,7 @@ import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page
 import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
 import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
 import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
+import { DIGITAL_PID_SECTIONS } from '@/features/digital-pid/components/page/digital-pid-sections';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
@@ -39,6 +40,7 @@ const MODULE_SECTIONS = {
     '/superposition': SUPERPOSITION_SECTIONS,
     '/pid-playground': PID_SECTIONS,
     '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
+    '/digital-pid': DIGITAL_PID_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [

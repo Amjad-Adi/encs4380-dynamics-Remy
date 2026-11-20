@@ -2,6 +2,18 @@ import type {
     PIDSimulationConfig,
     PlantModel,
 } from "../../domain/pid-types";
+import type * as React from "react";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 interface PIDControlsProps {
     config: PIDSimulationConfig;
@@ -60,192 +72,91 @@ export function PIDControls({ config, onChange }: PIDControlsProps) {
         });
     };
 
+    const numberControl = (
+        id: string,
+        label: string,
+        value: number,
+        onValueChange: (value: number) => void,
+        props: React.InputHTMLAttributes<HTMLInputElement> = {},
+    ) => (
+        <div className="space-y-2">
+            <Label htmlFor={id} className="text-sm font-medium">{label}</Label>
+            <Input
+                id={id}
+                type="number"
+                value={value}
+                onChange={(event) => onValueChange(Number(event.target.value))}
+                className="font-mono text-sm"
+                {...props}
+            />
+        </div>
+    );
+
     return (
-        <section className="pid-controls">
-            <h2>Digital PID Controller</h2>
-
-            <div className="control-group">
-                <label>Plant Type</label>
-                <select
-                    value={config.plant.type}
-                    onChange={(e) =>
-                        changePlantType(
-                            e.target.value as "first-order" | "second-order"
-                        )
-                    }
-                >
-                    <option value="first-order">First Order</option>
-                    <option value="second-order">Second Order</option>
-                </select>
-            </div>
-
-            <h3>PID Gains</h3>
-
-            <div className="control-group">
-                <label>Kp (Proportional)</label>
-                <input
-                    type="number"
-                    step="0.1"
-                    value={config.gains.kp}
-                    onChange={(e) => updateGains("kp", Number(e.target.value))}
-                />
-            </div>
-
-            <div className="control-group">
-                <label>Ki (Integral)</label>
-                <input
-                    type="number"
-                    step="0.1"
-                    value={config.gains.ki}
-                    onChange={(e) => updateGains("ki", Number(e.target.value))}
-                />
-            </div>
-
-            <div className="control-group">
-                <label>Kd (Derivative)</label>
-                <input
-                    type="number"
-                    step="0.1"
-                    value={config.gains.kd}
-                    onChange={(e) => updateGains("kd", Number(e.target.value))}
-                />
-            </div>
-
-            <h3>Plant Parameters</h3>
-
-            <div className="control-group">
-                <label>Plant Gain</label>
-                <input
-                    type="number"
-                    step="0.1"
-                    value={config.plant.gain}
-                    onChange={(e) =>
-                        updatePlant({ gain: Number(e.target.value) })                    }
-                />
-            </div>
-
-            {config.plant.type === "first-order" ? (
-                <div className="control-group">
-                    <label>Time Constant</label>
-                    <input
-                        type="number"
-                        min="0.01"
-                        step="0.1"
-                        value={config.plant.timeConstant}
-                        onChange={(e) =>
-                            updatePlant({ timeConstant: Number(e.target.value) })
+        <Card className="h-fit">
+            <CardHeader>
+                <CardTitle className="text-base">Controller and plant</CardTitle>
+                <CardDescription>Choose a plant, then tune the feedback controller.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-7">
+                <div className="space-y-2">
+                    <Label>Plant model</Label>
+                    <Select
+                        value={config.plant.type}
+                        onValueChange={(value) =>
+                            changePlantType(value as "first-order" | "second-order")
                         }
-                    />
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="first-order">First order</SelectItem>
+                            <SelectItem value="second-order">Second order</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
-            ) : (
-                <>
-                    <div className="control-group">
-                        <label>Natural Frequency</label>
-                        <input
-                            type="number"
-                            min="0.01"
-                            step="0.1"
-                            value={config.plant.naturalFrequency}
-                            onChange={(e) =>
-                                updatePlant({
-                                    naturalFrequency: Number(e.target.value),
-                                })
-                            }
-                        />
-                    </div>
 
-                    <div className="control-group">
-                        <label>Damping Ratio</label>
-                        <input
-                            type="number"
-                            min="0"
-                            step="0.1"
-                            value={config.plant.dampingRatio}
-                            onChange={(e) =>
-                                updatePlant({
-                                    dampingRatio: Number(e.target.value),
-                                })
-                            }
-                        />
-                    </div>
-                </>
-            )}
+                <div className="space-y-5 border-t pt-5">
+                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
+                        PID gains
+                    </p>
+                    {numberControl("pid-kp", "Kp (proportional)", config.gains.kp, (value) => updateGains("kp", value), { step: 0.1 })}
+                    {numberControl("pid-ki", "Ki (integral)", config.gains.ki, (value) => updateGains("ki", value), { step: 0.1 })}
+                    {numberControl("pid-kd", "Kd (derivative)", config.gains.kd, (value) => updateGains("kd", value), { step: 0.1 })}
+                </div>
 
-            <h3>Simulation Settings</h3>
-
-            <div className="control-group">
-                <label>Setpoint</label>
-                <input
-                    type="number"
-                    step="0.1"
-                    value={config.setpoint}
-                    onChange={(e) =>
-                        updateValue("setpoint", Number(e.target.value))
+                <div className="space-y-5 border-t pt-5">
+                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
+                        Plant parameters
+                    </p>
+                    {numberControl("pid-plant-gain", "Plant gain", config.plant.gain, (value) => updatePlant({ gain: value }), { step: 0.1 })}
+                    {config.plant.type === "first-order"
+                        ? numberControl("pid-time-constant", "Time constant", config.plant.timeConstant, (value) => updatePlant({ timeConstant: value }), { min: 0.01, step: 0.1 })
+                        : <>
+                            {numberControl("pid-natural-frequency", "Natural frequency", config.plant.naturalFrequency, (value) => updatePlant({ naturalFrequency: value }), { min: 0.01, step: 0.1 })}
+                            {numberControl("pid-damping-ratio", "Damping ratio", config.plant.dampingRatio, (value) => updatePlant({ dampingRatio: value }), { min: 0, step: 0.1 })}
+                        </>
                     }
-                />
-            </div>
+                </div>
 
-            <div className="control-group">
-                <label>Simulation Duration (seconds)</label>
-                <input
-                    type="number"
-                    min="0.1"
-                    step="0.5"
-                    value={config.duration}
-                    onChange={(e) =>
-                        updateValue("duration", Number(e.target.value))
-                    }
-                />
-            </div>
+                <div className="space-y-5 border-t pt-5">
+                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
+                        Simulation settings
+                    </p>
+                    {numberControl("pid-setpoint", "Setpoint", config.setpoint, (value) => updateValue("setpoint", value), { step: 0.1 })}
+                    {numberControl("pid-duration", "Duration (s)", config.duration, (value) => updateValue("duration", value), { min: 0.1, step: 0.5 })}
+                    {numberControl("pid-dt", "Time step dt (s)", config.dt, (value) => updateValue("dt", value), { min: 0.001, step: 0.01 })}
+                </div>
 
-            <div className="control-group">
-                <label>Time Step (dt)</label>
-                <input
-                    type="number"
-                    min="0.001"
-                    step="0.01"
-                    value={config.dt}
-                    onChange={(e) =>
-                        updateValue("dt", Number(e.target.value))
-                    }
-                />
-            </div>
-
-            <h3>Output Limits</h3>
-
-            <div className="control-group">
-                <label>Minimum Output</label>
-                <input
-                    type="number"
-                    value={config.outputLimits.min}
-                    onChange={(e) =>
-                        onChange({
-                            ...config,
-                            outputLimits: {
-                                ...config.outputLimits,
-                                min: Number(e.target.value),
-                            },
-                        })
-                    }
-                />
-            </div>
-
-            <div className="control-group">
-                <label>Maximum Output</label>
-                <input
-                    type="number"
-                    value={config.outputLimits.max}
-                    onChange={(e) =>
-                        onChange({
-                            ...config,
-                            outputLimits: {
-                                ...config.outputLimits,
-                                max: Number(e.target.value),
-                            },
-                        })
-                    }
-                />
-            </div>
-        </section>
+                <div className="space-y-5 border-t pt-5">
+                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
+                        Output limits
+                    </p>
+                    {numberControl("pid-output-min", "Minimum output", config.outputLimits.min, (value) => onChange({ ...config, outputLimits: { ...config.outputLimits, min: value } }), {})}
+                    {numberControl("pid-output-max", "Maximum output", config.outputLimits.max, (value) => onChange({ ...config, outputLimits: { ...config.outputLimits, max: value } }), {})}
+                </div>
+            </CardContent>
+        </Card>
     );
 }

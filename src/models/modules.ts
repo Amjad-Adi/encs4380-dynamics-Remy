@@ -8,6 +8,7 @@ import {
     Calculator,
     SlidersHorizontal,
     Timer,
+    CircuitBoard,
 } from 'lucide-react';
 
 export const MODULES = [
@@ -72,6 +73,13 @@ export const MODULES = [
         label: 'Slow sensor in feedback loop',
         path: 'slow-sensor-pid',
         icon: Timer,
+        available: true,
+    },
+    {
+        number: '10',
+        label: 'Digital PID',
+        path: 'digital-pid',
+        icon: CircuitBoard,
         available: true,
     },
 ];
