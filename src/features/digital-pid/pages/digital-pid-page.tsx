@@ -118,11 +118,9 @@ export default function DigitalPIDPage() {
                         {
                             title: "Feedback",
                             content: (
-                                <div className="border-border bg-muted/50 rounded-lg border p-3">
-                                    <p className="font-mono text-lg font-semibold">
-                                        e[k] = r[k] - y[k]
-                                    </p>
-                                </div>
+                                <Equation
+                                    expression={String.raw`e[k]=r[k]-y[k]`}
+                                />
                             ),
                             description:
                                 "The measured output is subtracted from the setpoint to form the controller error.",

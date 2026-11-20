@@ -14,6 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { ParameterControl } from "@/components/shared/parameter-control";
 
 interface PIDControlsProps {
     config: PIDSimulationConfig;
@@ -121,23 +122,101 @@ export function PIDControls({ config, onChange }: PIDControlsProps) {
                     <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
                         PID gains
                     </p>
-                    {numberControl("pid-kp", "Kp (proportional)", config.gains.kp, (value) => updateGains("kp", value), { step: 0.1 })}
-                    {numberControl("pid-ki", "Ki (integral)", config.gains.ki, (value) => updateGains("ki", value), { step: 0.1 })}
-                    {numberControl("pid-kd", "Kd (derivative)", config.gains.kd, (value) => updateGains("kd", value), { step: 0.1 })}
+                    <ParameterControl
+                        id="pid-kp"
+                        label={<>Proportional gain (Kp)</>}
+                        ariaLabel="Proportional gain Kp"
+                        value={config.gains.kp}
+                        min={0}
+                        max={30}
+                        step={0.1}
+                        unit="-"
+                        description="Acts on present error"
+                        onChange={(value) => updateGains("kp", value)}
+                    />
+                    <ParameterControl
+                        id="pid-ki"
+                        label={<>Integral gain (Ki)</>}
+                        ariaLabel="Integral gain Ki"
+                        value={config.gains.ki}
+                        min={0}
+                        max={20}
+                        step={0.1}
+                        unit="1/s"
+                        description="Accumulates past error"
+                        onChange={(value) => updateGains("ki", value)}
+                    />
+                    <ParameterControl
+                        id="pid-kd"
+                        label={<>Derivative gain (Kd)</>}
+                        ariaLabel="Derivative gain Kd"
+                        value={config.gains.kd}
+                        min={0}
+                        max={20}
+                        step={0.1}
+                        unit="s"
+                        description="Responds to error change"
+                        onChange={(value) => updateGains("kd", value)}
+                    />
                 </div>
 
                 <div className="space-y-5 border-t pt-5">
                     <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
                         Plant parameters
                     </p>
-                    {numberControl("pid-plant-gain", "Plant gain", config.plant.gain, (value) => updatePlant({ gain: value }), { step: 0.1 })}
-                    {config.plant.type === "first-order"
-                        ? numberControl("pid-time-constant", "Time constant", config.plant.timeConstant, (value) => updatePlant({ timeConstant: value }), { min: 0.01, step: 0.1 })
-                        : <>
-                            {numberControl("pid-natural-frequency", "Natural frequency", config.plant.naturalFrequency, (value) => updatePlant({ naturalFrequency: value }), { min: 0.01, step: 0.1 })}
-                            {numberControl("pid-damping-ratio", "Damping ratio", config.plant.dampingRatio, (value) => updatePlant({ dampingRatio: value }), { min: 0, step: 0.1 })}
+                    <ParameterControl
+                        id="pid-plant-gain"
+                        label="Plant gain (K)"
+                        value={config.plant.gain}
+                        min={0.1}
+                        max={5}
+                        step={0.1}
+                        unit="-"
+                        description="Steady-state gain"
+                        onChange={(value) => updatePlant({ gain: value })}
+                    />
+                    {config.plant.type === "first-order" ? (
+                        <ParameterControl
+                            id="pid-time-constant"
+                            label="Time Constant (τ)"
+                            value={config.plant.timeConstant}
+                            min={0.1}
+                            max={5}
+                            step={0.1}
+                            unit="s"
+                            description="Open-loop response speed"
+                            onChange={(value) => updatePlant({ timeConstant: value })}
+                        />
+                    ) : (
+                        <>
+                            <ParameterControl
+                                id="pid-natural-frequency"
+                                label="Natural Frequency (ωₙ)"
+                                value={config.plant.naturalFrequency}
+                                min={0.01}
+                                max={10}
+                                step={0.1}
+                                unit="rad/s"
+                                description="Plant oscillation frequency"
+                                onChange={(value) =>
+                                    updatePlant({ naturalFrequency: value })
+                                }
+                            />
+                            <ParameterControl
+                                id="pid-damping-ratio"
+                                label="Damping Ratio (ζ)"
+                                value={config.plant.dampingRatio}
+                                min={0}
+                                max={3}
+                                step={0.1}
+                                unit="-"
+                                description="Plant damping"
+                                onChange={(value) =>
+                                    updatePlant({ dampingRatio: value })
+                                }
+                            />
                         </>
-                    }
+                    )}
                 </div>
 
                 <div className="space-y-5 border-t pt-5">

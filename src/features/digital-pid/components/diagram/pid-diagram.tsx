@@ -11,104 +11,160 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
         <Card>
             <CardHeader className="pb-3">
                 <CardTitle className="text-base">Closed-loop PID control system</CardTitle>
-                <CardDescription>Feedback error, controller, plant, and measured output</CardDescription>
+                <CardDescription>
+                    Reference, PID control, actuator limit, plant, and feedback
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <svg
-                    viewBox="0 0 900 380"
-                    className="text-foreground h-auto w-full"
+                    viewBox="0 0 960 360"
+                    className="text-foreground h-auto w-full min-w-0"
                     role="img"
                     aria-label="Closed loop PID control system diagram"
                 >
-                    {/* Setpoint line */}
-                    <line x1="40" y1="150" x2="170" y2="150" stroke="currentColor" strokeWidth="2" />
+                    <defs>
+                        <marker
+                            id="pid-arrow"
+                            viewBox="0 0 10 10"
+                            refX="9"
+                            refY="5"
+                            markerWidth="7"
+                            markerHeight="7"
+                            orient="auto-start-reverse"
+                        >
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)" />
+                        </marker>
+                        <marker
+                            id="pid-feedback-arrow"
+                            viewBox="0 0 10 10"
+                            refX="9"
+                            refY="5"
+                            markerWidth="7"
+                            markerHeight="7"
+                            orient="auto"
+                        >
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)" />
+                        </marker>
+                    </defs>
 
-                    {/* Arrow */}
-                    <polygon points="170,145 180,150 170,155" fill="currentColor" />
+                    <rect x="24" y="125" width="96" height="60" rx="8" fill="var(--muted)" stroke="var(--border)" />
+                    <text x="72" y="150" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
+                        Reference
+                    </text>
+                    <text x="72" y="171" textAnchor="middle" fill="currentColor" fontSize="16" fontWeight="600">
+                        r[k]
+                    </text>
 
-                    {/* Summing Junction */}
-                    <circle cx="210" cy="150" r="30" fill="var(--card)" stroke="currentColor" strokeWidth="2" />
-                    <text x="210" y="145" textAnchor="middle" fill="currentColor">
+                    <line x1="120" y1="155" x2="178" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
+
+                    <circle cx="210" cy="155" r="32" fill="var(--card)" stroke="currentColor" strokeWidth="1.5" />
+                    <text x="210" y="149" textAnchor="middle" fill="currentColor" fontSize="18">
                         +
                     </text>
-                    <text x="210" y="165" textAnchor="middle" fill="currentColor">
+                    <text x="210" y="171" textAnchor="middle" fill="currentColor" fontSize="18">
                         −
                     </text>
 
-                    {/* Error to controller */}
-                    <line x1="240" y1="150" x2="310" y2="150" stroke="currentColor" strokeWidth="2" />
-                    <polygon points="310,145 320,150 310,155" fill="currentColor" />
-
-                    {/* PID Controller */}
+                    <line x1="242" y1="155" x2="292" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
                     <rect
-                        x="320"
-                        y="95"
+                        x="300"
+                        y="105"
                         width="180"
                         height="110"
-                        rx="12"
+                        rx="8"
                         fill="var(--muted)"
-                        stroke="currentColor"
-                        strokeWidth="2"
+                        stroke="var(--border)"
                     />
-                    <text x="410" y="125" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                    <text x="390" y="132" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
                         PID Controller
                     </text>
-                    <text x="410" y="150" textAnchor="middle" fill="currentColor" fontSize="13">
+                    <text x="390" y="158" textAnchor="middle" fill="currentColor" fontSize="13">
                         Kp: {kp}
                     </text>
-                    <text x="410" y="170" textAnchor="middle" fill="currentColor" fontSize="13">
+                    <text x="390" y="178" textAnchor="middle" fill="currentColor" fontSize="13">
                         Ki: {ki}
                     </text>
-                    <text x="410" y="190" textAnchor="middle" fill="currentColor" fontSize="13">
+                    <text x="390" y="198" textAnchor="middle" fill="currentColor" fontSize="13">
                         Kd: {kd}
                     </text>
 
-                    {/* Controller to Plant */}
-                    <line x1="500" y1="150" x2="580" y2="150" stroke="currentColor" strokeWidth="2" />
-                    <polygon points="580,145 590,150 580,155" fill="currentColor" />
+                    <line x1="480" y1="155" x2="530" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
+                    <rect x="538" y="125" width="82" height="60" rx="8" fill="var(--muted)" stroke="var(--border)" />
+                    <text x="579" y="150" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
+                        Actuator
+                    </text>
+                    <text x="579" y="171" textAnchor="middle" fill="currentColor" fontSize="13" fontWeight="600">
+                        Limiter
+                    </text>
 
-                    {/* Plant */}
+                    <line x1="620" y1="155" x2="668" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
                     <rect
-                        x="590"
-                        y="105"
-                        width="160"
-                        height="90"
-                        rx="12"
+                        x="676"
+                        y="115"
+                        width="140"
+                        height="80"
+                        rx="8"
                         fill="var(--muted)"
-                        stroke="currentColor"
-                        strokeWidth="2"
+                        stroke="var(--border)"
                     />
-                    <text x="670" y="140" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+                    <text x="746" y="150" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
                         Plant
                     </text>
-                    <text x="670" y="165" textAnchor="middle" fill="currentColor" fontSize="13">
-                        System
+                    <text x="746" y="171" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
+                        G(z) / G(s)
                     </text>
 
-                    {/* Plant output */}
-                    <line x1="750" y1="150" x2="820" y2="150" stroke="currentColor" strokeWidth="2" />
-                    <polygon points="820,145 830,150 820,155" fill="currentColor" />
-
-                    {/* Feedback line */}
-                    <line x1="820" y1="150" x2="820" y2="300" stroke="currentColor" strokeWidth="2" />
-                    <line x1="820" y1="300" x2="210" y2="300" stroke="currentColor" strokeWidth="2" />
-                    <line x1="210" y1="300" x2="210" y2="180" stroke="currentColor" strokeWidth="2" />
-
-                    {/* Feedback arrow */}
-                    <polygon points="205,185 210,175 215,185" fill="currentColor" />
-
-                    {/* Labels */}
-                    <text x="100" y="130" textAnchor="middle" fill="var(--muted-foreground)" fontSize="13">
-                        Setpoint
-                    </text>
-                    <text x="275" y="130" textAnchor="middle" fill="var(--muted-foreground)" fontSize="13">
-                        Error
-                    </text>
-                    <text x="780" y="130" textAnchor="middle" fill="var(--muted-foreground)" fontSize="13">
+                    <line x1="816" y1="155" x2="854" y2="155" stroke="var(--muted-foreground)" strokeWidth="1.5" markerEnd="url(#pid-arrow)" />
+                    <rect x="862" y="125" width="74" height="60" rx="8" fill="var(--muted)" stroke="var(--border)" />
+                    <text x="899" y="150" textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">
                         Output
                     </text>
-                    <text x="500" y="325" textAnchor="middle" fill="var(--muted-foreground)" fontSize="13">
-                        Feedback · Measured Output
+                    <text x="899" y="171" textAnchor="middle" fill="currentColor" fontSize="16" fontWeight="600">
+                        y[k]
+                    </text>
+
+                    <path
+                        d="M 899 185 L 899 278 L 210 278 L 210 187"
+                        fill="none"
+                        stroke="var(--muted-foreground)"
+                        strokeWidth="1.5"
+                        markerEnd="url(#pid-feedback-arrow)"
+                    />
+                    <path
+                        d="M 899 185 L 899 278 L 210 278 L 210 187"
+                        fill="none"
+                        stroke="var(--primary)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeDasharray="8 10"
+                        opacity="0.7"
+                        markerEnd="url(#pid-feedback-arrow)"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="18"
+                            to="0"
+                            dur="1.8s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+
+                    <text x="242" y="137" fill="var(--muted-foreground)" fontSize="12">
+                        Error
+                    </text>
+                    <text
+                        x="480"
+                        y="306"
+                        textAnchor="middle"
+                        fill="currentColor"
+                        fontSize="15"
+                        fontFamily="monospace"
+                        fontWeight="600"
+                    >
+                        e[k] = r[k] - y[k]
+                    </text>
+                    <text x="480" y="328" textAnchor="middle" fill="var(--muted-foreground)" fontSize="11">
+                        Feedback · measured output
                     </text>
                 </svg>
             </CardContent>
