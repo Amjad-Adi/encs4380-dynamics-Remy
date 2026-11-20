@@ -39,9 +39,9 @@ The application is organized into four interconnected modules, progressing from 
 
 An interactive investigation of first-order measurement systems in the time domain, based on the transfer function:
 
-$$
-G(s) = \frac{K}{\tau s + 1}
-$$
+\[
+G(s)=\frac{K}{\tau s+1}
+\]
 
 The module provides adjustable gain and time-constant parameters, with selectable step and ramp inputs. Its visualizations connect the mathematical model to the transient and steady-state behavior of a measurement system.
 
@@ -86,13 +86,11 @@ An interactive analysis of first-order measurement systems in the frequency doma
 
 The module connects the frequency-domain transfer function to observable changes in output amplitude and phase:
 
-$$
-M = \frac{1}{\sqrt{1+(\omega\tau)^2}}
-$$
-
-$$
-\phi = -\tan^{-1}(\omega\tau)
-$$
+\[
+M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
+\qquad
+\phi=-\tan^{-1}(\omega\tau)
+\]
 
 **Implemented features:**
 
@@ -106,17 +104,7 @@ $$
 
 **Screenshots**
 
-![Module 2 – Screenshot 1](screenshots/2-1.png)
-
-![Module 2 – Screenshot 2](screenshots/2-2.png)
-
-![Module 2 – Screenshot 3](screenshots/2-3.png)
-
-![Module 2 – Screenshot 4](screenshots/2-4.png)
-
-![Module 2 – Screenshot 5](screenshots/2-5.png)
-
-![Module 2 – Screenshot 6](screenshots/2-6.png)
+**Screenshots**
 
 ### Module 3 - Second-Order System Response
 
@@ -172,11 +160,71 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 - New-sensor generation and contextual hints.
 
 **Screenshots**
-![Module 4 – Screenshot 2](screenshots/4-1.png)
 
-![Module 4 – Screenshot 3](screenshots/4-2.png)
+### 09 - Slow Sensor in the Feedback Loop
 
-![Module 4 – Screenshot 4](screenshots/4-3.png)
+**Owner:** Hanan Yousef Mohammed Alawawda
+
+09 investigates how a first-order sensor lag inside a feedback loop changes
+closed-loop PID behavior. The student compares the true plant output with the
+delayed measured sensor output while changing the sensor time constant and PID
+gains.
+
+The module supports both first-order and second-order plants. Its sensor model
+is:
+
+$$
+H_s(s)=\frac{1}{\tau_s s+1},
+\qquad
+\tau_s\frac{dy_m}{dt}=y-y_m
+$$
+
+The controller uses the measured output:
+
+$$
+e(t)=r(t)-y_m(t)
+$$
+
+and the controller signal is limited before it is applied to the plant. The
+plant and sensor states are integrated together with fourth-order Runge–Kutta
+(RK4). The interactive module includes:
+
+- Sensor time-constant and PID gain controls with safe validation.
+- True plant, measured sensor, and setpoint response plots on a shared time axis.
+- Minimum and maximum controller-output limits.
+- Performance analysis for peak output, direction-aware overshoot, and the
+  final true/measured output difference.
+- A Predict-then-Check activity covering sensor lag, overshoot, and oscillation.
+  Oscillation feedback compares peak-to-peak amplitude and reports insufficient
+  data when too few extrema are available.
+- Responsive desktop and mobile navigation.
+
+The final true/measured output difference is a sensor-lag measure at the final
+sample; it is not the steady-state tracking error. Increasing $\tau_s$ does
+not universally increase overshoot or oscillation, so the prediction activity
+evaluates the current simulation parameters rather than assuming a fixed trend.
+
+**Screenshots**
+
+**First-order response**
+
+![First-order plant response](screenshots/P2_1.png)
+
+**Second-order response**
+
+![Second-order plant response](screenshots/P2_2.png)
+
+**Performance analysis**
+
+![Performance analysis](screenshots/P2_3.png)
+
+**Predict-then-Check before checking**
+
+![Predict-then-Check before checking](screenshots/P2_4.png)
+
+**Predict-then-Check after checking**
+
+![Predict-then-Check after checking](screenshots/P2_5.png)
 
 ### Bonus — Numerical ODE Solver
 
@@ -218,10 +266,10 @@ The controls adjust:
 
 | Parameter           | Meaning                                                                                                            |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| $K$                 | System gain                                                                                                        |
-| $\tau$              | System time constant, in seconds                                                                                   |
-| $A$                 | Step-input amplitude                                                                                               |
-| $\Delta t$          | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
+| \(K\)               | System gain                                                                                                        |
+| \(\tau\)            | System time constant, in seconds                                                                                   |
+| \(A\)               | Step-input amplitude                                                                                               |
+| \(\Delta t\)        | Integration step size, in seconds; the final step is shortened if needed to end exactly at the simulation duration |
 | Simulation duration | End time of the integration, in seconds                                                                            |
 
 Error metrics compare each numerical result with the analytical response at every shared sampled time:
@@ -301,7 +349,7 @@ The toolkit uses a modular React architecture, combining mathematical computatio
 
 The application follows a consistent frontend architecture across all four modules. Shared interface components, navigation, styling conventions, and visualization patterns provide a unified experience, while each module maintains its own domain-specific calculations and interactions.
 
-Module 1 established the initial interactive structure and visual conventions. Module 2 was originally developed in Python and was later reimplemented using React and TypeScript to integrate it into the web application. This transition ensured a consistent frontend architecture and user experience across the toolkit. Modules 3 and 4 further extend the application with second-order system analysis and practical sensor parameter estimation.
+Module 1 established the initial interactive structure and visual conventions. Module 2's existing Python implementation was subsequently integrated into the web application using the same overall structure, preserving consistency across the toolkit. The remaining modules extend the application to second-order system analysis and practical parameter estimation.
 
 The implementation emphasizes:
 
@@ -353,13 +401,13 @@ I used the AI-generated assistance selectively, reviewing and adapting the resul
 
 ### Yazeed - Module 2
 
-**AI tool:** Claude Opus
+**AI tool:** [Tool and model]
 
-**What I asked:** I provided it with the backend code in python and it develop the needed UI for it.
+**What I asked:** [Describe the actual prompts and technical assistance used.]
 
-**What I learned:** It used a known UI lib streamlit in python. I have been able to see and understand how the backend could be translated into UI graphs.
+**What I learned:** [Describe the concepts and implementation knowledge gained.]
 
-**How I used it:** AI assisted with the Streamlit user interface, including the interactive controls, layout, plots, and presentation of results.
+**How I used it:** [Describe how the assistance contributed to the completed module.]
 
 ### Hanan — Module 3
 
@@ -417,16 +465,16 @@ An AI coding assistant supported the development process for this standalone fea
 
 The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
 
-| #   | Validation case                                                | Expected result                                  |
-| --- | -------------------------------------------------------------- | ------------------------------------------------ |
-| 1   | First-order step response at $t = \tau$                        | $y(\tau) = 0.632KA$                              |
-| 2   | First-order step response at $t = 3\tau$                       | $y(3\tau) = 0.95KA$                              |
-| 3   | Frequency response, $\tau = 0.2\,s$, $\omega = 2\,rad/s$       | $M \approx 0.93$, phase lag $\approx 21.8^\circ$ |
-| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | $\tau_{\max} \approx 0.52\,ms$                   |
-| 5   | Phase lag at 50 Hz using the maximum time constant             | $\approx 9.3^\circ$                              |
-| 6   | Second-order response with $\zeta = 0.5$                       | Overshoot $\approx 16.3\%$                       |
-| 7   | Second-order response with $\zeta = 1$                         | No overshoot                                     |
-| 8   | State-space model, $m = 1,\ b = 2,\ k = 4$                     | Eigenvalues $-1 \pm j1.732$, matching the poles  |
+| #   | Validation case                                                | Expected result                                   |
+| --- | -------------------------------------------------------------- | ------------------------------------------------- |
+| 1   | First-order step response at \(t=\tau\)                        | \(y(\tau)=0.632KA\)                               |
+| 2   | First-order step response at \(t=3\tau\)                       | \(y(3\tau)=0.95KA\)                               |
+| 3   | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\)       | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
+| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\)                    |
+| 5   | Phase lag at 50 Hz using the maximum time constant             | \(\approx9.3^\circ\)                              |
+| 6   | Second-order response with \(\zeta=0.5\)                       | Overshoot \(\approx16.3\%\)                       |
+| 7   | Second-order response with \(\zeta=1\)                         | No overshoot                                      |
+| 8   | State-space model, \(m=1,\ b=2,\ k=4\)                         | Eigenvalues \(-1\pm j1.732\), matching the poles  |
 
 The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
 
@@ -438,12 +486,12 @@ The validation results are presented within the relevant modules, allowing users
 
 The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
 
-| Team Member | GitHub Username                                     | Contribution History                                                                                    |
-| ----------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Hanan       | [7enno](https://github.com/7enno)                   | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=7enno)          |
-| Amjad Adi   | [Amjad-Adi](https://github.com/Amjad-Adi)           | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=Amjad-Adi)      |
-| Rahaf       | [rahafalqam](https://github.com/rahafalqam)         | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=rahafalqam)     |
-| Yazeed      | [yazeedalhaddad](https://github.com/yazeedalhaddad) | [View Commits](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/commits/main/?author=yazeedalhaddad) |
+| Team Member | GitHub Username | Contribution History  |
+| ----------- | --------------- | --------------------- |
+| Amjad Adi   | [Username]      | [Commit history link] |
+| Yazeed      | [Username]      | [Commit history link] |
+| Rahaf       | [Username]      | [Commit history link] |
+| Hanan       | [Username]      | [Commit history link] |
 
 Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
 

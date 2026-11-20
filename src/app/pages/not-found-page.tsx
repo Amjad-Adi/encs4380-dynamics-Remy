@@ -64,25 +64,15 @@ export default function NotFoundPage() {
                         </p>
 
                         {/* Navigation */}
-                        <div className="mt-7 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
-                            <Button
-                                render={<Link to="/time-response" />}
-                                className="h-12 w-full gap-2 px-4"
-                            >
-                                <Home className="size-4" />
-                                <span className="leading-none">First-order time response</span>
-                            </Button>
-
-                            <Button
-                                variant="outline"
-                                render={<Link to="/frequency-response" />}
-                                className="h-12 w-full gap-2 px-4"
-                            >
-                                <Activity className="size-4" />
-                                <span className="leading-none">First-order frequency response</span>
-                                <ArrowRight className="size-4" />
-                            </Button>
-                        </div>
+                            <div className="mt-7 w-full">
+                                <Button
+                                    render={<Link to="/time-response" />}
+                                    className="h-12 w-full gap-2 px-4"
+                                >
+                                    <Home className="size-4" />
+                                    <span className="leading-none">Back to Home</span>
+                                </Button>
+                            </div>
                         {/* Footer */}
                         <div className="border-border mt-7 flex w-full flex-col items-center justify-between gap-3 border-t pt-4 sm:flex-row">
                             <p className="text-muted-foreground text-xs">

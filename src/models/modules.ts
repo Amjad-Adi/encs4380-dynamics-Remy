@@ -7,6 +7,8 @@ import {
     Sigma,
     Calculator,
     SlidersHorizontal,
+    Timer,
+    CircuitBoard,
 } from 'lucide-react';
 
 export const MODULES = [
@@ -64,6 +66,20 @@ export const MODULES = [
         label: 'PID control playground',
         path: 'pid-playground',
         icon: SlidersHorizontal,
+        available: true,
+    },
+    {
+        number: '09',
+        label: 'Slow sensor in feedback loop',
+        path: 'slow-sensor-pid',
+        icon: Timer,
+        available: true,
+    },
+    {
+        number: '10',
+        label: 'Digital PID',
+        path: 'digital-pid',
+        icon: CircuitBoard,
         available: true,
     },
 ];
