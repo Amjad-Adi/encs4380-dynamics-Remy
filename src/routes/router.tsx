@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { AppLayout } from '@/app/app-layout';
+import DigitalPIDPage from '@/features/digital-pid/pages/digital-pid-page';
 import FirstOrderTimePage from '@/features/first-order-time/pages/first-order-time-page.tsx';
 import FirstOrderFrequencyPage from '@/features/first-order-frequency/pages/first-order-frequency-page';
 import SecondOrderPage from '@/features/second-order/pages/second-order-page';
@@ -52,6 +53,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'pid-playground',
                     element: <PIDPlaygroundPage />,
+                },
+                {
+                    path: 'digital-pid',
+                    element: <DigitalPIDPage />,
                 },
                 {
                     path: '*',
