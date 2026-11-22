@@ -12,6 +12,7 @@ import PoleExplorerPage from '@/features/pole-explorer/pages/pole-explorer-page.
 import SuperpositionPage from '@/features/superposition/pages/superposition-page.tsx';
 import PIDPlaygroundPage from '@/features/pid-playground/pages/pid-playground-page';
 import SlowSensorPIDPage from '@/features/slow-sensor-pid/pages/slow-sensor-pid-page';
+import TuningChallengePage from '@/features/tuning-challenge/pages/tuning-challenge-page';
 
 export const router = createBrowserRouter(
     [
@@ -62,6 +63,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'digital-pid',
                     element: <DigitalPIDPage />,
+                },
+                {
+                    path: 'tuning-challenge',
+                    element: <TuningChallengePage />,
                 },
                 {
                     path: '*',

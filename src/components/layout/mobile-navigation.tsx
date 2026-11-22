@@ -28,6 +28,7 @@ import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page
 import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
 import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
 import { DIGITAL_PID_SECTIONS } from '@/features/digital-pid/components/page/digital-pid-sections';
+import { TUNING_SECTIONS } from '@/features/tuning-challenge/components/page/tuning-sections';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
@@ -41,6 +42,7 @@ const MODULE_SECTIONS = {
     '/pid-playground': PID_SECTIONS,
     '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
     '/digital-pid': DIGITAL_PID_SECTIONS,
+    '/tuning-challenge': TUNING_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [
