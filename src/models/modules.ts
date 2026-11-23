@@ -10,6 +10,7 @@ import {
     Timer,
     CircuitBoard,
     Trophy,
+    Bot,
 } from 'lucide-react';
 
 export const MODULES = [
@@ -88,6 +89,13 @@ export const MODULES = [
         label: 'Tuning challenge',
         path: 'tuning-challenge',
         icon: Trophy,
+        available: true,
+    },
+    {
+        number: '12',
+        label: 'MySystem',
+        path: 'my-system',
+        icon: Bot,
         available: true,
     },
 ];

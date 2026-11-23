@@ -78,6 +78,10 @@ export default function DigitalPIDPage() {
                     title="Digital PID controller"
                     description="Explore how proportional, integral, and derivative control shape a closed-loop response. Tune the plant and controller parameters, then observe the system response and performance metrics live."
                     onReset={resetSimulation}
+                    nextModule={{
+                        to: '/tuning-challenge',
+                        label: 'Continue to Module 11: Tuning Challenge →',
+                    }}
                 />
             </Reveal>
 

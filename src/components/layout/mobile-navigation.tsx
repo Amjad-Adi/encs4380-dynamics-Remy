@@ -29,6 +29,7 @@ import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/
 import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
 import { DIGITAL_PID_SECTIONS } from '@/features/digital-pid/components/page/digital-pid-sections';
 import { TUNING_SECTIONS } from '@/features/tuning-challenge/components/page/tuning-sections';
+import { MY_SYSTEM_SECTIONS } from '@/features/my-system/components/my-system-sections';
 
 const MODULE_SECTIONS = {
     '/': TIME_SECTIONS,
@@ -43,6 +44,7 @@ const MODULE_SECTIONS = {
     '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
     '/digital-pid': DIGITAL_PID_SECTIONS,
     '/tuning-challenge': TUNING_SECTIONS,
+    '/my-system': MY_SYSTEM_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [

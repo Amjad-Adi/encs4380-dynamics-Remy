@@ -152,6 +152,10 @@ export default function SlowSensorPIDPage() {
                     title="Slow sensor in the feedback loop"
                     description="Investigate how sensor lag affects closed-loop PID performance. Compare the true plant output with the delayed sensor measurement and observe how feedback delay can increase overshoot and cause oscillations."
                     onReset={resetExperiment}
+                    nextModule={{
+                        to: '/digital-pid',
+                        label: 'Continue to Module 10: Digital PID →',
+                    }}
                 />
             </Reveal>
 

@@ -59,6 +59,10 @@ export default function TuningChallengePage() {
                     title="Tuning challenge"
                     description="Tune a PID controller for a hidden random plant. Meet the overshoot, settling-time, and steady-state error specification using only the simulated closed-loop response, and earn a score for each part."
                     onReset={resetExperiment}
+                    nextModule={{
+                        to: '/my-system',
+                        label: 'Continue to Module 12: MySystem →',
+                    }}
                 />
             </Reveal>
             <Reveal>
