@@ -39,7 +39,7 @@ export function SlowSensorPIDMetrics({
                 <MetricCard
                     label="Overshoot"
                     value={`${overshoot.toFixed(2)}%`}
-                    detail="True output peak relative to its final value (as in P1)"
+                    detail="True output peak relative to its final value (as in Module 01)"
                     icon={Gauge}
                 />
 

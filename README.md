@@ -296,13 +296,13 @@ The following captures show the running local application: parameter controls, t
 
 ### Digital PID Numerical Validation
 
-The Digital PID module (P3) runs the controller at a sample period \(T_s\) with a zero-order hold; between samples the continuous plant is integrated with the shared RK4 solver (see [Homework 2 — Control Integration](#homework-2--control-integration)). Its validation cases use the first-order plant \(G(s)=1/(s+1)\):
+The Digital PID module (Control Module 03, assignment P3) runs the controller at a sample period \(T_s\) with a zero-order hold; between samples the continuous plant is integrated with the shared RK4 solver (see [Homework 2 — Control Integration](#homework-2--control-integration)). Its validation cases use the first-order plant \(G(s)=1/(s+1)\):
 
 - **P-only** (\(K_p=9,\ K_i=K_d=0\)): closed-loop time constant \(0.1\,s\), unit-step steady-state error \(0.1\), and response \(y(t)=0.9(1-e^{-10t})\).
 - **PI** (\(K_p=K_i=1,\ K_d=0\)): characteristic polynomial \(s^2+2s+1\), so \(\omega_n=1\,rad/s\) and \(\zeta=1\). Pole-zero cancellation gives the step response \(y(t)=1-e^{-t}\), with zero limiting error.
 - **Integral action:** a stable PI loop with actuator limits wide enough to avoid saturation approaches zero steady-state error.
 
-The response comparisons use \(T_s=0.001\,s\) and allow up to \(0.002\) absolute output error for the P-only case and \(0.0003\) for the PI case. These tolerances bound the difference between the sampled-data loop and the continuous analytical response; larger sample periods change the response physically (see the Nyquist-gain warning in P3). The engine uses \(\lfloor duration/T_s\rfloor\) steps without a shortened final step, so the last sample may precede the requested duration. Saturation is clamped at the actuator limits, with conditional integration preventing windup when saturation and error drive in the same direction.
+The response comparisons use \(T_s=0.001\,s\) and allow up to \(0.002\) absolute output error for the P-only case and \(0.0003\) for the PI case. These tolerances bound the difference between the sampled-data loop and the continuous analytical response; larger sample periods change the response physically (see the Nyquist-gain warning in Control Module 03). The engine uses \(\lfloor duration/T_s\rfloor\) steps without a shortened final step, so the last sample may precede the requested duration. Saturation is clamped at the actuator limits, with conditional integration preventing windup when saturation and error drive in the same direction.
 
 Run the Digital PID numerical regression tests with:
 
@@ -310,7 +310,7 @@ Run the Digital PID numerical regression tests with:
 npm test
 ```
 
-To run the Bonus tool locally, start the Vite development server and open `/numerical-ode`:
+To run the Bonus tool locally, start the Vite development server and open `/dynamics/numerical-ode`:
 
 ```bash
 npm run dev
@@ -326,24 +326,27 @@ npm run build
 
 ## Homework 2 — Control Integration
 
-The four PID modules and MySystem live in a **Control** section of the same application, next to the Homework 1 modules.
+The four PID modules and MySystem live in a **Control** section of the same application, next to the Homework 1 modules. Both homeworks follow one navigation pattern and one numbering scheme: each section has an overview page, and its modules are **Module 01, 02, 03 …** in page headers and **01, 02, 03 …** in the navigation bars.
 
 ### Navigation
 
-| Route                        | Page                                                   |
-| ---------------------------- | ------------------------------------------------------ |
-| `/`                          | Landing page linking Homework 1 and the Control section |
-| `/control`                   | Control overview: module cards, shared core, consistency check |
-| `/control/pid-playground`    | P1 · PID Playground                                    |
-| `/control/slow-sensor-pid`   | P2 · Slow Sensor in the Feedback Loop                  |
-| `/control/digital-pid`       | P3 · Digital PID                                       |
-| `/control/tuning-challenge`  | P4 · PID Tuning Challenge                              |
-| `/control/my-system`         | MySystem                                               |
+| Route | Page | Assignment |
+| ----- | ---- | ---------- |
+| `/` | Landing page linking both homeworks | |
+| `/dynamics` | Homework 1 overview: module cards, core models, live validation cases | |
+| `/dynamics/time-response` … `/dynamics/numerical-ode` | Homework 1 Modules 01–07 | Modules 1–4 and bonus tools |
+| `/control` | Homework 2 overview: module cards, shared core, consistency check | |
+| `/control/pid-playground` | Module 01 · PID playground | P1 |
+| `/control/slow-sensor-pid` | Module 02 · Slow sensor in the loop | P2 |
+| `/control/digital-pid` | Module 03 · Digital PID | P3 |
+| `/control/tuning-challenge` | Module 04 · Tuning challenge | P4 |
+| `/control/my-system` | MySystem | MySystem |
 
-- **Desktop:** the header switches between *Dynamic characteristics* (HW1) and *Control* (HW2); the bar below lists the modules of the current section.
-- **Mobile:** the sidebar groups both sections (the current one opens by default) and lists the page sections.
-- Every Control page has a link back to the overview, a "continue" link and a previous/next pager.
-- The old top-level URLs (`/pid-playground`, `/digital-pid`, …) redirect to their `/control/…` routes.
+- **Desktop header:** an equal-width switcher between *Dynamic characteristics* (HW1) and *Control* (HW2), centred exactly on the page's horizontal midpoint.
+- **Module bar:** the current section's overview and modules on one line (`Overview · 01 · 02 · …`). When the full labels do not fit, the other modules collapse to their numbers.
+- **Mobile:** the sidebar groups both sections (the current one opens by default), each with its overview and numbered modules, followed by the page sections.
+- **Every page header** gets its back link, "Continue to Module NN" link, badge and kicker from the module registry (`src/models/modules.ts`). Every module page ends with a previous / overview / next pager. The last Homework 1 module continues to Homework 2.
+- **Old URLs** (`/time-response`, `/pid-playground`, …) redirect to their `/dynamics/…` or `/control/…` routes.
 
 ### Shared simulation core
 
@@ -351,27 +354,27 @@ All Control modules run on `src/features/control/domain`, which is built from Ho
 
 | Piece | File | Reuses |
 | ----- | ---- | ------ |
-| Plant library | `plants.ts` | Module 1 first-order plant \(K/(\tau s+1)\); Module 3 mass–spring–damper \(1/(ms^2+bs+k)\) and its \(\omega_n,\zeta\) helpers; Module 4 random sensor draw for P4 hidden plants |
+| Plant library | `plants.ts` | HW1 Module 01 first-order plant \(K/(\tau s+1)\); HW1 Module 03 mass–spring–damper \(1/(ms^2+bs+k)\) and its \(\omega_n,\zeta\) helpers; HW1 Module 04 random sensor draw for the Module 04 hidden plants |
 | PID law | `pid-law.ts` | One law for every module: derivative on measurement, actuator saturation, conditional anti-windup |
-| Continuous loop | `continuous-simulation.ts` | P1, P2 (adds a first-order sensor \(\tau_s\)) and P4 |
-| Sampled loop | `digital-simulation.ts` | P3 and MySystem: controller every \(T_s\), zero-order hold, plant integrated between samples |
-| ODE solver | `src/lib/numerics/ode.ts` | The Module 7 Euler/RK4 step generalised to state vectors; Module 7 now calls the same code |
-| Metrics | `metrics.ts` | One rise/overshoot/settling/\(e_{ss}\) calculation using the Module 3 10–90 % and ±2 % constants; P4 measures against the setpoint for its spec |
+| Continuous loop | `continuous-simulation.ts` | Modules 01, 02 (adds a first-order sensor \(\tau_s\)) and 04 |
+| Sampled loop | `digital-simulation.ts` | Module 03 and MySystem: controller every \(T_s\), zero-order hold, plant integrated between samples |
+| ODE solver | `src/lib/numerics/ode.ts` | The HW1 Module 07 Euler/RK4 step generalised to state vectors; HW1 Module 07 now calls the same code |
+| Metrics | `metrics.ts` | One rise/overshoot/settling/\(e_{ss}\) calculation using the HW1 Module 03 10–90 % and ±2 % constants; Module 04 measures against the setpoint for its spec |
 
-Shared UI components (`src/features/control/components`) replace the duplicated plant selector, PID gain sliders, response charts and metrics card in P1–P3 and MySystem.
+Shared UI components (`src/features/control/components`) replace the duplicated plant selector, PID gain sliders, response charts and metrics card in Modules 01–03 and MySystem.
 
 ### Consistency checks
 
-`npm test` runs `src/features/control/domain/control.test.ts` alongside the P3 validation tests. It checks:
+`npm test` runs `src/features/control/domain/control.test.ts` alongside the Module 03 (Digital PID) validation tests. It checks:
 
-- P-only and PD closed loops against the Module 1 and Module 3 analytic step responses (error < 10⁻⁶).
-- Sampled metrics against the Module 3 analytic rise time, overshoot, peak time and settling time.
-- P2 → P1 as \(\tau_s \to 0\), and P3 → P1 as \(T_s \to 0\).
-- P4 plants against the Module 4 sensor responses.
+- P-only and PD closed loops against the HW1 Module 01 and Module 03 analytic step responses (error < 10⁻⁶).
+- Sampled metrics against the HW1 Module 03 analytic rise time, overshoot, peak time and settling time.
+- Module 02 → Module 01 as \(\tau_s \to 0\), and Module 03 → Module 01 as \(T_s \to 0\).
+- Module 04 hidden plants against the HW1 Module 04 sensor responses.
 - Anti-windup that behaves the same in the continuous and sampled loops.
 - The Nyquist-frequency instability of a sampled derivative on a first-order plant.
 
-The Control overview page runs the same plant and gains through the P1, P2 and P3 engines live in the browser.
+The Control overview page runs the same plant and gains through the Module 01, 02 and 03 engines live in the browser. The Homework 1 overview recomputes the homework's eight validation cases the same way.
 
 ### Responsive design and deployment
 

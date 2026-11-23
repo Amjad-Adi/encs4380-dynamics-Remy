@@ -71,12 +71,12 @@ function SectionPanel({ section }: { section: ToolkitSection }) {
             </ul>
 
             <Button
-                render={<Link to={section.entryPath} />}
+                render={<Link to={section.overview.path} />}
                 nativeButton={false}
                 variant={isControl ? 'default' : 'outline'}
                 className="mt-auto h-11 w-full gap-2 sm:w-fit"
             >
-                {isControl ? 'Open the Control section' : 'Start with Module 1'}
+                Open the {section.label} section
                 <ArrowRight size={15} />
             </Button>
         </section>
@@ -107,7 +107,7 @@ export default function HomePage() {
                         {TOOLKIT_SECTIONS.map((section) => (
                             <Button
                                 key={section.id}
-                                render={<Link to={section.entryPath} />}
+                                render={<Link to={section.overview.path} />}
                                 nativeButton={false}
                                 variant={section.id === 'control' ? 'default' : 'outline'}
                                 className="h-11 gap-2"

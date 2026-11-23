@@ -17,7 +17,9 @@ export function AppHeader() {
 
     return (
         <header className="border-border bg-background border-b">
-            <div className="mx-auto flex min-h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+            {/* Desktop: three columns with equal side tracks, so the homework switcher in the
+                middle column sits exactly on the page's horizontal midpoint. */}
+            <div className="mx-auto flex min-h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:px-8">
                 <div className="flex min-w-0 items-center gap-3">
                     {isMobile && (
                         <SidebarTrigger className="size-9 shrink-0" aria-label="Open navigation">
@@ -50,9 +52,9 @@ export function AppHeader() {
                     </Link>
                 </div>
 
-                {!isMobile && <SectionTabs className="shrink-0" />}
+                {!isMobile && <SectionTabs />}
 
-                <div className="flex shrink-0 items-center gap-2">
+                <div className="flex shrink-0 items-center justify-end gap-2">
                     {!isMobile && (
                         <a
                             href={GITHUB_REPOSITORY_URL}

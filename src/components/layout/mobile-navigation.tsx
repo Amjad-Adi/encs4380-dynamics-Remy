@@ -19,7 +19,12 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import type { ModuleSection } from '@/components/modules/section-navigation';
 
-import { TOOLKIT_SECTIONS, getSectionForPath, type ToolkitSection } from '@/models/modules';
+import {
+    TOOLKIT_SECTIONS,
+    getModuleNavLabel,
+    getSectionForPath,
+    type ToolkitSection,
+} from '@/models/modules';
 
 import { TIME_SECTIONS } from '@/features/first-order-time/domain/first-order-time';
 import { FREQUENCY_SECTIONS } from '@/features/first-order-frequency/domain/first-order-frequency';
@@ -29,6 +34,7 @@ import { SENSOR_CHALLENGE_SECTIONS } from '@/features/sensor-challenge/component
 import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page/pole-explorer-sections';
 import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
 import { CONTROL_OVERVIEW_SECTIONS } from '@/features/control/components/control-overview-sections';
+import { DYNAMICS_OVERVIEW_SECTIONS } from '@/features/dynamics/components/dynamics-overview-sections';
 import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
 import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
 import { DIGITAL_PID_SECTIONS } from '@/features/digital-pid/components/page/digital-pid-sections';
@@ -36,13 +42,14 @@ import { TUNING_SECTIONS } from '@/features/tuning-challenge/components/page/tun
 import { MY_SYSTEM_SECTIONS } from '@/features/my-system/components/my-system-sections';
 
 const PAGE_SECTIONS: Record<string, ModuleSection[]> = {
-    '/time-response': TIME_SECTIONS,
-    '/frequency-response': FREQUENCY_SECTIONS,
-    '/second-order': SECOND_ORDER_SECTIONS,
-    '/numerical-ode': NUMERICAL_ODE_SECTIONS,
-    '/sensor-challenge': SENSOR_CHALLENGE_SECTIONS,
-    '/pole-explorer': POLE_EXPLORER_SECTIONS,
-    '/superposition': SUPERPOSITION_SECTIONS,
+    '/dynamics': DYNAMICS_OVERVIEW_SECTIONS,
+    '/dynamics/time-response': TIME_SECTIONS,
+    '/dynamics/frequency-response': FREQUENCY_SECTIONS,
+    '/dynamics/second-order': SECOND_ORDER_SECTIONS,
+    '/dynamics/sensor-challenge': SENSOR_CHALLENGE_SECTIONS,
+    '/dynamics/pole-explorer': POLE_EXPLORER_SECTIONS,
+    '/dynamics/superposition': SUPERPOSITION_SECTIONS,
+    '/dynamics/numerical-ode': NUMERICAL_ODE_SECTIONS,
     '/control': CONTROL_OVERVIEW_SECTIONS,
     '/control/pid-playground': PID_SECTIONS,
     '/control/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
@@ -148,26 +155,20 @@ function SectionGroup({
                 <CollapsibleContent>
                     <SidebarGroupContent className="pt-1">
                         <SidebarMenu className="gap-1">
-                            {section.overview && (
-                                <NavigationLink
-                                    to={section.overview.path}
-                                    icon={section.overview.icon}
-                                    label={`${section.label} overview`}
-                                    end
-                                    onNavigate={onNavigate}
-                                />
-                            )}
+                            <NavigationLink
+                                to={section.overview.path}
+                                icon={section.overview.icon}
+                                label={section.overview.label}
+                                end
+                                onNavigate={onNavigate}
+                            />
                             {section.modules.map((module) =>
                                 module.available ? (
                                     <NavigationLink
                                         key={module.path}
                                         to={module.path}
                                         icon={module.icon}
-                                        label={
-                                            module.number
-                                                ? `${module.number} · ${module.label}`
-                                                : module.label
-                                        }
+                                        label={getModuleNavLabel(module)}
                                         onNavigate={onNavigate}
                                     />
                                 ) : (
@@ -179,7 +180,7 @@ function SectionGroup({
                                         >
                                             <module.icon />
                                             <span className="min-w-0 flex-1 truncate">
-                                                {module.number} · {module.label}
+                                                {getModuleNavLabel(module)}
                                             </span>
                                             <span className="text-[10px]">Soon</span>
                                         </SidebarMenuButton>

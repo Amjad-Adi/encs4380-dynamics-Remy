@@ -1,4 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import { formatMetric, type StepResponseMetrics } from '@/features/control/domain';
 
 interface SamplingComparisonProps {
@@ -34,31 +42,31 @@ export function SamplingComparison({ digital, continuous, sampleTime }: Sampling
             <CardHeader className="pb-3">
                 <CardTitle className="text-base">Effect of sampling</CardTitle>
                 <CardDescription>
-                    The continuous column is the P1 controller on the same plant, gains and limits
-                    (the Ts → 0 limit). Both columns use the shared metric calculation.
+                    The continuous column is the Module 01 controller on the same plant, gains and
+                    limits (the Ts → 0 limit). Both columns use the shared metric calculation.
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="overflow-x-auto">
-                    <table className="w-full min-w-[320px] text-sm">
-                        <thead>
-                            <tr className="text-muted-foreground border-b text-left text-xs">
-                                <th className="py-2 pr-3 font-medium">Metric</th>
-                                <th className="py-2 pr-3 text-right font-medium">
+                <div className="min-w-0">
+                    <Table className="min-w-[320px]">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Metric</TableHead>
+                                <TableHead className="text-right">
                                     Digital (Ts = {sampleTime} s)
-                                </th>
-                                <th className="py-2 pr-3 text-right font-medium">Continuous</th>
-                                <th className="py-2 text-right font-medium">Change</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                </TableHead>
+                                <TableHead className="text-right">Continuous</TableHead>
+                                <TableHead className="text-right">Change</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {ROWS.map((row) => {
                                 const a = digital[row.key];
                                 const b = continuous[row.key];
                                 const change = a !== null && b !== null ? a - b : null;
                                 return (
-                                    <tr key={row.key} className="border-b last:border-0">
-                                        <td className="py-2 pr-3">
+                                    <TableRow key={row.key}>
+                                        <TableCell>
                                             {row.label}
                                             {row.unit && (
                                                 <span className="text-muted-foreground">
@@ -66,23 +74,23 @@ export function SamplingComparison({ digital, continuous, sampleTime }: Sampling
                                                     ({row.unit})
                                                 </span>
                                             )}
-                                        </td>
-                                        <td className="py-2 pr-3 text-right font-mono tabular-nums">
+                                        </TableCell>
+                                        <TableCell className="text-right font-mono tabular-nums">
                                             {formatMetric(a, row.digits)}
-                                        </td>
-                                        <td className="py-2 pr-3 text-right font-mono tabular-nums">
+                                        </TableCell>
+                                        <TableCell className="text-right font-mono tabular-nums">
                                             {formatMetric(b, row.digits)}
-                                        </td>
-                                        <td className="text-muted-foreground py-2 text-right font-mono tabular-nums">
+                                        </TableCell>
+                                        <TableCell className="text-muted-foreground text-right font-mono tabular-nums">
                                             {change === null
                                                 ? '—'
                                                 : formatChange(change, row.digits)}
-                                        </td>
-                                    </tr>
+                                        </TableCell>
+                                    </TableRow>
                                 );
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </CardContent>
         </Card>

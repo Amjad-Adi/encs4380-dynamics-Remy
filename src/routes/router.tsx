@@ -5,6 +5,7 @@ import HomePage from '@/app/pages/home-page';
 import NotFoundPage from '@/app/pages/not-found-page.tsx';
 import ControlOverviewPage from '@/features/control/pages/control-overview-page';
 import DigitalPIDPage from '@/features/digital-pid/pages/digital-pid-page';
+import DynamicsOverviewPage from '@/features/dynamics/pages/dynamics-overview-page';
 import FirstOrderFrequencyPage from '@/features/first-order-frequency/pages/first-order-frequency-page';
 import FirstOrderTimePage from '@/features/first-order-time/pages/first-order-time-page.tsx';
 import MySystemPage from '@/features/my-system/pages/my-system-page';
@@ -17,14 +18,21 @@ import SlowSensorPIDPage from '@/features/slow-sensor-pid/pages/slow-sensor-pid-
 import SuperpositionPage from '@/features/superposition/pages/superposition-page.tsx';
 import TuningChallengePage from '@/features/tuning-challenge/pages/tuning-challenge-page';
 
-/** Control modules used to live at the top level; keep those links working. */
-const LEGACY_CONTROL_PATHS = [
-    'pid-playground',
-    'slow-sensor-pid',
-    'digital-pid',
-    'tuning-challenge',
-    'my-system',
-];
+/** Modules used to live at the top level; keep those links working. */
+const LEGACY_PATHS: Record<string, string> = {
+    'time-response': '/dynamics/time-response',
+    'frequency-response': '/dynamics/frequency-response',
+    'second-order': '/dynamics/second-order',
+    'sensor-challenge': '/dynamics/sensor-challenge',
+    'pole-explorer': '/dynamics/pole-explorer',
+    superposition: '/dynamics/superposition',
+    'numerical-ode': '/dynamics/numerical-ode',
+    'pid-playground': '/control/pid-playground',
+    'slow-sensor-pid': '/control/slow-sensor-pid',
+    'digital-pid': '/control/digital-pid',
+    'tuning-challenge': '/control/tuning-challenge',
+    'my-system': '/control/my-system',
+};
 
 export const router = createBrowserRouter(
     [
@@ -35,13 +43,19 @@ export const router = createBrowserRouter(
                 { index: true, element: <HomePage /> },
 
                 // Homework 1 · Dynamic characteristics
-                { path: 'time-response', element: <FirstOrderTimePage /> },
-                { path: 'frequency-response', element: <FirstOrderFrequencyPage /> },
-                { path: 'second-order', element: <SecondOrderPage /> },
-                { path: 'sensor-challenge', element: <SensorChallengePage /> },
-                { path: 'pole-explorer', element: <PoleExplorerPage /> },
-                { path: 'superposition', element: <SuperpositionPage /> },
-                { path: 'numerical-ode', element: <NumericalOdePage /> },
+                {
+                    path: 'dynamics',
+                    children: [
+                        { index: true, element: <DynamicsOverviewPage /> },
+                        { path: 'time-response', element: <FirstOrderTimePage /> },
+                        { path: 'frequency-response', element: <FirstOrderFrequencyPage /> },
+                        { path: 'second-order', element: <SecondOrderPage /> },
+                        { path: 'sensor-challenge', element: <SensorChallengePage /> },
+                        { path: 'pole-explorer', element: <PoleExplorerPage /> },
+                        { path: 'superposition', element: <SuperpositionPage /> },
+                        { path: 'numerical-ode', element: <NumericalOdePage /> },
+                    ],
+                },
 
                 // Homework 2 · Control
                 {
@@ -56,9 +70,9 @@ export const router = createBrowserRouter(
                     ],
                 },
 
-                ...LEGACY_CONTROL_PATHS.map((path) => ({
+                ...Object.entries(LEGACY_PATHS).map(([path, target]) => ({
                     path,
-                    element: <Navigate to={`/control/${path}`} replace />,
+                    element: <Navigate to={target} replace />,
                 })),
 
                 { path: '*', element: <NotFoundPage /> },

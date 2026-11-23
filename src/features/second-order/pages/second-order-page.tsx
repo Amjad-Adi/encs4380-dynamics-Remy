@@ -71,10 +71,6 @@ export default function SecondOrderPage() {
                     systemType="Second-order system"
                     title="Second-order response and state-space"
                     description="Explore how mass, damping, and stiffness shape a physical system’s step response, poles, state-space representation, and phase-plane trajectory."
-                    nextModule={{
-                        to: '/sensor-challenge',
-                        label: 'Continue to Module 04: Guess the sensor →',
-                    }}
                     onReset={resetExperiment}
                 />
             </Reveal>

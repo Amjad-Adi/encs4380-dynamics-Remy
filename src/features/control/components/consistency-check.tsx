@@ -5,6 +5,14 @@ import { ThemedPlot } from '@/components/shared/themed-plot';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import {
     DEFAULT_FIRST_ORDER_PLANT,
     DEFAULT_SECOND_ORDER_PLANT,
     formatMetric,
@@ -47,7 +55,7 @@ function runAll(plant: Plant): Row[] {
     return [
         {
             id: 'p1',
-            module: 'P1 · PID playground',
+            module: 'Module 01 · PID playground',
             engine: 'Continuous loop, ideal sensor',
             color: '#159b98',
             points: p1,
@@ -55,7 +63,7 @@ function runAll(plant: Plant): Row[] {
         },
         {
             id: 'p2',
-            module: 'P2 · Slow sensor',
+            module: 'Module 02 · Slow sensor',
             engine: 'Continuous loop, τs = 1 ms',
             color: '#3978c5',
             dash: 'dash',
@@ -64,7 +72,7 @@ function runAll(plant: Plant): Row[] {
         },
         {
             id: 'p3-fast',
-            module: 'P3 · Digital PID',
+            module: 'Module 03 · Digital PID',
             engine: 'Sampled loop, Ts = 1 ms',
             color: '#8a70c5',
             dash: 'dot',
@@ -73,7 +81,7 @@ function runAll(plant: Plant): Row[] {
         },
         {
             id: 'p3-slow',
-            module: 'P3 · Digital PID',
+            module: 'Module 03 · Digital PID',
             engine: 'Sampled loop, Ts = 100 ms',
             color: '#d65d67',
             points: p3Slow,
@@ -139,7 +147,9 @@ export function ConsistencyCheck() {
                                 aria-pressed={plantType === type}
                                 onClick={() => setPlantType(type)}
                             >
-                                {type === 'first-order' ? 'Module 1 plant' : 'Module 3 plant'}
+                                {type === 'first-order'
+                                    ? 'HW1 Module 01 plant'
+                                    : 'HW1 Module 03 plant'}
                             </Button>
                         ))}
                     </div>
@@ -148,47 +158,47 @@ export function ConsistencyCheck() {
             <CardContent className="space-y-4 px-2 sm:px-4">
                 <ThemedPlot data={data} layout={layout} className="h-[320px] min-h-[320px]" />
 
-                <div className="overflow-x-auto px-2 sm:px-0">
-                    <table className="w-full min-w-[520px] text-sm">
-                        <thead>
-                            <tr className="text-muted-foreground border-b text-left text-xs">
-                                <th className="py-2 pr-3 font-medium">Module</th>
-                                <th className="py-2 pr-3 font-medium">Engine</th>
-                                <th className="py-2 pr-3 text-right font-medium">Rise (s)</th>
-                                <th className="py-2 pr-3 text-right font-medium">Overshoot (%)</th>
-                                <th className="py-2 pr-3 text-right font-medium">Settling (s)</th>
-                                <th className="py-2 text-right font-medium">e_ss</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <div className="px-2 sm:px-0">
+                    <Table className="min-w-[520px]">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Module</TableHead>
+                                <TableHead>Engine</TableHead>
+                                <TableHead className="text-right">Rise (s)</TableHead>
+                                <TableHead className="text-right">Overshoot (%)</TableHead>
+                                <TableHead className="text-right">Settling (s)</TableHead>
+                                <TableHead className="text-right">e_ss</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {rows.map((row) => (
-                                <tr key={row.id} className="border-b last:border-0">
-                                    <td className="py-2 pr-3 whitespace-nowrap">
+                                <TableRow key={row.id}>
+                                    <TableCell className="whitespace-nowrap">
                                         <span
                                             className="mr-2 inline-block size-2 rounded-full align-middle"
                                             style={{ backgroundColor: row.color }}
                                         />
                                         {row.module}
-                                    </td>
-                                    <td className="text-muted-foreground py-2 pr-3">
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
                                         {row.engine}
-                                    </td>
-                                    <td className="py-2 pr-3 text-right font-mono tabular-nums">
+                                    </TableCell>
+                                    <TableCell className="text-right font-mono tabular-nums">
                                         {formatMetric(row.metrics.riseTime, 3)}
-                                    </td>
-                                    <td className="py-2 pr-3 text-right font-mono tabular-nums">
+                                    </TableCell>
+                                    <TableCell className="text-right font-mono tabular-nums">
                                         {formatMetric(row.metrics.percentageOvershoot, 2)}
-                                    </td>
-                                    <td className="py-2 pr-3 text-right font-mono tabular-nums">
+                                    </TableCell>
+                                    <TableCell className="text-right font-mono tabular-nums">
                                         {formatMetric(row.metrics.settlingTime, 3)}
-                                    </td>
-                                    <td className="py-2 text-right font-mono tabular-nums">
+                                    </TableCell>
+                                    <TableCell className="text-right font-mono tabular-nums">
                                         {formatMetric(row.metrics.steadyStateError, 4)}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
                 <p className="text-muted-foreground px-2 text-xs leading-5 sm:px-0">
                     The first three rows agree to within the effect of a 1 ms lag or sample period,

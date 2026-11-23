@@ -67,10 +67,6 @@ export default function FirstOrderTimePage() {
                     systemType="First-order system"
                     title="First-order time response"
                     description="Investigate how a first-order sensor responds to sudden and continuously changing inputs. Adjust its parameters and observe their effects on response speed, steady-state behavior, and tracking error."
-                    nextModule={{
-                        to: '/frequency-response',
-                        label: 'Continue to Module 02: First-order frequency response →',
-                    }}
                     onReset={resetExperiment}
                 />
             </Reveal>

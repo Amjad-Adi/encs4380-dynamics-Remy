@@ -67,10 +67,6 @@ export default function NumericalOdePage() {
                     title="Numerical ODE Solver"
                     description="Compare Euler’s method and fourth-order Runge–Kutta with the analytical step response of a first-order system. Adjust the parameters and observe the numerical solutions update in real time."
                     onReset={resetExperiment}
-                    nextModule={{
-                        to: '/control',
-                        label: 'Continue to Homework 2: Control →',
-                    }}
                 />
             </Reveal>
 

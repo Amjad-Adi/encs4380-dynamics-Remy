@@ -5,7 +5,6 @@ import { Equation } from '@/components/modules/equation';
 import { SharedModelOverview } from '@/components/modules/model-overview';
 import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
-import { ModulePager } from '@/components/modules/module-pager';
 import { SectionHeading } from '@/components/modules/section-heading';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedAnalysisSection } from '@/components/modules/sections/analysis-section';
@@ -52,17 +51,10 @@ export default function DigitalPIDPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    badge="CONTROL · P3"
                     systemType="Digital control"
                     title="Digital PID controller"
-                    kicker="Feedback control laboratory"
-                    parent={{ to: '/control', label: 'Control overview' }}
-                    description="Run the P1 controller on a microcontroller schedule: it samples the output every Ts seconds and holds its command until the next sample. Increase Ts and compare the sampled loop with the continuous one on the same plant."
+                    description="Run the Module 01 controller on a microcontroller schedule: it samples the output every Ts seconds and holds its command until the next sample. Increase Ts and compare the sampled loop with the continuous one on the same plant."
                     onReset={resetSimulation}
-                    nextModule={{
-                        to: '/control/tuning-challenge',
-                        label: 'Continue to P4: Tuning challenge →',
-                    }}
                 />
             </Reveal>
 
@@ -81,7 +73,7 @@ export default function DigitalPIDPage() {
                                 />
                             ),
                             description:
-                                'The P1 law in sampled form: derivative on the measurement (equal to Kd·Δe/Ts for a constant setpoint), clamped to the actuator limits with the same conditional anti-windup.',
+                                'The Module 01 law in sampled form: derivative on the measurement (equal to Kd·Δe/Ts for a constant setpoint), clamped to the actuator limits with the same conditional anti-windup.',
                         },
                         {
                             title: 'Shared plant models',
@@ -98,7 +90,7 @@ export default function DigitalPIDPage() {
                                 </div>
                             ),
                             description:
-                                'The Module 1 first-order plant and the Module 3 mass–spring–damper, identical to P1 and P2.',
+                                'The Homework 1 Module 01 first-order plant and Module 03 mass–spring–damper, identical to Modules 01 and 02.',
                         },
                         {
                             title: 'Zero-order hold',
@@ -154,8 +146,8 @@ export default function DigitalPIDPage() {
                                 samples={result.samples}
                                 limits={parameters.outputLimits}
                                 outputLabel={`Digital loop y(t), Ts = ${parameters.sampleTime} s`}
-                                reference={{ label: 'Continuous loop (P1)', points: continuous }}
-                                responseDescription="Plant output under the sampled controller, with the samples it reads and the continuous P1 loop for comparison."
+                                reference={{ label: 'Continuous loop (Module 01)', points: continuous }}
+                                responseDescription="Plant output under the sampled controller, with the samples it reads and the continuous Module 01 loop for comparison."
                                 controlDescription="The command changes only at the sampling instants (zero-order hold) and is clipped at the actuator limits."
                             />
                         </div>
@@ -198,9 +190,6 @@ export default function DigitalPIDPage() {
                 </SharedAnalysisSection>
             </Reveal>
 
-            <Reveal>
-                <ModulePager />
-            </Reveal>
 
             <Reveal>
                 <ModuleFooter />

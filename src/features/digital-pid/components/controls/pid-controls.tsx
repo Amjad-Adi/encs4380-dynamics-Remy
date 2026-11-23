@@ -36,7 +36,7 @@ export function PIDControls({ parameters, onChange, onReset }: PIDControlsProps)
                     </Button>
                 </div>
                 <CardDescription>
-                    Same plants and PID law as P1; the controller now runs every Ts seconds.
+                    Same plants and PID law as Module 01; the controller now runs every Ts seconds.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-7">

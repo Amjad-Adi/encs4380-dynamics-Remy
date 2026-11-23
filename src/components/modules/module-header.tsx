@@ -1,27 +1,32 @@
 import { Activity, ArrowLeft, RotateCcw } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+    getModuleBadge,
+    getModuleForPath,
+    getPageLinks,
+    getSectionForPath,
+    type NavigationLink,
+} from '@/models/modules';
 
 interface ModuleHeaderProps {
+    /** Overrides the badge number; normally taken from the module registry. */
     moduleNumber?: string;
-    /** Replaces the default "MODULE nn" badge text, e.g. "CONTROL · P1". */
+    /** Overrides the badge text, e.g. "HOMEWORK 2" on an overview page. */
     badge?: string;
     systemType: string;
     title: string;
     description: string;
-    /** Line above the title; defaults to the Homework 1 laboratory name. */
+    /** Overrides the kicker; normally the section's laboratory name. */
     kicker?: string;
-    /** Link back to the section overview, shown above the badges. */
-    parent?: {
-        to: string;
-        label: string;
-    };
-    nextModule?: {
-        to: string;
-        label: string;
-    };
+    /**
+     * Back link above the badges and continue link under the description. Both are
+     * derived from the registry; pass a link to override it or null to hide it.
+     */
+    parent?: NavigationLink | null;
+    nextModule?: NavigationLink | null;
     /** Omit to hide the reset button (overview pages). */
     onReset?: () => void;
     live?: boolean;
@@ -33,21 +38,32 @@ export function ModuleHeader({
     systemType,
     title,
     description,
-    kicker = 'Dynamic characteristics laboratory',
+    kicker,
     parent,
     nextModule,
     onReset,
     live = true,
 }: ModuleHeaderProps) {
+    const { pathname } = useLocation();
+    const links = getPageLinks(pathname);
+    const module = getModuleForPath(pathname);
+    const section = getSectionForPath(pathname);
+
+    const parentLink = parent === undefined ? links.parent : parent;
+    const nextLink = nextModule === undefined ? links.next : nextModule;
+    const badgeText =
+        badge ?? (moduleNumber ? `MODULE ${moduleNumber}` : module ? getModuleBadge(module) : '');
+    const kickerText = kicker ?? section?.laboratory ?? 'Dynamic characteristics laboratory';
+
     return (
         <header className="space-y-5">
-            {parent && (
+            {parentLink && (
                 <Link
-                    to={parent.to}
+                    to={parentLink.to}
                     className="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
                 >
                     <ArrowLeft size={13} />
-                    {parent.label}
+                    {parentLink.label}
                 </Link>
             )}
 
@@ -56,7 +72,7 @@ export function ModuleHeader({
                     variant="outline"
                     className="border-primary/30 bg-primary/5 text-primary px-3 py-1 font-mono"
                 >
-                    {badge ?? `MODULE ${moduleNumber}`}
+                    {badgeText}
                 </Badge>
 
                 <Badge className="bg-accent text-accent-foreground">{systemType}</Badge>
@@ -76,7 +92,7 @@ export function ModuleHeader({
                 <div className="max-w-3xl space-y-3">
                     <div className="text-primary flex items-center gap-2 text-sm font-medium">
                         <Activity size={16} />
-                        {kicker}
+                        {kickerText}
                     </div>
 
                     <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
@@ -87,12 +103,12 @@ export function ModuleHeader({
                         {description}
                     </p>
 
-                    {nextModule && (
+                    {nextLink && (
                         <Link
-                            to={nextModule.to}
+                            to={nextLink.to}
                             className="text-primary inline-flex text-xs font-medium underline-offset-4 hover:underline"
                         >
-                            {nextModule.label}
+                            {nextLink.label}
                         </Link>
                     )}
                 </div>

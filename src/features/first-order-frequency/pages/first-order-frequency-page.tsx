@@ -45,10 +45,6 @@ export default function FirstOrderFrequencyPage() {
                     systemType="First-order system"
                     title="First-order frequency response"
                     description="Investigate how a first-order sensor responds to sinusoidal inputs. Observe amplitude attenuation and phase lag, locate the cutoff frequency, and evaluate dynamic error."
-                    nextModule={{
-                        to: '/second-order',
-                        label: 'Continue to Module 03: Second-order response →',
-                    }}
                     onReset={resetExperiment}
                 />
             </Reveal>

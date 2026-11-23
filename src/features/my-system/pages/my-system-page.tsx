@@ -12,7 +12,6 @@ import {
 import { Equation } from '@/components/modules/equation';
 import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
-import { ModulePager } from '@/components/modules/module-pager';
 import { SectionHeading } from '@/components/modules/section-heading';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedModelOverview } from '@/components/modules/model-overview';
@@ -172,14 +171,10 @@ export default function MySystemPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    badge="CONTROL · MYSYSTEM"
                     systemType="Micromouse · Project-specific design"
                     title="MySystem"
-                    kicker="Feedback control laboratory"
-                    parent={{ to: '/control', label: 'Control overview' }}
                     description="Design and evaluate the speed controllers for the Micromouse drive motors. The page uses the selected GA12-N20 motor model, applies independent left and right feedback loops, and carries the current gains through to an Arduino sketch."
                     onReset={resetDesign}
-                    nextModule={{ to: '/control', label: 'Back to the Control overview →' }}
                 />
             </Reveal>
 
@@ -699,9 +694,6 @@ export default function MySystemPage() {
                 </section>
             </Reveal>
 
-            <Reveal>
-                <ModulePager />
-            </Reveal>
 
             <Reveal>
                 <ModuleFooter />

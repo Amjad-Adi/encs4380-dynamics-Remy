@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { Gauge } from 'lucide-react';
 import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
-import { ModulePager } from '@/components/modules/module-pager';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedAnalysisSection } from '@/components/modules/sections/analysis-section';
 import { Reveal } from '@/components/ui/reveal';
@@ -50,17 +49,10 @@ export default function TuningChallengePage() {
         >
             <Reveal>
                 <ModuleHeader
-                    badge="CONTROL · P4"
-                    kicker="Feedback control laboratory"
-                    parent={{ to: '/control', label: 'Control overview' }}
                     systemType="Controller tuning"
                     title="Tuning challenge"
                     description="Tune a PID controller for a hidden random plant. Meet the overshoot, settling-time, and steady-state error specification using only the simulated closed-loop response, and earn a score for each part."
                     onReset={resetExperiment}
-                    nextModule={{
-                        to: '/control/my-system',
-                        label: 'Continue to MySystem →',
-                    }}
                 />
             </Reveal>
             <Reveal>
@@ -93,9 +85,6 @@ export default function TuningChallengePage() {
                 <section id="challenge" className="scroll-mt-24 space-y-3">
                     <TuningPredictionExercise parameters={parameters} />
                 </section>
-            </Reveal>
-            <Reveal>
-                <ModulePager />
             </Reveal>
             <Reveal>
                 <ModuleFooter />

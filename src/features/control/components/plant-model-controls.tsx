@@ -82,7 +82,7 @@ export function PlantModelControls({
             {selection.plantType === 'first-order' ? (
                 <div className="space-y-6">
                     <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        First-order plant · Module 1
+                        First-order plant · HW1 Module 01
                     </p>
                     {control('gain', 'Plant gain (K)', '-', 'Steady-state gain')}
                     {control('tau', tauLabel, 's', 'Open-loop response speed')}
@@ -90,7 +90,7 @@ export function PlantModelControls({
             ) : (
                 <div className="space-y-6">
                     <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        Second-order plant · Module 3
+                        Second-order plant · HW1 Module 03
                     </p>
                     {control('m', 'Mass (m)', 'kg')}
                     {control('b', 'Damping (b)', 'N·s/m')}

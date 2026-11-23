@@ -33,8 +33,8 @@ export function ModuleCard({ module, tags, compact = false, className }: ModuleC
 
                 <div className="min-w-0 flex-1">
                     {module.number && (
-                        <span className="text-primary font-mono text-[11px] font-semibold tracking-wide">
-                            {module.number}
+                        <span className="text-primary font-mono text-[11px] font-semibold tracking-wide uppercase">
+                            Module {module.number}
                         </span>
                     )}
                     <h3 className="text-base leading-snug font-semibold tracking-tight">

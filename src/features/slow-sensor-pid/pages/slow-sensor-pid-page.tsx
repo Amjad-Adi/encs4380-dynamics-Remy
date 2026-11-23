@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 
 import { ModuleHeader } from '@/components/modules/module-header.tsx';
 import { ModuleFooter } from '@/components/modules/module-footer.tsx';
-import { ModulePager } from '@/components/modules/module-pager';
 import { SectionNavigation } from '@/components/modules/section-navigation.tsx';
 import { Reveal } from '@/components/ui/reveal.tsx';
 import { useIsMobile } from '@/hooks/use-is-mobile.ts';
@@ -94,17 +93,10 @@ export default function SlowSensorPIDPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    badge="CONTROL · P2"
-                    kicker="Feedback control laboratory"
-                    parent={{ to: '/control', label: 'Control overview' }}
                     systemType="PID control with sensor dynamics"
                     title="Slow sensor in the feedback loop"
                     description="Investigate how sensor lag affects closed-loop PID performance. Compare the true plant output with the delayed sensor measurement and observe how feedback delay can increase overshoot and cause oscillations."
                     onReset={resetExperiment}
-                    nextModule={{
-                        to: '/control/digital-pid',
-                        label: 'Continue to P3: Digital PID →',
-                    }}
                 />
             </Reveal>
 
@@ -147,9 +139,6 @@ export default function SlowSensorPIDPage() {
                 <ChallengeSection parameters={parameters} />
             </Reveal>
 
-            <Reveal>
-                <ModulePager />
-            </Reveal>
 
             <Reveal>
                 <ModuleFooter />

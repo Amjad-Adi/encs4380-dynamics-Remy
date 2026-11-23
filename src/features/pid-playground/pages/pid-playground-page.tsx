@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { Gauge } from 'lucide-react';
 import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
-import { ModulePager } from '@/components/modules/module-pager';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedAnalysisSection } from '@/components/modules/sections/analysis-section';
 import { Reveal } from '@/components/ui/reveal';
@@ -48,17 +47,10 @@ export default function PIDPlaygroundPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    badge="CONTROL · P1"
                     systemType="Feedback control"
                     title="PID control playground"
-                    kicker="Feedback control laboratory"
-                    parent={{ to: '/control', label: 'Control overview' }}
                     description="Explore how proportional, integral, and derivative control shape a closed-loop response. Compare first-order and second-order plants, inspect the actuator command, and tune the controller against live performance metrics."
                     onReset={resetExperiment}
-                    nextModule={{
-                        to: '/control/slow-sensor-pid',
-                        label: 'Continue to P2: Slow sensor in the loop →',
-                    }}
                 />
             </Reveal>
             <Reveal>
@@ -101,9 +93,6 @@ export default function PIDPlaygroundPage() {
                 <section id="challenge" className="scroll-mt-24 space-y-3">
                     <PIDPredictionExercise />
                 </section>
-            </Reveal>
-            <Reveal>
-                <ModulePager />
             </Reveal>
             <Reveal>
                 <ModuleFooter />

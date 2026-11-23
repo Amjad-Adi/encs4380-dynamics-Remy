@@ -75,10 +75,6 @@ export default function SuperpositionPage() {
                     systemType="First-order system"
                     title="Superposition simulator"
                     description="Combine any number of sinusoids into one input signal and pass it through a first-order sensor. See how each frequency component is attenuated and delayed, and how the transient settles into the steady-state output."
-                    nextModule={{
-                        to: '/numerical-ode',
-                        label: 'Continue to Module 07: Numerical ODE solver →',
-                    }}
                     onReset={resetExperiment}
                 />
             </Reveal>
