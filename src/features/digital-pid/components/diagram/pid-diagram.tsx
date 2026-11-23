@@ -462,7 +462,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             className="fill-muted-foreground"
                             fontSize="11.5"
                         >
-                            Digital control · Actuator saturation
+                            Sampled every Ts · Zero-order hold · Saturation · Anti-windup
                         </text>
                     </svg>
                 </div>

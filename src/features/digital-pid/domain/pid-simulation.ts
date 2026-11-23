@@ -1,160 +1,83 @@
+import {
+    createDefaultPlantSelection,
+    getSelectedPlant,
+    getStepResponseMetrics,
+    simulateContinuousPID,
+    simulateDigitalPID,
+    type ContinuousPIDPoint,
+} from '@/features/control/domain';
 
-import type { PIDSimulationConfig, PIDSimulationResult, SimulationSample } from "./pid-types";
+import type { DigitalPIDParameters, PIDSimulationConfig, PIDSimulationResult } from './pid-types';
 
-export function simulatePID(
-    config: PIDSimulationConfig
-): PIDSimulationResult {
-    const { plant, gains, setpoint, outputLimits, duration, dt } = config;
+/**
+ * P3 · Digital PID. A sampled controller with a zero-order hold drives the shared
+ * continuous plant; the loop, plant models and metrics come from the shared Control core.
+ */
 
-    const samples: SimulationSample[] = [];
+export const DEFAULT_DIGITAL_PID_PARAMETERS: DigitalPIDParameters = {
+    ...createDefaultPlantSelection('first-order'),
+    gains: { kp: 2, ki: 1, kd: 0.5 },
+    setpoint: 1,
+    outputLimits: { min: -10, max: 10 },
+    duration: 10,
+    sampleTime: 0.05,
+};
 
-    let output = 0;
-    let outputVelocity = 0;
-    let integral = 0;
-    let previousError = setpoint - output;
+export const SAMPLE_TIME_RANGE = { min: 0.001, max: 0.5, step: 0.001 } as const;
 
-    const steps = Math.floor(duration / dt);
-
-    for (let i = 0; i <= steps; i++) {
-        const time = i * dt;
-        const error = setpoint - output;
-
-        const derivative = i === 0 ? 0 : (error - previousError) / dt;
-
-        const rawControl =
-            gains.kp * error +
-            gains.ki * integral +
-            gains.kd * derivative;
-
-        const control = Math.max(
-            outputLimits.min,
-            Math.min(outputLimits.max, rawControl)
-        );
-
-        samples.push({
-            time,
-            setpoint,
-            output,
-            error,
-            control,
-        });
-
-        // Simple anti-windup:
-        // Integrate only when saturation is not pushing further
-        // in the same direction as the error.
-        const saturatedHigh = rawControl > outputLimits.max;
-        const saturatedLow = rawControl < outputLimits.min;
-
-        if (
-            (!saturatedHigh && !saturatedLow) ||
-            (saturatedHigh && error < 0) ||
-            (saturatedLow && error > 0)
-        ) {
-            integral += error * dt;
-        }
-
-        if (plant.type === "first-order") {
-            const outputDerivative =
-                (plant.gain * control - output) / plant.timeConstant;
-
-            output += outputDerivative * dt;
-        } else {
-            const acceleration =
-                plant.naturalFrequency ** 2 *
-                (plant.gain * control - output) -
-                2 *
-                plant.dampingRatio *
-                plant.naturalFrequency *
-                outputVelocity;
-
-            outputVelocity += acceleration * dt;
-            output += outputVelocity * dt;
-        }
-
-        previousError = error;
-    }
-
-    const metrics = calculateMetrics(samples, setpoint);
-
+export function createDefaultDigitalPIDParameters(): DigitalPIDParameters {
     return {
-        samples,
-        metrics,
+        ...DEFAULT_DIGITAL_PID_PARAMETERS,
+        ...createDefaultPlantSelection(DEFAULT_DIGITAL_PID_PARAMETERS.plantType),
+        gains: { ...DEFAULT_DIGITAL_PID_PARAMETERS.gains },
+        outputLimits: { ...DEFAULT_DIGITAL_PID_PARAMETERS.outputLimits },
     };
 }
 
-function calculateMetrics(
-    samples: SimulationSample[],
-    setpoint: number
-) {
-    if (samples.length === 0) {
-        return {
-            riseTime: null,
-            overshoot: 0,
-            settlingTime: null,
-            steadyStateError: setpoint,
-        };
-    }
+export function toSimulationConfig(parameters: DigitalPIDParameters): PIDSimulationConfig {
+    return {
+        plant: getSelectedPlant(parameters),
+        gains: parameters.gains,
+        setpoint: parameters.setpoint,
+        outputLimits: parameters.outputLimits,
+        duration: parameters.duration,
+        sampleTime: parameters.sampleTime,
+    };
+}
 
-    const finalOutput = samples[samples.length - 1].output;
-    const steadyStateError = setpoint - finalOutput;
-
-    const amplitude = Math.abs(setpoint);
-    const direction = setpoint >= 0 ? 1 : -1;
-
-    const tenPercent = direction * amplitude * 0.1;
-    const ninetyPercent = direction * amplitude * 0.9;
-
-    let riseStart: number | null = null;
-    let riseEnd: number | null = null;
-
-    for (const sample of samples) {
-        const normalizedOutput = direction * sample.output;
-
-        if (riseStart === null && normalizedOutput >= tenPercent) {
-            riseStart = sample.time;
-        }
-
-        if (riseEnd === null && normalizedOutput >= ninetyPercent) {
-            riseEnd = sample.time;
-        }
-    }
-
-    const riseTime =
-        riseStart !== null && riseEnd !== null
-            ? riseEnd - riseStart
-            : null;
-
-    const peakOutput = Math.max(
-        ...samples.map((sample) => direction * sample.output)
-    );
-
-    const overshoot =
-        amplitude > 0
-            ? Math.max(0, ((peakOutput - amplitude) / amplitude) * 100)
-            : 0;
-
-    const tolerance = amplitude * 0.02;
-    let settlingTime: number | null = null;
-
-    for (let i = samples.length - 1; i >= 0; i--) {
-        const deviation = Math.abs(samples[i].output - setpoint);
-
-        if (deviation > tolerance) {
-            if (i + 1 < samples.length) {
-                settlingTime = samples[i + 1].time;
-            }
-            break;
-        }
-
-        if (i === 0) {
-            settlingTime = samples[0].time;
-        }
-    }
+export function simulatePID(config: PIDSimulationConfig): PIDSimulationResult {
+    const { samples, trajectory, diverged } = simulateDigitalPID({
+        plant: config.plant,
+        gains: config.gains,
+        setpoint: config.setpoint,
+        limits: config.outputLimits,
+        sampleTime: config.sampleTime,
+        duration: config.duration,
+    });
 
     return {
-        riseTime,
-        overshoot,
-        settlingTime,
-        steadyStateError,
+        samples,
+        trajectory,
+        // Measured on the continuous plant output so inter-sample peaks are not missed.
+        metrics: getStepResponseMetrics(trajectory, config.setpoint),
+        diverged,
     };
+}
+
+/**
+ * The same plant, gains and limits under the continuous P1 controller, used as the
+ * Ts → 0 reference for the digital response.
+ */
+export function simulateContinuousReference(config: PIDSimulationConfig): ContinuousPIDPoint[] {
+    if (config.duration <= 0) return [];
+    return simulateContinuousPID(
+        {
+            plant: config.plant,
+            gains: config.gains,
+            setpoint: config.setpoint,
+            limits: config.outputLimits,
+        },
+        config.duration,
+        2001,
+    ).points;
 }

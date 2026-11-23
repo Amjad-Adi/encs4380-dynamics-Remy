@@ -41,7 +41,7 @@ export function ParameterSummary({ parameters, overshoot }: ParameterSummaryProp
                     label: 'Output overshoot',
                     value: overshoot.toFixed(2),
                     unit: '%',
-                    description: 'Peak true output relative to setpoint',
+                    description: 'Peak true output relative to its final value',
                     icon: Gauge,
                 },
             ]}

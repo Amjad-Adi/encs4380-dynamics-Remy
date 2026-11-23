@@ -1,12 +1,15 @@
 import {
+    getStepResponseMetrics,
+    plantFromSensorParameters,
+    type StepResponseSample,
+} from '@/features/control/domain';
+import {
     DEFAULT_PID_PARAMETERS,
     type PIDGains,
-    type PIDPerformanceMetrics,
     type PIDPlaygroundParameters,
-    type PIDResponsePoint,
 } from '@/features/pid-playground/domain/pid-playground';
 import {
-    generateSensorChallenge,
+    drawSensorParameters,
     type SensorParameters,
 } from '@/features/sensor-challenge/domain/sensor-challenge';
 
@@ -45,54 +48,54 @@ export const DEFAULT_TUNING_GAINS: PIDGains = { kp: 1, ki: 0, kd: 0 };
 // A fixed window keeps the spec limits readable on the plot; it is over three times the settling limit.
 export const TUNING_DURATION = 10;
 
-/** Draws a hidden plant from the same random model family as Homework 1 Module 4. */
+/** Draws a hidden plant with the same random model family as Homework 1 Module 4. */
 export function generateHiddenPlant(random: () => number = Math.random): HiddenPlant {
-    return generateSensorChallenge(random).parameters;
+    return drawSensorParameters(random);
 }
 
+/** P1 parameters for the hidden plant, built with the shared Module 4 → plant conversion. */
 export function getTuningParameters(plant: HiddenPlant, gains: PIDGains): PIDPlaygroundParameters {
     const base = { ...DEFAULT_PID_PARAMETERS, gains: { ...gains } };
-    if (plant.type === 'first-order')
-        return { ...base, plantType: 'first-order', firstOrder: { gain: 1, tau: plant.tau } };
+    const shared = plantFromSensorParameters(plant);
+    if (shared.type === 'first-order') {
+        return {
+            ...base,
+            plantType: 'first-order',
+            firstOrder: { gain: shared.gain, tau: shared.tau },
+        };
+    }
     // Unit-DC-gain form of ωn²/(s²+2ζωn·s+ωn²), matching Module 4's normalized response.
     return {
         ...base,
         plantType: 'second-order',
-        secondOrder: { m: 1 / plant.omegaN ** 2, b: (2 * plant.zeta) / plant.omegaN, k: 1 },
+        secondOrder: { m: shared.m, b: shared.b, k: shared.k },
     };
 }
 
-/** Unlike the playground metric, the spec measures settling against the setpoint, not the final value. */
-function getSetpointSettlingTime(points: PIDResponsePoint[], setpoint: number): number | null {
-    const band = Math.abs(setpoint) * 0.02;
-    let lastOutsideIndex = -1;
-    points.forEach((point, index) => {
-        if (Math.abs(point.output - setpoint) > band) lastOutsideIndex = index;
-    });
-    if (lastOutsideIndex === -1) return 0;
-    return lastOutsideIndex < points.length - 1 ? points[lastOutsideIndex + 1].time : null;
-}
-
+/**
+ * Scores a response against the spec. Unlike the playground metrics, overshoot and
+ * settling are measured against the setpoint, not the final value, using the shared
+ * metric calculation.
+ */
 export function evaluateTuning(
-    points: PIDResponsePoint[],
-    metrics: PIDPerformanceMetrics,
+    points: readonly StepResponseSample[],
     setpoint: number,
     spec: TuningSpec = TUNING_SPEC,
 ): TuningEvaluation {
-    const errorFraction = metrics.steadyStateError / Math.abs(setpoint);
-    const overshoot = Math.max(0, ((metrics.peakOutput - setpoint) / Math.abs(setpoint)) * 100);
+    const metrics = getStepResponseMetrics(points, setpoint, { reference: 'setpoint' });
+    const errorFraction = Math.abs(metrics.steadyStateError) / Math.abs(setpoint);
     const checks = [
         {
             key: 'overshoot' as const,
             label: 'Maximum overshoot',
-            measured: overshoot,
+            measured: metrics.percentageOvershoot,
             limit: spec.maxOvershoot,
             unit: '%',
         },
         {
             key: 'settlingTime' as const,
             label: 'Settling time (2%)',
-            measured: getSetpointSettlingTime(points, setpoint),
+            measured: metrics.settlingTime,
             limit: spec.maxSettlingTime,
             unit: 's',
         },

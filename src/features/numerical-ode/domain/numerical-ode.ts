@@ -1,3 +1,5 @@
+import { eulerStepVector, rk4StepVector, type StateDerivative } from '@/lib/numerics/ode';
+
 export interface NumericalOdeParameters {
     gain: number;
     timeConstant: number;
@@ -56,13 +58,19 @@ export function analyticalStepResponse(
     return gain * amplitude * (1 - Math.exp(-time / timeConstant));
 }
 
+function firstOrderStateDerivative(parameters: FirstOrderSystemParameters): StateDerivative {
+    return (time, [output]) => [firstOrderStepDerivative(time, output, parameters)];
+}
+
+// The scalar steps below delegate to the shared vector integrators in
+// `@/lib/numerics/ode`, which the Control modules (P1–P4, MySystem) also use.
 export function eulerStep(
     time: number,
     output: number,
     stepSize: number,
     parameters: FirstOrderSystemParameters,
 ): number {
-    return output + stepSize * firstOrderStepDerivative(time, output, parameters);
+    return eulerStepVector(firstOrderStateDerivative(parameters), time, [output], stepSize)[0];
 }
 
 export function rk4Step(
@@ -71,13 +79,7 @@ export function rk4Step(
     stepSize: number,
     parameters: FirstOrderSystemParameters,
 ): number {
-    const derivative = (t: number, y: number) => firstOrderStepDerivative(t, y, parameters);
-    const k1 = derivative(time, output);
-    const k2 = derivative(time + stepSize / 2, output + (stepSize * k1) / 2);
-    const k3 = derivative(time + stepSize / 2, output + (stepSize * k2) / 2);
-    const k4 = derivative(time + stepSize, output + stepSize * k3);
-
-    return output + (stepSize / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
+    return rk4StepVector(firstOrderStateDerivative(parameters), time, [output], stepSize)[0];
 }
 
 export function assessEulerStability(

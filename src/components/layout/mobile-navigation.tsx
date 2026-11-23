@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Calculator, Check, ChevronRight } from 'lucide-react';
+import { Check, ChevronDown, ChevronRight, Home } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 import {
     Sidebar,
@@ -15,8 +16,10 @@ import {
     SidebarSeparator,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import type { ModuleSection } from '@/components/modules/section-navigation';
 
-import { MODULES } from '@/models/modules';
+import { TOOLKIT_SECTIONS, getSectionForPath, type ToolkitSection } from '@/models/modules';
 
 import { TIME_SECTIONS } from '@/features/first-order-time/domain/first-order-time';
 import { FREQUENCY_SECTIONS } from '@/features/first-order-frequency/domain/first-order-frequency';
@@ -25,14 +28,14 @@ import { NUMERICAL_ODE_SECTIONS } from '@/features/numerical-ode/components/page
 import { SENSOR_CHALLENGE_SECTIONS } from '@/features/sensor-challenge/components/page/sensor-challenge-sections';
 import { POLE_EXPLORER_SECTIONS } from '@/features/pole-explorer/components/page/pole-explorer-sections';
 import { SUPERPOSITION_SECTIONS } from '@/features/superposition/components/page/superposition-sections.ts';
+import { CONTROL_OVERVIEW_SECTIONS } from '@/features/control/components/control-overview-sections';
 import { SLOW_SENSOR_PID_SECTIONS } from '@/features/slow-sensor-pid/components/page/slow-sensor-pid-sections';
 import { PID_SECTIONS } from '@/features/pid-playground/components/page/pid-sections.ts';
 import { DIGITAL_PID_SECTIONS } from '@/features/digital-pid/components/page/digital-pid-sections';
 import { TUNING_SECTIONS } from '@/features/tuning-challenge/components/page/tuning-sections';
 import { MY_SYSTEM_SECTIONS } from '@/features/my-system/components/my-system-sections';
 
-const MODULE_SECTIONS = {
-    '/': TIME_SECTIONS,
+const PAGE_SECTIONS: Record<string, ModuleSection[]> = {
     '/time-response': TIME_SECTIONS,
     '/frequency-response': FREQUENCY_SECTIONS,
     '/second-order': SECOND_ORDER_SECTIONS,
@@ -40,11 +43,12 @@ const MODULE_SECTIONS = {
     '/sensor-challenge': SENSOR_CHALLENGE_SECTIONS,
     '/pole-explorer': POLE_EXPLORER_SECTIONS,
     '/superposition': SUPERPOSITION_SECTIONS,
-    '/pid-playground': PID_SECTIONS,
-    '/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
-    '/digital-pid': DIGITAL_PID_SECTIONS,
-    '/tuning-challenge': TUNING_SECTIONS,
-    '/my-system': MY_SYSTEM_SECTIONS,
+    '/control': CONTROL_OVERVIEW_SECTIONS,
+    '/control/pid-playground': PID_SECTIONS,
+    '/control/slow-sensor-pid': SLOW_SENSOR_PID_SECTIONS,
+    '/control/digital-pid': DIGITAL_PID_SECTIONS,
+    '/control/tuning-challenge': TUNING_SECTIONS,
+    '/control/my-system': MY_SYSTEM_SECTIONS,
 };
 
 const ACTIVE_MODULE_BUTTON_CLASS = [
@@ -66,16 +70,142 @@ const SECTION_BUTTON_CLASS = [
     'data-active:text-sidebar-accent-foreground',
 ].join(' ');
 
+function NavigationLink({
+    to,
+    icon: Icon,
+    label,
+    end,
+    onNavigate,
+}: {
+    to: string;
+    icon: LucideIcon;
+    label: string;
+    end?: boolean;
+    onNavigate: () => void;
+}) {
+    return (
+        <SidebarMenuItem>
+            <NavLink to={to} end={end} onClick={onNavigate} className="block">
+                {({ isActive }) => (
+                    <SidebarMenuButton
+                        isActive={isActive}
+                        size="lg"
+                        className={
+                            isActive ? ACTIVE_MODULE_BUTTON_CLASS : INACTIVE_MODULE_BUTTON_CLASS
+                        }
+                    >
+                        <Icon />
+                        <span className="min-w-0 flex-1 truncate">{label}</span>
+                        {isActive ? (
+                            <Check className="ml-auto" />
+                        ) : (
+                            <ChevronRight className="ml-auto opacity-50" />
+                        )}
+                    </SidebarMenuButton>
+                )}
+            </NavLink>
+        </SidebarMenuItem>
+    );
+}
+
+function SectionGroup({
+    section,
+    defaultOpen,
+    onNavigate,
+}: {
+    section: ToolkitSection;
+    defaultOpen: boolean;
+    onNavigate: () => void;
+}) {
+    const [open, setOpen] = useState(defaultOpen);
+    const SectionIcon = section.icon;
+
+    useEffect(() => {
+        if (defaultOpen) setOpen(true);
+    }, [defaultOpen]);
+
+    return (
+        <Collapsible open={open} onOpenChange={setOpen}>
+            <SidebarGroup className="py-1">
+                <CollapsibleTrigger
+                    className="hover:bg-sidebar-accent flex w-full items-center gap-2 rounded-md px-2 py-2 text-left"
+                    aria-label={`${section.label} (${section.homework}), ${section.modules.length} modules`}
+                >
+                    <SectionIcon className="text-brand size-4 shrink-0" />
+                    <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold">
+                            {section.label}
+                        </span>
+                        <span className="text-sidebar-foreground/60 block text-[11px]">
+                            {section.homework} · {section.modules.length} modules
+                        </span>
+                    </span>
+                    <ChevronDown
+                        className={`size-4 shrink-0 opacity-60 transition-transform ${open ? '' : '-rotate-90'}`}
+                    />
+                </CollapsibleTrigger>
+
+                <CollapsibleContent>
+                    <SidebarGroupContent className="pt-1">
+                        <SidebarMenu className="gap-1">
+                            {section.overview && (
+                                <NavigationLink
+                                    to={section.overview.path}
+                                    icon={section.overview.icon}
+                                    label={`${section.label} overview`}
+                                    end
+                                    onNavigate={onNavigate}
+                                />
+                            )}
+                            {section.modules.map((module) =>
+                                module.available ? (
+                                    <NavigationLink
+                                        key={module.path}
+                                        to={module.path}
+                                        icon={module.icon}
+                                        label={
+                                            module.number
+                                                ? `${module.number} · ${module.label}`
+                                                : module.label
+                                        }
+                                        onNavigate={onNavigate}
+                                    />
+                                ) : (
+                                    <SidebarMenuItem key={module.path}>
+                                        <SidebarMenuButton
+                                            disabled
+                                            size="lg"
+                                            className="mx-2 w-[calc(100%-1rem)] rounded-md opacity-40"
+                                        >
+                                            <module.icon />
+                                            <span className="min-w-0 flex-1 truncate">
+                                                {module.number} · {module.label}
+                                            </span>
+                                            <span className="text-[10px]">Soon</span>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                ),
+                            )}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </CollapsibleContent>
+            </SidebarGroup>
+        </Collapsible>
+    );
+}
+
 export function MobileNavigation() {
     const location = useLocation();
     const { setOpenMobile } = useSidebar();
 
-    const sections = MODULE_SECTIONS[location.pathname as keyof typeof MODULE_SECTIONS] ?? [];
+    const pathname = location.pathname.replace(/(.)\/+$/, '$1');
+    const sections = PAGE_SECTIONS[pathname] ?? [];
+    const currentSection = getSectionForPath(pathname);
 
-    const [activeSection, setActiveSection] = useState('model');
+    const [activeSection, setActiveSection] = useState(sections[0]?.id ?? 'model');
 
     useEffect(() => {
-        setActiveSection('model');
+        setActiveSection(sections[0]?.id ?? 'model');
 
         if (sections.length === 0) return;
 
@@ -110,7 +240,7 @@ export function MobileNavigation() {
         sectionElements.forEach((section) => observer.observe(section));
 
         return () => observer.disconnect();
-    }, [location.pathname, sections]);
+    }, [pathname, sections]);
 
     function closeNavigation() {
         setOpenMobile(false);
@@ -119,79 +249,29 @@ export function MobileNavigation() {
     return (
         <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
             <SidebarContent className="gap-0">
-                {/* Modules */}
-                <SidebarGroup>
-                    <div className="mb-2 flex items-center justify-between">
-                        <SidebarGroupLabel>Modules</SidebarGroupLabel>
-
-                        <span className="text-sidebar-foreground/50 px-2 text-[10px]">
-                            {MODULES.length} modules
-                        </span>
-                    </div>
-
-                    <SidebarGroupContent>
-                        <SidebarMenu className="gap-1">
-                            {MODULES.map((module) => {
-                                const Icon = module.icon;
-
-                                return (
-                                    <SidebarMenuItem key={module.number}>
-                                        {module.available ? (
-                                            <NavLink
-                                                to={module.path}
-                                                end={module.path === '/'}
-                                                onClick={closeNavigation}
-                                                className="block"
-                                            >
-                                                {({ isActive }) => (
-                                                    <SidebarMenuButton
-                                                        isActive={isActive}
-                                                        size="lg"
-                                                        className={
-                                                            isActive
-                                                                ? ACTIVE_MODULE_BUTTON_CLASS
-                                                                : INACTIVE_MODULE_BUTTON_CLASS
-                                                        }
-                                                    >
-                                                        <Icon />
-
-                                                        <span className="min-w-0 flex-1 truncate">
-                                                            {module.number} · {module.label}
-                                                        </span>
-
-                                                        {isActive ? (
-                                                            <Check className="ml-auto" />
-                                                        ) : (
-                                                            <ChevronRight className="ml-auto opacity-50" />
-                                                        )}
-                                                    </SidebarMenuButton>
-                                                )}
-                                            </NavLink>
-                                        ) : (
-                                            <SidebarMenuButton
-                                                disabled
-                                                size="lg"
-                                                className="mx-2 w-[calc(100%-1rem)] rounded-md opacity-40"
-                                            >
-                                                <Icon />
-
-                                                <span className="min-w-0 flex-1 truncate">
-                                                    {module.number} · {module.label}
-                                                </span>
-
-                                                <span className="text-[10px]">Soon</span>
-                                            </SidebarMenuButton>
-                                        )}
-                                    </SidebarMenuItem>
-                                );
-                            })}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
+                <SidebarGroup className="pb-1">
+                    <SidebarMenu>
+                        <NavigationLink
+                            to="/"
+                            icon={Home}
+                            label="Home"
+                            end
+                            onNavigate={closeNavigation}
+                        />
+                    </SidebarMenu>
                 </SidebarGroup>
 
                 <SidebarSeparator />
 
-                {/* Module Sections */}
+                {TOOLKIT_SECTIONS.map((section) => (
+                    <SectionGroup
+                        key={section.id}
+                        section={section}
+                        defaultOpen={currentSection === null || currentSection.id === section.id}
+                        onNavigate={closeNavigation}
+                    />
+                ))}
+
                 {sections.length > 0 && (
                     <>
                         <SidebarSeparator />

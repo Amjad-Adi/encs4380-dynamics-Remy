@@ -1,14 +1,11 @@
+import { simulateDigitalPID, type PIDGains } from '@/features/control/domain';
 import { getPIDPerformanceMetrics } from '@/features/pid-playground/domain/pid-playground';
 import type {
     PIDPerformanceMetrics,
     PIDResponsePoint,
 } from '@/features/pid-playground/domain/pid-playground';
 
-export interface MotorGains {
-    kp: number;
-    ki: number;
-    kd: number;
-}
+export type MotorGains = PIDGains;
 
 export interface MySystemConfiguration {
     gain: number;
@@ -49,93 +46,36 @@ export const DEFAULT_MY_SYSTEM_CONFIGURATION: MySystemConfiguration = {
 const SIMULATION_DURATION = 3;
 const CONTROL_SAMPLE_TIME = 0.01;
 const PLANT_SUBSTEPS = 10;
+const PWM_LIMITS = { min: 0, max: 1 };
 
-function clamp(value: number, min: number, max: number) {
-    return Math.min(max, Math.max(min, value));
-}
-
-function advanceFirstOrderPlant(
-    output: number,
-    input: number,
-    gain: number,
-    timeConstant: number,
-    step: number,
-): number {
-    const derivative = (state: number) => (gain * input - state) / timeConstant;
-    const k1 = derivative(output);
-    const k2 = derivative(output + (step * k1) / 2);
-    const k3 = derivative(output + (step * k2) / 2);
-    const k4 = derivative(output + step * k3);
-
-    return output + (step / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
-}
-
-function simulateMotor(
-    configuration: MySystemConfiguration,
-    gains: MotorGains,
-): MotorSimulation {
-    const points: PIDResponsePoint[] = [];
-    const sampleCount = Math.round(SIMULATION_DURATION / CONTROL_SAMPLE_TIME) + 1;
-    const plantStep = CONTROL_SAMPLE_TIME / PLANT_SUBSTEPS;
-
-    let output = 0;
-    let integral = 0;
-    let previousMeasuredRPM = 0;
-
-    for (let index = 0; index < sampleCount; index += 1) {
-        const time = index * CONTROL_SAMPLE_TIME;
-        const error = configuration.setpoint - output;
-        const measuredDerivative =
-            (output - previousMeasuredRPM) / CONTROL_SAMPLE_TIME;
-        const unsaturatedControl =
-            gains.kp * error +
-            gains.ki * integral -
-            gains.kd * measuredDerivative;
-        const control = clamp(unsaturatedControl, 0, 1);
-
-        points.push({
-            time,
-            setpoint: configuration.setpoint,
-            output,
-            error,
-            control,
-            unsaturatedControl,
-            integral,
-        });
-
-        if (index === sampleCount - 1) break;
-
-        // Match the conditional anti-windup logic used in the generated sketch.
-        const pushingHigh = unsaturatedControl > 1 && error > 0;
-        const pushingLow = unsaturatedControl < 0 && error < 0;
-        if (!pushingHigh && !pushingLow) {
-            integral += error * CONTROL_SAMPLE_TIME;
-        }
-
-        previousMeasuredRPM = output;
-
-        // Hold the sampled PWM command for one controller period while
-        // integrating the continuous first-order plant with RK4 substeps.
-        for (let substep = 0; substep < PLANT_SUBSTEPS; substep += 1) {
-            output = advanceFirstOrderPlant(
-                output,
-                control,
-                configuration.gain,
-                configuration.timeConstant,
-                plantStep,
-            );
-        }
-    }
+/**
+ * One motor loop, simulated with the shared sampled-data PID core (the same engine as
+ * P3): the 10 ms PWM command is held while the continuous first-order plant from
+ * Homework 1 Module 1 is integrated with RK4 sub-steps. The controller matches the
+ * generated sketch: derivative on measured RPM and conditional anti-windup.
+ */
+function simulateMotor(configuration: MySystemConfiguration, gains: MotorGains): MotorSimulation {
+    const { samples } = simulateDigitalPID({
+        plant: {
+            type: 'first-order',
+            gain: configuration.gain,
+            tau: configuration.timeConstant,
+        },
+        gains,
+        setpoint: configuration.setpoint,
+        limits: PWM_LIMITS,
+        sampleTime: CONTROL_SAMPLE_TIME,
+        duration: SIMULATION_DURATION,
+        plantSubsteps: PLANT_SUBSTEPS,
+    });
 
     return {
-        points,
-        metrics: getPIDPerformanceMetrics(points),
+        points: samples,
+        metrics: getPIDPerformanceMetrics(samples),
     };
 }
 
-export function simulateMySystem(
-    configuration: MySystemConfiguration,
-): MySystemSimulation {
+export function simulateMySystem(configuration: MySystemConfiguration): MySystemSimulation {
     return {
         left: simulateMotor(configuration, configuration.leftGains),
         right: simulateMotor(configuration, configuration.rightGains),
@@ -157,8 +97,7 @@ export function getPIEquivalentDampingRatio(
         return null;
     }
 
-    return (1 + gain * gains.kp) /
-        (2 * Math.sqrt(timeConstant * gain * gains.ki));
+    return (1 + gain * gains.kp) / (2 * Math.sqrt(timeConstant * gain * gains.ki));
 }
 
 function formatGain(value: number): string {

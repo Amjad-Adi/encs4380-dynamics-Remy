@@ -2,11 +2,16 @@ import { useMemo, useState } from 'react';
 
 import { ModuleHeader } from '@/components/modules/module-header.tsx';
 import { ModuleFooter } from '@/components/modules/module-footer.tsx';
+import { ModulePager } from '@/components/modules/module-pager';
 import { SectionNavigation } from '@/components/modules/section-navigation.tsx';
 import { Reveal } from '@/components/ui/reveal.tsx';
 import { useIsMobile } from '@/hooks/use-is-mobile.ts';
 
+import { updatePlantSelection, type PlantParameterKey } from '@/features/control/domain';
+
 import {
+    createDefaultSlowSensorParameters,
+    getSlowSensorMetrics,
     simulateSlowSensorPID,
     type SlowSensorPIDParameters,
 } from '../domain/slow-sensor-pid.ts';
@@ -18,48 +23,18 @@ import { ChallengeSection } from '../components/page/challenge-section.tsx';
 import { SLOW_SENSOR_PID_SECTIONS } from '../components/page/slow-sensor-pid-sections.ts';
 import type { SlowSensorParameterKey } from '../components/controls/slow-sensor-pid-controls.tsx';
 
-const DEFAULT_PARAMETERS: SlowSensorPIDParameters = {
-    plantType: 'first-order',
-    firstOrder: {
-        gain: 1,
-        tau: 1,
-    },
-    secondOrder: {
-        m: 1,
-        b: 2,
-        k: 4,
-    },
-    gains: {
-        kp: 9,
-        ki: 0,
-        kd: 0,
-    },
-    setpoint: 1,
-    outputMin: 0,
-    outputMax: 100,
-    sensorTau: 0.2,
-};
-
 export default function SlowSensorPIDPage() {
     const isMobile = useIsMobile();
-    const [parameters, setParameters] = useState<SlowSensorPIDParameters>(() => ({
-        ...DEFAULT_PARAMETERS,
-        firstOrder: { ...DEFAULT_PARAMETERS.firstOrder },
-        secondOrder: { ...DEFAULT_PARAMETERS.secondOrder },
-        gains: { ...DEFAULT_PARAMETERS.gains },
-    }));
+    const [parameters, setParameters] = useState<SlowSensorPIDParameters>(
+        createDefaultSlowSensorParameters,
+    );
 
     const points = useMemo(() => simulateSlowSensorPID(parameters, 10, 6001), [parameters]);
 
     const metrics = useMemo(() => {
-        let maxTrueOutput = Number.NEGATIVE_INFINITY;
-        let minTrueOutput = Number.POSITIVE_INFINITY;
-
-        for (const point of points) {
-            maxTrueOutput = Math.max(maxTrueOutput, point.trueOutput);
-            minTrueOutput = Math.min(minTrueOutput, point.trueOutput);
-        }
-
+        // Overshoot comes from the shared Control metrics (true output against its final
+        // value), so P2 reports the same quantity as P1 for the same response.
+        const shared = getSlowSensorMetrics(points, parameters.setpoint);
         const finalPoint = points[points.length - 1];
         const crossingDirection = parameters.setpoint < 0 ? -1 : 1;
         const crossingPoint =
@@ -70,22 +45,10 @@ export default function SlowSensorPIDPage() {
                           crossingDirection * point.trueOutput >=
                           crossingDirection * parameters.setpoint,
                   ) ?? null);
-        const overshoot =
-            parameters.setpoint > 0
-                ? Math.max(
-                      0,
-                      ((maxTrueOutput - parameters.setpoint) / Math.abs(parameters.setpoint)) * 100,
-                  )
-                : parameters.setpoint < 0
-                  ? Math.max(
-                        0,
-                        ((parameters.setpoint - minTrueOutput) / Math.abs(parameters.setpoint)) * 100,
-                    )
-                  : 0;
 
         return {
-            maxTrueOutput: Number.isFinite(maxTrueOutput) ? maxTrueOutput : 0,
-            overshoot,
+            maxTrueOutput: shared.peakOutput,
+            overshoot: shared.percentageOvershoot,
             finalTrueOutput: finalPoint?.trueOutput ?? 0,
             finalMeasuredOutput: finalPoint?.measuredOutput ?? 0,
             crossingPoint,
@@ -112,19 +75,8 @@ export default function SlowSensorPIDPage() {
         });
     }
 
-    function updatePlantParameter(
-        key: 'gain' | 'tau' | 'm' | 'b' | 'k',
-        value: number,
-    ) {
-        if (!Number.isFinite(value)) return;
-
-        setParameters((current) =>
-            current.plantType === 'first-order' && (key === 'gain' || key === 'tau')
-                ? { ...current, firstOrder: { ...current.firstOrder, [key]: value } }
-                : current.plantType === 'second-order' && (key === 'm' || key === 'b' || key === 'k')
-                  ? { ...current, secondOrder: { ...current.secondOrder, [key]: value } }
-                  : current,
-        );
+    function updatePlantParameter(key: PlantParameterKey, value: number) {
+        setParameters((current) => ({ ...current, ...updatePlantSelection(current, key, value) }));
     }
 
     function updatePlantType(plantType: SlowSensorPIDParameters['plantType']) {
@@ -132,12 +84,7 @@ export default function SlowSensorPIDPage() {
     }
 
     function resetExperiment() {
-        setParameters({
-            ...DEFAULT_PARAMETERS,
-            firstOrder: { ...DEFAULT_PARAMETERS.firstOrder },
-            secondOrder: { ...DEFAULT_PARAMETERS.secondOrder },
-            gains: { ...DEFAULT_PARAMETERS.gains },
-        });
+        setParameters(createDefaultSlowSensorParameters());
     }
 
     return (
@@ -147,14 +94,16 @@ export default function SlowSensorPIDPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    moduleNumber="09"
+                    badge="CONTROL · P2"
+                    kicker="Feedback control laboratory"
+                    parent={{ to: '/control', label: 'Control overview' }}
                     systemType="PID control with sensor dynamics"
                     title="Slow sensor in the feedback loop"
                     description="Investigate how sensor lag affects closed-loop PID performance. Compare the true plant output with the delayed sensor measurement and observe how feedback delay can increase overshoot and cause oscillations."
                     onReset={resetExperiment}
                     nextModule={{
-                        to: '/digital-pid',
-                        label: 'Continue to Module 10: Digital PID →',
+                        to: '/control/digital-pid',
+                        label: 'Continue to P3: Digital PID →',
                     }}
                 />
             </Reveal>
@@ -196,6 +145,10 @@ export default function SlowSensorPIDPage() {
 
             <Reveal>
                 <ChallengeSection parameters={parameters} />
+            </Reveal>
+
+            <Reveal>
+                <ModulePager />
             </Reveal>
 
             <Reveal>

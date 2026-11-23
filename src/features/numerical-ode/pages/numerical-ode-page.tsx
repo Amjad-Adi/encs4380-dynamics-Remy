@@ -68,8 +68,8 @@ export default function NumericalOdePage() {
                     description="Compare Euler’s method and fourth-order Runge–Kutta with the analytical step response of a first-order system. Adjust the parameters and observe the numerical solutions update in real time."
                     onReset={resetExperiment}
                     nextModule={{
-                        to: '/pid-playground',
-                        label: 'Continue to Module 08: PID Control Playground →',
+                        to: '/control',
+                        label: 'Continue to Homework 2: Control →',
                     }}
                 />
             </Reveal>

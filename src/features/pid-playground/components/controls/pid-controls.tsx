@@ -1,7 +1,11 @@
 import { RotateCcw } from 'lucide-react';
+
+import { ParameterControl } from '@/components/shared/parameter-control';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ParameterControl } from '@/components/shared/parameter-control';
+import { PIDGainControls } from '@/features/control/components/pid-gain-controls';
+import { PlantModelControls } from '@/features/control/components/plant-model-controls';
+import type { PlantParameterKey } from '@/features/control/domain';
 import type {
     PIDPlaygroundParameters,
     PlantType,
@@ -11,7 +15,7 @@ interface PIDControlsProps {
     parameters: PIDPlaygroundParameters;
     onPlantTypeChange: (type: PlantType) => void;
     onParameterChange: (key: keyof PIDPlaygroundParameters['gains'], value: number) => void;
-    onPlantParameterChange: (key: 'gain' | 'tau' | 'm' | 'b' | 'k', value: number) => void;
+    onPlantParameterChange: (key: PlantParameterKey, value: number) => void;
     onSetpointChange: (value: number) => void;
     onOutputLimitChange: (key: 'outputMin' | 'outputMax', value: number) => void;
     onReset: () => void;
@@ -46,133 +50,17 @@ export function PIDControls({
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-7">
-                <div className="space-y-3">
-                    <p className="text-sm font-medium">Plant model</p>
-                    <div className="grid grid-cols-2 gap-2">
-                        <Button
-                            type="button"
-                            variant={parameters.plantType === 'first-order' ? 'default' : 'outline'}
-                            onClick={() => onPlantTypeChange('first-order')}
-                            aria-pressed={parameters.plantType === 'first-order'}
-                        >
-                            First order
-                        </Button>
-                        <Button
-                            type="button"
-                            variant={
-                                parameters.plantType === 'second-order' ? 'default' : 'outline'
-                            }
-                            onClick={() => onPlantTypeChange('second-order')}
-                            aria-pressed={parameters.plantType === 'second-order'}
-                        >
-                            Second order
-                        </Button>
-                    </div>
-                </div>
-                {parameters.plantType === 'first-order' ? (
-                    <div className="space-y-6">
-                        <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                            First-order plant
-                        </p>
-                        <ParameterControl
-                            id="pid-plant-gain"
-                            label="Plant gain (K)"
-                            value={parameters.firstOrder.gain}
-                            min={0.1}
-                            max={5}
-                            step={0.1}
-                            unit="-"
-                            description="Steady-state gain"
-                            onChange={(value) => onPlantParameterChange('gain', value)}
-                        />
-                        <ParameterControl
-                            id="pid-plant-tau"
-                            label="Time constant (τ)"
-                            value={parameters.firstOrder.tau}
-                            min={0.1}
-                            max={5}
-                            step={0.1}
-                            unit="s"
-                            description="Open-loop response speed"
-                            onChange={(value) => onPlantParameterChange('tau', value)}
-                        />
-                    </div>
-                ) : (
-                    <div className="space-y-6">
-                        <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                            Second-order plant
-                        </p>
-                        <ParameterControl
-                            id="pid-plant-mass"
-                            label="Mass (m)"
-                            value={parameters.secondOrder.m}
-                            min={0.1}
-                            max={10}
-                            step={0.1}
-                            unit="kg"
-                            onChange={(value) => onPlantParameterChange('m', value)}
-                        />
-                        <ParameterControl
-                            id="pid-plant-damping"
-                            label="Damping (b)"
-                            value={parameters.secondOrder.b}
-                            min={0}
-                            max={20}
-                            step={0.1}
-                            unit="N·s/m"
-                            onChange={(value) => onPlantParameterChange('b', value)}
-                        />
-                        <ParameterControl
-                            id="pid-plant-stiffness"
-                            label="Stiffness (k)"
-                            value={parameters.secondOrder.k}
-                            min={0.1}
-                            max={100}
-                            step={0.1}
-                            unit="N/m"
-                            onChange={(value) => onPlantParameterChange('k', value)}
-                        />
-                    </div>
-                )}
-                <div className="space-y-6 border-t pt-6">
-                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        PID gains
-                    </p>
-                    <ParameterControl
-                        id="pid-kp"
-                        label={<>Proportional gain-Kp</>}
-                        ariaLabel="Proportional gain Kp"
-                        value={parameters.gains.kp}
-                        min={0}
-                        max={30}
-                        step={0.1}
-                        unit="-"
-                        description="Acts on present error"
-                        onChange={(value) => onParameterChange('kp', value)}
-                    />
-                    <ParameterControl
-                        id="pid-ki"
-                        label={<>Integral gain-Ki</>}
-                        ariaLabel="Integral gain Ki"
-                        value={parameters.gains.ki}
-                        min={0}
-                        max={20}
-                        step={0.1}
-                        unit="1/s"
-                        description="Accumulates past error"
-                        onChange={(value) => onParameterChange('ki', value)}
-                    />
-                    <ParameterControl
-                        id="pid-kd"
-                        label={<>Derivative gain-Kd</>}
-                        ariaLabel="Derivative gain Kd"
-                        value={parameters.gains.kd}
-                        min={0}
-                        max={20}
-                        step={0.1}
-                        unit="s"
-                        description="Responds to error change"
-                        onChange={(value) => onParameterChange('kd', value)}
+                <PlantModelControls
+                    idPrefix="pid"
+                    selection={parameters}
+                    onPlantTypeChange={onPlantTypeChange}
+                    onPlantParameterChange={onPlantParameterChange}
+                />
+                <div className="border-t pt-6">
+                    <PIDGainControls
+                        idPrefix="pid"
+                        gains={parameters.gains}
+                        onGainChange={onParameterChange}
                     />
                 </div>
                 <div className="space-y-6 border-t pt-6">

@@ -66,7 +66,8 @@ export default function NotFoundPage() {
                         {/* Navigation */}
                             <div className="mt-7 w-full">
                                 <Button
-                                    render={<Link to="/time-response" />}
+                                    render={<Link to="/" />}
+                                    nativeButton={false}
                                     className="h-12 w-full gap-2 px-4"
                                 >
                                     <Home className="size-4" />

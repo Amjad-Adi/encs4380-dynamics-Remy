@@ -296,13 +296,13 @@ The following captures show the running local application: parameter controls, t
 
 ### Digital PID Numerical Validation
 
-The Digital PID module simulates the first-order plant \(G(s)=1/(s+1)\) with Forward Euler integration. Its validation cases use:
+The Digital PID module (P3) runs the controller at a sample period \(T_s\) with a zero-order hold; between samples the continuous plant is integrated with the shared RK4 solver (see [Homework 2 — Control Integration](#homework-2--control-integration)). Its validation cases use the first-order plant \(G(s)=1/(s+1)\):
 
 - **P-only** (\(K_p=9,\ K_i=K_d=0\)): closed-loop time constant \(0.1\,s\), unit-step steady-state error \(0.1\), and response \(y(t)=0.9(1-e^{-10t})\).
 - **PI** (\(K_p=K_i=1,\ K_d=0\)): characteristic polynomial \(s^2+2s+1\), so \(\omega_n=1\,rad/s\) and \(\zeta=1\). Pole-zero cancellation gives the step response \(y(t)=1-e^{-t}\), with zero limiting error.
 - **Integral action:** a stable PI loop with actuator limits wide enough to avoid saturation approaches zero steady-state error.
 
-The response comparisons use \(dt=0.001\,s\) and allow up to \(0.002\) absolute output error for the P-only case and \(0.0003\) for the PI case. These tolerances account for Forward Euler's first-order global discretization error; results depend on the chosen step size, and large steps can reduce accuracy or destabilize a simulation. The engine uses \(\lfloor duration/dt\rfloor\) steps without a shortened final step, so the last sample may precede the requested duration. Saturation is clamped at the actuator limits, with conditional integration preventing windup when saturation and error drive in the same direction.
+The response comparisons use \(T_s=0.001\,s\) and allow up to \(0.002\) absolute output error for the P-only case and \(0.0003\) for the PI case. These tolerances bound the difference between the sampled-data loop and the continuous analytical response; larger sample periods change the response physically (see the Nyquist-gain warning in P3). The engine uses \(\lfloor duration/T_s\rfloor\) steps without a shortened final step, so the last sample may precede the requested duration. Saturation is clamped at the actuator limits, with conditional integration preventing windup when saturation and error drive in the same direction.
 
 Run the Digital PID numerical regression tests with:
 
@@ -321,6 +321,76 @@ To check the TypeScript project and produce a production build:
 ```bash
 npm run build
 ```
+
+---
+
+## Homework 2 — Control Integration
+
+The four PID modules and MySystem live in a **Control** section of the same application, next to the Homework 1 modules.
+
+### Navigation
+
+| Route                        | Page                                                   |
+| ---------------------------- | ------------------------------------------------------ |
+| `/`                          | Landing page linking Homework 1 and the Control section |
+| `/control`                   | Control overview: module cards, shared core, consistency check |
+| `/control/pid-playground`    | P1 · PID Playground                                    |
+| `/control/slow-sensor-pid`   | P2 · Slow Sensor in the Feedback Loop                  |
+| `/control/digital-pid`       | P3 · Digital PID                                       |
+| `/control/tuning-challenge`  | P4 · PID Tuning Challenge                              |
+| `/control/my-system`         | MySystem                                               |
+
+- **Desktop:** the header switches between *Dynamic characteristics* (HW1) and *Control* (HW2); the bar below lists the modules of the current section.
+- **Mobile:** the sidebar groups both sections (the current one opens by default) and lists the page sections.
+- Every Control page has a link back to the overview, a "continue" link and a previous/next pager.
+- The old top-level URLs (`/pid-playground`, `/digital-pid`, …) redirect to their `/control/…` routes.
+
+### Shared simulation core
+
+All Control modules run on `src/features/control/domain`, which is built from Homework 1 code:
+
+| Piece | File | Reuses |
+| ----- | ---- | ------ |
+| Plant library | `plants.ts` | Module 1 first-order plant \(K/(\tau s+1)\); Module 3 mass–spring–damper \(1/(ms^2+bs+k)\) and its \(\omega_n,\zeta\) helpers; Module 4 random sensor draw for P4 hidden plants |
+| PID law | `pid-law.ts` | One law for every module: derivative on measurement, actuator saturation, conditional anti-windup |
+| Continuous loop | `continuous-simulation.ts` | P1, P2 (adds a first-order sensor \(\tau_s\)) and P4 |
+| Sampled loop | `digital-simulation.ts` | P3 and MySystem: controller every \(T_s\), zero-order hold, plant integrated between samples |
+| ODE solver | `src/lib/numerics/ode.ts` | The Module 7 Euler/RK4 step generalised to state vectors; Module 7 now calls the same code |
+| Metrics | `metrics.ts` | One rise/overshoot/settling/\(e_{ss}\) calculation using the Module 3 10–90 % and ±2 % constants; P4 measures against the setpoint for its spec |
+
+Shared UI components (`src/features/control/components`) replace the duplicated plant selector, PID gain sliders, response charts and metrics card in P1–P3 and MySystem.
+
+### Consistency checks
+
+`npm test` runs `src/features/control/domain/control.test.ts` alongside the P3 validation tests. It checks:
+
+- P-only and PD closed loops against the Module 1 and Module 3 analytic step responses (error < 10⁻⁶).
+- Sampled metrics against the Module 3 analytic rise time, overshoot, peak time and settling time.
+- P2 → P1 as \(\tau_s \to 0\), and P3 → P1 as \(T_s \to 0\).
+- P4 plants against the Module 4 sensor responses.
+- Anti-windup that behaves the same in the continuous and sampled loops.
+- The Nyquist-frequency instability of a sampled derivative on a first-order plant.
+
+The Control overview page runs the same plant and gains through the P1, P2 and P3 engines live in the browser.
+
+### Responsive design and deployment
+
+- Pages use the full phone width (the layout no longer adds a second gutter); plots drop the Plotly toolbar on touch screens and keep their axis labels via automatic margins; block diagrams scroll horizontally instead of shrinking.
+- Verified at 375 px (phone), 768 px (tablet), 1024 px (laptop) and 1440 px (desktop) with no horizontal page overflow on any route.
+- Everything runs in the browser. `tuning_challenge_backend.py` is a stand-alone discussion script and is not used by the site. The GitHub Pages build and SPA fallback are unchanged.
+
+### Integration screenshots
+
+| Desktop | Mobile |
+| ------- | ------ |
+| ![Landing page](screenshots/HW2-Integration/desktop-01-landing.png) | ![Landing page on mobile](screenshots/HW2-Integration/mobile-01-landing.jpg) |
+| ![Control overview](screenshots/HW2-Integration/desktop-02-control-overview.png) | ![Mobile navigation](screenshots/HW2-Integration/mobile-05-navigation-sidebar.jpg) |
+| ![P1 PID playground](screenshots/HW2-Integration/desktop-03-p1-pid-playground.png) | ![P1 response on mobile](screenshots/HW2-Integration/mobile-07-p1-response.jpg) |
+| ![P2 slow sensor](screenshots/HW2-Integration/desktop-04-p2-slow-sensor.png) | ![P2 on mobile](screenshots/HW2-Integration/mobile-08-p2-slow-sensor.jpg) |
+| ![P3 digital PID](screenshots/HW2-Integration/desktop-05-p3-digital-pid.png) | ![P3 on mobile](screenshots/HW2-Integration/mobile-09-p3-digital-pid.jpg) |
+| ![P4 tuning challenge](screenshots/HW2-Integration/desktop-06-p4-tuning-challenge.png) | ![P4 results on mobile](screenshots/HW2-Integration/mobile-10-p4-spec-results.jpg) |
+| ![MySystem](screenshots/HW2-Integration/desktop-07-mysystem.png) | ![MySystem on mobile](screenshots/HW2-Integration/mobile-11-mysystem.jpg) |
+| ![Homework 1 Module 1 with the new navigation](screenshots/HW2-Integration/desktop-08-hw1-module1.png) | ![Consistency check on mobile](screenshots/HW2-Integration/mobile-04-consistency-check.jpg) |
 
 ---
 

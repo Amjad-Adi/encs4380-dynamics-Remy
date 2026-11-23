@@ -24,9 +24,11 @@ export function AppLayout() {
                     <ResponsiveNavigation />
                 </div>
 
-                <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+                {/* Pages render their own <main> with responsive gutters, so this wrapper only
+                    adds outer spacing on large screens; phones get the full width. */}
+                <div className="mx-auto w-full max-w-[1440px] min-w-0 flex-1 lg:px-8 lg:py-10">
                     <Outlet />
-                </main>
+                </div>
 
                 <AppFooter />
             </div>

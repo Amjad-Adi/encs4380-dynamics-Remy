@@ -3,7 +3,8 @@ import { SharedExperimentSection } from '@/components/modules/sections/experimen
 import type { PIDResponsePoint } from '@/features/pid-playground/domain/pid-playground';
 import { PIDBlockDiagram } from '../analysis/pid-block-diagram';
 import { PIDControls } from '../controls/pid-controls';
-import { PIDResponseChart } from '../charts/pid-response-chart';
+import { ClosedLoopResponseCharts } from '@/features/control/components/closed-loop-response-charts';
+import { getPlaygroundLimits } from '@/features/pid-playground/domain/pid-playground';
 
 type PIDControlsProps = ComponentProps<typeof PIDControls>;
 interface PIDExperimentSectionProps extends PIDControlsProps {
@@ -17,7 +18,10 @@ export function PIDExperimentSection(props: PIDExperimentSectionProps) {
             analysis={
                 <div className="space-y-4">
                     <PIDBlockDiagram plantType={props.parameters.plantType} />
-                    <PIDResponseChart parameters={props.parameters} points={props.points} />
+                    <ClosedLoopResponseCharts
+                        points={props.points}
+                        limits={getPlaygroundLimits(props.parameters)}
+                    />
                 </div>
             }
         />

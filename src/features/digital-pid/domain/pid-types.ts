@@ -1,57 +1,44 @@
+import type {
+    ActuatorLimits,
+    DigitalPIDSample,
+    DigitalTrajectoryPoint,
+    PIDGains,
+    Plant,
+    PlantSelection,
+    PlantType,
+    StepResponseMetrics,
+} from '@/features/control/domain';
 
-export type PlantType = "first-order" | "second-order";
-
-export interface PIDGains {
-    kp: number;
-    ki: number;
-    kd: number;
-}
-
-export interface OutputLimits {
-    min: number;
-    max: number;
-}
-
-export interface FirstOrderPlant {
-    type: "first-order";
-    gain: number;
-    timeConstant: number;
-}
-
-export interface SecondOrderPlant {
-    type: "second-order";
-    gain: number;
-    naturalFrequency: number;
-    dampingRatio: number;
-}
-
-export type PlantModel = FirstOrderPlant | SecondOrderPlant;
+export type { ActuatorLimits as OutputLimits, PIDGains, Plant as PlantModel, PlantType };
 
 export interface PIDSimulationConfig {
-    plant: PlantModel;
+    plant: Plant;
     gains: PIDGains;
     setpoint: number;
-    outputLimits: OutputLimits;
+    outputLimits: ActuatorLimits;
     duration: number;
-    dt: number;
+    /** Controller sample period Ts (s). */
+    sampleTime: number;
 }
 
-export interface SimulationSample {
-    time: number;
+/** UI state: keeps both plant parameter sets so switching plant type keeps values. */
+export interface DigitalPIDParameters extends PlantSelection {
+    gains: PIDGains;
     setpoint: number;
-    output: number;
-    error: number;
-    control: number;
+    outputLimits: ActuatorLimits;
+    duration: number;
+    sampleTime: number;
 }
 
-export interface PIDPerformanceMetrics {
-    riseTime: number | null;
-    overshoot: number;
-    settlingTime: number | null;
-    steadyStateError: number;
-}
+export type SimulationSample = DigitalPIDSample;
+export type TrajectoryPoint = DigitalTrajectoryPoint;
+export type PIDPerformanceMetrics = StepResponseMetrics;
 
 export interface PIDSimulationResult {
+    /** Controller variables at the sampling instants t = k·Ts. */
     samples: SimulationSample[];
+    /** Continuous plant output between samples (zero-order-hold input). */
+    trajectory: TrajectoryPoint[];
     metrics: PIDPerformanceMetrics;
+    diverged: boolean;
 }

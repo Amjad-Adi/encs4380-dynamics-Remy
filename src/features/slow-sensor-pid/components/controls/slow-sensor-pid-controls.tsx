@@ -10,6 +10,9 @@ import {
 } from '@/components/ui/card.tsx';
 import { Separator } from '@/components/ui/separator.tsx';
 import { ParameterControl } from '@/components/shared/parameter-control.tsx';
+import { PIDGainControls } from '@/features/control/components/pid-gain-controls';
+import { PlantModelControls } from '@/features/control/components/plant-model-controls';
+import type { PlantParameterKey } from '@/features/control/domain';
 
 import type { SlowSensorPIDParameters } from '@/features/slow-sensor-pid/domain/slow-sensor-pid.ts';
 
@@ -17,18 +20,12 @@ interface SlowSensorPIDControlsProps {
     parameters: SlowSensorPIDParameters;
     onPlantTypeChange: (plantType: SlowSensorPIDParameters['plantType']) => void;
     onParameterChange: (key: SlowSensorParameterKey, value: number) => void;
-    onPlantParameterChange: (key: 'gain' | 'tau' | 'm' | 'b' | 'k', value: number) => void;
+    onPlantParameterChange: (key: PlantParameterKey, value: number) => void;
     onReset: () => void;
 }
 
 type SlowSensorParameterKey =
-    | 'sensorTau'
-    | 'setpoint'
-    | 'outputMin'
-    | 'outputMax'
-    | 'kp'
-    | 'ki'
-    | 'kd';
+    'sensorTau' | 'setpoint' | 'outputMin' | 'outputMax' | 'kp' | 'ki' | 'kd';
 
 export function SlowSensorPIDControls({
     parameters,
@@ -59,92 +56,13 @@ export function SlowSensorPIDControls({
             </CardHeader>
 
             <CardContent className="space-y-6">
-                <div className="space-y-3">
-                    <p className="text-sm font-medium">Plant model</p>
-                    <div className="grid grid-cols-2 gap-2">
-                        {([
-                            { value: 'first-order', label: 'First-order' },
-                            { value: 'second-order', label: 'Second-order' },
-                        ] as const).map((option) => (
-                            <Button
-                                key={option.value}
-                                type="button"
-                                size="sm"
-                                variant={parameters.plantType === option.value ? 'default' : 'outline'}
-                                aria-pressed={parameters.plantType === option.value}
-                                onClick={() => onPlantTypeChange(option.value)}
-                            >
-                                {option.label}
-                            </Button>
-                        ))}
-                    </div>
-                </div>
-
-                {parameters.plantType === 'first-order' ? (
-                    <div className="space-y-5">
-                        <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                            First-order plant
-                        </p>
-                        <ParameterControl
-                            id="slow-pid-plant-gain"
-                            label="Plant gain (K)"
-                            value={parameters.firstOrder.gain}
-                            min={0.1}
-                            max={5}
-                            step={0.1}
-                            unit="-"
-                            description="Plant sensitivity"
-                            onChange={(value) => onPlantParameterChange('gain', value)}
-                        />
-                        <ParameterControl
-                            id="slow-pid-plant-tau"
-                            label="Plant time constant (τp)"
-                            value={parameters.firstOrder.tau}
-                            min={0.1}
-                            max={5}
-                            step={0.1}
-                            unit="s"
-                            description="Plant response speed"
-                            onChange={(value) => onPlantParameterChange('tau', value)}
-                        />
-                    </div>
-                ) : (
-                    <div className="space-y-5">
-                        <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                            Second-order plant
-                        </p>
-                        <ParameterControl
-                            id="slow-pid-plant-mass"
-                            label="Mass (m)"
-                            value={parameters.secondOrder.m}
-                            min={0.1}
-                            max={10}
-                            step={0.1}
-                            unit="kg"
-                            onChange={(value) => onPlantParameterChange('m', value)}
-                        />
-                        <ParameterControl
-                            id="slow-pid-plant-damping"
-                            label="Damping (b)"
-                            value={parameters.secondOrder.b}
-                            min={0}
-                            max={20}
-                            step={0.1}
-                            unit="N·s/m"
-                            onChange={(value) => onPlantParameterChange('b', value)}
-                        />
-                        <ParameterControl
-                            id="slow-pid-plant-stiffness"
-                            label="Stiffness (k)"
-                            value={parameters.secondOrder.k}
-                            min={0.1}
-                            max={100}
-                            step={0.1}
-                            unit="N/m"
-                            onChange={(value) => onPlantParameterChange('k', value)}
-                        />
-                    </div>
-                )}
+                <PlantModelControls
+                    idPrefix="slow-pid"
+                    selection={parameters}
+                    onPlantTypeChange={onPlantTypeChange}
+                    onPlantParameterChange={onPlantParameterChange}
+                    tauLabel="Plant time constant (τp)"
+                />
 
                 <Separator />
 
@@ -167,44 +85,12 @@ export function SlowSensorPIDControls({
 
                 <Separator />
 
-                <div className="space-y-5">
-                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        PID controller gains
-                    </p>
-                    <ParameterControl
-                        id="slow-pid-kp"
-                        label="Proportional gain (Kp)"
-                        value={parameters.gains.kp}
-                        min={0}
-                        max={30}
-                        step={0.1}
-                        unit="-"
-                        description="Acts on present error"
-                        onChange={(value) => onParameterChange('kp', value)}
-                    />
-                    <ParameterControl
-                        id="slow-pid-ki"
-                        label="Integral gain (Ki)"
-                        value={parameters.gains.ki}
-                        min={0}
-                        max={20}
-                        step={0.1}
-                        unit="1/s"
-                        description="Accumulates past error"
-                        onChange={(value) => onParameterChange('ki', value)}
-                    />
-                    <ParameterControl
-                        id="slow-pid-kd"
-                        label="Derivative gain (Kd)"
-                        value={parameters.gains.kd}
-                        min={0}
-                        max={20}
-                        step={0.1}
-                        unit="s"
-                        description="Acts on measured-output rate"
-                        onChange={(value) => onParameterChange('kd', value)}
-                    />
-                </div>
+                <PIDGainControls
+                    idPrefix="slow-pid"
+                    title="PID controller gains"
+                    gains={parameters.gains}
+                    onGainChange={onParameterChange}
+                />
 
                 <Separator />
 

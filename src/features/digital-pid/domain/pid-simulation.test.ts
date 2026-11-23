@@ -1,13 +1,18 @@
 import { describe, expect, it } from 'vitest';
 
+import { secondOrderFromStandardForm } from '@/features/control/domain';
+
 import { simulatePID } from './pid-simulation';
 import type { PIDSimulationConfig } from './pid-types';
 
 const firstOrderPlant = {
     type: 'first-order' as const,
     gain: 1,
-    timeConstant: 1,
+    tau: 1,
 };
+
+// Standard form K·ωn² / (s² + 2ζωn·s + ωn²) mapped onto the shared mass–spring–damper plant.
+const lightlyDampedPlant = secondOrderFromStandardForm({ gain: 1, omegaN: 2, zeta: 0.1 });
 
 function createConfig(overrides: Partial<PIDSimulationConfig> = {}): PIDSimulationConfig {
     return {
@@ -16,13 +21,13 @@ function createConfig(overrides: Partial<PIDSimulationConfig> = {}): PIDSimulati
         setpoint: 1,
         outputLimits: { min: -100, max: 100 },
         duration: 1,
-        dt: 0.001,
+        sampleTime: 0.001,
         ...overrides,
     };
 }
 
 describe('Digital PID simulation', () => {
-    it('matches the P-only first-order closed-loop response within Euler tolerance', () => {
+    it('matches the P-only first-order closed-loop response within sampling tolerance', () => {
         const result = simulatePID(createConfig());
         const maxAnalyticalError = Math.max(
             ...result.samples.map((sample) => {
@@ -93,12 +98,7 @@ describe('Digital PID simulation', () => {
     it('allows the integral to unwind when saturation opposes the error', () => {
         const highSaturation = simulatePID(
             createConfig({
-                plant: {
-                    type: 'second-order',
-                    gain: 1,
-                    naturalFrequency: 2,
-                    dampingRatio: 0.1,
-                },
+                plant: lightlyDampedPlant,
                 gains: { kp: 0, ki: 2, kd: 0 },
                 outputLimits: { min: 0, max: 1 },
                 duration: 1.3,
@@ -106,12 +106,7 @@ describe('Digital PID simulation', () => {
         );
         const lowSaturation = simulatePID(
             createConfig({
-                plant: {
-                    type: 'second-order',
-                    gain: 1,
-                    naturalFrequency: 2,
-                    dampingRatio: 0.1,
-                },
+                plant: lightlyDampedPlant,
                 gains: { kp: 0, ki: 2, kd: 0 },
                 setpoint: -1,
                 outputLimits: { min: -1, max: 0 },
@@ -130,10 +125,10 @@ describe('Digital PID simulation', () => {
 
     it('handles a zero setpoint and a duration shorter than one step', () => {
         const zeroSetpoint = simulatePID(createConfig({ setpoint: 0, duration: 1 }));
-        const shortRun = simulatePID(createConfig({ duration: 0.005, dt: 0.01 }));
+        const shortRun = simulatePID(createConfig({ duration: 0.005, sampleTime: 0.01 }));
 
         expect(zeroSetpoint.samples.every((sample) => sample.output === 0)).toBe(true);
-        expect(zeroSetpoint.metrics.overshoot).toBe(0);
+        expect(zeroSetpoint.metrics.percentageOvershoot).toBe(0);
         expect(zeroSetpoint.metrics.steadyStateError).toBe(0);
 
         expect(shortRun.samples).toHaveLength(1);

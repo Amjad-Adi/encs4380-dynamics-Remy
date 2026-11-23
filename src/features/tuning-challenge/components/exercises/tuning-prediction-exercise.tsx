@@ -3,7 +3,6 @@ import { CheckCircle2, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-    getPIDPerformanceMetrics,
     simulatePID,
     type PIDGains,
     type PIDPlaygroundParameters,
@@ -67,8 +66,7 @@ export function TuningPredictionExercise({ parameters }: { parameters: PIDPlaygr
     const comparison = useMemo(() => {
         const evaluate = (gains: PIDGains) => {
             const points = simulatePID({ ...parameters, gains }, TUNING_DURATION, 6001);
-            return evaluateTuning(points, getPIDPerformanceMetrics(points), parameters.setpoint)
-                .results;
+            return evaluateTuning(points, parameters.setpoint).results;
         };
         const baseline = evaluate(parameters.gains);
         return QUESTIONS.map((question) => {

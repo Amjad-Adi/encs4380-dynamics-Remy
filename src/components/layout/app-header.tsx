@@ -3,6 +3,7 @@ import { FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import ThemeToggle from '@/components/ThemeToggle.tsx';
+import { SectionTabs } from '@/components/layout/section-tabs';
 import { useIsMobile } from '@/hooks/use-is-mobile';
 import remyImage from '@/assets/remy.jpg';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -42,12 +43,14 @@ export function AppHeader() {
                                 Dynamic Characteristics Toolkit
                             </p>
 
-                            <p className="text-muted-foreground text-xs">
+                            <p className="text-muted-foreground truncate text-xs">
                                 ENCS4380 · Interfacing Techniques
                             </p>
                         </div>
                     </Link>
                 </div>
+
+                {!isMobile && <SectionTabs className="shrink-0" />}
 
                 <div className="flex shrink-0 items-center gap-2">
                     {!isMobile && (

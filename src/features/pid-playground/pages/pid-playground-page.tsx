@@ -2,18 +2,20 @@ import { useMemo, useState } from 'react';
 import { Gauge } from 'lucide-react';
 import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
+import { ModulePager } from '@/components/modules/module-pager';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedAnalysisSection } from '@/components/modules/sections/analysis-section';
 import { Reveal } from '@/components/ui/reveal';
+import { PIDMetrics } from '@/features/control/components/pid-metrics';
+import { updatePlantSelection, type PlantParameterKey } from '@/features/control/domain';
 import {
-    DEFAULT_PID_PARAMETERS,
+    createDefaultPIDParameters,
     getPIDPerformanceMetrics,
     getSuggestedSimulationDuration,
     simulatePID,
     type PIDPlaygroundParameters,
     type PlantType,
 } from '@/features/pid-playground/domain/pid-playground';
-import { PIDMetrics } from '../components/analysis/pid-metrics';
 import { PIDValidationChecks } from '../components/analysis/pid-validation-checks';
 import { PIDPredictionExercise } from '../components/exercises/pid-prediction-exercise';
 import { PIDExperimentSection } from '../components/page/pid-experiment-section';
@@ -21,12 +23,9 @@ import { PIDModelOverview } from '../components/page/pid-model-overview';
 import { PID_SECTIONS } from '../components/page/pid-sections';
 
 export default function PIDPlaygroundPage() {
-    const [parameters, setParameters] = useState<PIDPlaygroundParameters>({
-        ...DEFAULT_PID_PARAMETERS,
-        firstOrder: { ...DEFAULT_PID_PARAMETERS.firstOrder },
-        secondOrder: { ...DEFAULT_PID_PARAMETERS.secondOrder },
-        gains: { ...DEFAULT_PID_PARAMETERS.gains },
-    });
+    const [parameters, setParameters] = useState<PIDPlaygroundParameters>(
+        createDefaultPIDParameters,
+    );
     const duration = useMemo(() => getSuggestedSimulationDuration(parameters), [parameters]);
     const points = useMemo(() => simulatePID(parameters, duration, 6001), [parameters, duration]);
     const metrics = useMemo(() => getPIDPerformanceMetrics(points), [points]);
@@ -35,21 +34,11 @@ export default function PIDPlaygroundPage() {
         if (!Number.isFinite(value)) return;
         setParameters((current) => ({ ...current, gains: { ...current.gains, [key]: value } }));
     }
-    function updatePlantParameter(key: 'gain' | 'tau' | 'm' | 'b' | 'k', value: number) {
-        if (!Number.isFinite(value)) return;
-        setParameters((current) =>
-            current.plantType === 'first-order'
-                ? { ...current, firstOrder: { ...current.firstOrder, [key]: value } }
-                : { ...current, secondOrder: { ...current.secondOrder, [key]: value } },
-        );
+    function updatePlantParameter(key: PlantParameterKey, value: number) {
+        setParameters((current) => ({ ...current, ...updatePlantSelection(current, key, value) }));
     }
     function resetExperiment() {
-        setParameters({
-            ...DEFAULT_PID_PARAMETERS,
-            firstOrder: { ...DEFAULT_PID_PARAMETERS.firstOrder },
-            secondOrder: { ...DEFAULT_PID_PARAMETERS.secondOrder },
-            gains: { ...DEFAULT_PID_PARAMETERS.gains },
-        });
+        setParameters(createDefaultPIDParameters());
     }
 
     return (
@@ -59,14 +48,16 @@ export default function PIDPlaygroundPage() {
         >
             <Reveal>
                 <ModuleHeader
-                    moduleNumber="08"
+                    badge="CONTROL · P1"
                     systemType="Feedback control"
                     title="PID control playground"
+                    kicker="Feedback control laboratory"
+                    parent={{ to: '/control', label: 'Control overview' }}
                     description="Explore how proportional, integral, and derivative control shape a closed-loop response. Compare first-order and second-order plants, inspect the actuator command, and tune the controller against live performance metrics."
                     onReset={resetExperiment}
                     nextModule={{
-                        to: '/slow-sensor-pid',
-                        label: 'Continue to Module 09: Slow sensor in feedback loop →',
+                        to: '/control/slow-sensor-pid',
+                        label: 'Continue to P2: Slow sensor in the loop →',
                     }}
                 />
             </Reveal>
@@ -98,7 +89,7 @@ export default function PIDPlaygroundPage() {
                 <SharedAnalysisSection
                     title="Response performance"
                     icon={Gauge}
-                    description="The metrics are recalculated from the simulated closed-loop response. A missing settling time means the response did not enter and remain within the 2% band during the displayed simulation."
+                    description="The metrics are recalculated from the simulated closed-loop response with the same shared calculation used by every Control module. A missing settling time means the response did not enter and remain within the 2% band during the displayed simulation."
                 >
                     <div className="space-y-4">
                         <PIDMetrics metrics={metrics} steadyStateTarget={parameters.setpoint} />
@@ -110,6 +101,9 @@ export default function PIDPlaygroundPage() {
                 <section id="challenge" className="scroll-mt-24 space-y-3">
                     <PIDPredictionExercise />
                 </section>
+            </Reveal>
+            <Reveal>
+                <ModulePager />
             </Reveal>
             <Reveal>
                 <ModuleFooter />

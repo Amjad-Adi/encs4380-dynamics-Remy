@@ -71,20 +71,25 @@ export function getSensorResponse(parameters: SensorParameters, time: number): n
     );
 }
 
-export function generateSensorChallenge(random: () => number = Math.random): SensorChallenge {
-    let parameters: SensorParameters;
-    let duration: number;
-
+/**
+ * Draws a random sensor model. Shared with the P4 tuning challenge, which uses the
+ * same model family for its hidden plants.
+ */
+export function drawSensorParameters(random: () => number = Math.random): SensorParameters {
     if (random() < 0.5) {
-        const tau = randomBetween(0.45, 2.4, random);
-        parameters = { type: 'first-order', tau };
-        duration = 5 * tau;
-    } else {
-        const zeta = randomBetween(0.2, 0.8, random);
-        const omegaN = randomBetween(0.8, 3.2, random);
-        parameters = { type: 'second-order', zeta, omegaN };
-        duration = Math.max(6 / omegaN, 5 / (zeta * omegaN));
+        return { type: 'first-order', tau: randomBetween(0.45, 2.4, random) };
     }
+    const zeta = randomBetween(0.2, 0.8, random);
+    const omegaN = randomBetween(0.8, 3.2, random);
+    return { type: 'second-order', zeta, omegaN };
+}
+
+export function generateSensorChallenge(random: () => number = Math.random): SensorChallenge {
+    const parameters = drawSensorParameters(random);
+    const duration =
+        parameters.type === 'first-order'
+            ? 5 * parameters.tau
+            : Math.max(6 / parameters.omegaN, 5 / (parameters.zeta * parameters.omegaN));
 
     const samples = Array.from({ length: SAMPLE_COUNT }, (_, index) => {
         const time = (index / (SAMPLE_COUNT - 1)) * duration;

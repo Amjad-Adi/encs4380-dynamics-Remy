@@ -488,7 +488,7 @@ export function PIDBlockDiagram({ plantType }: { plantType: PlantType }) {
                             className="fill-muted-foreground"
                             fontSize="11.5"
                         >
-                            Derivative on measurement · Output saturation
+                            Derivative on measurement · Output saturation · Anti-windup
                         </text>
                     </svg>
                 </div>

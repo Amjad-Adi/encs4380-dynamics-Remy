@@ -2,14 +2,11 @@ import { useMemo, useState } from 'react';
 import { Gauge } from 'lucide-react';
 import { ModuleFooter } from '@/components/modules/module-footer';
 import { ModuleHeader } from '@/components/modules/module-header';
+import { ModulePager } from '@/components/modules/module-pager';
 import { SectionNavigation } from '@/components/modules/section-navigation';
 import { SharedAnalysisSection } from '@/components/modules/sections/analysis-section';
 import { Reveal } from '@/components/ui/reveal';
-import {
-    getPIDPerformanceMetrics,
-    simulatePID,
-    type PIDGains,
-} from '@/features/pid-playground/domain/pid-playground';
+import { simulatePID, type PIDGains } from '@/features/pid-playground/domain/pid-playground';
 import {
     DEFAULT_TUNING_GAINS,
     TUNING_DURATION,
@@ -29,10 +26,9 @@ export default function TuningChallengePage() {
     const [gains, setGains] = useState<PIDGains>({ ...DEFAULT_TUNING_GAINS });
     const parameters = useMemo(() => getTuningParameters(plant, gains), [plant, gains]);
     const points = useMemo(() => simulatePID(parameters, TUNING_DURATION, 6001), [parameters]);
-    const metrics = useMemo(() => getPIDPerformanceMetrics(points), [points]);
     const evaluation = useMemo(
-        () => evaluateTuning(points, metrics, parameters.setpoint),
-        [points, metrics, parameters.setpoint],
+        () => evaluateTuning(points, parameters.setpoint),
+        [points, parameters.setpoint],
     );
 
     function updateGain(key: keyof PIDGains, value: number) {
@@ -54,14 +50,16 @@ export default function TuningChallengePage() {
         >
             <Reveal>
                 <ModuleHeader
-                    moduleNumber="11"
+                    badge="CONTROL · P4"
+                    kicker="Feedback control laboratory"
+                    parent={{ to: '/control', label: 'Control overview' }}
                     systemType="Controller tuning"
                     title="Tuning challenge"
                     description="Tune a PID controller for a hidden random plant. Meet the overshoot, settling-time, and steady-state error specification using only the simulated closed-loop response, and earn a score for each part."
                     onReset={resetExperiment}
                     nextModule={{
-                        to: '/my-system',
-                        label: 'Continue to Module 12: MySystem →',
+                        to: '/control/my-system',
+                        label: 'Continue to MySystem →',
                     }}
                 />
             </Reveal>
@@ -95,6 +93,9 @@ export default function TuningChallengePage() {
                 <section id="challenge" className="scroll-mt-24 space-y-3">
                     <TuningPredictionExercise parameters={parameters} />
                 </section>
+            </Reveal>
+            <Reveal>
+                <ModulePager />
             </Reveal>
             <Reveal>
                 <ModuleFooter />

@@ -1,239 +1,141 @@
-import type {
-    PIDSimulationConfig,
-    PlantModel,
-} from "../../domain/pid-types";
-import type * as React from "react";
+import { RotateCcw } from 'lucide-react';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { ParameterControl } from "@/components/shared/parameter-control";
+import { ParameterControl } from '@/components/shared/parameter-control';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { PIDGainControls } from '@/features/control/components/pid-gain-controls';
+import { PlantModelControls } from '@/features/control/components/plant-model-controls';
+import { updatePlantSelection } from '@/features/control/domain';
+
+import { SAMPLE_TIME_RANGE } from '../../domain/pid-simulation';
+import type { DigitalPIDParameters } from '../../domain/pid-types';
 
 interface PIDControlsProps {
-    config: PIDSimulationConfig;
-    onChange: (config: PIDSimulationConfig) => void;
+    parameters: DigitalPIDParameters;
+    onChange: (update: (current: DigitalPIDParameters) => DigitalPIDParameters) => void;
+    onReset: () => void;
 }
 
-export function PIDControls({ config, onChange }: PIDControlsProps) {
-    const updateGains = (key: "kp" | "ki" | "kd", value: number) => {
-        onChange({
-            ...config,
-            gains: {
-                ...config.gains,
-                [key]: value,
-            },
-        });
-    };
-
-    const updatePlant = (updates: Partial<PlantModel>) => {
-        onChange({
-            ...config,
-            plant: {
-                ...config.plant,
-                ...updates,
-            } as PlantModel,
-        });
-    };
-
-    const updateValue = (
-        key: "setpoint" | "duration" | "dt",
-        value: number
-    ) => {
-        onChange({
-            ...config,
-            [key]: value,
-        });
-    };
-
-    const changePlantType = (type: "first-order" | "second-order") => {
-        const plant: PlantModel =
-            type === "first-order"
-                ? {
-                    type: "first-order",
-                    gain: 1,
-                    timeConstant: 1,
-                }
-                : {
-                    type: "second-order",
-                    gain: 1,
-                    naturalFrequency: 2,
-                    dampingRatio: 0.5,
-                };
-
-        onChange({
-            ...config,
-            plant,
-        });
-    };
-
-    const numberControl = (
-        id: string,
-        label: string,
-        value: number,
-        onValueChange: (value: number) => void,
-        props: React.InputHTMLAttributes<HTMLInputElement> = {},
-    ) => (
-        <div className="space-y-2">
-            <Label htmlFor={id} className="text-sm font-medium">{label}</Label>
-            <Input
-                id={id}
-                type="number"
-                value={value}
-                onChange={(event) => onValueChange(Number(event.target.value))}
-                className="font-mono text-sm"
-                {...props}
-            />
-        </div>
-    );
+export function PIDControls({ parameters, onChange, onReset }: PIDControlsProps) {
+    const set = <K extends keyof DigitalPIDParameters>(key: K, value: DigitalPIDParameters[K]) =>
+        onChange((current) => ({ ...current, [key]: value }));
 
     return (
         <Card className="h-fit">
             <CardHeader>
-                <CardTitle className="text-base">Controller and plant</CardTitle>
-                <CardDescription>Choose a plant, then tune the feedback controller.</CardDescription>
+                <div className="flex items-center justify-between gap-2">
+                    <CardTitle className="text-base">Controller and plant</CardTitle>
+                    <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={onReset}
+                        aria-label="Reset digital PID experiment"
+                    >
+                        <RotateCcw size={16} />
+                    </Button>
+                </div>
+                <CardDescription>
+                    Same plants and PID law as P1; the controller now runs every Ts seconds.
+                </CardDescription>
             </CardHeader>
             <CardContent className="space-y-7">
-                <div className="space-y-2">
-                    <Label>Plant model</Label>
-                    <Select
-                        value={config.plant.type}
-                        onValueChange={(value) =>
-                            changePlantType(value as "first-order" | "second-order")
-                        }
-                    >
-                        <SelectTrigger className="w-full">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="first-order">First order</SelectItem>
-                            <SelectItem value="second-order">Second order</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div className="space-y-5 border-t pt-5">
+                <div className="space-y-6">
                     <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        PID gains
+                        Sampling
                     </p>
                     <ParameterControl
-                        id="pid-kp"
-                        label={<>Proportional gain (Kp)</>}
-                        ariaLabel="Proportional gain Kp"
-                        value={config.gains.kp}
-                        min={0}
-                        max={30}
-                        step={0.1}
-                        unit="-"
-                        description="Acts on present error"
-                        onChange={(value) => updateGains("kp", value)}
-                    />
-                    <ParameterControl
-                        id="pid-ki"
-                        label={<>Integral gain (Ki)</>}
-                        ariaLabel="Integral gain Ki"
-                        value={config.gains.ki}
-                        min={0}
-                        max={20}
-                        step={0.1}
-                        unit="1/s"
-                        description="Accumulates past error"
-                        onChange={(value) => updateGains("ki", value)}
-                    />
-                    <ParameterControl
-                        id="pid-kd"
-                        label={<>Derivative gain (Kd)</>}
-                        ariaLabel="Derivative gain Kd"
-                        value={config.gains.kd}
-                        min={0}
-                        max={20}
-                        step={0.1}
+                        id="digital-pid-sample-time"
+                        label="Sample period (Ts)"
+                        value={parameters.sampleTime}
+                        {...SAMPLE_TIME_RANGE}
                         unit="s"
-                        description="Responds to error change"
-                        onChange={(value) => updateGains("kd", value)}
+                        description={`fs = ${(1 / parameters.sampleTime).toFixed(parameters.sampleTime < 0.01 ? 0 : 1)} Hz`}
+                        onChange={(value) => set('sampleTime', value)}
                     />
                 </div>
 
-                <div className="space-y-5 border-t pt-5">
+                <div className="border-t pt-6">
+                    <PlantModelControls
+                        idPrefix="digital-pid"
+                        selection={parameters}
+                        onPlantTypeChange={(plantType) => set('plantType', plantType)}
+                        onPlantParameterChange={(key, value) =>
+                            onChange((current) => ({
+                                ...current,
+                                ...updatePlantSelection(current, key, value),
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="border-t pt-6">
+                    <PIDGainControls
+                        idPrefix="digital-pid"
+                        gains={parameters.gains}
+                        onGainChange={(key, value) =>
+                            onChange((current) => ({
+                                ...current,
+                                gains: { ...current.gains, [key]: value },
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="space-y-6 border-t pt-6">
                     <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        Plant parameters
+                        Reference, run and actuator
                     </p>
                     <ParameterControl
-                        id="pid-plant-gain"
-                        label="Plant gain (K)"
-                        value={config.plant.gain}
+                        id="digital-pid-setpoint"
+                        label="Setpoint"
+                        value={parameters.setpoint}
                         min={0.1}
                         max={5}
                         step={0.1}
-                        unit="-"
-                        description="Steady-state gain"
-                        onChange={(value) => updatePlant({ gain: value })}
+                        unit="units"
+                        onChange={(value) => set('setpoint', value)}
                     />
-                    {config.plant.type === "first-order" ? (
-                        <ParameterControl
-                            id="pid-time-constant"
-                            label="Time Constant (τ)"
-                            value={config.plant.timeConstant}
-                            min={0.1}
-                            max={5}
-                            step={0.1}
-                            unit="s"
-                            description="Open-loop response speed"
-                            onChange={(value) => updatePlant({ timeConstant: value })}
-                        />
-                    ) : (
-                        <>
-                            <ParameterControl
-                                id="pid-natural-frequency"
-                                label="Natural Frequency (ωₙ)"
-                                value={config.plant.naturalFrequency}
-                                min={0.01}
-                                max={10}
-                                step={0.1}
-                                unit="rad/s"
-                                description="Plant oscillation frequency"
-                                onChange={(value) =>
-                                    updatePlant({ naturalFrequency: value })
-                                }
-                            />
-                            <ParameterControl
-                                id="pid-damping-ratio"
-                                label="Damping Ratio (ζ)"
-                                value={config.plant.dampingRatio}
-                                min={0}
-                                max={3}
-                                step={0.1}
-                                unit="-"
-                                description="Plant damping"
-                                onChange={(value) =>
-                                    updatePlant({ dampingRatio: value })
-                                }
-                            />
-                        </>
-                    )}
-                </div>
-
-                <div className="space-y-5 border-t pt-5">
-                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        Simulation settings
-                    </p>
-                    {numberControl("pid-setpoint", "Setpoint", config.setpoint, (value) => updateValue("setpoint", value), { step: 0.1 })}
-                    {numberControl("pid-duration", "Duration (s)", config.duration, (value) => updateValue("duration", value), { min: 0.1, step: 0.5 })}
-                    {numberControl("pid-dt", "Time step dt (s)", config.dt, (value) => updateValue("dt", value), { min: 0.001, step: 0.01 })}
-                </div>
-
-                <div className="space-y-5 border-t pt-5">
-                    <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                        Output limits
-                    </p>
-                    {numberControl("pid-output-min", "Minimum output", config.outputLimits.min, (value) => onChange({ ...config, outputLimits: { ...config.outputLimits, min: value } }), {})}
-                    {numberControl("pid-output-max", "Maximum output", config.outputLimits.max, (value) => onChange({ ...config, outputLimits: { ...config.outputLimits, max: value } }), {})}
+                    <ParameterControl
+                        id="digital-pid-duration"
+                        label="Duration"
+                        value={parameters.duration}
+                        min={1}
+                        max={30}
+                        step={0.5}
+                        unit="s"
+                        onChange={(value) => set('duration', value)}
+                    />
+                    <ParameterControl
+                        id="digital-pid-output-min"
+                        label="Minimum control output"
+                        value={parameters.outputLimits.min}
+                        min={-100}
+                        max={0}
+                        step={1}
+                        unit="units"
+                        onChange={(value) =>
+                            onChange((current) => ({
+                                ...current,
+                                outputLimits: { ...current.outputLimits, min: value },
+                            }))
+                        }
+                    />
+                    <ParameterControl
+                        id="digital-pid-output-max"
+                        label="Maximum control output"
+                        value={parameters.outputLimits.max}
+                        min={1}
+                        max={100}
+                        step={1}
+                        unit="units"
+                        onChange={(value) =>
+                            onChange((current) => ({
+                                ...current,
+                                outputLimits: { ...current.outputLimits, max: value },
+                            }))
+                        }
+                    />
                 </div>
             </CardContent>
         </Card>

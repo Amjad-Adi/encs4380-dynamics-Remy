@@ -34,7 +34,7 @@ export function TuningModelOverview({ spec }: { spec: TuningSpec }) {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">PID control law</CardTitle>
-                        <CardDescription>Same controller and RK4 loop as Module 08</CardDescription>
+                        <CardDescription>Same shared controller and RK4 loop as P1</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-3">
                         <Equation
