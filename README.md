@@ -1,4 +1,4 @@
-# ENCS4380 Homework 1: Dynamic Characteristics Interactive Toolkit
+# ENCS4380 Dynamics Toolkit — Homework 1 and Homework 2
 
 An interactive engineering toolkit for studying the dynamic characteristics of measurement systems through mathematical modeling, real-time simulation, and visual analysis.
 
@@ -56,27 +56,15 @@ The module provides adjustable gain and time-constant parameters, with selectabl
 
 **Screenshots**
 
-![Module 1 – Screenshot 1](screenshots/screenshot1-1.png)
+![Module 1 – First-order response](screenshots/Module-1/1-1.png)
 
-![Module 1 – Screenshot 2](screenshots/screenshot1-2.png)
+![Module 1 – Step and ramp response](screenshots/Module-1/1-2.png)
 
-![Module 1 – Screenshot 3](screenshots/screenshot1-3.png)
+![Module 1 – Error analysis](screenshots/Module-1/1-3.png)
 
-![Module 1 – Screenshot 4](screenshots/screenshot1-4.png)
+![Module 1 – Parameter controls](screenshots/Module-1/1-4.png)
 
-![Module 1 – Screenshot 5](screenshots/screenshot1-5.png)
-
-![Module 1 – Screenshot 6](screenshots/screenshot1-6.png)
-
-![Module 1 – Screenshot 7](screenshots/screenshot1-7.png)
-
-![Module 1 – Screenshot 8](screenshots/screenshot1-8.png)
-
-![Module 1 – Screenshot 9](screenshots/screenshot1-9.png)
-
-![Module 1 – Screenshot 10](screenshots/screenshot1-10.jpg)
-
-![Module 1 – Screenshot 11](screenshots/screenshot1-11.jpg)
+![Module 1 – Response visualization](screenshots/Module-1/1-5.png)
 
 ### Module 2 - First-Order Frequency Response
 
@@ -104,7 +92,19 @@ M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
 
 **Screenshots**
 
-**Screenshots**
+![Module 2 – Frequency-response overview](screenshots/Module-2/2-1.png)
+
+![Module 2 – Sinusoidal response](screenshots/Module-2/2-2.png)
+
+![Module 2 – Amplitude and phase](screenshots/Module-2/2-3.png)
+
+![Module 2 – Bode response](screenshots/Module-2/2-4.png)
+
+![Module 2 – Cutoff frequency](screenshots/Module-2/2-5.png)
+
+![Module 2 – Dynamic error](screenshots/Module-2/2-6.png)
+
+![Module 2 – Frequency analysis](screenshots/Module-2/2-7.png)
 
 ### Module 3 - Second-Order System Response
 
@@ -130,17 +130,19 @@ $$
 - Phase-plane visualization of displacement and velocity trajectories.
 
 **Screenshots**
-![Module 3 – Screenshot 1](screenshots/1.png)
+![Module 3 – Second-order response](screenshots/Module-3/3-1.png)
 
-![Module 3 – Screenshot 2](screenshots/2.png)
+![Module 3 – Parameter controls](screenshots/Module-3/3-2.png)
 
-![Module 3 – Screenshot 3](screenshots/3.png)
+![Module 3 – Damping comparison](screenshots/Module-3/3-3.png)
 
-![Module 3 – Screenshot 4](screenshots/4.png)
+![Module 3 – Pole visualization](screenshots/Module-3/3-4.png)
 
-![Module 3 – Screenshot 5](screenshots/5.png)
+![Module 3 – State-space analysis](screenshots/Module-3/3-5.png)
 
-![Module 3 – Screenshot 6](screenshots/6.png)
+![Module 3 – Phase-plane response](screenshots/Module-3/3-6.png)
+
+![Module 3 – Second-order metrics](screenshots/Module-3/3-7.png)
 
 ### Module 4 - Guess the Sensor Challenge
 
@@ -160,6 +162,10 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 - New-sensor generation and contextual hints.
 
 **Screenshots**
+
+![Module 4 – Sensor identification challenge](screenshots/Module-4/4-1.png)
+
+![Module 4 – Parameter estimation](screenshots/Module-4/4-2.png)
 
 ### 09 - Slow Sensor in the Feedback Loop
 
@@ -284,15 +290,13 @@ Euler stability is classified using \(r=\Delta t/\tau\) and its amplification fa
 
 The following captures show the running local application: parameter controls, the comparison chart, error metrics, the prediction exercise, and a narrow-screen layout.
 
-![Bonus Numerical ODE Solver — parameter controls](screenshots/bonus-numerical-ode-controls.png)
+![Bonus Numerical ODE Solver — parameter controls](screenshots/Module-7/7-2.png)
 
-![Bonus Numerical ODE Solver — comparison chart](screenshots/bonus-numerical-ode-comparison.png)
+![Bonus Numerical ODE Solver — comparison chart](screenshots/Module-7/7-3.png)
 
-![Bonus Numerical ODE Solver — error metrics](screenshots/bonus-numerical-ode-errors.png)
+![Bonus Numerical ODE Solver — error metrics and prediction exercise](screenshots/Module-7/7-4.png)
 
-![Bonus Numerical ODE Solver — prediction exercise](screenshots/bonus-numerical-ode-prediction.png)
-
-![Bonus Numerical ODE Solver — mobile layout](screenshots/bonus-numerical-ode-mobile.png)
+![Bonus Numerical ODE Solver — mobile layout](screenshots/Module-7/7-1.png)
 
 ### Digital PID Numerical Validation
 
@@ -706,30 +710,126 @@ The project is maintained in a shared public repository. Each member contributes
 
 Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
 
+## Homework 2 — PID Control and Motor-Speed Design
+
+### Overview
+
+Homework 2 extends the dynamics toolkit with interactive PID feedback simulations, digital control, a hidden-plant tuning exercise, and a project-specific Micromouse motor-speed design. Users can adjust controller and plant parameters, compare simulated responses with setpoints, and inspect performance metrics. The motor page also generates an Arduino sketch from its current design.
+
+### Four PID Modules
+
+| Module | Route | Functionality and model |
+| --- | --- | --- |
+| **08 — PID Playground** | [`/pid-playground`](https://amjad-adi.github.io/encs4380-dynamics-Remy/pid-playground) | Tunes P, I, and D gains, setpoint, plant, and output limits. Supports \(G(s)=K/(\tau s+1)\) and a mass-spring-damper plant \(m\ddot y+b\dot y+ky=u\); plots plant response and controller output and reports rise time, overshoot, settling time, and steady-state error. |
+| **09 — Slow Sensor in the Feedback Loop** | [`/slow-sensor-pid`](https://amjad-adi.github.io/encs4380-dynamics-Remy/slow-sensor-pid) | Compares true plant output with sensor-measured feedback for first- or second-order plants. The first-order sensor is \(H_s(s)=1/(\tau_s s+1)\); changing sensor lag and PID gains shows how delayed feedback can alter the response. |
+| **10 — Digital PID** | [`/digital-pid`](https://amjad-adi.github.io/encs4380-dynamics-Remy/digital-pid) | Simulates sampled PID control for first- or second-order plants. Users adjust gains, sample interval, setpoint, and actuator limits and view the output response and metrics. Output saturation and conditional anti-windup are implemented in the engine. |
+| **11 — PID Tuning Challenge** | [`/tuning-challenge`](https://amjad-adi.github.io/encs4380-dynamics-Remy/tuning-challenge) | Generates a hidden first- or second-order plant from the sensor-challenge model family. The user tunes PID gains and receives independent pass/fail results and a score for overshoot \(\leq10\%\), settling time \(\leq3\,s\), and steady-state error \(\leq1\%\) of the setpoint. |
+
+The Digital PID engine always applies its conditional anti-windup rule; the page does not provide an anti-windup toggle, a separate controller-output plot, or generated firmware. Those behaviors should not be inferred from its response chart. The generated Arduino firmware documented below belongs to **MySystem**.
+
+The PID Playground and Slow Sensor engines both clamp the actuator command, but their integral states continue to accumulate error during saturation; neither uses conditional anti-windup.
+
+### MySystem — Module 12
+
+[`/my-system`](https://amjad-adi.github.io/encs4380-dynamics-Remy/my-system) models the Micromouse's left and right drive motors as independent loops using the nominal first-order plant
+
+$$
+G(s)=\frac{384}{0.12s+1},
+$$
+
+with normalized PWM input and motor speed in RPM. Users can change plant gain, time constant, speed setpoint, and each motor's PID gains. The page reports rise time, overshoot, settling time, steady-state error, PI-equivalent damping ratio, performance-target checks, and 0–100% actuator saturation. Its initial PI design targets \(\zeta=0.70\) and \(\omega_n=15\,\mathrm{rad/s}\); target checks include \(\zeta=0.6\text{–}0.8\), rise time \(\leq0.20\,s\), overshoot \(\leq10\%\), settling time \(\leq0.50\,s\), and steady-state error \(\leq1\%\).
+
+Both loops start with \(K_p=0.003958333333\), \(K_i=0.0703125\), and \(K_d=0\), with a 250 RPM setpoint. The page generates a copyable sketch from the selected setpoint and gains.
+
+**Model and hardware limitation:** these results are simulations, not measured motor data. The gain is a nominal estimate derived from a published 384 RPM operating point, and \(\tau=0.12\,s\) is an engineering estimate; the repository contains no chassis step-test dataset. The page and generated code identify encoder-count and wiring assumptions that must be checked on the actual robot before use.
+
+The sketch targets an Arduino-compatible ESP32-S3 with a TB6612FNG dual-motor driver and uses encoder feedback, a 10 ms control period, 20 kHz 8-bit PWM, independent controller gains, derivative-on-measurement, conditional anti-windup, and 0–100% PWM saturation. These firmware settings and nominal model parameters are not hardware validation; the detailed parameter basis and assumptions are recorded in [`src/features/my-system/README.md`](src/features/my-system/README.md).
+
+### Numerical Methods
+
+| Module | Implemented method |
+| --- | --- |
+| PID Playground | RK4 integrates the plant state. The integral state is updated with a trapezoidal error step at the internal integration substeps; derivative action is on the measured output. |
+| Slow Sensor PID | RK4 integrates the coupled plant, sensor, and integral states together. |
+| Digital PID | Forward Euler updates the first-order plant. For a second-order plant, the engine first updates velocity from acceleration and then updates position/output using that new velocity (semi-implicit Euler). The controller integral is accumulated discretely, subject to conditional anti-windup. |
+| Tuning Challenge | Reuses the PID Playground RK4 simulation engine; the challenge separately evaluates overshoot, setpoint-based settling time, and steady-state error. |
+| MySystem simulation | A sampled controller updates every 10 ms; its normalized PWM command is held while the first-order plant is advanced using ten RK4 substeps per controller interval. |
+| Generated Arduino firmware | Uses a fixed 10 ms sampled PID update and encoder-derived speed feedback. It is a discrete controller implementation, not an RK4 solver. |
+
+### Access and Deployment
+
+The public application is [hosted on GitHub Pages](https://amjad-adi.github.io/encs4380-dynamics-Remy/). Use the module links above, or select modules 08–12 in the application navigation. The production routes include the repository base path shown in those links.
+
+The `.github/workflows/deploy.yml` workflow builds with Node.js 22 after `npm ci`, creates a `404.html` fallback for client-side routes, and deploys the build artifact to GitHub Pages on pushes to `main` or a manual dispatch. `vite.config.ts` sets the production base path to `/encs4380-dynamics-Remy/`.
+
+GitHub Pages returns an HTTP 404 status for direct deep-link requests, but the configured `404.html` fallback loads the application and renders the requested client-side module route.
+
+### Homework 2 Ownership and Issues
+
+The owners below are the assignees recorded on the corresponding GitHub issues; assignments are not used to infer commit authorship.
+
+| Module | Assigned owner | Issue |
+| --- | --- | --- |
+| 08 — PID Playground | `Amjad-Adi` | [#21](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/21) |
+| 09 — Slow Sensor in the Feedback Loop | `7enno` | [#22](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/22) |
+| 10 — Digital PID | `rahafalqam` | [#23](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/23) |
+| 11 — PID Tuning Challenge | `yazeedalhaddad` | [#24](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/24) |
+| 12 — MySystem | `Amjad-Adi` | [#36](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/36) |
+| Homework 2 documentation | `7enno` | [#38](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/38) |
+
+### Homework 2 Screenshots
+
+These are captures of the running application. Desktop and mobile refer to the browser viewport used for the capture; existing screenshots are identified separately from the new local captures.
+
+#### 08 — PID Playground
+
+![PID Playground desktop — controller, block diagram, and response](screenshots/Homework-2/pid-playground-desktop-response.png)
+
+![PID Playground desktop — performance metrics and analytical reference checks](screenshots/Homework-2/pid-playground-desktop-metrics.png)
+
+![PID Playground mobile layout](screenshots/Homework-2/pid-playground-mobile.png)
+
+#### 09 — Slow Sensor in the Feedback Loop
+
+![Slow Sensor desktop — existing first-order response with sensor lag](screenshots/P2_1.png)
+
+![Slow Sensor desktop — existing performance analysis](screenshots/P2_3.png)
+
+![Slow Sensor mobile layout — high sensor lag and proportional gain](screenshots/Homework-2/slow-sensor-pid-mobile.png)
+
+#### 10 — Digital PID
+
+![Digital PID desktop — sampled response with a 0.1 s step and a 0.6 actuator limit; conditional anti-windup remains enabled](screenshots/Homework-2/digital-pid-desktop-configuration.png)
+
+![Digital PID desktop — response performance metrics](screenshots/Homework-2/digital-pid-desktop-metrics.png)
+
+![Digital PID mobile layout](screenshots/Homework-2/digital-pid-mobile.png)
+
+#### 11 — PID Tuning Challenge
+
+![Tuning Challenge desktop — existing hidden-plant response and controller output](screenshots/P4/P4_2.png)
+
+![Tuning Challenge desktop — independent specification results for a generated challenge](screenshots/Homework-2/tuning-challenge-desktop-specification-results.png)
+
+![Tuning Challenge mobile layout and specification results](screenshots/Homework-2/tuning-challenge-mobile.png)
+
+#### 12 — MySystem and generated Arduino sketch
+
+![MySystem desktop — nominal motor response and PWM](screenshots/Homework-2/my-system-desktop-response.png)
+
+![MySystem desktop — left/right performance metrics and target checks](screenshots/Homework-2/my-system-desktop-metrics.png)
+
+![MySystem desktop — generated ESP32-S3 Arduino sketch](screenshots/Homework-2/my-system-desktop-arduino-sketch.png)
+
+![MySystem mobile layout](screenshots/Homework-2/my-system-mobile.png)
+
+### Homework 2 AI-Use Disclosure
+
+AI coding assistance was used for the Digital PID numerical regression tests and their focused explanatory documentation, and for this final documentation pass to inspect the implementation, draft the Homework 2 descriptions, capture genuine screenshots from the running application, and run verification commands. The GitHub issue assignments above identify the recorded module owners; they do not establish which individual lines were written with AI assistance. The team remains responsible for reviewing and understanding the simulations, firmware, and results. The MySystem plant parameters and encoder/wiring assumptions still require confirmation against the actual hardware; simulated performance is not presented as measured hardware data.
+
 ## Screenshots
 
-The project screenshots are maintained in the repository's `screenshots/` directory.
-
-```text
-screenshots/
-├── module-1-step-response.png
-├── module-1-ramp-response.png
-├── module-1-error-analysis.png
-├── module-2-frequency-response.png
-├── module-2-bode-analysis.png
-├── module-2-dynamic-error.png
-├── module-3-main.png
-├── module-3-state-space.png
-├── module-4-challenge.png
-├── module-4-results.png
-├── bonus-numerical-ode-controls.png
-├── bonus-numerical-ode-comparison.png
-├── bonus-numerical-ode-errors.png
-├── bonus-numerical-ode-prediction.png
-└── bonus-numerical-ode-mobile.png
-```
-
-The screenshots above are referenced directly in the corresponding module sections.
+Homework 1 screenshots are embedded in their module sections above. The corresponding source files are grouped under `screenshots/Module-1/` through `screenshots/Module-7/`; the Homework 2 captures are grouped under `screenshots/Homework-2/`.
 
 ---
 
@@ -762,7 +862,7 @@ The application is deployed as a static website through GitHub Pages. GitHub Act
 **Course:** ENCS4380 – Interfacing Techniques  
 **University:** Birzeit University  
 **Instructor:** Dr. Wasel Ghanem  
-**Assignment:** Homework 1 – Dynamic Characteristics Interactive Toolkit  
-**Released:** Thursday, 29 October 2026  
-**Due:** Thursday, 12 November 2026  
-**Final release:** v1.0
+**Assignment:** Homework 1 – Dynamic Characteristics Interactive Toolkit; Homework 2 – PID Control and Motor-Speed Design
+**Homework 1 released:** Thursday, 29 October 2026<br>
+**Homework 1 due:** Thursday, 12 November 2026<br>
+**Most recent GitHub release:** v1.0
