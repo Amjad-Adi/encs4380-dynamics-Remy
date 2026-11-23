@@ -294,6 +294,22 @@ The following captures show the running local application: parameter controls, t
 
 ![Bonus Numerical ODE Solver — mobile layout](screenshots/bonus-numerical-ode-mobile.png)
 
+### Digital PID Numerical Validation
+
+The Digital PID module simulates the first-order plant \(G(s)=1/(s+1)\) with Forward Euler integration. Its validation cases use:
+
+- **P-only** (\(K_p=9,\ K_i=K_d=0\)): closed-loop time constant \(0.1\,s\), unit-step steady-state error \(0.1\), and response \(y(t)=0.9(1-e^{-10t})\).
+- **PI** (\(K_p=K_i=1,\ K_d=0\)): characteristic polynomial \(s^2+2s+1\), so \(\omega_n=1\,rad/s\) and \(\zeta=1\). Pole-zero cancellation gives the step response \(y(t)=1-e^{-t}\), with zero limiting error.
+- **Integral action:** a stable PI loop with actuator limits wide enough to avoid saturation approaches zero steady-state error.
+
+The response comparisons use \(dt=0.001\,s\) and allow up to \(0.002\) absolute output error for the P-only case and \(0.0003\) for the PI case. These tolerances account for Forward Euler's first-order global discretization error; results depend on the chosen step size, and large steps can reduce accuracy or destabilize a simulation. The engine uses \(\lfloor duration/dt\rfloor\) steps without a shortened final step, so the last sample may precede the requested duration. Saturation is clamped at the actuator limits, with conditional integration preventing windup when saturation and error drive in the same direction.
+
+Run the Digital PID numerical regression tests with:
+
+```bash
+npm test
+```
+
 To run the Bonus tool locally, start the Vite development server and open `/numerical-ode`:
 
 ```bash
@@ -305,8 +321,6 @@ To check the TypeScript project and produce a production build:
 ```bash
 npm run build
 ```
-
-There is no dedicated automated test script configured in `package.json`; the build is the repository's available automated project check.
 
 ---
 
