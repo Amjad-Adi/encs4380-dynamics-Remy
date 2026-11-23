@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -7,6 +8,8 @@ import type { ToolkitModule } from '@/models/modules';
 
 interface ModuleCardProps {
     module: ToolkitModule;
+    /** Rich description (e.g. with KaTeX); defaults to the registry text. */
+    description?: ReactNode;
     /** Short tags, e.g. which Homework 1 components the module builds on. */
     tags?: string[];
     compact?: boolean;
@@ -14,7 +17,13 @@ interface ModuleCardProps {
 }
 
 /** Linked summary card for a toolkit module. */
-export function ModuleCard({ module, tags, compact = false, className }: ModuleCardProps) {
+export function ModuleCard({
+    module,
+    description,
+    tags,
+    compact = false,
+    className,
+}: ModuleCardProps) {
     const Icon = module.icon;
 
     return (
@@ -50,7 +59,9 @@ export function ModuleCard({ module, tags, compact = false, className }: ModuleC
             </div>
 
             {!compact && (
-                <p className="text-muted-foreground text-sm leading-6">{module.description}</p>
+                <div className="text-muted-foreground text-sm leading-6">
+                    {description ?? module.description}
+                </div>
             )}
 
             {tags && tags.length > 0 && (

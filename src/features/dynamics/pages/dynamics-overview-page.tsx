@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { BadgeCheck, BookOpen, LayoutGrid } from 'lucide-react';
 
 import { Equation } from '@/components/modules/equation';
@@ -23,6 +24,21 @@ const MODULE_TAGS: Record<string, string[]> = {
     '/dynamics/pole-explorer': ['s-plane', 'Stability'],
     '/dynamics/superposition': ['Multi-tone input', 'Attenuation & lag'],
     '/dynamics/numerical-ode': ['Euler vs RK4', 'Solver in every Control module'],
+};
+
+/** Card descriptions that contain math, rendered with KaTeX. */
+const MODULE_DESCRIPTIONS: Record<string, ReactNode> = {
+    '/dynamics/time-response': (
+        <>
+            Step and ramp responses of{' '}
+            <Equation
+                expression={String.raw`G(s)=\dfrac{K}{\tau s+1}`}
+                displayMode={false}
+                className="inline-block overflow-visible py-0 align-middle"
+            />
+            , the 63.2% point and ramp lag.
+        </>
+    ),
 };
 
 const CORE_MODELS = [
@@ -92,6 +108,7 @@ export default function DynamicsOverviewPage() {
                             <ModuleCard
                                 key={module.path}
                                 module={module}
+                                description={MODULE_DESCRIPTIONS[module.path]}
                                 tags={MODULE_TAGS[module.path]}
                             />
                         ))}
