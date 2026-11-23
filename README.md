@@ -8,7 +8,7 @@ An interactive engineering toolkit for studying the dynamic characteristics of m
 **Released:** Thursday, 29 October 2026  
 **Due:** Thursday, 12 November 2026
 
-## Live Application
+## Live Application & Links
 
 **[Launch the Dynamic Characteristics Toolkit](https://amjad-adi.github.io/encs4380-dynamics-Remy/)**
 
@@ -16,7 +16,9 @@ An interactive engineering toolkit for studying the dynamic characteristics of m
 
 ---
 
-## Team and Contributions
+## Team, Ownership, and Contributions
+
+### Team and Contributions
 
 The project is developed collaboratively, with each team member responsible for a dedicated module and its integration into the overall toolkit.
 
@@ -27,13 +29,43 @@ The project is developed collaboratively, with each team member responsible for 
 | Hanan       | Module 3 | Second-Order System Response   |
 | Rahaf       | Module 4 | Guess the Sensor Challenge     |
 
+### GitHub Contributions
+
+**Repository:** [encs4380-dynamics-Remy](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
+
+The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
+
+| Team Member | GitHub Username | Contribution History  |
+| ----------- | --------------- | --------------------- |
+| Amjad Adi   | [Username]      | [Commit history link] |
+| Yazeed      | [Username]      | [Commit history link] |
+| Rahaf       | [Username]      | [Commit history link] |
+| Hanan       | [Username]      | [Commit history link] |
+
+Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
+
+### Homework 2 Ownership and Issues
+
+The owners below are the assignees recorded on the corresponding GitHub issues; assignments are not used to infer commit authorship.
+
+| Module | Assigned owner | Issue |
+| --- | --- | --- |
+| 08 — PID Playground | `Amjad-Adi` | [#21](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/21) |
+| 09 — Slow Sensor in the Feedback Loop | `7enno` | [#22](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/22) |
+| 10 — Digital PID | `rahafalqam` | [#23](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/23) |
+| 11 — PID Tuning Challenge | `yazeedalhaddad` | [#24](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/24) |
+| 12 — MySystem | `Amjad-Adi` | [#36](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/36) |
+| Homework 2 documentation | `7enno` | [#38](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/38) |
+
 ---
 
-## Project Modules
+## Homework 1 — Dynamic Characteristics Toolkit
+
+### Project Modules
 
 The application is organized into four interconnected modules, progressing from fundamental first-order system behavior to second-order dynamics and practical sensor identification. It also includes the standalone Bonus Numerical ODE Solver described below.
 
-### Module 1 - First-Order Time Response
+#### Module 1 - First-Order Time Response
 
 **Developer: Amjad Adi**
 
@@ -66,7 +98,7 @@ The module provides adjustable gain and time-constant parameters, with selectabl
 
 ![Module 1 – Response visualization](screenshots/Module-1/1-5.png)
 
-### Module 2 - First-Order Frequency Response
+#### Module 2 - First-Order Frequency Response
 
 **Developer: Yazeed**
 
@@ -106,7 +138,7 @@ M=\frac{1}{\sqrt{1+(\omega\tau)^2}},
 
 ![Module 2 – Frequency analysis](screenshots/Module-2/2-7.png)
 
-### Module 3 - Second-Order System Response
+#### Module 3 - Second-Order System Response
 
 **Developer: Hanan**
 
@@ -144,7 +176,7 @@ $$
 
 ![Module 3 – Second-order metrics](screenshots/Module-3/3-7.png)
 
-### Module 4 - Guess the Sensor Challenge
+#### Module 4 - Guess the Sensor Challenge
 
 **Developer: Rahaf**
 
@@ -167,7 +199,7 @@ An interactive parameter-estimation challenge that puts the concepts from the pr
 
 ![Module 4 – Parameter estimation](screenshots/Module-4/4-2.png)
 
-### 09 - Slow Sensor in the Feedback Loop
+#### 09 - Slow Sensor in the Feedback Loop
 
 **Owner:** Hanan Yousef Mohammed Alawawda
 
@@ -232,7 +264,7 @@ evaluates the current simulation parameters rather than assuming a fixed trend.
 
 ![Predict-then-Check after checking](screenshots/P2_5.png)
 
-### Bonus — Numerical ODE Solver
+#### Bonus — Numerical ODE Solver
 
 The standalone Bonus tool compares numerical integration of a first-order system with its analytical step response. For a system with transfer function
 
@@ -298,7 +330,7 @@ The following captures show the running local application: parameter controls, t
 
 ![Bonus Numerical ODE Solver — mobile layout](screenshots/Module-7/7-1.png)
 
-### Digital PID Numerical Validation
+#### Digital PID Numerical Validation
 
 The Digital PID module (Control Module 03, assignment P3) runs the controller at a sample period \(T_s\) with a zero-order hold; between samples the continuous plant is integrated with the shared RK4 solver (see [Homework 2 — Control Integration](#homework-2--control-integration)). Its validation cases use the first-order plant \(G(s)=1/(s+1)\):
 
@@ -308,31 +340,34 @@ The Digital PID module (Control Module 03, assignment P3) runs the controller at
 
 The response comparisons use \(T_s=0.001\,s\) and allow up to \(0.002\) absolute output error for the P-only case and \(0.0003\) for the PI case. These tolerances bound the difference between the sampled-data loop and the continuous analytical response; larger sample periods change the response physically (see the Nyquist-gain warning in Control Module 03). The engine uses \(\lfloor duration/T_s\rfloor\) steps without a shortened final step, so the last sample may precede the requested duration. Saturation is clamped at the actuator limits, with conditional integration preventing windup when saturation and error drive in the same direction.
 
-Run the Digital PID numerical regression tests with:
+### Validation
 
-```bash
-npm test
-```
+The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
 
-To run the Bonus tool locally, start the Vite development server and open `/dynamics/numerical-ode`:
+| #   | Validation case                                                | Expected result                                   |
+| --- | -------------------------------------------------------------- | ------------------------------------------------- |
+| 1   | First-order step response at \(t=\tau\)                        | \(y(\tau)=0.632KA\)                               |
+| 2   | First-order step response at \(t=3\tau\)                       | \(y(3\tau)=0.95KA\)                               |
+| 3   | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\)       | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
+| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\)                    |
+| 5   | Phase lag at 50 Hz using the maximum time constant             | \(\approx9.3^\circ\)                              |
+| 6   | Second-order response with \(\zeta=0.5\)                       | Overshoot \(\approx16.3\%\)                       |
+| 7   | Second-order response with \(\zeta=1\)                         | No overshoot                                      |
+| 8   | State-space model, \(m=1,\ b=2,\ k=4\)                         | Eigenvalues \(-1\pm j1.732\), matching the poles  |
 
-```bash
-npm run dev
-```
-
-To check the TypeScript project and produce a production build:
-
-```bash
-npm run build
-```
+The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
 
 ---
 
-## Homework 2 — Control Integration
+## Homework 2 — PID Control and Motor-Speed Design
 
-The four PID modules and MySystem live in a **Control** section of the same application, next to the Homework 1 modules. Both homeworks follow one navigation pattern and one numbering scheme: each section has an overview page, and its modules are **Module 01, 02, 03 …** in page headers and **01, 02, 03 …** in the navigation bars.
+### Overview
+
+Homework 2 extends the dynamics toolkit with interactive PID feedback simulations, digital control, a hidden-plant tuning exercise, and a project-specific Micromouse motor-speed design. Users can adjust controller and plant parameters, compare simulated responses with setpoints, and inspect performance metrics. The motor page also generates an Arduino sketch from its current design.
 
 ### Navigation
+
+The four PID modules and MySystem live in a **Control** section of the same application, next to the Homework 1 modules. Both homeworks follow one navigation pattern and one numbering scheme: each section has an overview page, and its modules are **Module 01, 02, 03 …** in page headers and **01, 02, 03 …** in the navigation bars.
 
 | Route | Page | Assignment |
 | ----- | ---- | ---------- |
@@ -352,7 +387,38 @@ The four PID modules and MySystem live in a **Control** section of the same appl
 - **Every page header** gets its back link, "Continue to Module NN" link, badge and kicker from the module registry (`src/models/modules.ts`). Every module page ends with a previous / overview / next pager. The last Homework 1 module continues to Homework 2.
 - **Old URLs** (`/time-response`, `/pid-playground`, …) redirect to their `/dynamics/…` or `/control/…` routes.
 
-### Shared simulation core
+### Four PID Modules
+
+| Module | Route | Functionality and model |
+| --- | --- | --- |
+| **08 — PID Playground** | [`/pid-playground`](https://amjad-adi.github.io/encs4380-dynamics-Remy/pid-playground) | Tunes P, I, and D gains, setpoint, plant, and output limits. Supports \(G(s)=K/(\tau s+1)\) and a mass-spring-damper plant \(m\ddot y+b\dot y+ky=u\); plots plant response and controller output and reports rise time, overshoot, settling time, and steady-state error. |
+| **09 — Slow Sensor in the Feedback Loop** | [`/slow-sensor-pid`](https://amjad-adi.github.io/encs4380-dynamics-Remy/slow-sensor-pid) | Compares true plant output with sensor-measured feedback for first- or second-order plants. The first-order sensor is \(H_s(s)=1/(\tau_s s+1)\); changing sensor lag and PID gains shows how delayed feedback can alter the response. |
+| **10 — Digital PID** | [`/digital-pid`](https://amjad-adi.github.io/encs4380-dynamics-Remy/digital-pid) | Simulates sampled PID control for first- or second-order plants. Users adjust gains, sample interval, setpoint, and actuator limits and view the output response and metrics. Output saturation and conditional anti-windup are implemented in the engine. |
+| **11 — PID Tuning Challenge** | [`/tuning-challenge`](https://amjad-adi.github.io/encs4380-dynamics-Remy/tuning-challenge) | Generates a hidden first- or second-order plant from the sensor-challenge model family. The user tunes PID gains and receives independent pass/fail results and a score for overshoot \(\leq10\%\), settling time \(\leq3\,s\), and steady-state error \(\leq1\%\) of the setpoint. |
+
+The Digital PID engine always applies its conditional anti-windup rule; the page does not provide an anti-windup toggle, a separate controller-output plot, or generated firmware. Those behaviors should not be inferred from its response chart. The generated Arduino firmware documented below belongs to **MySystem**.
+
+The PID Playground and Slow Sensor engines both clamp the actuator command, but their integral states continue to accumulate error during saturation; neither uses conditional anti-windup.
+
+### MySystem — Module 12
+
+[`/my-system`](https://amjad-adi.github.io/encs4380-dynamics-Remy/my-system) models the Micromouse's left and right drive motors as independent loops using the nominal first-order plant
+
+$$
+G(s)=\frac{384}{0.12s+1},
+$$
+
+with normalized PWM input and motor speed in RPM. Users can change plant gain, time constant, speed setpoint, and each motor's PID gains. The page reports rise time, overshoot, settling time, steady-state error, PI-equivalent damping ratio, performance-target checks, and 0–100% actuator saturation. Its initial PI design targets \(\zeta=0.70\) and \(\omega_n=15\,\mathrm{rad/s}\); target checks include \(\zeta=0.6\text{–}0.8\), rise time \(\leq0.20\,s\), overshoot \(\leq10\%\), settling time \(\leq0.50\,s\), and steady-state error \(\leq1\%\).
+
+Both loops start with \(K_p=0.003958333333\), \(K_i=0.0703125\), and \(K_d=0\), with a 250 RPM setpoint. The page generates a copyable sketch from the selected setpoint and gains.
+
+**Model and hardware limitation:** these results are simulations, not measured motor data. The gain is a nominal estimate derived from a published 384 RPM operating point, and \(\tau=0.12\,s\) is an engineering estimate; the repository contains no chassis step-test dataset. The page and generated code identify encoder-count and wiring assumptions that must be checked on the actual robot before use.
+
+The sketch targets an Arduino-compatible ESP32-S3 with a TB6612FNG dual-motor driver and uses encoder feedback, a 10 ms control period, 20 kHz 8-bit PWM, independent controller gains, derivative-on-measurement, conditional anti-windup, and 0–100% PWM saturation. These firmware settings and nominal model parameters are not hardware validation; the detailed parameter basis and assumptions are recorded in [`src/features/my-system/README.md`](src/features/my-system/README.md).
+
+### Simulation Architecture, Numerical Methods, and Consistency Checks
+
+#### Shared Simulation Core
 
 All Control modules run on `src/features/control/domain`, which is built from Homework 1 code:
 
@@ -367,7 +433,18 @@ All Control modules run on `src/features/control/domain`, which is built from Ho
 
 Shared UI components (`src/features/control/components`) replace the duplicated plant selector, PID gain sliders, response charts and metrics card in Modules 01–03 and MySystem.
 
-### Consistency checks
+#### Numerical Methods
+
+| Module | Implemented method |
+| --- | --- |
+| PID Playground | RK4 integrates the plant state. The integral state is updated with a trapezoidal error step at the internal integration substeps; derivative action is on the measured output. |
+| Slow Sensor PID | RK4 integrates the coupled plant, sensor, and integral states together. |
+| Digital PID | Forward Euler updates the first-order plant. For a second-order plant, the engine first updates velocity from acceleration and then updates position/output using that new velocity (semi-implicit Euler). The controller integral is accumulated discretely, subject to conditional anti-windup. |
+| Tuning Challenge | Reuses the PID Playground RK4 simulation engine; the challenge separately evaluates overshoot, setpoint-based settling time, and steady-state error. |
+| MySystem simulation | A sampled controller updates every 10 ms; its normalized PWM command is held while the first-order plant is advanced using ten RK4 substeps per controller interval. |
+| Generated Arduino firmware | Uses a fixed 10 ms sampled PID update and encoder-derived speed feedback. It is a discrete controller implementation, not an RK4 solver. |
+
+#### Consistency Checks
 
 `npm test` runs `src/features/control/domain/control.test.ts` alongside the Module 03 (Digital PID) validation tests. It checks:
 
@@ -380,24 +457,51 @@ Shared UI components (`src/features/control/components`) replace the duplicated 
 
 The Control overview page runs the same plant and gains through the Module 01, 02 and 03 engines live in the browser. The Homework 1 overview recomputes the homework's eight validation cases the same way.
 
-### Responsive design and deployment
+### Homework 2 Screenshots
 
-- Pages use the full phone width (the layout no longer adds a second gutter); plots drop the Plotly toolbar on touch screens and keep their axis labels via automatic margins; block diagrams scroll horizontally instead of shrinking.
-- Verified at 375 px (phone), 768 px (tablet), 1024 px (laptop) and 1440 px (desktop) with no horizontal page overflow on any route.
-- Everything runs in the browser. `tuning_challenge_backend.py` is a stand-alone discussion script and is not used by the site. The GitHub Pages build and SPA fallback are unchanged.
+These are captures of the running application. Desktop and mobile refer to the browser viewport used for the capture; existing screenshots are identified separately from the new local captures.
 
-### Integration screenshots
+#### 08 — PID Playground
 
-| Desktop | Mobile |
-| ------- | ------ |
-| ![Landing page](screenshots/HW2-Integration/desktop-01-landing.png) | ![Landing page on mobile](screenshots/HW2-Integration/mobile-01-landing.jpg) |
-| ![Control overview](screenshots/HW2-Integration/desktop-02-control-overview.png) | ![Mobile navigation](screenshots/HW2-Integration/mobile-05-navigation-sidebar.jpg) |
-| ![P1 PID playground](screenshots/HW2-Integration/desktop-03-p1-pid-playground.png) | ![P1 response on mobile](screenshots/HW2-Integration/mobile-07-p1-response.jpg) |
-| ![P2 slow sensor](screenshots/HW2-Integration/desktop-04-p2-slow-sensor.png) | ![P2 on mobile](screenshots/HW2-Integration/mobile-08-p2-slow-sensor.jpg) |
-| ![P3 digital PID](screenshots/HW2-Integration/desktop-05-p3-digital-pid.png) | ![P3 on mobile](screenshots/HW2-Integration/mobile-09-p3-digital-pid.jpg) |
-| ![P4 tuning challenge](screenshots/HW2-Integration/desktop-06-p4-tuning-challenge.png) | ![P4 results on mobile](screenshots/HW2-Integration/mobile-10-p4-spec-results.jpg) |
-| ![MySystem](screenshots/HW2-Integration/desktop-07-mysystem.png) | ![MySystem on mobile](screenshots/HW2-Integration/mobile-11-mysystem.jpg) |
-| ![Homework 1 Module 1 with the new navigation](screenshots/HW2-Integration/desktop-08-hw1-module1.png) | ![Consistency check on mobile](screenshots/HW2-Integration/mobile-04-consistency-check.jpg) |
+![PID Playground desktop — controller, block diagram, and response](screenshots/Homework-2/pid-playground-desktop-response.png)
+
+![PID Playground desktop — performance metrics and analytical reference checks](screenshots/Homework-2/pid-playground-desktop-metrics.png)
+
+![PID Playground mobile layout](screenshots/Homework-2/pid-playground-mobile.png)
+
+#### 09 — Slow Sensor in the Feedback Loop
+
+![Slow Sensor desktop — existing first-order response with sensor lag](screenshots/P2_1.png)
+
+![Slow Sensor desktop — existing performance analysis](screenshots/P2_3.png)
+
+![Slow Sensor mobile layout — high sensor lag and proportional gain](screenshots/Homework-2/slow-sensor-pid-mobile.png)
+
+#### 10 — Digital PID
+
+![Digital PID desktop — sampled response with a 0.1 s step and a 0.6 actuator limit; conditional anti-windup remains enabled](screenshots/Homework-2/digital-pid-desktop-configuration.png)
+
+![Digital PID desktop — response performance metrics](screenshots/Homework-2/digital-pid-desktop-metrics.png)
+
+![Digital PID mobile layout](screenshots/Homework-2/digital-pid-mobile.png)
+
+#### 11 — PID Tuning Challenge
+
+![Tuning Challenge desktop — existing hidden-plant response and controller output](screenshots/P4/P4_2.png)
+
+![Tuning Challenge desktop — independent specification results for a generated challenge](screenshots/Homework-2/tuning-challenge-desktop-specification-results.png)
+
+![Tuning Challenge mobile layout and specification results](screenshots/Homework-2/tuning-challenge-mobile.png)
+
+#### 12 — MySystem and generated Arduino sketch
+
+![MySystem desktop — nominal motor response and PWM](screenshots/Homework-2/my-system-desktop-response.png)
+
+![MySystem desktop — left/right performance metrics and target checks](screenshots/Homework-2/my-system-desktop-metrics.png)
+
+![MySystem desktop — generated ESP32-S3 Arduino sketch](screenshots/Homework-2/my-system-desktop-arduino-sketch.png)
+
+![MySystem mobile layout](screenshots/Homework-2/my-system-mobile.png)
 
 ---
 
@@ -420,7 +524,9 @@ The following prompts connect the theoretical concepts to the interactive experi
 
 ---
 
-## Technology Stack
+## Technology Stack and Architecture
+
+### Technology Stack
 
 The toolkit uses a modular React architecture, combining mathematical computation, interactive visualization, and reusable interface components.
 
@@ -436,7 +542,7 @@ The toolkit uses a modular React architecture, combining mathematical computatio
 | React Router               | Client-side navigation                  |
 | Lucide React / React Icons | Interface iconography                   |
 
-## Architecture and Development
+### Architecture and Development
 
 The application follows a consistent frontend architecture across all four modules. Shared interface components, navigation, styling conventions, and visualization patterns provide a unified experience, while each module maintains its own domain-specific calculations and interactions.
 
@@ -452,12 +558,75 @@ The implementation emphasizes:
 
 ---
 
-## AI-Assisted Development
+## Running, Testing, and Deployment
+
+### Running Locally and Testing
+
+Run the Digital PID numerical regression tests with:
+
+```bash
+npm test
+```
+
+To run the Bonus tool locally, start the Vite development server and open `/dynamics/numerical-ode`:
+
+```bash
+npm run dev
+```
+
+To check the TypeScript project and produce a production build:
+
+```bash
+npm run build
+```
+
+```bash
+git clone https://github.com/Amjad-Adi/encs4380-dynamics-Remy.git
+
+cd encs4380-dynamics-Remy
+
+npm install
+
+npm run dev
+```
+
+To generate a production build:
+
+```bash
+npm run build
+```
+
+### Responsive Design and Deployment
+
+- Pages use the full phone width (the layout no longer adds a second gutter); plots drop the Plotly toolbar on touch screens and keep their axis labels via automatic margins; block diagrams scroll horizontally instead of shrinking.
+- Verified at 375 px (phone), 768 px (tablet), 1024 px (laptop) and 1440 px (desktop) with no horizontal page overflow on any route.
+- Everything runs in the browser. `tuning_challenge_backend.py` is a stand-alone discussion script and is not used by the site. The GitHub Pages build and SPA fallback are unchanged.
+
+The public application is [hosted on GitHub Pages](https://amjad-adi.github.io/encs4380-dynamics-Remy/). Use the module links above, or select modules 08–12 in the application navigation. The production routes include the repository base path shown in those links.
+
+The `.github/workflows/deploy.yml` workflow builds with Node.js 22 after `npm ci`, creates a `404.html` fallback for client-side routes, and deploys the build artifact to GitHub Pages on pushes to `main` or a manual dispatch. `vite.config.ts` sets the production base path to `/encs4380-dynamics-Remy/`.
+
+GitHub Pages returns an HTTP 404 status for direct deep-link requests, but the configured `404.html` fallback loads the application and renders the requested client-side module route.
+
+The application is deployed as a static website through GitHub Pages. GitHub Actions automates the production build and deployment process whenever changes are pushed to the `main` branch.
+
+**Live application:** https://amjad-adi.github.io/encs4380-dynamics-Remy/
+
+### Screenshot Directory Layout
+
+Homework 1 screenshots are embedded in their module sections above. The corresponding source files are grouped under `screenshots/Module-1/` through `screenshots/Module-7/`; the Homework 2 captures are grouped under `screenshots/Homework-2/`.
+
+---
+
+## AI-Assisted Development and Disclosures
+
+### General AI-Assisted Development
 
 AI coding assistants were used as development tools throughout the project. Their role was to support technical reasoning, implementation, code review, and interface refinement. All team members remain responsible for understanding and explaining their respective implementations.
-# Amjad Adi — Modules
 
-## 1. First-Order Time Response Module
+### Amjad Adi — Modules
+
+#### 1. First-Order Time Response Module
 
 **AI tool**
 
@@ -489,7 +658,7 @@ I provided the module requirements, including:
 
 I provided the mathematical model, expected analytical relationships, and functional requirements, then used ChatGPT to help translate them into implementation steps and interactive visualizations. I reviewed the proposed equations and response behavior against the first-order system model and used the assistance to guide the implementation within the existing React, TypeScript, Tailwind CSS, and Plotly-based project architecture. I remained responsible for reviewing the implementation and checking that the displayed responses and calculated values were consistent with the mathematical model.
 
-## 2. Pole Explorer
+#### 2. Pole Explorer
 
 **AI tool:** ChatGPT (GPT-6)
 
@@ -524,9 +693,7 @@ I provided the mathematical and functional requirements and guided the implement
 
 I used AI-generated assistance selectively, reviewing and adapting the implementation and checking that the displayed system characteristics remained consistent with the underlying mathematical relationships.
 
----
-
-## 3. PID Controller Playground
+#### 3. PID Controller Playground
 
 **AI tool:** ChatGPT (GPT-6)
 
@@ -564,9 +731,7 @@ I directed the implementation by defining the supported plant models, controller
 
 I also reviewed the component structure and visualization approach to ensure that the new module followed the existing application's design conventions. I treated AI-generated code as implementation assistance, reviewing and adapting it rather than accepting generated solutions without evaluation.
 
----
-
-## 4. MySystem — Project-Specific PID Design and Simulation
+#### 4. MySystem — Project-Specific PID Design and Simulation
 
 **AI tool:** ChatGPT (GPT-6)
 
@@ -676,186 +841,11 @@ I used AI assistance to plan and implement the Sensor Challenge module within th
 
 An AI coding assistant supported the development process for this standalone feature through planning, implementation assistance, code review, debugging, and verification. This included help examining the feature requirements and integration points, reasoning about and implementing the user-interface code, reviewing the changes, investigating issues, and checking numerical behavior, routes, and the production build. AI assistance contributed to code and technical decisions; it is not represented as work independently written by the student. The project team remains responsible for reviewing, understanding, and validating the submitted work.
 
-## Validation
-
-The toolkit is evaluated against the numerical validation cases supplied in the homework specification.
-
-| #   | Validation case                                                | Expected result                                   |
-| --- | -------------------------------------------------------------- | ------------------------------------------------- |
-| 1   | First-order step response at \(t=\tau\)                        | \(y(\tau)=0.632KA\)                               |
-| 2   | First-order step response at \(t=3\tau\)                       | \(y(3\tau)=0.95KA\)                               |
-| 3   | Frequency response, \(\tau=0.2\,s\), \(\omega=2\,rad/s\)       | \(M\approx0.93\), phase lag \(\approx21.8^\circ\) |
-| 4   | Maximum time constant for 100 Hz signals with 5% dynamic error | \(\tau_{\max}\approx0.52\,ms\)                    |
-| 5   | Phase lag at 50 Hz using the maximum time constant             | \(\approx9.3^\circ\)                              |
-| 6   | Second-order response with \(\zeta=0.5\)                       | Overshoot \(\approx16.3\%\)                       |
-| 7   | Second-order response with \(\zeta=1\)                         | No overshoot                                      |
-| 8   | State-space model, \(m=1,\ b=2,\ k=4\)                         | Eigenvalues \(-1\pm j1.732\), matching the poles  |
-
-The validation results are presented within the relevant modules, allowing users to compare expected values with the application's calculated results.
-
----
-
-## GitHub Contributions
-
-**Repository:** [encs4380-dynamics-Remy](https://github.com/Amjad-Adi/encs4380-dynamics-Remy)
-
-The project is maintained in a shared public repository. Each member contributes through their own GitHub account, maintaining a traceable development history.
-
-| Team Member | GitHub Username | Contribution History  |
-| ----------- | --------------- | --------------------- |
-| Amjad Adi   | [Username]      | [Commit history link] |
-| Yazeed      | [Username]      | [Commit history link] |
-| Rahaf       | [Username]      | [Commit history link] |
-| Hanan       | [Username]      | [Commit history link] |
-
-Each module is tracked through a dedicated GitHub Issue assigned to its responsible member. Commits document implementation, refinements, bug fixes, and integration work.
-
-## Homework 2 — PID Control and Motor-Speed Design
-
-### Overview
-
-Homework 2 extends the dynamics toolkit with interactive PID feedback simulations, digital control, a hidden-plant tuning exercise, and a project-specific Micromouse motor-speed design. Users can adjust controller and plant parameters, compare simulated responses with setpoints, and inspect performance metrics. The motor page also generates an Arduino sketch from its current design.
-
-### Four PID Modules
-
-| Module | Route | Functionality and model |
-| --- | --- | --- |
-| **08 — PID Playground** | [`/pid-playground`](https://amjad-adi.github.io/encs4380-dynamics-Remy/pid-playground) | Tunes P, I, and D gains, setpoint, plant, and output limits. Supports \(G(s)=K/(\tau s+1)\) and a mass-spring-damper plant \(m\ddot y+b\dot y+ky=u\); plots plant response and controller output and reports rise time, overshoot, settling time, and steady-state error. |
-| **09 — Slow Sensor in the Feedback Loop** | [`/slow-sensor-pid`](https://amjad-adi.github.io/encs4380-dynamics-Remy/slow-sensor-pid) | Compares true plant output with sensor-measured feedback for first- or second-order plants. The first-order sensor is \(H_s(s)=1/(\tau_s s+1)\); changing sensor lag and PID gains shows how delayed feedback can alter the response. |
-| **10 — Digital PID** | [`/digital-pid`](https://amjad-adi.github.io/encs4380-dynamics-Remy/digital-pid) | Simulates sampled PID control for first- or second-order plants. Users adjust gains, sample interval, setpoint, and actuator limits and view the output response and metrics. Output saturation and conditional anti-windup are implemented in the engine. |
-| **11 — PID Tuning Challenge** | [`/tuning-challenge`](https://amjad-adi.github.io/encs4380-dynamics-Remy/tuning-challenge) | Generates a hidden first- or second-order plant from the sensor-challenge model family. The user tunes PID gains and receives independent pass/fail results and a score for overshoot \(\leq10\%\), settling time \(\leq3\,s\), and steady-state error \(\leq1\%\) of the setpoint. |
-
-The Digital PID engine always applies its conditional anti-windup rule; the page does not provide an anti-windup toggle, a separate controller-output plot, or generated firmware. Those behaviors should not be inferred from its response chart. The generated Arduino firmware documented below belongs to **MySystem**.
-
-The PID Playground and Slow Sensor engines both clamp the actuator command, but their integral states continue to accumulate error during saturation; neither uses conditional anti-windup.
-
-### MySystem — Module 12
-
-[`/my-system`](https://amjad-adi.github.io/encs4380-dynamics-Remy/my-system) models the Micromouse's left and right drive motors as independent loops using the nominal first-order plant
-
-$$
-G(s)=\frac{384}{0.12s+1},
-$$
-
-with normalized PWM input and motor speed in RPM. Users can change plant gain, time constant, speed setpoint, and each motor's PID gains. The page reports rise time, overshoot, settling time, steady-state error, PI-equivalent damping ratio, performance-target checks, and 0–100% actuator saturation. Its initial PI design targets \(\zeta=0.70\) and \(\omega_n=15\,\mathrm{rad/s}\); target checks include \(\zeta=0.6\text{–}0.8\), rise time \(\leq0.20\,s\), overshoot \(\leq10\%\), settling time \(\leq0.50\,s\), and steady-state error \(\leq1\%\).
-
-Both loops start with \(K_p=0.003958333333\), \(K_i=0.0703125\), and \(K_d=0\), with a 250 RPM setpoint. The page generates a copyable sketch from the selected setpoint and gains.
-
-**Model and hardware limitation:** these results are simulations, not measured motor data. The gain is a nominal estimate derived from a published 384 RPM operating point, and \(\tau=0.12\,s\) is an engineering estimate; the repository contains no chassis step-test dataset. The page and generated code identify encoder-count and wiring assumptions that must be checked on the actual robot before use.
-
-The sketch targets an Arduino-compatible ESP32-S3 with a TB6612FNG dual-motor driver and uses encoder feedback, a 10 ms control period, 20 kHz 8-bit PWM, independent controller gains, derivative-on-measurement, conditional anti-windup, and 0–100% PWM saturation. These firmware settings and nominal model parameters are not hardware validation; the detailed parameter basis and assumptions are recorded in [`src/features/my-system/README.md`](src/features/my-system/README.md).
-
-### Numerical Methods
-
-| Module | Implemented method |
-| --- | --- |
-| PID Playground | RK4 integrates the plant state. The integral state is updated with a trapezoidal error step at the internal integration substeps; derivative action is on the measured output. |
-| Slow Sensor PID | RK4 integrates the coupled plant, sensor, and integral states together. |
-| Digital PID | Forward Euler updates the first-order plant. For a second-order plant, the engine first updates velocity from acceleration and then updates position/output using that new velocity (semi-implicit Euler). The controller integral is accumulated discretely, subject to conditional anti-windup. |
-| Tuning Challenge | Reuses the PID Playground RK4 simulation engine; the challenge separately evaluates overshoot, setpoint-based settling time, and steady-state error. |
-| MySystem simulation | A sampled controller updates every 10 ms; its normalized PWM command is held while the first-order plant is advanced using ten RK4 substeps per controller interval. |
-| Generated Arduino firmware | Uses a fixed 10 ms sampled PID update and encoder-derived speed feedback. It is a discrete controller implementation, not an RK4 solver. |
-
-### Access and Deployment
-
-The public application is [hosted on GitHub Pages](https://amjad-adi.github.io/encs4380-dynamics-Remy/). Use the module links above, or select modules 08–12 in the application navigation. The production routes include the repository base path shown in those links.
-
-The `.github/workflows/deploy.yml` workflow builds with Node.js 22 after `npm ci`, creates a `404.html` fallback for client-side routes, and deploys the build artifact to GitHub Pages on pushes to `main` or a manual dispatch. `vite.config.ts` sets the production base path to `/encs4380-dynamics-Remy/`.
-
-GitHub Pages returns an HTTP 404 status for direct deep-link requests, but the configured `404.html` fallback loads the application and renders the requested client-side module route.
-
-### Homework 2 Ownership and Issues
-
-The owners below are the assignees recorded on the corresponding GitHub issues; assignments are not used to infer commit authorship.
-
-| Module | Assigned owner | Issue |
-| --- | --- | --- |
-| 08 — PID Playground | `Amjad-Adi` | [#21](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/21) |
-| 09 — Slow Sensor in the Feedback Loop | `7enno` | [#22](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/22) |
-| 10 — Digital PID | `rahafalqam` | [#23](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/23) |
-| 11 — PID Tuning Challenge | `yazeedalhaddad` | [#24](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/24) |
-| 12 — MySystem | `Amjad-Adi` | [#36](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/36) |
-| Homework 2 documentation | `7enno` | [#38](https://github.com/Amjad-Adi/encs4380-dynamics-Remy/issues/38) |
-
-### Homework 2 Screenshots
-
-These are captures of the running application. Desktop and mobile refer to the browser viewport used for the capture; existing screenshots are identified separately from the new local captures.
-
-#### 08 — PID Playground
-
-![PID Playground desktop — controller, block diagram, and response](screenshots/Homework-2/pid-playground-desktop-response.png)
-
-![PID Playground desktop — performance metrics and analytical reference checks](screenshots/Homework-2/pid-playground-desktop-metrics.png)
-
-![PID Playground mobile layout](screenshots/Homework-2/pid-playground-mobile.png)
-
-#### 09 — Slow Sensor in the Feedback Loop
-
-![Slow Sensor desktop — existing first-order response with sensor lag](screenshots/P2_1.png)
-
-![Slow Sensor desktop — existing performance analysis](screenshots/P2_3.png)
-
-![Slow Sensor mobile layout — high sensor lag and proportional gain](screenshots/Homework-2/slow-sensor-pid-mobile.png)
-
-#### 10 — Digital PID
-
-![Digital PID desktop — sampled response with a 0.1 s step and a 0.6 actuator limit; conditional anti-windup remains enabled](screenshots/Homework-2/digital-pid-desktop-configuration.png)
-
-![Digital PID desktop — response performance metrics](screenshots/Homework-2/digital-pid-desktop-metrics.png)
-
-![Digital PID mobile layout](screenshots/Homework-2/digital-pid-mobile.png)
-
-#### 11 — PID Tuning Challenge
-
-![Tuning Challenge desktop — existing hidden-plant response and controller output](screenshots/P4/P4_2.png)
-
-![Tuning Challenge desktop — independent specification results for a generated challenge](screenshots/Homework-2/tuning-challenge-desktop-specification-results.png)
-
-![Tuning Challenge mobile layout and specification results](screenshots/Homework-2/tuning-challenge-mobile.png)
-
-#### 12 — MySystem and generated Arduino sketch
-
-![MySystem desktop — nominal motor response and PWM](screenshots/Homework-2/my-system-desktop-response.png)
-
-![MySystem desktop — left/right performance metrics and target checks](screenshots/Homework-2/my-system-desktop-metrics.png)
-
-![MySystem desktop — generated ESP32-S3 Arduino sketch](screenshots/Homework-2/my-system-desktop-arduino-sketch.png)
-
-![MySystem mobile layout](screenshots/Homework-2/my-system-mobile.png)
-
 ### Homework 2 AI-Use Disclosure
 
 AI coding assistance was used for the Digital PID numerical regression tests and their focused explanatory documentation, and for this final documentation pass to inspect the implementation, draft the Homework 2 descriptions, capture genuine screenshots from the running application, and run verification commands. The GitHub issue assignments above identify the recorded module owners; they do not establish which individual lines were written with AI assistance. The team remains responsible for reviewing and understanding the simulations, firmware, and results. The MySystem plant parameters and encoder/wiring assumptions still require confirmation against the actual hardware; simulated performance is not presented as measured hardware data.
 
-## Screenshots
-
-Homework 1 screenshots are embedded in their module sections above. The corresponding source files are grouped under `screenshots/Module-1/` through `screenshots/Module-7/`; the Homework 2 captures are grouped under `screenshots/Homework-2/`.
-
 ---
-
-## Running Locally
-
-```bash
-git clone https://github.com/Amjad-Adi/encs4380-dynamics-Remy.git
-
-cd encs4380-dynamics-Remy
-
-npm install
-
-npm run dev
-```
-
-To generate a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-The application is deployed as a static website through GitHub Pages. GitHub Actions automates the production build and deployment process whenever changes are pushed to the `main` branch.
-
-**Live application:** https://amjad-adi.github.io/encs4380-dynamics-Remy/
 
 ## Academic Information
 
