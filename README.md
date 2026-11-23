@@ -378,40 +378,164 @@ The implementation emphasizes:
 ## AI-Assisted Development
 
 AI coding assistants were used as development tools throughout the project. Their role was to support technical reasoning, implementation, code review, and interface refinement. All team members remain responsible for understanding and explaining their respective implementations.
+# Amjad Adi — Modules
 
-### Amjad Adi - Module 1
+## 1. First-Order Time Response Module
+
+**AI tool**
+
+ChatGPT (OpenAI)
+
+**What I asked**
+
+I asked ChatGPT to help me develop an interactive first-order system module based on the differential equation:
+
+$tau \frac{dy(t)}{dt}+y(t)=Kx(t)$
+
+I provided the module requirements, including:
+- Implementing the first-order transfer function and allowing users to adjust the system gain \(K\) and time constant \(\tau\).
+- Supporting step and ramp input signals, with the output response updating dynamically when parameters or input types change.
+- Displaying the step response and identifying the 63.2% and 95% response points at \(t=\tau\) and \(t=3\tau\), respectively.
+- Demonstrating ramp tracking error and its relationship with the time constant.
+- Implementing a logarithmic error-fraction plot to illustrate exponential error decay and the relationship between its slope and \(-1/\tau\).
+- Including equations, parameter explanations, and an interactive activity where users predict the system response before observing it.
+
+**What I learned**
+
+- How the gain \(K\) determines the steady-state output level, while the time constant \(\tau\) determines the speed of the response.
+- Why a first-order system reaches approximately 63.2% of its final value after one time constant and 95% after three time constants.
+- How a first-order system responds to a ramp input and why, for a unity-gain system, its steady-state tracking error is \(e_{ss}=A\tau\).
+- How the remaining step-response error decays exponentially and how plotting its logarithm produces a straight line with slope \(-1/\tau\).
+- How to connect the mathematical model and its analytical solutions to interactive time-domain visualizations.
+
+**How I used it**
+
+I provided the mathematical model, expected analytical relationships, and functional requirements, then used ChatGPT to help translate them into implementation steps and interactive visualizations. I reviewed the proposed equations and response behavior against the first-order system model and used the assistance to guide the implementation within the existing React, TypeScript, Tailwind CSS, and Plotly-based project architecture. I remained responsible for reviewing the implementation and checking that the displayed responses and calculated values were consistent with the mathematical model.
+
+## 2. Pole Explorer
 
 **AI tool:** ChatGPT (GPT-6)
 
 **What I asked:**
 
-I used ChatGPT throughout the development of Module 1 to support the implementation of the first-order time-response model, its interactive controls, mathematical calculations, and visualizations.
+I used ChatGPT to support the development of the interactive Pole Explorer, particularly the mathematical calculations, pole manipulation logic, and visualization of the relationship between pole locations and system dynamics.
 
-I provided the technical requirements and explicitly specified the frontend technologies and libraries to be used, including React, TypeScript, Tailwind CSS, Plotly, and KaTeX. I also guided the component architecture and implementation structure to ensure consistency with the intended application design.
+I provided the technical requirements and specified how the module should integrate into the existing application, including its interactive complex s-plane, time-domain response plots, mathematical equations, and dynamic characteristics.
 
 My prompts covered:
 
-- Translating the first-order differential equation and transfer function into interactive response calculations.
-- Implementing step and ramp response models.
-- Calculating and displaying characteristic response points.
-- Deriving and visualizing ramp tracking lag and steady-state error.
-- Implementing the logarithmic error-fraction plot and interpreting its slope.
-- Reviewing React component structure, mathematical presentation, and responsive layouts.
-- Refining the interface to improve clarity and usability.
+- Translating first-order and second-order system pole locations into their corresponding mathematical models.
+- Calculating the damping ratio and natural frequency from complex pole locations.
+- Maintaining the complex conjugate relationship when manipulating second-order system poles.
+- Implementing the relationship between pole locations, stability, damping, and transient response.
+- Calculating percentage overshoot, peak time, and settling time.
+- Demonstrating underdamped, critically damped, overdamped, and unstable systems.
+- Updating the system parameters and response plots immediately following pole manipulation.
+- Refining the interactive s-plane, mathematical presentation, and visualization layout.
 
 **What I learned:**
 
-- How the time constant governs the transient behavior of a first-order measurement system.
-- How to connect analytical response equations to interactive visualizations.
-- How logarithmic error analysis reveals the exponential decay rate.
-- How to organize an engineering visualization application using reusable React components.
-- How to integrate Plotly and KaTeX into a TypeScript-based frontend.
+- How pole locations determine the stability and dynamic characteristics of a system.
+- How damping ratio and natural frequency can be derived from complex conjugate poles.
+- How the location of poles relative to the imaginary axis affects the speed of the system response.
+- How to connect complex-domain representations with time-domain system behavior.
+- How to implement interactive mathematical visualizations while maintaining consistency between calculations and plotted responses.
 
 **How I used it:**
 
-I directed the implementation by defining the required libraries, frontend structure, mathematical behavior, and presentation requirements. My frontend development knowledge allowed me to evaluate the generated code critically, assess component composition and styling decisions, identify unsuitable suggestions, and request targeted revisions.
+I provided the mathematical and functional requirements and guided the implementation toward the intended interactive experience. My understanding of control systems and frontend development allowed me to evaluate the generated calculations, review the relationship between the pole locations and the resulting responses, and request corrections where necessary.
 
-I used the AI-generated assistance selectively, reviewing and adapting the resulting implementation rather than accepting suggestions without evaluation. I also checked the implemented calculations against the mathematical relationships and validation values specified in the assignment.
+I used AI-generated assistance selectively, reviewing and adapting the implementation and checking that the displayed system characteristics remained consistent with the underlying mathematical relationships.
+
+---
+
+## 3. PID Controller Playground
+
+**AI tool:** ChatGPT (GPT-6)
+
+**What I asked:**
+
+I used ChatGPT to support the development of the interactive PID Controller Playground, focusing on the closed-loop simulation, numerical calculations, controller behavior, and visualization of the system response.
+
+I provided the requirements for implementing a configurable PID controller connected to first-order and second-order plant models. I also specified the required interactive controls, performance metrics, block diagram, and separate visualizations for the system output and controller signal.
+
+My prompts covered:
+
+- Translating the PID control equation into a numerical simulation.
+- Implementing the proportional, integral, and derivative terms.
+- Connecting the PID controller to the available first-order and second-order plant models.
+- Implementing Euler or Runge-Kutta numerical integration for the closed-loop response.
+- Allowing interactive adjustment of controller gains, setpoint amplitude, and output limits.
+- Calculating rise time, percentage overshoot, settling time, and steady-state error.
+- Visualizing the reference input, system output, and controller output.
+- Implementing actuator saturation and demonstrating its effect on controller behavior.
+- Validating the simulation using the expected P-only and PI responses for the first-order plant with $K=1$ and $\tau=1$.
+- Refining the mathematical explanations, block diagram, and interactive learning activity.
+
+**What I learned:**
+
+- How proportional, integral, and derivative actions influence closed-loop system behavior.
+- How controller gains affect rise time, overshoot, settling time, and steady-state error.
+- How numerical integration can be used to simulate a feedback control system.
+- How actuator saturation affects the controller output and closed-loop response.
+- How to evaluate controller performance using standard transient and steady-state metrics.
+- How to validate a numerical simulation against analytically expected results.
+
+**How I used it:**
+
+I directed the implementation by defining the supported plant models, controller functionality, numerical simulation requirements, and expected validation cases. My control systems knowledge allowed me to evaluate the mathematical implementation, examine the simulated responses, and identify inconsistencies between the expected and displayed behavior.
+
+I also reviewed the component structure and visualization approach to ensure that the new module followed the existing application's design conventions. I treated AI-generated code as implementation assistance, reviewing and adapting it rather than accepting generated solutions without evaluation.
+
+---
+
+## 4. MySystem — Project-Specific PID Design and Simulation
+
+**AI tool:** ChatGPT (GPT-6)
+
+**What I asked:**
+
+I used ChatGPT to support the development of a dedicated MySystem page that applies PID control concepts to our actual Micromouse drive motor system.
+
+Unlike the general-purpose PID Playground, this issue required a project-specific plant model, controller configuration, performance requirements, and generated Arduino code corresponding to the selected hardware.
+
+I provided the project hardware specifications, including the ESP32-S3, GA12-N20 6 V 500 RPM geared motors with Hall encoders, TB6612FNG motor driver, regulated 6 V motor supply, and Pololu wheels.
+
+My prompts covered:
+
+- Identifying suitable plant parameters for the selected GA12-N20 motor using available technical references and published specifications.
+- Establishing the first-order transfer function and documenting the basis and limitations of its parameters.
+- Evaluating published motor characteristics and comparative system-identification references to establish an engineering estimate for the motor time constant.
+- Deriving the initial PI controller gains using the selected damping ratio and natural frequency.
+- Determining an appropriate controller architecture for the two drive motors, including the use of independent left and right PID controllers.
+- Defining project-specific performance requirements, including the practical damping ratio range of $0.6 \leq \zeta \leq 0.8$.
+- Accounting for the motor driver's PWM limitations and controller output saturation.
+- Integrating the project-specific plant into the existing PID simulation engine.
+- Generating Arduino-compatible PID code using the selected controller configuration.
+- Ensuring consistency between the simulated controller and the generated firmware, including controller sampling, output saturation, and anti-windup behavior.
+- Integrating the new page into the existing application while reusing its components, mathematical presentation, charts, and interface conventions.
+- Refining the page presentation, technical explanations, parameter sources, and generated code display.
+
+**What I learned:**
+
+- How to apply first-order plant modeling to an actual electromechanical system.
+- How motor specifications and engineering estimates can be used to establish a preliminary plant model when direct experimental measurements are unavailable.
+- How plant gain and time constant influence PID controller design.
+- How damping ratio and natural frequency can be used to derive initial PI controller gains.
+- Why independent motor-speed controllers are useful for a differential-drive robot.
+- How actuator saturation and anti-windup must be considered when translating a simulated controller into embedded firmware.
+- How to connect a control-system simulation with an Arduino-compatible implementation.
+- How to distinguish published specifications, derived parameters, and engineering assumptions when documenting a project-specific model.
+
+**How I used it:**
+
+I provided the actual project hardware configuration and directed the development toward a controller that could eventually be implemented on our Micromouse robot. I used ChatGPT to investigate available technical references, evaluate possible plant parameters, derive the initial controller configuration, and support the integration of the simulation and firmware generation.
+
+I made the main engineering decisions, including the selected motor configuration, regulated supply voltage, plant model assumptions, controller performance targets, and independent left/right control architecture. I also specified that the implementation should reuse the existing application's components and maintain consistency with its established interface.
+
+I reviewed the generated calculations, controller configuration, simulation behavior, and Arduino code to ensure that they represented the same control-system design. Since direct motor measurements were unavailable, I retained the estimated plant parameters as engineering assumptions rather than presenting them as experimentally measured results.
+
+As with the other modules, I used AI-generated assistance selectively, evaluating and adapting the resulting implementation according to the project's requirements rather than relying on generated code without review.
 
 ### Yazeed - Module 2
 

@@ -1,4 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { SvgFraction } from '@/components/shared/svg-fraction';
 
 type PIDDiagramProps = {
     kp: number;
@@ -10,16 +12,19 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
     return (
         <Card>
             <CardHeader className="pb-3">
-                <CardTitle className="text-base">Closed-loop PID control system</CardTitle>
+                <CardTitle className="text-base">
+                    Closed-loop PID control system
+                </CardTitle>
                 <CardDescription>
                     Reference, PID control, actuator limit, plant, and feedback
                 </CardDescription>
             </CardHeader>
+
             <CardContent>
-                <div className="w-full overflow-hidden">
+                <div className="w-full overflow-x-auto">
                     <svg
                         viewBox="0 0 960 390"
-                        className="mx-auto h-auto w-full max-w-[960px] text-foreground"
+                        className="mx-auto h-auto w-full min-w-[600px] max-w-[960px] text-foreground"
                         role="img"
                         aria-label="Closed-loop digital PID control system diagram"
                     >
@@ -50,6 +55,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                         >
                             Reference
                         </text>
+
                         <text
                             x="100"
                             y="151"
@@ -61,6 +67,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                         >
                             r[k]
                         </text>
+
                         <line
                             x1="40"
                             y1="165"
@@ -81,10 +88,26 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             stroke="currentColor"
                             strokeWidth="1.75"
                         />
-                        <text x="185" y="170" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+
+                        <text
+                            x="185"
+                            y="170"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontWeight="600"
+                        >
                             +
                         </text>
-                        <text x="200" y="185" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+
+                        <text
+                            x="200"
+                            y="185"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontWeight="600"
+                        >
                             −
                         </text>
 
@@ -99,6 +122,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeLinecap="round"
                             markerEnd="url(#pid-arrow)"
                         />
+
                         <text
                             x="264"
                             y="151"
@@ -123,9 +147,18 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             stroke="var(--primary)"
                             strokeWidth="1.75"
                         />
-                        <text x="395" y="129" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+
+                        <text
+                            x="395"
+                            y="129"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontWeight="600"
+                        >
                             PID Controller
                         </text>
+
                         <line
                             x1="314"
                             y1="140"
@@ -135,16 +168,59 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeOpacity="0.3"
                             strokeWidth="1"
                         />
-                        <text x="395" y="164" textAnchor="middle" fill="currentColor" fontSize="12" fontFamily="serif">
-                            Kₚe[k] + KᵢΣe[k]Δt
-                        </text>
-                        <text x="395" y="190" textAnchor="middle" fill="currentColor" fontSize="12" fontFamily="serif">
-                            + Kd(e[k] − e[k−1]) / Δt
+
+                        {/* Proportional and integral terms */}
+                        <text
+                            x="395"
+                            y="164"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="12"
+                            fontFamily="serif"
+                        >
+                            Kₚe[k] + KᵢΣe[j]Δt
                         </text>
 
+                        {/* Derivative term */}
+                        <g
+                            fontFamily="serif"
+                            fill="currentColor"
+                            fontSize="12"
+                        >
+                            <text
+                                x="355"
+                                y="195"
+                                textAnchor="end"
+                            >
+                                + K
+                                <tspan
+                                    baselineShift="sub"
+                                    fontSize="9"
+                                >
+                                    d
+                                </tspan>
+                            </text>
+
+                            <SvgFraction
+                                x={414}
+                                y={195}
+                                numerator="e[k] − e[k−1]"
+                                denominator="Δt"
+                                width={108}
+                                fontSize={11}
+                                fontFamily="serif"
+                            />
+                        </g>
+
                         {/* Controller gains */}
-                        <text x="395" y="213" textAnchor="middle" fill="currentColor" fontSize="11">
-                            Kp: {kp}   ·   Ki: {ki}   ·   Kd: {kd}
+                        <text
+                            x="395"
+                            y="216"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="10.5"
+                        >
+                            Kp: {kp} · Ki: {ki} · Kd: {kd}
                         </text>
 
                         {/* Controller output */}
@@ -158,6 +234,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeLinecap="round"
                             markerEnd="url(#pid-arrow)"
                         />
+
                         <text
                             x="522"
                             y="151"
@@ -181,9 +258,18 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             stroke="currentColor"
                             strokeWidth="1.75"
                         />
-                        <text x="612.5" y="139" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+
+                        <text
+                            x="612.5"
+                            y="139"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontWeight="600"
+                        >
                             Limiter
                         </text>
+
                         <line
                             x1="569"
                             y1="150"
@@ -193,8 +279,24 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeOpacity="0.2"
                             strokeWidth="1"
                         />
-                        <text x="612.5" y="181" textAnchor="middle" fill="currentColor" fontSize="12" fontFamily="serif">
-                            uₘₐₓ / uₘᵢₙ
+
+                        <text
+                            x="612.5"
+                            y="181"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="12"
+                            fontFamily="serif"
+                        >
+                            u
+                            <tspan baselineShift="sub" fontSize="9">
+                                min
+                            </tspan>
+                            {' ≤ u ≤ '}
+                            u
+                            <tspan baselineShift="sub" fontSize="9">
+                                max
+                            </tspan>
                         </text>
 
                         {/* Limited actuator signal */}
@@ -208,6 +310,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeLinecap="round"
                             markerEnd="url(#pid-arrow)"
                         />
+
                         <text
                             x="695"
                             y="151"
@@ -231,9 +334,18 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             stroke="currentColor"
                             strokeWidth="1.75"
                         />
-                        <text x="795" y="134" textAnchor="middle" fill="currentColor" fontSize="15" fontWeight="600">
+
+                        <text
+                            x="795"
+                            y="134"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="15"
+                            fontWeight="600"
+                        >
                             Plant
                         </text>
+
                         <line
                             x1="734"
                             y1="145"
@@ -243,7 +355,15 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeOpacity="0.2"
                             strokeWidth="1"
                         />
-                        <text x="795" y="176" textAnchor="middle" fill="currentColor" fontSize="13" fontFamily="serif">
+
+                        <text
+                            x="795"
+                            y="176"
+                            textAnchor="middle"
+                            fill="currentColor"
+                            fontSize="13"
+                            fontFamily="serif"
+                        >
                             G(z) / G(s)
                         </text>
 
@@ -258,9 +378,17 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             strokeLinecap="round"
                             markerEnd="url(#pid-arrow)"
                         />
-                        <text x="905" y="128" textAnchor="middle" className="fill-muted-foreground" fontSize="12">
+
+                        <text
+                            x="905"
+                            y="128"
+                            textAnchor="middle"
+                            className="fill-muted-foreground"
+                            fontSize="12"
+                        >
                             Output
                         </text>
+
                         <text
                             x="905"
                             y="151"
@@ -272,7 +400,13 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                         >
                             y[k]
                         </text>
-                        <circle cx="900" cy="165" r="3.2" fill="currentColor" />
+
+                        <circle
+                            cx="900"
+                            cy="165"
+                            r="3.2"
+                            fill="currentColor"
+                        />
 
                         {/* Unity negative feedback path */}
                         <path
@@ -284,6 +418,8 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             fill="none"
                             markerEnd="url(#pid-arrow)"
                         />
+
+                        {/* Feedback label */}
                         <rect
                             x="445"
                             y="289"
@@ -294,6 +430,7 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                             stroke="var(--border)"
                             strokeWidth="1"
                         />
+
                         <text
                             x="550"
                             y="309"
@@ -316,6 +453,8 @@ export function PIDDiagram({ kp, ki, kd }: PIDDiagramProps) {
                         >
                             e[k] = r[k] − y[k]
                         </text>
+
+                        {/* Implementation note */}
                         <text
                             x="480"
                             y="376"
