@@ -13,6 +13,7 @@ import SuperpositionPage from '@/features/superposition/pages/superposition-page
 import PIDPlaygroundPage from '@/features/pid-playground/pages/pid-playground-page';
 import SlowSensorPIDPage from '@/features/slow-sensor-pid/pages/slow-sensor-pid-page';
 import TuningChallengePage from '@/features/tuning-challenge/pages/tuning-challenge-page';
+import MySystemPage from '@/features/my-system/pages/my-system-page';
 
 export const router = createBrowserRouter(
     [
@@ -67,6 +68,10 @@ export const router = createBrowserRouter(
                 {
                     path: 'tuning-challenge',
                     element: <TuningChallengePage />,
+                },
+                {
+                    path: 'my-system',
+                    element: <MySystemPage />,
                 },
                 {
                     path: '*',
